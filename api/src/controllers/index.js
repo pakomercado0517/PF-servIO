@@ -2,7 +2,7 @@
 const { Op } = require('sequelize');
 const Sequelize = require('sequelize')
 // @ts-ignore
-const { User, Professional, ClientNeed, SpecificTechnicalActivity } = require('../db.js')
+const { User, Professional,ProfessionalOffer, ClientNeed, SpecificTechnicalActivity,Transactions } = require('../db.js')
 
 module.exports ={
     newUser : async (req, res) => {
@@ -40,43 +40,6 @@ module.exports ={
         
         res.send(a) 
         
-    }, 
-    getAllUsers: async (req, res) =>{ 
-    const users = await User.findAll({
-        include: [{ model:Professional }]
-    })
-    res.send(users)
-    },
-    getAllProfessionals: async (req, res) =>{ 
-        const professionals = await User.findAll({
-            where:{
-                professional: true,                  
-            },
-            include: [{ model: Professional}],
-        })
-        res.send(professionals)
-    },
-    getAllCommonUsers: async (req, res) => {
-        const commonUsers = await User.findAll({
-            where:{
-                professional: false,                  
-            },
-            include: [{ model: ClientNeed }],
-        })
-        res.send(commonUsers)
-    },
-    getByUserId : async (req, res) => {
-        const id = req.params.id;
-        let user = await User.findAll({
-            where: { id: { [Op.eq]: id } }
-        })
-        if(user[0].dataValues.professional === true) {
-            user= await User.findAll({
-                where: { id: { [Op.eq]: id } },
-                include: [{ model: Professional }],
-            })
-        }
-        res.send(user)
     },
     newSpecificalNeed : async (req, res) => {
         const {name, description, status, location, userId} = req.body
@@ -115,7 +78,67 @@ module.exports ={
             res.status(400).send(error.message);
         }
     },
-    getByActivityName: async (req, res) =>{
+    //VERIFICAR CONTENIDO DE TRANSACTIONS
+    newTransaction : async (req, res) => {
+        const {id} = req.body
+        let newTransaction = await Transactions.create({
+            id
+        })
+        res.send(newTransaction)
+    },
+    newProfessionalOffer : async (req, res) => {
+        const {description, price, duration, materials, guarantee_time, professionalId} = req.body
+        const newOffert = await ProfessionalOffer.create({
+            description,
+            price,
+            duration,
+            materials,
+            guarantee_time
+        })
+        let offert = await Professional.findAll({
+            where: { id: professionalId }
+        })
+        await newOffert.setProfessional(offert[0])
+        res.send(newOffert)
+    },
+    getAllUsers: async (req, res) =>{ 
+    const users = await User.findAll({
+        include: [{ model:Professional }]
+    })
+    res.send(users)
+    },
+    getAllProfessionals: async (req, res) =>{ 
+        const professionals = await User.findAll({
+            where:{
+                professional: true,                  
+            },
+            include: [{ model: Professional}],
+        })
+        res.send(professionals)
+    },
+    getAllCommonUsers: async (req, res) => {
+        const commonUsers = await User.findAll({
+            where:{
+                professional: false,                  
+            },
+            include: [{ model: ClientNeed }],
+        })
+        res.send(commonUsers)
+    },
+    getByUserId : async (req, res) => {
+        const id = req.params.id;
+        let user = await User.findAll({
+            where: { id: { [Op.eq]: id } }
+        })
+        if(user[0].dataValues.professional === true) {
+            user= await User.findAll({
+                where: { id: { [Op.eq]: id } },
+                include: [{ model: Professional }],
+            })
+        }
+        res.send(user)
+    },
+    getUserByActivityName: async (req, res) =>{
         const activities = await SpecificTechnicalActivity.findAll({ 
             include:[{ 
                 model: Professional
@@ -132,13 +155,22 @@ module.exports ={
                 where: {id: uniqueArr[i]}
             }))
         }
-
         res.send(arrUsers)
+    },
+    getByActivityName: async (req, res) =>{
+        const activities = await SpecificTechnicalActivity.findAll({ 
+            include:[{ 
+                model: Professional
+            }],
+            where: {name:{ [Sequelize.Op.iLike]: `%${req.body.name}%`}}
+        })
+        res.send(activities)
     },
     getAllNeeds : async (req, res) => {
         const needs = await ClientNeed.findAll({
             include: [{ model:User }]
         })
         res.send(needs)
-    }
+    },
 }
+
