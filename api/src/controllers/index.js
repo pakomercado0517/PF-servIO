@@ -29,7 +29,6 @@ module.exports ={
                 certification_img:certification_img,
                 status,
                 // profession,
-                
             })
 
             a = professional2
@@ -59,13 +58,15 @@ module.exports ={
         res.send(users)
     },
     newTechnicalActivity: async (req, res) => {
-        const { professionalId ,name, price, photo, materials }= req.body
+        const { professionalId ,name, price, photo, materials, decription, warranty } = req.paramsbody
         try {
-            let activityFromProfession= await SpecificTechnicalActivity.create({
-                name: name,
-                price: price,
-                photo: photo,
-                materials: materials
+            let activityFromProfession = await SpecificTechnicalActivity.create({
+                name,
+                price,
+                photo,
+                materials,
+                decription,
+                warranty//AGREGAR A MODELO
             })
             
             let professional= await Professional.findAll({
