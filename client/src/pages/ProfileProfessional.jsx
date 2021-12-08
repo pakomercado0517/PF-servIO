@@ -6,6 +6,10 @@ import s from './styles/ProfileProfessional.module.css'
 
 import star from '../img/star.svg'
 import { FaRegEdit } from 'react-icons/fa'
+import { BsArrowRightCircle } from 'react-icons/bs'
+
+import CardReview from '../components/CardReview';
+import CardParticularService from '../components/CardParticularService';
 
 export default function ProfileProfessional(){
     return (
@@ -30,12 +34,31 @@ export default function ProfileProfessional(){
                         <img src={ star } alt="" />
                     </div>
                     
-                    <Link className={ s.linkEdit } to="/">
-                            <FaRegEdit size="40px" className={ s.logoEdit }>
-                            </FaRegEdit>
-                        
-                    </Link>
+                    
                 </div>
+                <Link className={ s.linkEdit } to="/">
+                        <FaRegEdit size="40px" className={ s.logoEdit }>
+                        </FaRegEdit>
+                </Link>
+            </div>
+            <h6>Reviews</h6>
+            <div className={ s.reviews }>
+                <CardReview/>
+                <CardReview/>
+                <CardReview/>
+                <BsArrowRightCircle size="50px"/>
+            </div>
+            <h6>Servicios particulares</h6>
+            <div className={ s.reviews }>
+                <CardParticularService/>
+                <CardParticularService/>
+                <CardParticularService/>
+                <BsArrowRightCircle size="50px"/>
+            </div>
+            <div className={ s.container_containerButton}>
+                <button className={ s.container_containerButton_button }>
+                    Contactar
+                </button>
             </div>
         </div>    
     )

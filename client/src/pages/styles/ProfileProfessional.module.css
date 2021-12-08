@@ -6,6 +6,28 @@
     height: 50px;
 }
 
+.container {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+.container_containerButton {
+    display: flex;
+    justify-content: center;
+}
+
+.container_containerButton_button {
+    width: 30vw;
+    height: 3vw;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border: none;
+    background: #91E3F5;
+    border: 1px solid #91E3F5;
+    box-sizing: border-box;
+    border-radius: 50px;
+}
+
 .details {
     display: flex;
     z-index: -1;
@@ -47,6 +69,12 @@
 
 .linkEdit {
     position: absolute;
-    top: 50px;
-    right: -300%;
+    top: 80px;
+    right: 80px;
+}
+
+.reviews {
+    margin-top: 15px;
+    border-radius: 30px;
+    width: 90vw;
 }
