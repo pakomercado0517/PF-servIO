@@ -58,6 +58,7 @@ Professional.hasMany(ClientReview);
 
 // relacion ofertas de profesional - profesion
 Professional.hasMany(ProfessionalOffer);
+ProfessionalOffer.belongsTo(Professional);
 
 // relacion profesional - servicios ofrecidos
 Professional.hasMany(SpecificTechnicalActivity);
