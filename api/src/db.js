@@ -37,35 +37,101 @@ const { User,
         ProfessionalOffer, 
         SpecificTechnicalActivity, 
         Transactions } = sequelize.models;
+//*************************************RELACIONES USUARIO****************************************************************
 
-
-// relacion usuario - professional
-User.hasOne(Professional);
-Professional.belongsTo(User);
-
-// relacion profesional - profesion
-Profession.belongsToMany(Professional, { through: 'Profession_Professional' });
-Professional.belongsToMany(Profession, { through: 'Profession_Professional' });
-
-// relacion necesidades del cliente - profesion
+//Relacion User - client_need
 User.hasMany(ClientNeed);
 ClientNeed.belongsTo(User);
 
-// relacion puntaje del cliente - profesional
+//Relacion User - Transactions
+User.hasMany(Transactions);
+Transactions.belongsTo(User);
 
-User.hasMany(ClientReview);
-Professional.hasMany(ClientReview);
+//Relacion User - Profesional
+User.hasOne(Professional);
+Professional.belongsTo(User);
 
-// relacion ofertas de profesional - profesion
-Professional.hasMany(ProfessionalOffer);
+//Relacion User - ClientReview
+User.hasMany(ClientReview)
+ClientReview.belongsTo(User);
 
-// relacion profesional - servicios ofrecidos
+//*************************************RELACIONES Profesional****************************************************************
+
+//Relacion Profesional - profesion
+Professional.belongsToMany(Professional, { through: 'Profession_Professional' });
+Profession.belongsToMany(Professional, { through: 'Profession_Professional' });
+
+//Relacion Profesional - transacción
+Professional.hasMany(Transactions);
+Transactions.belongsTo(Professional);
+
+//Relacion Profesional - SpecificTechnicalActivity
 Professional.hasMany(SpecificTechnicalActivity);
 SpecificTechnicalActivity.belongsTo(Professional);
-// relacion transacciones cliente - profesional
-User.hasMany(Transactions);
-Professional.hasMany(Transactions);
 
+//Relacion Profesional - ProfessionalOffer
+Professional.hasMany(ProfessionalOffer)
+ProfessionalOffer.belongsTo(Professional);
+
+//Relacion Profesional - ClientReview
+Professional.hasMany(ClientReview);
+ClientReview.belongsTo(Professional);
+
+//*************************************RELACIONES Client_Need****************************************************************
+
+//Relacion client_need - transactions
+ClientNeed.hasOne(Transactions);
+Transactions.hasMany(ClientNeed);
+
+//Relacion client_need - professional_offer
+ClientNeed.hasMany(ProfessionalOffer);
+ProfessionalOffer.belongsTo(ClientNeed);
+
+//Relacion client_need - Profesion
+ClientNeed.hasOne(Profession);
+Profession.hasMany(ClientNeed);
+
+//*************************************RELACIONES Professional_Offer****************************************************************
+
+//Relation ProfessionalOffer - Transaction
+ProfessionalOffer.hasOne(Transactions);
+Transactions.hasOne(ProfessionalOffer);
+
+//Relacion ProfessionalOffer - ClientReview
+ProfessionalOffer.hasOne(ClientReview)
+ClientReview.hasOne(ProfessionalOffer);
+
+
+
+//*************************************PETICIONES ANTERIORES****************************************************************
+// // relacion usuario - professional
+// User.hasOne(Professional);
+// Professional.belongsTo(User);
+
+// // relacion profesional - profesion
+// // Profession.belongsToMany(Professional, { through: 'Profession_Professional' });
+// // Professional.belongsToMany(Profession, { through: 'Profession_Professional' });
+
+// // relacion necesidades del cliente - profesion
+// User.hasMany(ClientNeed);
+// ClientNeed.belongsTo(User);
+
+// // relacion puntaje del cliente - profesional
+
+// User.hasMany(ClientReview);
+// Professional.hasMany(ClientReview);
+
+// // relacion ofertas de profesional - profesion
+// Professional.hasMany(ProfessionalOffer);
+// ProfessionalOffer.belongsTo(Professional);
+
+// // relacion profesional - servicios ofrecidos
+// Professional.hasMany(SpecificTechnicalActivity);
+// SpecificTechnicalActivity.belongsTo(Professional);
+// // relacion transacciones cliente - profesional
+// User.hasMany(Transactions);
+// Professional.hasMany(Transactions);
+//******************************************************************************************************************************
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
