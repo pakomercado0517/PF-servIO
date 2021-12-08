@@ -1,10 +1,8 @@
 import axios from 'axios';
 
-
 const constants = {
-    localhost: 'http://localhost:3000',
+    localhost: 'http://localhost:3001',
 }
-
 
 // router.get('/allUsers', userFunctions.getAllUsers)
 // router.get('/allProfessionals', userFunctions.getAllProfessionals)
@@ -24,19 +22,16 @@ export const GET_ALL_USERS = 'GET_ALL_USERS';
 export const GET_ALL_PROFESSIONALS = 'GET_ALL_PROFESSIONALS';
 export const GET_ALL_COMMON_USERS = 'GET_ALL_COMMON_USERS';
 export const GET_BY_USER_ID = 'GET_BY_USER_ID';
-
-// trae al tecnico basado en la actividad especifica
-// El supuesto es si buscas una actividad te trae a las personas que la ofertan
 export const GET_PROFESSIONAL_BY_ACTIVITY_NAME = 'GET_PROFESSIONAL_BY_ACTIVITY_NAME';
 export const GET_BY_ACTIVITY_NAME = 'GET_BY_ACTIVITY_NAME';
 export const GET_ALL_NEEDS = 'GET_ALL_NEEDS';
-
-
 export const NEW_ESPECIFICAL_NEED = 'NEW_ESPECIFICAL_NEED';
 export const NEW_TECHNICAL_ACTIVITY = 'NEW_TECHNICAL_ACTIVITY';
 export const NEW_USER = 'NEW_USER';
 export const NEW_PROFESSIONAL_OFFER = 'NEW_PROFESSIONAL_OFFER';
 
+
+// trae todos los usuarios - clientes y profesionales
 export function getAllUsers () {
     
     return async function (dispatch) {
@@ -52,7 +47,7 @@ export function getAllUsers () {
         };
     };
 };
-
+// trae todos los professionales
 export function getAllProfessionals () {
     
     return async function (dispatch) {
@@ -68,7 +63,7 @@ export function getAllProfessionals () {
         };
     };
 };
-
+// trae los usuarios (clientes) incluyendo necesidades del cliente
 export function getAllCommonUsers () {
     
     return async function (dispatch) {
@@ -85,7 +80,7 @@ export function getAllCommonUsers () {
     };
 };
 
-// Trae los detalles del usuario dando un id
+// Trae los detalles del usuario dando un id 
 export function getByUserId (id) {
     
     return async function (dispatch) {
@@ -109,7 +104,7 @@ export function getProfessionalByActivityName (activityName) {
     return async function (dispatch) {
         
         try {
-            const response = await axios.get(`${ constants.localhost }/getUserByActivityName/${ activityName }`)
+            const response = await axios.get(`${ constants.localhost }/getUserByActivityName/`)
             dispatch({
                 type: GET_PROFESSIONAL_BY_ACTIVITY_NAME,
                 payload: response.data
@@ -120,13 +115,13 @@ export function getProfessionalByActivityName (activityName) {
     };
 };
 
-// trae a la actividad específica basada en su nombre
+// trae a la actividad específica basada en el nombre de busqueda
 export function getByActivityName (name) {
     
     return async function (dispatch) {
         
         try {
-            const response = await axios.get(`${ constants.localhost }/getByActivityName/${ name }`)
+            const response = await axios.get(`${ constants.localhost }/getByActivityName/`)
             dispatch({
                 type: GET_BY_ACTIVITY_NAME,
                 payload: response.data
@@ -136,7 +131,7 @@ export function getByActivityName (name) {
         };
     };
 };
-
+// trae las necesidades del usuario
 export function getAllNeeds () {
     
     return async function (dispatch) {
@@ -153,8 +148,23 @@ export function getAllNeeds () {
     };
 };
 
-
-
+// crea usuario cliente o professional
+export function newUser (data) {
+        
+    return async function (dispatch) {
+        
+        try {
+            const response = await axios.post(`${ constants.localhost }/`, data)
+            dispatch({
+                type: NEW_USER,
+                payload: response.data
+            });
+        } catch (error) {
+            console.log(error.message)
+        };
+    };
+};
+// crear una necesidad especifica
 export function newEspecificalNeed (data) {
         
     return async function (dispatch) {
@@ -171,6 +181,7 @@ export function newEspecificalNeed (data) {
     };
 };
 
+// crea actividad tecnica // recibe un objeto con el nombre de la actividad y el id del usuario precio y descripcion foto booleano incluye actividad  falta garantia..(booleano) 
 export function newTechnicalActivity (data) {
     
     return async function (dispatch) {
@@ -187,22 +198,7 @@ export function newTechnicalActivity (data) {
     };
 }
 
-export function newUser (data) {
-        
-    return async function (dispatch) {
-        
-        try {
-            const response = await axios.post(`${ constants.localhost }/`, data)
-            dispatch({
-                type: NEW_USER,
-                payload: response.data
-            });
-        } catch (error) {
-            console.log(error.message)
-        };
-    };
-};
-
+// nueva oferta del profesional al necesidad especifica del cliente  
 export function newProfessionalOffer (data) {
     
     return async function (dispatch) {

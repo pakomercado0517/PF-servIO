@@ -10,7 +10,7 @@ function App() {
     <Routes>
       <Route exact path="/" element={<Home />} />
       <Route exact path="/:idClient" element={<ProfileClient />} />
-      <Route exact path="/:idProfessional" element={<ProfileProfessional />} />
+      <Route exact path="/saa/:idProfessional" element={<ProfileProfessional />} />
       {/* <Route exact path="/" element={<Home />} />
       <Route exact path="/" element={<Home />} />
       <Route exact path="/" element={<Home />} /> */}
