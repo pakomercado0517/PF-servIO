@@ -30,10 +30,14 @@
 
 
 
-const { conn, User, Professional } = require('./src/db');
+const { conn, User, Professional, ClientReview, ClientNeed, ProfessionalOffer, Profession } = require('./src/db');
 const server = require('./src/app.js');
 const {userMap}  = require('./src/DbExample/user.js');
 const {professionalMap}= require('./src/DbExample/professionals')
+const {reviewMap} = require('./src/DbExample/clientReview')
+const {needMap} = require('./src/DbExample/clientNeed')
+const {offerMap} = require('./src/DbExample/professionalOffers')
+const {professionsMap} = require('./src/DbExample/Professions')
 // console.log('user', user)
 
 
@@ -43,6 +47,10 @@ conn.sync( { force: true } ).then( () => {
         try {
             await User.bulkCreate(userMap);
             await Professional.bulkCreate(professionalMap)
+            await ClientReview.bulkCreate(reviewMap)
+            await ClientNeed.bulkCreate(needMap);
+            await ProfessionalOffer.bulkCreate(offerMap);
+            await Profession.bulkCreate(professionsMap);
         }
         catch (err) {
             console.log(err);
