@@ -1,10 +1,8 @@
 import React from 'react';
 import s from './NavBar.module.css';
-import logo from '../../img/logo2.png';
-import icon from '../../img/iconHamburguesa.png';
-import { NavLink } from 'react-router-dom'
-
-
+import logo from '../../img/logo.png';
+// import icon from '../../img/iconHamburguesa.png';
+import { NavLink } from 'react-router-dom';
 
 export default function NavBar() {
     return (
@@ -27,10 +25,10 @@ export default function NavBar() {
             </div>
             <div className={s.conteiner__Hamb}>
                     <div class={s['conteiner__Hamb--menu']}>
-                        <button to='/:idProfessional' className={s['conteiner__Hamb--btn']}><img src={icon}/></button>
+                        <button to='/:idProfessional' className={s['conteiner__Hamb--btn']}>X</button>
                             <div className={s['conteiner__Hamb--down']}>
                                 <div className={s['conteiner__Hamb--table']}>
-                                    <img src={logo} alt="Logo" height='60' />
+                                    {/* <img src={logo} alt="Logo" height='60' /> */}
                                     <a>Servicios</a>
                                     <a>Trabajos</a>
                                     <a>Ajustes</a>
