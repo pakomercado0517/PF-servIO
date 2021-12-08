@@ -2,7 +2,7 @@
 const { Op } = require('sequelize');
 const Sequelize = require('sequelize')
 // @ts-ignore
-const { User, Professional, ClientNeed, SpecificTechnicalActivity } = require('../db.js')
+const { User, Professional,ProfessionalOffer, ClientNeed, SpecificTechnicalActivity,Transactions } = require('../db.js')
 
 module.exports ={
     newUser : async (req, res) => {
@@ -29,7 +29,6 @@ module.exports ={
                 certification_img:certification_img,
                 status,
                 // profession,
-                
             })
 
             a = professional2
@@ -40,7 +39,69 @@ module.exports ={
         
         res.send(a) 
         
-    }, 
+    },
+    newSpecificalNeed : async (req, res) => {
+        const {name, description, status, location, userId} = req.body
+        const newNeed = await ClientNeed.create({
+            name,
+            description,
+            status,
+            location
+        })
+
+        let users = await User.findAll({
+            where :{
+                id : userId
+            }
+        })
+        await newNeed.setUser(users[0])
+        res.send(users)
+    },
+    newTechnicalActivity: async (req, res) => {
+        const { professionalId ,name, price, photo, materials, decription, warranty } = req.paramsbody
+        try {
+            let activityFromProfession = await SpecificTechnicalActivity.create({
+                name,
+                price,
+                photo,
+                materials,
+                decription,
+                warranty//AGREGAR A MODELO
+            })
+            
+            let professional= await Professional.findAll({
+                where: { id: professionalId }
+            })
+            
+            await activityFromProfession.setProfessional(professional[0])
+            res.status(200).send(professional)
+        } catch (error) {
+            res.status(400).send(error.message);
+        }
+    },
+    //VERIFICAR CONTENIDO DE TRANSACTIONS
+    newTransaction : async (req, res) => {
+        const {id} = req.body
+        let newTransaction = await Transactions.create({
+            id
+        })
+        res.send(newTransaction)
+    },
+    newProfessionalOffer : async (req, res) => {
+        const {description, price, duration, materials, guarantee_time, professionalId} = req.body
+        const newOffert = await ProfessionalOffer.create({
+            description,
+            price,
+            duration,
+            materials,
+            guarantee_time
+        })
+        let offert = await Professional.findAll({
+            where: { id: professionalId }
+        })
+        await newOffert.setProfessional(offert[0])
+        res.send(newOffert)
+    },
     getAllUsers: async (req, res) =>{ 
     const users = await User.findAll({
         include: [{ model:Professional }]
@@ -78,44 +139,7 @@ module.exports ={
         }
         res.send(user)
     },
-    newSpecificalNeed : async (req, res) => {
-        const {name, description, status, location, userId} = req.body
-        const newNeed = await ClientNeed.create({
-            name,
-            description,
-            status,
-            location
-        })
-
-        let users = await User.findAll({
-            where :{
-                id : userId
-            }
-        })
-        await newNeed.setUser(users[0])
-        res.send(users)
-    },
-    newTechnicalActivity: async (req, res) => {
-        const { professionalId ,name, price, photo, materials }= req.body
-        try {
-            let activityFromProfession= await SpecificTechnicalActivity.create({
-                name: name,
-                price: price,
-                photo: photo,
-                materials: materials
-            })
-            
-            let professional= await Professional.findAll({
-                where: { id: professionalId }
-            })
-            
-            await activityFromProfession.setProfessional(professional[0])
-            res.status(200).send(professional)
-        } catch (error) {
-            res.status(400).send(error.message);
-        }
-    },
-    getByActivityName: async (req, res) =>{
+    getUserByActivityName: async (req, res) =>{
         const activities = await SpecificTechnicalActivity.findAll({ 
             include:[{ 
                 model: Professional
@@ -132,13 +156,21 @@ module.exports ={
                 where: {id: uniqueArr[i]}
             }))
         }
-
         res.send(arrUsers)
+    },
+    getByActivityName: async (req, res) =>{
+        const activities = await SpecificTechnicalActivity.findAll({ 
+            include:[{ 
+                model: Professional
+            }],
+            where: {name:{ [Sequelize.Op.iLike]: `%${req.body.name}%`}}
+        })
+        res.send(activities)
     },
     getAllNeeds : async (req, res) => {
         const needs = await ClientNeed.findAll({
             include: [{ model:User }]
         })
         res.send(needs)
-    }
+    },
 }
