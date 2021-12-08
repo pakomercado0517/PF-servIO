@@ -1,9 +1,9 @@
 import './App.css';
 
 import { Routes, Route } from "react-router-dom"
-import Home from './pages/home/Home';
-import ProfileClient from './pages/profile-client/ProfileClient';
-import ProfileProfessional from './pages/profile-professional/ProfileProfessional';
+import Home from './pages/Home';
+import ProfileClient from './pages/ProfileClient';
+import ProfileProfessional from './pages/ProfileProfessional';
 
 function App() {
   return (
