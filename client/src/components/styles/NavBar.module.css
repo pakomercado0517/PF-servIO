@@ -1,50 +1,76 @@
-.conteiner {
+.navbar {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     box-sizing: border-box;
-    box-shadow: 0 5px 10px #0c0b0f77; 
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    width: 100%;
+    height: 50px;
 }
 
-.conteiner__img{
+.container__logo{
     display: flex;
     padding-left: 30px;
+    width: 6%;
+    height: 40px;
 }
 
-.conteiner__input{
-    padding-left: 5%;
+.container__elements{
     display: flex;
+    align-items: center;
+    height: 40px;
+    width: 40%;
 }
 
-.conteiner__input--text{
-    padding: 10px;
+.container__input{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: rgba(128, 128, 128, 0.068);
+    width: 60%;
+    height: 30px;
+    border-radius: 5px;
+    color: #707070;
+    padding-left: 5px;
+    margin-right: 5%;
+} 
+
+.container__input--text{
     border-radius: 10px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-family: 'Poppins', sans-serif;
+    color: #707070;
+    width: 80%;
+} 
+
+.container__navigate{
+    display: flex;
+    justify-content: space-around;
+    width: 75%;
+    margin-right: 10%;
 }
 
+.container__inicio--btn{
+    color: rgba(121, 119, 117, 0.938);
+    font-size: medium;
+    font-weight: bold;
+    border:none;
+    text-decoration: none;
+}
 /* .conteiner__btn{
     
-} */
+} 
 
 .conteiner__btn--btn{
-    /* background: url('../../img/iconBusqueda.ico'); */
+    /* background: url('../../img/iconBusqueda.ico'); 
     padding: 15px 15px;
     border-radius: 10px;
     margin: 3px;
 }
 
-.conteiner__inicio{
-    display: flex;
-    margin-left: 15%;
-}
 
-.conteiner__inicio--btn{
-    padding: 10px;
-    color: rgb(121, 119, 117);
-    font-size: medium;
-    font-weight: 800;
-    border:none;
-    background-color: white;
-    text-decoration: none;
-}
 
 .conteiner__Hamb{
     margin-left: 15%;
@@ -83,4 +109,4 @@
     font-weight: 800;
     text-decoration: none;
     margin: 10px;
-}
+} */

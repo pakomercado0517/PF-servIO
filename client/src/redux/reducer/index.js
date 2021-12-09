@@ -1,17 +1,15 @@
-
+import {GET_ALL_PROFESSIONALS} from '../actions'
 
 const initialState = {
-
-    data: [],
-
+    professionals: [],
 };
 
 function rootReducer( state = initialState, { type, payload } ) {
     switch ( type ) {
-        case 'GET_DATA':
+        case GET_ALL_PROFESSIONALS:
             return {
                 ...state,
-                data: payload,
+                professionals: payload,
             };
         default:
             return state;
