@@ -230,6 +230,19 @@ module.exports ={
             res.status(400).send(error.message)
         }
     },
+    getAllActivities: async (req, res) =>{
+        try {
+            const activities = await SpecificTechnicalActivity.findAll({ 
+                include:[{ 
+                    model: Professional, include:[{model:Profession}]
+                }],
+            })
+            res.status(200).send(activities)
+            
+        } catch (error) {
+            res.status(400).send(error.message)
+        }
+    },
     getByActivityName: async (req, res) =>{
         try {
             const activities = await SpecificTechnicalActivity.findAll({ 
