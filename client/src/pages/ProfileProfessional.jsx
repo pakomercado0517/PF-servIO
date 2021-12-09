@@ -1,6 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+
+import { Link, useParams } from 'react-router-dom';
+
 import { BsArrowRightCircle } from 'react-icons/bs'
+import { BsArrowLeftCircle } from 'react-icons/bs'
 import { FaRegEdit } from 'react-icons/fa'
 
 import CardReview from '../components/CardReview';
@@ -8,57 +11,114 @@ import CardParticularService from '../components/CardParticularService';
 
 import star from '../img/star.svg'
 import s from './styles/ProfileProfessional.module.css'
+import logo from '../img/ServIO.svg'
 
 export default function ProfileProfessional(){
+    const [state, setstate] = useState({
+        login: false,
+        seeAllReview: true,
+        seeAllServices: true,
+    })
+    const params = useParams()
+    console.log(params)
+    function newStateReview(){
+        setstate({
+            ...state,
+            seeAllReview: !state.seeAllReview,
+        })
+    }
+    function newStateServices(){
+        setstate({
+            ...state,
+            seeAllServices: !state.seeAllServices,
+        })
+    }
     return (
         <div className={ s.container }>
-            <Link to="/">
-                <button className={ s.hardcode }>
-                    volviendoo
-                </button>
-            </Link>
-            <div className={ s.details }>
-                <div className={ s.photo }>
+            <div className={ s.container_nav }>
+                <img src={ logo } alt="" />
+            </div>
+            <div className={s.container_details}>
+                <div className={ s.container_details_photo }>
                 </div>
-                <div className={ s.text }>
+                <div className={ s.container_details_text }>
                     <h1>Elon Musk</h1>
                     <h2>Mecánica automotriz.</h2>
                     <h5>Buenos Aires, Argentina.</h5>
                     <div>
-                    <div>
-                        <img src={ star } alt="" />
-                        <img src={ star } alt="" />
-                        <img src={ star } alt="" />
-                        <img src={ star } alt="" />
-                        <img src={ star } alt="" />
+                        <div>
+                            <img src={ star } alt="" />
+                            <img src={ star } alt="" />
+                            <img src={ star } alt="" />
+                            <img src={ star } alt="" />
+                            <img src={ star } alt="" />
+                        </div>
                     </div>
-                    </div>
-                    
-                    
                 </div>
-                <Link className={ s.linkEdit } to="/">
-                        <FaRegEdit size="40px" className={ s.logoEdit }>
-                        </FaRegEdit>
+                <Link className={s.container_details_linkEdit} to="/">
+                    <FaRegEdit size="40px" className={s.logoEdit}>
+                    </FaRegEdit>
                 </Link>
+                {
+                    state.login ? (
+                        <button className={s.container_details_button}>
+                            <span>
+                                Solicitar Presupuesto
+                            </span>
+                        </button>
+                    ) : <></>
+                }
             </div>
-            <h6>Reviews</h6>
-            <div className={ s.reviews }>
-                <CardReview/>
-                <CardReview/>
-                <CardReview/>
-                <BsArrowRightCircle size="50px"/>
+            <h4>Servicios particulares</h4>
+            <div className={ s.container_services }>
+                <div className={ state.seeAllServices?s.container_services_first:s.container_services_first_all }>
+                    <CardParticularService/>
+                    <CardParticularService/>
+                    <CardParticularService/>
+                    <CardParticularService/>
+                    <CardParticularService/>
+                    <CardParticularService/>
+                    <CardParticularService/>
+                    <CardParticularService/>
+                    <CardParticularService/>
+                </div>
+                <div className={ state.seeAllServices?s.container_services_second:s.container_services_second_all }>
+                    <BsArrowRightCircle onClick={ newStateServices } size="50px"/>
+                </div>
+                <div className={ state.seeAllServices?s.container_services_second_all:s.container_services_second }>
+                    <BsArrowLeftCircle onClick={ newStateServices } size="50px"/>
+                </div>
             </div>
-            <h6>Servicios particulares</h6>
-            <div className={ s.reviews }>
-                <CardParticularService/>
-                <CardParticularService/>
-                <CardParticularService/>
-                <BsArrowRightCircle size="50px"/>
+            <h4>Reviews</h4>
+            <div className={ s.container_reviews }>
+                <div className={ state.seeAllReview? s.container_reviews_first:s.container_reviews_first_all }>
+                    <CardReview/>
+                    <CardReview/>
+                    <CardReview/>
+                    <CardReview/>
+                    <CardReview/>
+                    <CardReview/>
+                    <CardReview/>
+                    <CardReview/>
+                    <CardReview/>
+                </div>
+                <div className={ state.seeAllReview?s.container_reviews_second:s.container_reviews_second_all }>
+                    <BsArrowRightCircle onClick={ newStateReview } size="50px"/>
+                </div>
+                <div className={ state.seeAllReview?s.container_reviews_second_all:s.container_reviews_second }>
+                    <BsArrowLeftCircle onClick={ newStateReview } size="50px"/>
+                </div>
             </div>
             <div className={ s.container_containerButton}>
-                <button className={ s.container_containerButton_button }>
-                    Contactar
-                </button>
+                {
+                    state.login ? (
+                        <button className={s.container_containerButton_button}>
+                            <span>
+                                Contactar
+                            </span>
+                        </button>
+                    ) : <></>
+                }
             </div>
         </div>    
     )
