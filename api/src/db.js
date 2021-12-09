@@ -84,8 +84,8 @@ ClientNeed.hasOne(Transactions);
 Transactions.belongsTo(ClientNeed);
 
 //Relacion client_need - professional_offer
-ClientNeed.hasMany(Professional);
-Professional.belongsTo(ClientNeed);
+ClientNeed.hasMany(ProfessionalOffer);
+ProfessionalOffer.belongsTo(ClientNeed);
 
 //Relacion client_need - Profesion
 ClientNeed.hasOne(Profession);
