@@ -2,11 +2,28 @@
 const { Op } = require('sequelize');
 const Sequelize = require('sequelize')
 // @ts-ignore
-const { User, Professional,ProfessionalOffer, ClientNeed, SpecificTechnicalActivity,Transactions } = require('../db.js')
+const { User, Profession, Professional,ProfessionalOffer, ClientNeed, SpecificTechnicalActivity,Transactions } = require('../db.js')
 
 module.exports ={
     newUser : async (req, res) => {
-        const { userName, firstName, lastName, email, phone, city, state, photo, dniFront, dniBack, password, verified, professional,certification_name,certification_img,status, profession  } = req.body;
+        const { 
+            userName, 
+            firstName, 
+            lastName, 
+            email, 
+            phone, 
+            city, 
+            state, 
+            photo, 
+            dniFront, 
+            dniBack, 
+            password, 
+            verified, 
+            professional,
+            certification_name,
+            certification_img,status, 
+            profession  
+        } = req.body;
         try {
             let newUser = await User.create({ 
             user_name: userName,
@@ -23,28 +40,36 @@ module.exports ={
             verified,
             professional,
         })
-        let a =[]
+        
         if(professional === 'true') {
-            let professional2 = await Professional.create({ 
+            let newProfessional = await Professional.create({ 
                 certification_name:certification_name,
                 certification_img:certification_img,
                 status,
-                // profession,
             })
 
-            a = professional2
-            await newUser.setProfessional( professional2 )
-            // await professional2.setProfession( { where: { name : profession } } )
-        }
+            let professions = profession
+            if(typeof professions === 'string'){
+                professions = professions.split(',');
+            }
+    
+            const allProfessions = await Profession.findAll({ 
+                where:{
+                    name: {
+                        [Op.in]: Array.isArray(professions) ? professions : [professions]
+                    }
+                }
+            })  
             
-        
-        res.status(200).send(a) 
-        
+                await newProfessional.setProfessions( allProfessions );
+                await newUser.setProfessional( newProfessional )
+        }
+        res.status(200).send('User Created!') 
         } catch (error) {
             res.status(400).send(error.message);
         }
-        
     },
+
     newSpecificalNeed : async (req, res) => {
         const {name, description, status, location, UserId} = req.body
         try {
@@ -55,19 +80,19 @@ module.exports ={
                 location
             })
     
-            let users = await User.findAll({
+            let allUsers = await User.findAll({
                 where :{
                     id : UserId
                 }
             })
-            await newNeed.setUser(users[0])
-            res.status(200).send(users)
+            await newNeed.setUser(allUsers[0])
+            res.status(200).send(allUsers)
 
         } catch (error) {
             res.status(400).send(error.message);
         }
-
     },
+
     newTechnicalActivity: async (req, res) => {
         const { professionalId ,name, price, photo, materials, decription, guarantee_time } = req.body
         try {
@@ -77,20 +102,19 @@ module.exports ={
                 photo,
                 materials,
                 decription,
-                guarantee_time//AGREGAR A MODELO
+                guarantee_time
             })
             
-            let professional= await Professional.findAll({
+            let professional = await Professional.findAll({
                 where: { id: professionalId }
             })
-            
             await activityFromProfession.setProfessional(professional[0])
             res.status(200).send(professional)
         } catch (error) {
             res.status(400).send(error.message);
         }
     },
-    //VERIFICAR CONTENIDO DE TRANSACTIONS
+    //COMENTAR QUE SE REQUIERE INPUT DIRECTO DE IDS DE USUARIOS 
     newTransaction : async (req, res) => {
         const {id} = req.body
         try {
@@ -142,7 +166,7 @@ module.exports ={
                 where:{
                     professional: true,                  
                 },
-                include: [{ model: Professional}],
+                include: [{ model: Professional, include:[{model:Profession}]}],
             })
             res.status(200).send(professionals)
             
@@ -171,9 +195,9 @@ module.exports ={
                 where: { id: { [Op.eq]: id } }
             })
             if(user[0].dataValues.professional === true) {
-                user= await User.findAll({
+                user = await User.findAll({
                     where: { id: { [Op.eq]: id } },
-                    include: [{ model: Professional }],
+                    include: [{ model: Professional, include:[{model:Profession}]}],
                 })
             }
             res.status(200).send(user)
@@ -186,7 +210,7 @@ module.exports ={
         try {
             const activities = await SpecificTechnicalActivity.findAll({ 
                 include:[{ 
-                    model: Professional
+                    model: Professional, include:[{model:Profession}]
                 }],
                 where: {name:{ [Sequelize.Op.iLike]: `%${req.body.name}%`}}
             })
@@ -210,7 +234,7 @@ module.exports ={
         try {
             const activities = await SpecificTechnicalActivity.findAll({ 
                 include:[{ 
-                    model: Professional
+                    model: Professional, include:[{model:Profession}]
                 }],
                 where: {name:{ [Sequelize.Op.iLike]: `%${req.body.name}%`}}
             })
@@ -223,7 +247,7 @@ module.exports ={
     getAllNeeds : async (req, res) => {
         try {
             const needs = await ClientNeed.findAll({
-                include: [{ model:User }]
+                include: [{ model:User },{ model: ProfessionalOffer} ],
             })
             res.status(200).send(needs)
             

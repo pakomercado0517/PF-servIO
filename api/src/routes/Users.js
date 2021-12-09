@@ -2,16 +2,16 @@ const { Router } = require("express");
 const router = Router();
 const userFunctions = require('../controllers/index.js')
 
-router.post('/NewSpecificalNeed', userFunctions.newSpecificalNeed)
-router.post('/NewTechnicalActivity', userFunctions.newTechnicalActivity)
-router.post('/', userFunctions.newUser)
-router.post('/newProfessionalOffer', userFunctions.newProfessionalOffer)
-router.get('/allUsers', userFunctions.getAllUsers)
-router.get('/allProfessionals', userFunctions.getAllProfessionals)
-router.get('/commonUsers', userFunctions.getAllCommonUsers )
-router.get('/allUsers/:id', userFunctions.getByUserId )
-router.get('/getUserByActivityName', userFunctions.getUserByActivityName )
-router.get('/getByActivityName', userFunctions.getByActivityName )
-router.get('/getAllNeeds', userFunctions.getAllNeeds )
+router.post('/', userFunctions.newUser) // --------> /users/
+router.get('/all', userFunctions.getAllUsers) // --------> /users/all
+router.get('/common', userFunctions.getAllCommonUsers) // --------> /users/common
+router.get('/professionals', userFunctions.getAllProfessionals) // --------> /users/professionals
+router.get('/:id', userFunctions.getByUserId ) // --------> /users/:id
+// router.post('/NewSpecificalNeed', userFunctions.newSpecificalNeed) ====> /clientNeeds/
+// router.post('/NewTechnicalActivity', userFunctions.newTechnicalActivity) =======> /TecnicalActivities/
+// router.post('/newProfessionalOffer', userFunctions.newProfessionalOffer) =======> /professsionalOffer
+// router.get('/getUserByActivityName', userFunctions.getUserByActivityName ) ======> /TecnicalActivities/UserByActivityName
+// router.get('/getByActivityName', userFunctions.getByActivityName ) ======> /TecnicalActivities/ActivityByActivityName
+// router.get('/getAllNeeds', userFunctions.getAllNeeds )  ===========> /clientNeeds/
 
 module.exports= router;
