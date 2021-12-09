@@ -1,6 +1,5 @@
 import React from 'react'
 
-// @ts-ignore
 import s from './styles/CardReview.module.css'
 
 export default function CardReview() {

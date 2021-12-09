@@ -1,10 +1,19 @@
 import React from 'react';
 
 import { Link } from 'react-router-dom';
+
 import s from './styles/ProfileProfessional.module.css'
 // import star from '../img/star.svg'
 import { FaRegEdit } from 'react-icons/fa'
 import { BsArrowRightCircle } from 'react-icons/bs'
+
+
+import s from './styles/ProfileProfessional.module.css'
+
+import star from '../img/star.svg'
+import { FaRegEdit } from 'react-icons/fa'
+import { BsArrowRightCircle } from 'react-icons/bs'
+
 import CardReview from '../components/CardReview';
 import CardParticularService from '../components/CardParticularService';
 
@@ -23,13 +32,15 @@ export default function ProfileProfessional(){
                     <h1>Elon Musk</h1>
                     <h2>Mecánica automotriz.</h2>
                     <h5>Buenos Aires, Argentina.</h5>
-                    {/* <div>
+                    <div>
+                    <div>
                         <img src={ star } alt="" />
                         <img src={ star } alt="" />
                         <img src={ star } alt="" />
                         <img src={ star } alt="" />
                         <img src={ star } alt="" />
-                    </div> */}
+                    </div>
+                    </div>
                     
                     
                 </div>

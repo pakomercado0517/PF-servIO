@@ -8,3 +8,28 @@
     padding: 0px;
     margin: 0px 15px;
 }
+
+.container p {
+    padding: 6px 15px;
+    text-overflow: clip;
+    max-height: 30px;
+}
+
+.container_info {
+    display: flex;
+    justify-content: space-around;
+}
+
+.container_info span {
+    position: relative;
+    top: 30px;
+}
+
+.container_info_photo {
+    position: relative;
+    top: 5px;
+    width: 70px;
+    height: 70px;
+    border-radius: 150px;
+    background-color: grey;
+}
