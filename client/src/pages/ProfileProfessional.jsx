@@ -1,21 +1,13 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom';
-
-import s from './styles/ProfileProfessional.module.css'
-// import star from '../img/star.svg'
-import { FaRegEdit } from 'react-icons/fa'
 import { BsArrowRightCircle } from 'react-icons/bs'
-
-
-import s from './styles/ProfileProfessional.module.css'
-
-import star from '../img/star.svg'
 import { FaRegEdit } from 'react-icons/fa'
-import { BsArrowRightCircle } from 'react-icons/bs'
 
 import CardReview from '../components/CardReview';
 import CardParticularService from '../components/CardParticularService';
+
+import star from '../img/star.svg'
+import s from './styles/ProfileProfessional.module.css'
 
 export default function ProfileProfessional(){
     return (
