@@ -24,5 +24,9 @@ module.exports = (sequelize) => {
             type: DataTypes.BOOLEAN,
             // allowNull: false,
         },
+        guarantee_time: {
+            type: DataTypes.INTEGER,
+            // allowNull: false,
+        },
     }, {});
 }
