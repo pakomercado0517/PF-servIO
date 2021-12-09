@@ -1,4 +1,4 @@
-.conteiner{
+.conteiner {
     display: flex;
     align-items: center;
     box-sizing: border-box;
@@ -8,7 +8,6 @@
 .conteiner__img{
     display: flex;
     padding-left: 30px;
-
 }
 
 .conteiner__input{
@@ -21,9 +20,9 @@
     border-radius: 10px;
 }
 
-.conteiner__btn{
+/* .conteiner__btn{
     
-}
+} */
 
 .conteiner__btn--btn{
     /* background: url('../../img/iconBusqueda.ico'); */
