@@ -1,0 +1,86 @@
+.conteiner {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    box-shadow: 0 5px 10px #0c0b0f77; 
+}
+
+.conteiner__img{
+    display: flex;
+    padding-left: 30px;
+}
+
+.conteiner__input{
+    padding-left: 5%;
+    display: flex;
+}
+
+.conteiner__input--text{
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* .conteiner__btn{
+    
+} */
+
+.conteiner__btn--btn{
+    /* background: url('../../img/iconBusqueda.ico'); */
+    padding: 15px 15px;
+    border-radius: 10px;
+    margin: 3px;
+}
+
+.conteiner__inicio{
+    display: flex;
+    margin-left: 15%;
+}
+
+.conteiner__inicio--btn{
+    padding: 10px;
+    color: rgb(121, 119, 117);
+    font-size: medium;
+    font-weight: 800;
+    border:none;
+    background-color: white;
+    text-decoration: none;
+}
+
+.conteiner__Hamb{
+    margin-left: 15%;
+}
+
+.conteiner__Hamb--btn{
+    border: none;
+    background-color: white;
+}
+
+.conteiner__Hamb--menu{
+    position: relative;
+}
+
+.conteiner__Hamb--menu .conteiner__Hamb--down{
+    display: none;
+}
+
+.conteiner__Hamb--menu:hover .conteiner__Hamb--down{
+    display: block;
+    position: absolute;
+    right:0;
+
+    top:100%;
+    z-index: 1;
+    background-color: white;
+    padding: 20px;
+    min-height: 200px;
+    min-width: 100px;
+}
+
+.conteiner__Hamb--table a {
+    display: block;
+    color: rgb(121, 119, 117);
+    font-size: medium;
+    font-weight: 800;
+    text-decoration: none;
+    margin: 10px;
+}

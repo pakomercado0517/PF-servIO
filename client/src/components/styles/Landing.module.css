@@ -1,0 +1,33 @@
+.div_principal {
+    width: 100vw;
+    height: 80vh;
+    background-color: rgba(194, 194, 214, 0.432);
+    display: flex;
+    justify-content: space-around;
+}
+
+.div_principal--first {
+    width: 40%;
+    margin: 8%;
+}
+.div_principal--second {
+    width: 60%;
+    margin: 8%;
+}
+
+.div_principal--first--buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.div_principal--first--buttons--button {
+    width: 158px;
+    height: 35px;
+    border: none;
+    background: #91E3F5;
+    border-radius: 4px;
+}
+
+.div_principal--second--img {
+    width: 60%;
+}

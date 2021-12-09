@@ -1,37 +1,31 @@
-const professions = [{
-    "1": {
-        "id": 1,
-        "Profession": "pintor",
+const professions = [
+    {
+        name: "pintor",
     },
-    "2": {
-        "id": 2,
-        "Profession": "carpintero",
+    {
+        name: "carpintero",
     },
-    "3": {
-        "id": 3,
-        "Profession": "albañil",
+    {
+        name: "albañil",
     },
-    "4": {
-        "id": 4,
-        "Profession": "Electricista",
+    {
+        name: "Electricista",
     },
-    "5": {
-        "id": 5,
-        "Profession": "Plomero",
+    {
+        name: "Plomero",
     },
-    "6": {
-        "id": 6,
-        "Profession": "Herrero",
+    {
+        name: "Herrero",
     },
-    "7": {
-        "id": 7,
-        "Profession": "Cerrajero",
+    {
+        name: "Cerrajero",
     },
-}]
+]
 
-const professionsMap = professions.map(profession => ({
-    id: profession.id,
-    Profession: profession.Profession,
-}));
+const professionsMap = professions.map(el => {
+    return {name: el.name}
+})
 
 // console.log("Professions: ", professionsMap);
+
+module.exports = {professionsMap}
