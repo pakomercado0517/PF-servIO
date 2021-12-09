@@ -51,14 +51,14 @@ Transactions.belongsTo(User);
 User.hasOne(Professional);
 Professional.belongsTo(User);
 
-//Relacion User - ClientReview
+
 User.hasMany(ClientReview)
 ClientReview.belongsTo(User);
 
 //*************************************RELACIONES Profesional****************************************************************
 
 //Relacion Profesional - profesion
-Professional.belongsToMany(Professional, { through: 'Profession_Professional' });
+Professional.belongsToMany(Profession, { through: 'Profession_Professional' });
 Profession.belongsToMany(Professional, { through: 'Profession_Professional' });
 
 //Relacion Profesional - transacción
@@ -81,7 +81,7 @@ ClientReview.belongsTo(Professional);
 
 //Relacion client_need - transactions
 ClientNeed.hasOne(Transactions);
-Transactions.hasMany(ClientNeed);
+Transactions.belongsTo(ClientNeed);
 
 //Relacion client_need - professional_offer
 ClientNeed.hasMany(ProfessionalOffer);
@@ -89,17 +89,17 @@ ProfessionalOffer.belongsTo(ClientNeed);
 
 //Relacion client_need - Profesion
 ClientNeed.hasOne(Profession);
-Profession.hasMany(ClientNeed);
+Profession.belongsTo(ClientNeed);
 
 //*************************************RELACIONES Professional_Offer****************************************************************
 
 //Relation ProfessionalOffer - Transaction
 ProfessionalOffer.hasOne(Transactions);
-Transactions.hasOne(ProfessionalOffer);
+Transactions.belongsTo(ProfessionalOffer);
 
 //Relacion ProfessionalOffer - ClientReview
 ProfessionalOffer.hasOne(ClientReview)
-ClientReview.hasOne(ProfessionalOffer);
+ClientReview.belongsTo(ProfessionalOffer);
 
 
 

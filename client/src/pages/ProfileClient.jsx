@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { FaRegEdit } from 'react-icons/fa'
 import { BsArrowRightCircle } from 'react-icons/bs'
 import s from './styles/ProfileClient.module.css'
+import star from '../img/star.svg'
+
 import CardReview from '../components/CardReview';
 import CardParticularService from '../components/CardParticularService';
 import imgCliente from '../img/user_profile_photo.jpg'
@@ -13,6 +15,7 @@ export default function ProfileClient(){
     return (
         <div className={ s.div_principal }>
             <div className={ s.div_inicio  }></div>
+
             <div className={ s.div_photo  }><img src={imgCliente } alt="" /></div>
             <div className={ s.div_info  }>
                 <div className={ s.div_tiulo}>
@@ -49,6 +52,7 @@ export default function ProfileClient(){
                     <BsArrowRightCircle className={s.reviews_icon} size="50px"/>
                     <span >Ver Historial</span> 
                 </div>
+
             </div>
             
             
