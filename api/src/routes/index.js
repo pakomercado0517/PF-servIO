@@ -16,7 +16,7 @@ router.use("/professsionalOffer", ProfesssionalOffer)
 router.use("/professionals", Professional)
 router.use("/professions", Professions)
 router.use("/reviews", Reviews)
-router.use("/TecnicalActivities", TecnicalActivities)
+router.use("/TecnicalsActivities", TecnicalActivities)
 router.use("/Transactions", Transactions)
 router.use("/User", User)
 module.exports = router;
