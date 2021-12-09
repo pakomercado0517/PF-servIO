@@ -3,6 +3,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import s from './styles/ProfileProfessional.module.css'
+// import star from '../img/star.svg'
+import { FaRegEdit } from 'react-icons/fa'
+import { BsArrowRightCircle } from 'react-icons/bs'
+
+
+import s from './styles/ProfileProfessional.module.css'
 
 import star from '../img/star.svg'
 import { FaRegEdit } from 'react-icons/fa'
@@ -27,11 +33,13 @@ export default function ProfileProfessional(){
                     <h2>Mecánica automotriz.</h2>
                     <h5>Buenos Aires, Argentina.</h5>
                     <div>
+                    <div>
                         <img src={ star } alt="" />
                         <img src={ star } alt="" />
                         <img src={ star } alt="" />
                         <img src={ star } alt="" />
                         <img src={ star } alt="" />
+                    </div>
                     </div>
                     
                     
