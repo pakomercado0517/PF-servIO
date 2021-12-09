@@ -51,7 +51,7 @@ Transactions.belongsTo(User);
 User.hasOne(Professional);
 Professional.belongsTo(User);
 
-// //Relacion User - ClientReview
+
 User.hasMany(ClientReview)
 ClientReview.belongsTo(User);
 

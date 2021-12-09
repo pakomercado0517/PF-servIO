@@ -1,0 +1,97 @@
+.container{
+    display: flex;
+    height: 100vh; 
+}
+
+.container_img{
+    background-color: aqua;
+    width: 20%;
+    display: grid;
+    align-content: space-around;
+}
+
+.container_img p{
+    color: #ffffff;
+    font-size: medium;
+    font-weight: 800;
+    text-align: justify;
+    padding: 2em;
+    
+}
+
+.container_registro{
+    width: 80%;
+}
+
+.conteiner_registro_titulo{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    color: #7D7D7D;
+    font-size: 2em;
+    justify-items: end;
+    
+}
+
+.from{
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    
+    
+}
+
+    
+
+.from_1{
+    width: 360px;
+    padding: 4rem 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(92,99,105,.2);
+}
+
+.from_1_inLa{
+    position: relative;
+    height: 5em;
+    
+}
+
+.from_1_inLa input{
+    position: absolute;
+    font-size: 1rem;
+    border: 1px solid #DADCE0;
+    border-radius: 0.5rem;
+    outline: none;
+    padding: 1rem;
+    background: none;
+
+    
+}
+
+.from_1_inLa label{
+    position: absolute;
+  left: 1rem;
+  top: 1rem;
+  padding: 0 .25rem;
+  background-color: #fff;
+  color: #80868B;
+  font-size: 1rem;
+  transition: .3s;
+}
+
+.from_1_btn{
+    padding: .5em;
+    background-color: #91E3F5;
+    color: #ffffff;
+    border:none;
+    font-size: medium;
+    font-weight: 600;
+    border-radius: 5px;
+    
+
+}
+
+.from_1_btn:hover{
+    box-shadow: 0 10px 36px rgba(0, 0, 0, 0.507);
+}
+
