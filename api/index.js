@@ -32,7 +32,7 @@
 
 const { conn, User, Professional, ClientReview, ClientNeed, ProfessionalOffer, Profession } = require('./src/db');
 const server = require('./src/app.js');
-const {userMap}  = require('./src/DbExample/user.js');
+const {initialFunction}  = require('./src/DbExample/user.js');
 const {professionalMap}= require('./src/DbExample/professionals')
 const {reviewMap} = require('./src/DbExample/clientReview')
 const {needMap} = require('./src/DbExample/clientNeed')
@@ -45,7 +45,7 @@ conn.sync( { force: true } ).then( () => {
     server.listen(3001, async () => {
         
         try {
-            await User.bulkCreate(userMap);
+            await initialFunction();
             await Professional.bulkCreate(professionalMap)
             await ClientReview.bulkCreate(reviewMap)
             await ClientNeed.bulkCreate(needMap);
