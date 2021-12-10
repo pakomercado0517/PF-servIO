@@ -6,6 +6,7 @@ import ProfileClient from './pages/ProfileClient';
 import ProfileProfessional from './pages/ProfileProfessional';
 import Registration from './pages/Registration';
 import Login  from './components/Login';
+import Nosotros from './pages/Nosotros.jsx';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       {/* <Route exact path="/professionals/:idProfessional" element={<ProfileProfessional />} /> */}
       <Route exact path="/profesional" element={<ProfileProfessional />} />
       <Route exact path="/registration" element={<Registration />} />
+      <Route exact path="/nosotros" element={<Nosotros />} />
       {/* <Route exact path="/" element={<Home />} />
       <Route exact path="/" element={<Home />} />
       <Route exact path="/" element={<Home />} /> */}

@@ -1,6 +1,7 @@
-import React from 'react'
-import styles from './styles/Landing.module.css'
-import img from '../img/brooke-cagle-tLG2hcpITZE-unsplash.jpg'
+import React from 'react';
+import styles from './styles/Landing.module.css';
+import img from '../img/brooke-cagle-tLG2hcpITZE-unsplash.jpg';
+import { NavLink } from 'react-router-dom';
 
 export default function Landing() {
     return (
@@ -11,7 +12,7 @@ export default function Landing() {
                 </p>
                 <div className={ styles.div_principal__first__buttons }>
                     <button className={ styles.div_principal__first__buttons__button }>Iniciar sesión</button>
-                    <button className={ styles.div_principal__first__buttons__button }>Registrarse</button>
+                    <NavLink to='/registration' className={ styles.div_principal__first__buttons__button }>Registrarse</NavLink>
                 </div>
             </div>
             <div className={ styles.div_principal__second }>
