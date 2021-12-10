@@ -1,14 +1,44 @@
-.hardcode{
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    width: 300px;
-    height: 50px;
-}
-
 .container {
     overflow-x: hidden;
     width: 100%;
+}
+
+.container_cards {
+    display: flex;
+    align-items: center;
+}
+
+.container_cards_first {
+    display: flex;
+    width: 90vw;
+    overflow-x: auto;
+}
+
+.container_cards_first_all {
+    display: flex;
+    flex-wrap: wrap;
+    width: 90vw;
+}
+
+.container_cards_second {
+    margin: auto;
+    color: #65dbf5;
+}
+
+.container_cards_second_all {
+    display: none;
+}
+
+.container_nav {
+    width: 100vw;
+    height: 60px;
+}
+
+.container_nav img {
+    position: absolute;
+    right: 60px;
+    top: 15px;
+    width: 80px;
 }
 
 .container_containerButton {
@@ -28,15 +58,35 @@
     border-radius: 50px;
 }
 
-.details {
+.container_details_button {
+    position: absolute;
+    right: 80px;
+    top: 200px;
+    width: 120px;
+    height: 50px;
+    background: #91E3F5;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgb(197, 197, 197);
+}
+
+.container_details_button:hover {
+    width: 120px;
+    height: 50px;
+    background: #a7efff;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 1px 1px 8px rgb(99, 99, 99);
+}
+
+.container_details {
     display: flex;
     z-index: -1;
     width: 100vw;
     height: 50vh;
-    background-color: rgb(211, 211, 211);
 }
 
-.photo {
+.container_details_photo {
     position: relative;
     top: 50px;
     width: 150px;
@@ -46,19 +96,19 @@
     margin: 0px 50px;
 }
 
-.text {
+.container_details_text {
     position: relative;
     top: 30px;
 }
-.text h2 {
+.container_details_text h2 {
     margin-bottom: 3px;
     margin-top: 0px;
 }
-.text h1 {
+.container_details_text h1 {
     margin-bottom: 7px;
 }
 
-.text h5 {
+.container_details_text h5 {
     margin-top: 0px;
     margin-bottom: 10px;
 }
@@ -67,9 +117,9 @@
     color: grey;
 }
 
-.linkEdit {
+.container_details_linkEdit {
     position: absolute;
-    top: 80px;
+    top: 120px;
     right: 80px;
 }
 
