@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom"
 import Home from './pages/Home';
 import ProfileClient from './pages/ProfileClient';
 import ProfileProfessional from './pages/ProfileProfessional';
-import Registration from './pages/Registration';
+import Register from './pages/Register';
 import Login  from './components/Login';
 import Nosotros from './pages/Nosotros.jsx';
 
@@ -15,7 +15,7 @@ function App() {
       <Route exact path="/idClient" element={<ProfileClient />} />
       <Route exact path="/professional/:id" element={<ProfileProfessional />} />
       <Route exact path="/clients/idClient" element={<ProfileClient />} />
-      <Route exact path="/registration" element={<Registration />} />
+      <Route exact path="/register" element={<Register />} />
       <Route exact path="/nosotros" element={<Nosotros />} />
       {/* <Route exact path="/" element={<Home />} />
       <Route exact path="/" element={<Home />} />

@@ -1,8 +1,8 @@
 import React from 'react';
-import s from './styles/Registration.module.css';
+import s from './styles/Register.module.css';
 import logo from '../img/logo.png';
 
-export default function Registration() {
+export default function Register() {
     return (
         <div className={s.container}>
             <div className={s.container_img}>
