@@ -1,0 +1,62 @@
+.login_master{
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    flex-direction: row;
+    /* align-items: center; */
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    /* border-radius: 10px; */
+    background-color: rgba(51, 51, 51, 0.808);
+    box-shadow: 0px 0px 20px #000000;
+    position: fixed;
+}
+
+.login_logo{
+    display: flex;
+    /* padding-left: 30px; */
+    width: 10%;
+    height: 55px;
+    position: relative;
+    border-radius: 20px;
+
+}
+.login_form{
+
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 35%;
+    background-color: rgb(206, 188, 188);
+    background-color: whitesmoke;
+    border-radius: 10px;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+
+    /* height: 100%; */
+    /* box-shadow: 150px 150px #999; */
+    
+}
+.login_image{
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    border-radius: 10px;
+    width: 35%;
+    /* height: 100%; */
+    background-image: url('../../img/loginfoto.png');
+    background-size: cover;
+    background-position: center;
+    /* background-repeat: no-repeat; */
+    /* box-shadow: 50px 50px 50px #999; */
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+
+}
+
+
