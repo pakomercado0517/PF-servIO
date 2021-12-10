@@ -1,8 +1,18 @@
 const { Router } = require("express");
 const router = Router();
 const userFunctions = require('../controllers/index.js')
+const passport = require('passport');
+
+
+router.post('/login', passport.authenticate('local', {
+    successRedirect: '/', 
+    failureRedirect:"/users/professionals",
+    failureFlash: true
+}))
 
 router.post('/', userFunctions.newUser) // --------> /users/
+// router.get('/login',userFunctions.login)
+// router.get('/register', userFunctions.register)
 router.get('/all', userFunctions.getAllUsers) // --------> /users/all
 router.get('/common', userFunctions.getAllCommonUsers) // --------> /users/common
 router.get('/professionals', userFunctions.getAllProfessionals) // --------> /users/professionals
