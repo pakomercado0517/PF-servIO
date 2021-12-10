@@ -15,40 +15,49 @@ export default function Registration() {
                 </div>
                 <div className={s.from}>
                     <from className={s.from_1}>
-                        <div className={s.from_1_inLa}>
+                        <div className={s.from_1_inLa1}>
                             <input type="text" />
                             <label htmlFor="">Nombre</label>
                         </div>
-                        <div  className={s.from_1_inLa}>
+                        <div  className={s.from_1_inLa2}>
                             <input type="text" />
                             <label htmlFor="">E-mail</label>
                         </div>
-                        <div  className={s.from_1_inLa}>
+                        <div  className={s.from_1_inLa3}>
                             <input type="text" />
                             <label htmlFor="">Password</label>
                         </div>
-                        <div  className={s.from_1_inLa}>
+                        <div  className={s.from_1_inLa4}>
                             <input type="text" />
                             <label htmlFor="">Repeat-Password</label>
                         </div>
-                        <div  className={s.from_1_inLa}>
+                        <div  className={s.from_1_inLa5}>
                             <input type="text" />
                             <label htmlFor="">DNI</label>
                         </div>
-                        <div>
+                        <div className={s.from_1_inLa6}>
                             <input type="checkbox" />
                             <label htmlFor="">Profesional</label>
+                        </div>
+                        <div className={s.from_1_inLa_6}>                            
                             <input type="checkbox" />
                             <label htmlFor="">Cliente</label>
                         </div>
-                        <div>
+                        <div className={s.from_1_inLa7}>
                             <select >
                                 <option value="value1">Mar del Plata, Bs As, Argentina</option>
                                 <option value="value2">Rosario, Bs As, Argentina</option>
                                 <option value="value3">Value 3</option>
                             </select>  
                         </div>
-                        <div>
+                        <div className={s.from_1_inLa_7}>
+                            <select >
+                                <option value="value1">Mar del Plata, Bs As, Argentina</option>
+                                <option value="value2">Rosario, Bs As, Argentina</option>
+                                <option value="value3">Value 3</option>
+                            </select>  
+                        </div>
+                        <div className={s.from_1_inLa8}>
                             <input type="text" />
                             <button>+</button>
                         </div>

@@ -24,8 +24,8 @@ export default function NavBar() {
                 </div>
 
                 <div className={s.container__navigate}>
-                    <NavLink to='/:idClient' className={s['container__inicio--btn'] }   >Inicio</NavLink>
-                    <NavLink to='/:idProfessional' className={s['container__inicio--btn']}>Sobre Nosotros</NavLink>
+                    <NavLink to='/' className={s['container__inicio--btn'] }   >Inicio</NavLink>
+                    <NavLink to='/nosotros' className={s['container__inicio--btn']}>Sobre Nosotros</NavLink>
                 </div>
                 {/*
                 <div className={s.conteiner__Hamb}>
