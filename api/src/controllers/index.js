@@ -98,31 +98,91 @@ module.exports ={
             res.status(400).send(error.message);
         }
     },
-    // login: async (req, res) => {
-    //     const {email, password} = req.body
-    //     const user = await User.findAll({
-    //         where:{ email }
-    //     })
-    //     // if(user.length < 1) {
-    //     //     throw new Error('mail does not exist');
-    //     // }
-    //     a =[]
-    //     bcrypt.compare(password, user[0].password, (err, isMatch) =>{
-    //         if(err){
-    //             throw err; 
-    //         }
-    //         if(isMatch){ 
-    //             res.status(200).send('done')
-    //         }else{
-    //             throw new Error('wrong passWord'); 
-    //         }
-    //     }) 
 
-    // },
+    login: async (req, res) => {
+        const {email, password} = req.body
 
-    // register: async (req, res) => {
-    //     res.send('register')
-    // },
+        const user = await User.findAll({
+            where:{ email}
+        })
+
+        if(user.length < 1){
+            res.send('Wrong mail') 
+        }
+
+        else if(user.length > 0) {
+            bcrypt.compare(password, user[0].password, (err, isMatch) =>{
+                if(err){
+                    res.send('mamo')
+                    throw err; 
+                }
+                if(isMatch){ 
+                    req.session.userId = user[0].id
+                    return res.send('Logged in')
+                }else{
+                    throw new Error('Wrong passWord'); 
+                }
+            }) 
+        } else{
+            res.send('Something is wrong') 
+        }
+        
+        // a =user[0].id.toString() 
+        // bcrypt.compare(password, user[0].password, (err, isMatch) =>{
+        //     if(err){
+        //         throw err; 
+        //     }
+        //     if(isMatch){ 
+        //         req.session.userId = user[0].id.toString()
+        //         res.status(200).send(req.session.userId)  
+        //     }else{
+        //         throw new Error('Wrong passWord'); 
+        //     }
+        // }) 
+    }, 
+
+    redirectLogin: async (req, res, next) =>{ 
+        if(!req.session.userId){
+            res.send('/login')
+        }else{
+            next()
+        }
+    },
+
+    redirectHome : (req, res, next) =>{
+        if(req.session.userId){
+            res.send('dentro')
+        }else{
+            next()
+        }
+    },
+
+    logOut: (req, res, next) =>{
+        req.session.destroy(err =>{
+            if(err){
+                res.send('Logout Failed')
+            }
+            res.clearCookie('sid');
+            res.send('Logged Out')
+        })
+        
+    },
+
+    getUser: async (req, res) => {
+        if(req.session.userId){
+            const user = await User.findAll({
+            where:{
+                id: parseInt(req.session.userId),                  
+            },
+            include: [{ model: ClientNeed }],
+        })
+            if(user.length > 0) {
+                res.send(user)
+            }
+        }else{
+            res.send('Please join in')
+        }
+    }, 
 
     newSpecificalNeed : async (req, res) => {
         const {name, description, status, location, UserId} = req.body
@@ -289,7 +349,7 @@ module.exports ={
         try {
             const activities = await SpecificTechnicalActivity.findAll({ 
                 include:[{ 
-                    model: Professional, include:[{model:Profession}]
+                    model: Professional, include:[{model:Profession}], include:[{model:User}]
                 }],
             })
             res.status(200).send(activities)
