@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Link, useParams } from 'react-router-dom';
+
+import { connect } from 'react-redux'
 
 import { BsArrowRightCircle } from 'react-icons/bs'
 import { BsArrowLeftCircle } from 'react-icons/bs'
@@ -12,14 +14,20 @@ import CardParticularService from '../components/CardParticularService';
 import star from '../img/star.svg'
 import s from './styles/ProfileProfessional.module.css'
 import logo from '../img/ServIO.svg'
+import { getByUserId } from '../redux/actions';
 
-export default function ProfileProfessional(){
+function ProfileProfessional(props){
     const [state, setstate] = useState({
         login: true,
         seeAllReview: true,
         seeAllServices: true,
     })
     const params = useParams()
+
+    useEffect(() => {
+        props.getUser(params.id)
+    }, [])
+
     console.log(params)
     function newStateReview(){
         setstate({
@@ -123,3 +131,17 @@ export default function ProfileProfessional(){
         </div>    
     )
 }
+
+function mapStateToProps(state) {
+    return {
+        user: state.user
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getUser: (id) => dispatch(getByUserId(id))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileProfessional)
