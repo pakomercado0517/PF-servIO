@@ -11,8 +11,16 @@ export default function Landing() {
                 <p className={styles.landing__subtitle}>busca servicios profesionales desde la plataforma con seguridad y eficacia desde la comodidad de tu hogar... Crea tu necesidad!!
                 </p>
                 <div className={ styles.div_principal__first__buttons }>
-                    <button className={ styles.div_principal__first__buttons__button }>Iniciar sesión</button>
-                    <NavLink to='/registration' className={ styles.div_principal__first__buttons__button }>Registrarse</NavLink>
+
+                    <NavLink to="/login">
+                    <button 
+                        className={ styles.div_principal__first__buttons__button }
+                    >Iniciar sesión</button>
+
+                    </NavLink>
+                    <NavLink to="/registration">
+                    <button className={ styles.div_principal__first__buttons__button }>Registrarse</button>
+                    </NavLink>
                 </div>
             </div>
             <div className={ styles.div_principal__second }>
