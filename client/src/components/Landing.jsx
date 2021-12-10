@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from './styles/Landing.module.css'
 import img from '../img/brooke-cagle-tLG2hcpITZE-unsplash.jpg'
+import {NavLink} from 'react-router-dom'
 
 export default function Landing() {
     return (
@@ -10,8 +11,15 @@ export default function Landing() {
                 <p className={styles.landing__subtitle}>busca servicios profesionales desde la plataforma con seguridad y eficacia desde la comodidad de tu hogar... Crea tu necesidad!!
                 </p>
                 <div className={ styles.div_principal__first__buttons }>
-                    <button className={ styles.div_principal__first__buttons__button }>Iniciar sesión</button>
+                    <NavLink to="/login">
+                    <button 
+                        className={ styles.div_principal__first__buttons__button }
+                    >Iniciar sesión</button>
+
+                    </NavLink>
+                    <NavLink to="/register">
                     <button className={ styles.div_principal__first__buttons__button }>Registrarse</button>
+                    </NavLink>
                 </div>
             </div>
             <div className={ styles.div_principal__second }>
