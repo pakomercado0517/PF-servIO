@@ -1,18 +1,16 @@
 .container {
     display: inline-block;
-    height: 300px;
+    min-width: 250px;
     width: 250px;
     background-color: rgb(212, 212, 212);
-    margin: 15px;
     border-radius: 10px;
     padding: 0px;
-    margin: 0px 15px;
+    margin: 5px 15px;
 }
 
 .container p {
     padding: 6px 15px;
-    text-overflow: clip;
-    max-height: 30px;
+    font-size: 13px;
 }
 
 .container_info {

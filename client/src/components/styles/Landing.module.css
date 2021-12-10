@@ -43,10 +43,13 @@
     padding: 8px;
     font-family: 'Poppins', sans-serif;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .div_principal__first__buttons__button:active{
     transform: scale(.9);
+    
+
 }
 
 .div_principal__second{

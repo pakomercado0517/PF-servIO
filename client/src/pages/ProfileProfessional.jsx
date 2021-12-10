@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Link, useParams } from 'react-router-dom';
+
+import { connect } from 'react-redux'
 
 import { BsArrowRightCircle } from 'react-icons/bs'
 import { BsArrowLeftCircle } from 'react-icons/bs'
@@ -12,14 +14,20 @@ import CardParticularService from '../components/CardParticularService';
 import star from '../img/star.svg'
 import s from './styles/ProfileProfessional.module.css'
 import logo from '../img/ServIO.svg'
+import { getByUserId } from '../redux/actions';
 
-export default function ProfileProfessional(){
+function ProfileProfessional(props){
     const [state, setstate] = useState({
-        login: false,
+        login: true,
         seeAllReview: true,
         seeAllServices: true,
     })
     const params = useParams()
+
+    useEffect(() => {
+        props.getUser(params.id)
+    }, [])
+
     console.log(params)
     function newStateReview(){
         setstate({
@@ -70,8 +78,8 @@ export default function ProfileProfessional(){
                 }
             </div>
             <h4>Servicios particulares</h4>
-            <div className={ s.container_services }>
-                <div className={ state.seeAllServices?s.container_services_first:s.container_services_first_all }>
+            <div className={ s.container_cards }>
+                <div className={ state.seeAllServices?s.container_cards_first:s.container_cards_first_all }>
                     <CardParticularService/>
                     <CardParticularService/>
                     <CardParticularService/>
@@ -82,16 +90,16 @@ export default function ProfileProfessional(){
                     <CardParticularService/>
                     <CardParticularService/>
                 </div>
-                <div className={ state.seeAllServices?s.container_services_second:s.container_services_second_all }>
+                <div className={ state.seeAllServices?s.container_cards_second:s.container_cards_second_all }>
                     <BsArrowRightCircle onClick={ newStateServices } size="50px"/>
                 </div>
-                <div className={ state.seeAllServices?s.container_services_second_all:s.container_services_second }>
+                <div className={ state.seeAllServices?s.container_cards_second_all:s.container_cards_second }>
                     <BsArrowLeftCircle onClick={ newStateServices } size="50px"/>
                 </div>
             </div>
             <h4>Reviews</h4>
-            <div className={ s.container_reviews }>
-                <div className={ state.seeAllReview? s.container_reviews_first:s.container_reviews_first_all }>
+            <div className={ s.container_cards }>
+                <div className={ state.seeAllReview? s.container_cards_first:s.container_cards_first_all }>
                     <CardReview/>
                     <CardReview/>
                     <CardReview/>
@@ -102,17 +110,17 @@ export default function ProfileProfessional(){
                     <CardReview/>
                     <CardReview/>
                 </div>
-                <div className={ state.seeAllReview?s.container_reviews_second:s.container_reviews_second_all }>
+                <div className={ state.seeAllReview?s.container_cards_second:s.container_cards_second_all }>
                     <BsArrowRightCircle onClick={ newStateReview } size="50px"/>
                 </div>
-                <div className={ state.seeAllReview?s.container_reviews_second_all:s.container_reviews_second }>
+                <div className={ state.seeAllReview?s.container_cards_second_all:s.container_cards_second }>
                     <BsArrowLeftCircle onClick={ newStateReview } size="50px"/>
                 </div>
             </div>
             <div className={ s.container_containerButton}>
                 {
                     state.login ? (
-                        <button className={s.container_containerButton_button}>
+                        <button className={ s.container_containerButton_button}>
                             <span>
                                 Contactar
                             </span>
@@ -123,3 +131,17 @@ export default function ProfileProfessional(){
         </div>    
     )
 }
+
+function mapStateToProps(state) {
+    return {
+        user: state.user
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getUser: (id) => dispatch(getByUserId(id))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileProfessional)
