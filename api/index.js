@@ -41,7 +41,7 @@ const {professionsMap} = require('./src/DbExample/Professions')
 // console.log('user', user)
 
 
-conn.sync( { force: true } ).then( () => {
+conn.sync( { force: false } ).then( () => {
     server.listen(3001, async () => {
         
         try {
@@ -53,7 +53,7 @@ conn.sync( { force: true } ).then( () => {
             await Profession.bulkCreate(professionsMap);
         }
         catch (err) {
-            console.log(err);
+            // console.log(err);
         }
         
         console.log('Server is running on port 3001');
