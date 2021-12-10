@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import ProfileClient from './pages/ProfileClient';
 import ProfileProfessional from './pages/ProfileProfessional';
 import Registration from './pages/Registration';
+import Login  from './components/Login';
 
 function App() {
   return (
@@ -12,10 +13,13 @@ function App() {
       <Route exact path="/" element={<Home />} />
       <Route exact path="/idClient" element={<ProfileClient />} />
       <Route exact path="/professional/:id" element={<ProfileProfessional />} />
+      <Route exact path="/clients/idClient" element={<ProfileClient />} />
       <Route exact path="/registration" element={<Registration />} />
       {/* <Route exact path="/" element={<Home />} />
       <Route exact path="/" element={<Home />} />
       <Route exact path="/" element={<Home />} /> */}
+
+      <Route exact path="/login" element={<Login />} />
       
     </Routes>
   );
