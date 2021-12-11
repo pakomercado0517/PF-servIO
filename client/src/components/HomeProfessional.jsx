@@ -42,11 +42,8 @@ function HomeProfessional(props) {
             </div>
             <div id="container-filter" className={ s.container_filter }>
                 <span>Filtrado por ciudad</span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
+                <span>Filtrado por nombre</span>
+                <span>Search segun descripcion</span>
             </div>
             {
                 !props.needs[0]?<h1>Cargandooo</h1>:(
