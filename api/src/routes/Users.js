@@ -1,8 +1,15 @@
 const { Router } = require("express");
 const router = Router();
 const userFunctions = require('../controllers/index.js')
+const passport = require('passport');
+const {User} = require('../db.js')
 
+
+router.get('/home', userFunctions.redirectLogin, userFunctions.redirectHome)
+router.post('/logout', userFunctions.logOut)
 router.post('/', userFunctions.newUser) // --------> /users/
+router.post('/login',userFunctions.login)
+router.get('/perfil', userFunctions.getUser)
 router.get('/all', userFunctions.getAllUsers) // --------> /users/all
 router.get('/common', userFunctions.getAllCommonUsers) // --------> /users/common
 router.get('/professionals', userFunctions.getAllProfessionals) // --------> /users/professionals

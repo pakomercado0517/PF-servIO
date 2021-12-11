@@ -252,7 +252,7 @@ export default function Register(){
                         )}
                         
                     </Formik>
-		        </div>
+		          </div>
             </div>
         </div>
 
