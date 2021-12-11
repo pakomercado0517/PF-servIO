@@ -2,10 +2,14 @@ import React, {useState} from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import s from './styles/Register.module.css'
 // import logo from '../img/ServIO.svg'
+import { useDispatch } from 'react-redux'
+import { newUser } from '../redux/actions/index'
 
 export default function Register(){
 	const [formularioEnviado, cambiarFormularioEnviado] = useState(false);
     const [validaChek, setvalidaChek] = useState(false)
+
+    const dispatch = useDispatch()
 	
     return (
         <div className={s.container}>
@@ -29,9 +33,22 @@ export default function Register(){
                             profecional:'',
                             cliente:'',
                             pais:'',
-                            profecion:''
+                            carpintero:[''],
+                            albañil:[''],
+                            electricista:[''],
+                            tapicero:[''],
+                            pintor:[''],
+                            plomero:[''],
+                            gasista:[''],
+                            sastre:[''],
+                            soldador:[''],
+                            niñera:[''],
+                            cuidadosMayore:[''],
+
+
 
                         }}
+                        
                         validate={(valores) => {
                             let errores = {};
 
@@ -92,6 +109,37 @@ export default function Register(){
                         }}
 
                         onSubmit={(valores, {resetForm}) => {
+                            dispatch(newUser({
+                                userName: valores.nombre, 
+                                firstName: valores.nombre, 
+                                lastName: valores.apellido, 
+                                email: valores.correo, 
+                                phone: 1568, 
+                                city: valores.pais, 
+                                state: "fssda", 
+                                photo:"asdsa", 
+                                dniFront:"sadsad", 
+                                dniBack:"sadsd", 
+                                password: valores.password,
+                                password2: valores.password2,
+                                verified: false,
+                                professional: 'true',
+                                certification_name: "fqwf",
+                                certification_img:"wqfq",
+                                status:"vip", 
+                                profession:['carpintero',
+                                'albañil',
+                                'electricista',
+                                'tapicero',
+                                'pintor',
+                                'plomero',
+                                'gasista',
+                                'sastre',
+                                'soldador',
+                                'niñera',
+                                'cuidadosMayore']
+                                // valores.sastre[0]+","+valores.pintor[0]+","+valores.soldador[0]+","+valores.niñera[0]+","+valores.cuidadosMayore[0]+","+valores.carpintero[0]+","+valores.tapicero[0]+","+valores.albañil[0]+","+valores.electricista[0]+","+valores.plomero[0]+","+valores.gasista[0]
+                            }))
                             resetForm();
                             console.log('Formulario enviado');
                             console.log(valores);
@@ -107,7 +155,7 @@ export default function Register(){
                                         name="nombre" 
                                     />
                                     <label htmlFor="nombre">Nombre</label>
-                                    <ErrorMessage name="nombre" component={() => (<div className={s.error}>{errors.nombre}</div>)} />
+                                    <ErrorMessage   name="nombre" component={() => (<div className={s.error}>{errors.nombre}</div>)} />
                                 </div>
                                 <div className={s.from_1_inLa2}>
                                     <Field
