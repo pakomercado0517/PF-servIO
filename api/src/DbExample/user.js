@@ -5,7 +5,6 @@ const { User } = require("../db");
 let userObj = [];
 
 const url = `https://randomuser.me/api/?nat=es&results=25`;
-const url2 = `https://randomuser.me/api/?nat=es&results=25`;
 
 const users = async () => {
   let user_uri;
@@ -32,6 +31,7 @@ const users = async () => {
     userObj = result.slice(0, result.length);
     // console.log("userObj", userObj);
     await User.bulkCreate(userObj);
+    console.log("|---Professional not verified---| Created");
   } catch (error) {
     console.log(error.message);
   }
@@ -62,6 +62,7 @@ const users2 = async () => {
     userObj = result.slice(0, result.length);
     // console.log("userObj", userObj);
     await User.bulkCreate(userObj);
+    console.log("|---Professional verified---| created");
   } catch (error) {
     console.log(error.message);
   }
@@ -91,6 +92,7 @@ const users3 = async () => {
     userObj = result.slice(0, result.length);
     // console.log("userObj", userObj);
     await User.bulkCreate(userObj);
+    console.log("|---User verified---| Created");
   } catch (error) {
     console.log(error.message);
   }
@@ -120,6 +122,7 @@ const users4 = async () => {
     userObj = result.slice(0, result.length);
     // console.log("userObj", userObj);
     await User.bulkCreate(userObj);
+    console.log("|---User not verified---| Created");
   } catch (error) {
     console.log(error.message);
   }

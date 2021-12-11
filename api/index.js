@@ -46,11 +46,21 @@ conn.sync({ force: true }).then(() => {
   server.listen(3001, async () => {
     try {
       await initialFunction();
-      await Professional.bulkCreate(professionalMap);
-      await ClientReview.bulkCreate(reviewMap);
-      await ClientNeed.bulkCreate(needMap);
-      await ProfessionalOffer.bulkCreate(offerMap);
-      await Profession.bulkCreate(professionsMap);
+      (await Professional.bulkCreate(professionalMap))
+        ? console.log("|---Professional---| Created")
+        : console.log("Professional not created");
+      (await ClientReview.bulkCreate(reviewMap))
+        ? console.log("|---Client Review---| Created")
+        : console.log("Client Review not created");
+      (await ClientNeed.bulkCreate(needMap))
+        ? console.log("|---Client Need---| Created")
+        : console.log("Client Need not created");
+      (await ProfessionalOffer.bulkCreate(offerMap))
+        ? console.log("|---Professional Offer---| Created")
+        : console.log("Professional Offer not created");
+      (await Profession.bulkCreate(professionsMap))
+        ? console.log("|---Professional---| Created")
+        : console.log("Professional not created");
     } catch (err) {
       // console.log(err);
     }
