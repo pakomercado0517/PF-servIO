@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
+import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2'
+import axios from 'axios'
 import logo from '../img/ServIO.svg';
 
 import s from './styles/Login.module.css'
 
 export default function Login() {
-    
+
+    const navigate = useNavigate()
     const [ input, setInput ] = useState({
         email: '',
         password: '',
@@ -44,9 +48,43 @@ export default function Login() {
     };
     console.log(setInput)
     
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log(input)
+        try {
+        const post = await axios.post('http://localhost:3001/users/login', input)
+            console.log('post',post.data)
+            console.log('post',post)
+
+
+            if( post.data === 'Logged in') {
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Logged in',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                navigate('/')
+                // window.location.href = 'http://localhost:3000/'
+            } else if (post.data === 'Wrong passWord') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Wrong password',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            } else if (post.data === 'Wrong mail') {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Wrong mail',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+            
+        } catch (error) {
+            console.log(error.message)
+        }
     };
 
     return (
