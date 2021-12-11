@@ -43,7 +43,7 @@
     padding: 8px;
     font-family: 'Poppins', sans-serif;
     cursor: pointer;
-    text-decoration: none;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .div_principal__first__buttons__button:active{
