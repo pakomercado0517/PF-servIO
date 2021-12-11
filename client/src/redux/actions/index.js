@@ -150,12 +150,12 @@ export function getAllNeeds () {
 };
 
 // crea usuario cliente o professional
-export function newUser (data) {
+export function newUser(data) {
         
     return async function (dispatch) {
         
         try {
-            const response = await axios.post(`${ constants.localhost }/`, data)
+            const response = await axios.post(`${ constants.localhost }/User/`, data)
             dispatch({
                 type: NEW_USER,
                 payload: response.data
