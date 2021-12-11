@@ -113,14 +113,14 @@ module.exports ={
         else if(user.length > 0) {
             bcrypt.compare(password, user[0].password, (err, isMatch) =>{
                 if(err){
-                    res.send('mamo')
+                    res.send('error')
                     throw err; 
                 }
                 if(isMatch){ 
                     req.session.userId = user[0].id
                     return res.send('Logged in')
                 }else{
-                    throw new Error('Wrong passWord'); 
+                    res.send('Wrong passWord'); 
                 }
             }) 
         } else{
@@ -403,20 +403,20 @@ module.exports ={
 
     //         const usersId = professionals.map(e => {
                 
-    //             // if(professionalArr.length > 1){
-    //             //     for(let i=0; i<professionalArr.length; i++){
+                // if(professionalArr.length > 1){
+                //     for(let i=0; i<professionalArr.length; i++){
                         
-    //             //         if(professionalArr[i].toLowerCase() === e.toLowerCase()){
-    //             //             return e
-    //             //         }
-    //             //     }                    
-    //             // }
-    //             // else{
+                //         if(professionalArr[i].toLowerCase() === e.toLowerCase()){
+                //             return e
+                //         }
+                //     }                    
+                // }
+                // else{
 
-    //             //     if(professionalArr[0].toLowerCase() === e){
-    //             //         return e
-    //             //     }
-    //             // }
+                //     if(professionalArr[0].toLowerCase() === e){
+                //         return e
+                //     }
+                // }
     //             let obj = {professions : e.Professions, userId: e.id}
     //             return obj
     //         })
