@@ -7,6 +7,7 @@ import ProfileProfessional from './pages/ProfileProfessional';
 import Registration from './pages/Registration';
 import Login  from './components/Login';
 import Nosotros from './pages/Nosotros.jsx';
+import HomeProfessional from './components/HomeProfessional';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Route exact path="/clients/idClient" element={<ProfileClient />} />
       <Route exact path="/registration" element={<Registration />} />
       <Route exact path="/nosotros" element={<Nosotros />} />
+      <Route exact path="/homeprofessional" element={<HomeProfessional />} />
       {/* <Route exact path="/" element={<Home />} />
       <Route exact path="/" element={<Home />} />
       <Route exact path="/" element={<Home />} /> */}
