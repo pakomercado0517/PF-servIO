@@ -87,7 +87,7 @@ export function getByUserId (id) {
     return async function (dispatch) {
         
         try {
-            const response = await axios.get(`${ constants.localhost }/users/${ id }`)
+            const response = await axios.get(`${ constants.localhost }/User/${ id }`)
             dispatch({
                 type: GET_BY_USER_ID,
                 payload: response.data

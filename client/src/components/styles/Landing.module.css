@@ -27,14 +27,14 @@
 
 .div_principal__first__buttons {
     display: flex;
-    width: 65%;
+    width: 75%;
     align-items: flex-start;
     justify-content: space-between;
     margin-top: 5%;
 }
 
 .div_principal__first__buttons__button {
-    width: 120px;
+    width: 140px;
     height: 35px;
     border: none;
     background: #5ed4ee;

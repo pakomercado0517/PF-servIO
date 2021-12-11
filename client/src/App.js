@@ -8,7 +8,7 @@ import Register from './pages/Register';
 import Login  from './components/Login';
 import Nosotros from './pages/Nosotros.jsx';
 import { ClientSpecificNeed } from './components/ClientSpecificNeed';
-import HomeProfessional from './components/HomeProfessional';v
+import HomeProfessional from './components/HomeProfessional';
 
 function App() {
   return (
