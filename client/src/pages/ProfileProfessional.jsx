@@ -1,39 +1,33 @@
 import React, { useState, useEffect } from 'react';
-
 import { Link, useParams } from 'react-router-dom';
-
-import { connect } from 'react-redux'
-
 import { BsArrowRightCircle } from 'react-icons/bs'
 import { BsArrowLeftCircle } from 'react-icons/bs'
 import { FaRegEdit } from 'react-icons/fa'
-
 import CardReview from '../components/CardReview';
 import CardParticularService from '../components/CardParticularService';
-
 import star from '../img/star.svg'
 import s from './styles/ProfileProfessional.module.css'
 import logo from '../img/ServIO.svg'
+import { useSelector, useDispatch } from 'react-redux';
 import { getByUserId } from '../redux/actions';
 
-function ProfileProfessional(props){
+
+export default function ProfileProfessional(){
+
+    const dispatch= useDispatch();
     const [state, setstate] = useState({
         login: true,
         seeAllReview: true,
         seeAllServices: true,
     })
-    const params = useParams()
+    
+    const professionals = useSelector((state) => state.user)
+    const {id} = useParams()
 
-    useEffect(() => {
-        props.getUser(params.id)
-        // eslint-disable-next-line
-    }, [])
+    useEffect(()=>{
+        dispatch(getByUserId(id))
+      },[dispatch])
 
-    useEffect(() => {
-        console.log(props.user)
-    }, [props])
-
-    console.log(params)
     function newStateReview(){
         setstate({
             ...state,
@@ -46,112 +40,96 @@ function ProfileProfessional(props){
             seeAllServices: !state.seeAllServices,
         })
     }
+
     return (
-        <>
-            { !props.user[0] ? (<h1>Cargandoo</h1>):(<div className={ s.container }>
-                    <div className={ s.container_nav }>
-                        <img src={ logo } alt="" />
-                    </div>
-                    <div className={s.container_details}>
-                        <div className={ s.container_details_photo }>
-                        </div>
-                        <div className={ s.container_details_text }>
-                            <h1>{ props.user[0].first_name + " " + props.user[0].last_name }</h1>
-                            <h2>{ !props.user[0].Professional.Professions[0]? "no definido": "Carpintero" }</h2>
-                            <h5>{ "Ciudad: " + props.user[0].city }</h5>
-                            <div>
-                                <div>
-                                    <img src={ star } alt="" />
-                                    <img src={ star } alt="" />
-                                    <img src={ star } alt="" />
-                                    <img src={ star } alt="" />
-                                    <img src={ star } alt="" />
-                                </div>
-                            </div>
-                        </div>
-                        <Link className={s.container_details_linkEdit} to="/">
-                            <FaRegEdit size="40px" className={s.logoEdit}>
-                            </FaRegEdit>
-                        </Link>
-                        {
-                            state.login ? (
-                                <button className={s.container_details_button}>
-                                    <span>
-                                        Solicitar Presupuesto
-                                    </span>
-                                </button>
-                            ) : <></>
-                        }
-                    </div>
-                    <h4>Servicios particulares</h4>
-                    <div className={ s.container_cards }>
-                        <div className={ state.seeAllServices?s.container_cards_first:s.container_cards_first_all }>
-                            <CardParticularService/>
-                            <CardParticularService/>
-                            <CardParticularService/>
-                            <CardParticularService/>
-                            <CardParticularService/>
-                            <CardParticularService/>
-                            <CardParticularService/>
-                            <CardParticularService/>
-                            <CardParticularService/>
-                        </div>
-                        <div className={ state.seeAllServices?s.container_cards_second:s.container_cards_second_all }>
-                            <BsArrowRightCircle onClick={ newStateServices } size="50px"/>
-                        </div>
-                        <div className={ state.seeAllServices?s.container_cards_second_all:s.container_cards_second }>
-                            <BsArrowLeftCircle onClick={ newStateServices } size="50px"/>
+          <div className={ s.container }>
+            <div className={ s.container_nav }>
+                <img src={ logo } alt="" />
+            </div>
+            <div className={s.container_details}>
+                <div className={ s.container_details_photo }>
+                </div>
+                <div className={ s.container_details_text }>
+                    <h1>{professionals[0].first_name + ' ' + professionals[0].last_name}</h1>
+                    <h2>Mecánica automotriz.</h2>
+                    <h5>{professionals[0].state + ' ' + professionals[0].city}</h5>
+                    <div>
+                        <div>
+                            <img src={ star } alt="" />
+                            <img src={ star } alt="" />
+                            <img src={ star } alt="" />
+                            <img src={ star } alt="" />
+                            <img src={ star } alt="" />
                         </div>
                     </div>
-                    <h4>Reviews</h4>
-                    <div className={ s.container_cards }>
-                        <div className={ state.seeAllReview? s.container_cards_first:s.container_cards_first_all }>
-                            <CardReview/>
-                            <CardReview/>
-                            <CardReview/>
-                            <CardReview/>
-                            <CardReview/>
-                            <CardReview/>
-                            <CardReview/>
-                            <CardReview/>
-                            <CardReview/>
-                        </div>
-                        <div className={ state.seeAllReview?s.container_cards_second:s.container_cards_second_all }>
-                            <BsArrowRightCircle onClick={ newStateReview } size="50px"/>
-                        </div>
-                        <div className={ state.seeAllReview?s.container_cards_second_all:s.container_cards_second }>
-                            <BsArrowLeftCircle onClick={ newStateReview } size="50px"/>
-                        </div>
-                    </div>
-                    <div className={ s.container_containerButton}>
-                        {
-                            state.login ? (
-                                <button className={ s.container_containerButton_button}>
-                                    <span>
-                                        Contactar
-                                    </span>
-                                </button>
-                            ) : <></>
-                        }
-                    </div>
-                </div>)
-             }
-        </>
+                </div>
+                <Link className={s.container_details_linkEdit} to="/">
+                    <FaRegEdit size="40px" className={s.logoEdit}>
+                    </FaRegEdit>
+                </Link>
+                {
+                    state.login ? (
+                        <button className={s.container_details_button}>
+                            <span>
+                                Solicitar Presupuesto
+                            </span>
+                        </button>
+                    ) : <></>
+                }
+            </div>
+            <h4>Servicios particulares</h4>
+            <div className={ s.container_services }>
+                <div className={ state.seeAllServices?s.container_services_first:s.container_services_first_all }>
+                    <CardParticularService/>
+                    <CardParticularService/>
+                    <CardParticularService/>
+                    <CardParticularService/>
+                    <CardParticularService/>
+                    <CardParticularService/>
+                    <CardParticularService/>
+                    <CardParticularService/>
+                    <CardParticularService/>
+                </div>
+                <div className={ state.seeAllServices?s.container_services_second:s.container_services_second_all }>
+                    <BsArrowRightCircle onClick={ newStateServices } size="50px"/>
+                </div>
+                <div className={ state.seeAllServices?s.container_services_second_all:s.container_services_second }>
+                    <BsArrowLeftCircle onClick={ newStateServices } size="50px"/>
+                </div>
+            </div>
+            <h4>Reviews</h4>
+            <div className={ s.container_reviews }>
+                <div className={ state.seeAllReview? s.container_reviews_first:s.container_reviews_first_all }>
+                    <CardReview/>
+                    <CardReview/>
+                    <CardReview/>
+                    <CardReview/>
+                    <CardReview/>
+                    <CardReview/>
+                    <CardReview/>
+                    <CardReview/>
+                    <CardReview/>
+                </div>
+                <div className={ state.seeAllReview?s.container_reviews_second:s.container_reviews_second_all }>
+                    <BsArrowRightCircle onClick={ newStateReview } size="50px"/>
+                </div>
+                <div className={ state.seeAllReview?s.container_reviews_second_all:s.container_reviews_second }>
+                    <BsArrowLeftCircle onClick={ newStateReview } size="50px"/>
+                </div>
+            </div>
+            <div className={ s.container_containerButton}>
+                {
+                    state.login ? (
+                        <button className={s.container_containerButton_button}>
+                            <span>
+                                Contactar
+                            </span>
+                        </button>
+                    ) : <></>
+                }
+            </div>
+        </div>   
         
             
     )
 }
-
-function mapStateToProps(state) {
-    return {
-        user: state.user
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        getUser: (id) => dispatch(getByUserId(id))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileProfessional)
