@@ -12,7 +12,7 @@ export default function Landing() {
                 </p>
                 <div className={ styles.div_principal__first__buttons }>
                     <button className={ styles.div_principal__first__buttons__button }>Iniciar sesión</button>
-                    <NavLink to='/registration' className={ styles.div_principal__first__buttons__button }>Registrarse</NavLink>
+                    <NavLink to='/Register' className={ styles.div_principal__first__buttons__button }>Registrarse</NavLink>
                 </div>
             </div>
             <div className={ styles.div_principal__second }>

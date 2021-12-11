@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import s from './styles/Registration.module.css'
+import s from './styles/Register.module.css'
 // import logo from '../img/ServIO.svg'
 
-export default function Registration(){
+export default function Register(){
 	const [formularioEnviado, cambiarFormularioEnviado] = useState(false);
     const [validaChek, setvalidaChek] = useState(false)
 	
