@@ -10,10 +10,13 @@ import s from './styles/ProfileProfessional.module.css'
 import logo from '../img/ServIO.svg'
 import { useSelector } from 'react-redux';
 
+//import { getByUserId } from '../redux/actions';
+
+
 export default function ProfileProfessional(){
 
     const [state, setstate] = useState({
-        login: false,
+        login: true,
         seeAllReview: true,
         seeAllServices: true,
     })
@@ -42,7 +45,7 @@ export default function ProfileProfessional(){
     }
 
     return (
-        <div className={ s.container }>
+          <div className={ s.container }>
             <div className={ s.container_nav }>
                 <img src={ logo } alt="" />
             </div>
@@ -128,6 +131,8 @@ export default function ProfileProfessional(){
                     ) : <></>
                 }
             </div>
-        </div>    
+        </div>   
+        
+            
     )
 }

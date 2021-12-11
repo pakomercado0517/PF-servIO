@@ -53,7 +53,7 @@ conn.sync( { force: true } ).then( () => {
             await Profession.bulkCreate(professionsMap);
         }
         catch (err) {
-            console.log(err);
+            // console.log(err);
         }
         
         console.log('Server is running on port 3001');
