@@ -14,6 +14,7 @@ function App() {
   return (
     <Routes>
       <Route exact path="/" element={<Home />} />
+      <Route exact path="/clients/:idClient" element={<ProfileClient />} />
       <Route exact path="/professional/:id" element={<ProfileProfessional />} />
       <Route exact path="/clients" element={<ProfileClient />} />
       <Route exact path="/register" element={<Register />} />
