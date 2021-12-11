@@ -53,8 +53,8 @@ export function getAllProfessionals () {
     return async function (dispatch) {
 
         try {
-            const response = await axios.get(`${ constants.localhost }/allprofessionals`)
-            console.log(response.data)
+            const response = await axios.get(`${ constants.localhost }/users/professionals`)
+            
             dispatch({
                 type: GET_ALL_PROFESSIONALS,
                 payload: response.data
