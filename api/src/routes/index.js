@@ -8,8 +8,8 @@ const Professional = require('./Professionals.js')
 const TecnicalActivities = require('./SpecificTechnicalActivity.js')
 const Transactions = require('./Transactions.js')
 const User = require('./Users.js')
-const x = require('./api/users')
 const router = Router();
+
 
 router.use("/users", UsersRoute)
 router.use("/clientNeeds", ClientNeedsRoute)

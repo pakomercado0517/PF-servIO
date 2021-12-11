@@ -58,6 +58,11 @@
     border-radius: 50px;
 }
 
+.container_containerButton_button:hover {
+    background: #a7efff;
+    box-shadow: 1px 1px 8px rgb(99, 99, 99);
+}
+
 .container_details_button {
     position: absolute;
     right: 80px;

@@ -41,7 +41,7 @@ const {professionsMap} = require('./src/DbExample/Professions')
 // console.log('user', user)
 
 
-conn.sync( { force: false } ).then( () => {
+conn.sync( { force: true } ).then( () => {
     server.listen(3001, async () => {
         
         try {

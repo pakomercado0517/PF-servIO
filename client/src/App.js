@@ -8,6 +8,7 @@ import Register from './pages/Register';
 import Login  from './components/Login';
 import Nosotros from './pages/Nosotros.jsx';
 import { ClientSpecificNeed } from './components/ClientSpecificNeed';
+import HomeProfessional from './components/HomeProfessional';v
 
 function App() {
   return (
@@ -17,9 +18,10 @@ function App() {
       <Route exact path="/clients" element={<ProfileClient />} />
       <Route exact path="/register" element={<Register />} />
       <Route exact path="/nosotros" element={<Nosotros />} />
+        
+      <Route exact path="/homeprofessional" element={<HomeProfessional />} />
+      
       <Route exact path="/login" element={<Login />} />
-
-
       <Route exact path="/necesidades" element={<ClientSpecificNeed />} />
 
       

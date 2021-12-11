@@ -87,7 +87,7 @@ export function getByUserId (id) {
     return async function (dispatch) {
         
         try {
-            const response = await axios.get(`${ constants.localhost }/allUsers/${ id }`)
+            const response = await axios.get(`${ constants.localhost }/users/${ id }`)
             dispatch({
                 type: GET_BY_USER_ID,
                 payload: response.data
@@ -138,7 +138,7 @@ export function getAllNeeds () {
     return async function (dispatch) {
         
         try {
-            const response = await axios.get(`${ constants.localhost }/getAllNeeds`)
+            const response = await axios.get(`${ constants.localhost }/clientNeeds/all`)
             dispatch({
                 type: GET_ALL_NEEDS,
                 payload: response.data

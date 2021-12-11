@@ -1,8 +1,9 @@
-import {GET_ALL_PROFESSIONALS, GET_BY_USER_ID} from '../actions'
+import {GET_ALL_NEEDS, GET_ALL_PROFESSIONALS, GET_BY_USER_ID} from '../actions'
 
 const initialState = {
     professionals: [],
     user: [],
+    clientNeeds: [],
 };
 
 function rootReducer( state = initialState, { type, payload } ) {
@@ -16,6 +17,11 @@ function rootReducer( state = initialState, { type, payload } ) {
             return {
                 ...state,
                 user: payload,
+            };
+        case GET_ALL_NEEDS:
+            return {
+                ...state,
+                clientNeeds: payload,
             };
         default:
             return state;
