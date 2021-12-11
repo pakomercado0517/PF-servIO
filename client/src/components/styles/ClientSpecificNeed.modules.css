@@ -1,0 +1,20 @@
+.container_containerButton {
+    display: flex;
+    justify-content: center;
+}
+
+.container{
+    display: flex;
+    margin-top: 70px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 80%;
+    background-color: #f5f5f5;
+    padding: 20px;
+}
+textarea {
+    /* overflow: scroll; */
+    resize: none;
+}
