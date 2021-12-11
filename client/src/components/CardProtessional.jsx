@@ -21,7 +21,7 @@ const CardProfessional = (props) => {
                 </div>
 
                 <div>
-                    <NavLink to={`/${props.idTech}`}>
+                    <NavLink to={`/professional/${props.idTech}`}>
                         <MdDragIndicator/>
                     </NavLink>
                 </div>

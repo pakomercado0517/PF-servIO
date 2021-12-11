@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { BsArrowRightCircle } from 'react-icons/bs'
 import { BsArrowLeftCircle } from 'react-icons/bs'
@@ -8,28 +8,25 @@ import CardParticularService from '../components/CardParticularService';
 import star from '../img/star.svg'
 import s from './styles/ProfileProfessional.module.css'
 import logo from '../img/ServIO.svg'
-import { useSelector } from 'react-redux';
-
-//import { getByUserId } from '../redux/actions';
+import { useSelector, useDispatch } from 'react-redux';
+import { getByUserId } from '../redux/actions';
 
 
 export default function ProfileProfessional(){
 
+    const dispatch= useDispatch();
     const [state, setstate] = useState({
         login: true,
         seeAllReview: true,
         seeAllServices: true,
     })
+    
+    const professionals = useSelector((state) => state.user)
+    const {id} = useParams()
 
-    const professionals = useSelector((state) => state.professionals)
-    const {idProfessional} = useParams()
-    let findProfessional = {};
-
-    professionals.forEach(element => {
-        if (element.id === parseInt(idProfessional)) {
-            findProfessional = element
-        }
-    });
+    useEffect(()=>{
+        dispatch(getByUserId(id))
+      },[dispatch])
 
     function newStateReview(){
         setstate({
@@ -53,9 +50,9 @@ export default function ProfileProfessional(){
                 <div className={ s.container_details_photo }>
                 </div>
                 <div className={ s.container_details_text }>
-                    <h1>{findProfessional.first_name + ' ' + findProfessional.last_name}</h1>
+                    <h1>{professionals[0].first_name + ' ' + professionals[0].last_name}</h1>
                     <h2>Mecánica automotriz.</h2>
-                    <h5>{findProfessional.state + ', ' + findProfessional.city}</h5>
+                    <h5>{professionals[0].state + ' ' + professionals[0].city}</h5>
                     <div>
                         <div>
                             <img src={ star } alt="" />
