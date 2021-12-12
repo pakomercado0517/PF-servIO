@@ -17,13 +17,6 @@ export default function Landing() {
                     
                     <NavLink to='/register' className={ styles.div_principal__first__buttons__button }>Registrarse</NavLink>
 
-
-                    <NavLink to="/login"> 
-                        <button 
-                            className={ styles.div_principal__first__buttons__button }
-                        >Iniciar sesión</button>
-                    </NavLink>
-
                 </div>
             </div>
             <div className={ styles.div_principal__second }>
