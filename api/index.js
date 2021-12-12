@@ -32,6 +32,7 @@ const {
   ClientNeed,
   ProfessionalOffer,
   Profession,
+  Profession_Professional,
 } = require("./src/db");
 const server = require("./src/app.js");
 const { initialFunction } = require("./src/DbExample/user.js");
@@ -40,6 +41,9 @@ const { reviewMap } = require("./src/DbExample/clientReview");
 const { needMap } = require("./src/DbExample/clientNeed");
 const { offerMap } = require("./src/DbExample/professionalOffers");
 const { professionsMap } = require("./src/DbExample/Professions");
+const {
+  userProfessionMap,
+} = require("./src/DbExample/profession_professionals");
 // console.log('user', user)
 
 conn.sync({ force: true }).then(() => {
@@ -61,6 +65,8 @@ conn.sync({ force: true }).then(() => {
       (await Profession.bulkCreate(professionsMap))
         ? console.log("|---Professional---| Created")
         : console.log("Professional not created");
+
+      await userProfessionMap();
     } catch (err) {
       // console.log(err);
     }
