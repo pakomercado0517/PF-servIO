@@ -20,6 +20,7 @@ router.use("/reviews", Reviews)
 router.use("/TecnicalsActivities", TecnicalActivities)
 router.use("/Transactions", Transactions)
 router.use("/User", User)
-// router.use("/", x)
+
+
 module.exports = router;
 
