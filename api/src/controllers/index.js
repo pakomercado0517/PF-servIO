@@ -82,7 +82,7 @@ module.exports ={
                     status : status ? status : 'normal',
                 })
 
-                let professions = profession
+                let professions = profession.toLowerCase()
                 if(typeof professions === 'string'){
                     professions = professions.split(',');
                 }
