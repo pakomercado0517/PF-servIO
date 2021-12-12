@@ -84,8 +84,8 @@ export default function ProfileProfessional(){
                 }
             </div>
             <h4>Servicios particulares</h4>
-            <div className={ s.container_services }>
-                <div className={ state.seeAllServices?s.container_services_first:s.container_services_first_all }>
+            <div className={ s.container_cards }>
+                <div className={ state.seeAllServices?s.container_cards_first:s.container_cards_first_all }>
                     <CardParticularService/>
                     <CardParticularService/>
                     <CardParticularService/>
@@ -96,16 +96,16 @@ export default function ProfileProfessional(){
                     <CardParticularService/>
                     <CardParticularService/>
                 </div>
-                <div className={ state.seeAllServices?s.container_services_second:s.container_services_second_all }>
+                <div className={ state.seeAllServices?s.container_cards_second:s.container_cards_second_all }>
                     <BsArrowRightCircle onClick={ newStateServices } size="50px"/>
                 </div>
-                <div className={ state.seeAllServices?s.container_services_second_all:s.container_services_second }>
+                <div className={ state.seeAllServices?s.container_cards_second_all:s.container_cards_second }>
                     <BsArrowLeftCircle onClick={ newStateServices } size="50px"/>
                 </div>
             </div>
             <h4>Reviews</h4>
-            <div className={ s.container_reviews }>
-                <div className={ state.seeAllReview? s.container_reviews_first:s.container_reviews_first_all }>
+            <div className={ s.container_cards }>
+                <div className={ state.seeAllReview? s.container_cards_first:s.container_cards_first_all }>
                     <CardReview/>
                     <CardReview/>
                     <CardReview/>
@@ -116,10 +116,10 @@ export default function ProfileProfessional(){
                     <CardReview/>
                     <CardReview/>
                 </div>
-                <div className={ state.seeAllReview?s.container_reviews_second:s.container_reviews_second_all }>
+                <div className={ state.seeAllReview?s.container_cards_second:s.container_cards_second_all }>
                     <BsArrowRightCircle onClick={ newStateReview } size="50px"/>
                 </div>
-                <div className={ state.seeAllReview?s.container_reviews_second_all:s.container_reviews_second }>
+                <div className={ state.seeAllReview?s.container_cards_second_all:s.container_cards_second }>
                     <BsArrowLeftCircle onClick={ newStateReview } size="50px"/>
                 </div>
             </div>
