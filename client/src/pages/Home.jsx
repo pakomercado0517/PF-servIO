@@ -20,9 +20,10 @@ export default function Home(){
     const [loginState, setLoginState] = useState("");
 
     useEffect(() => {
-        const login = JSON.parse(localStorage.getItem("user"))
+        const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
         console.log("login: ", login)
         setLoginState(login)
+        localStorage.clear()
     }, [])
 
     const indexOfLastPost = currentPage * postsPerPage;
