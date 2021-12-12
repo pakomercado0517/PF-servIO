@@ -110,7 +110,7 @@ module.exports ={
         const {email, password} = req.body
 
         const user = await User.findAll({
-            where:{ email}
+            where:{ email }
         })
 
         if(user.length < 1){
@@ -125,7 +125,8 @@ module.exports ={
                 }
                 if(isMatch){ 
                     req.session.userId = user[0].id
-                    return res.send('Logged in')
+                    let obj ={message: 'Logged', cookies: req.session}
+                    return res.send(obj)
                 }else{
                     res.send('Wrong passWord'); 
                 }
