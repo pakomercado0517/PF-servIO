@@ -84,7 +84,7 @@ export function getAllCommonUsers () {
 };
 
 // Trae los detalles del usuario dando un id 
-export function getByUserId (id) {
+export function getByUserId(id) {
     
     return async function (dispatch) {
         

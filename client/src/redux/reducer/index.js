@@ -37,14 +37,14 @@ function rootReducer( state = initialState, { type, payload } ) {
         case ORDER_DATA:
             let option = [];
             switch (payload) {
-                case 'Z-A':
+                case 'A-Z':
                     option = state.professionals.sort((a,b) => {
                         if (a.first_name > b.first_name) return 1;
                         if(a.first_name < b.first_name) return -1;
                         return 0;
                     })
                     break;
-                case 'A-Z':
+                case 'Z-A':
                     option = state.professionals.sort((a,b) => {
                         if (a.first_name > b.first_name) return -1;
                         if(a.first_name < b.first_name)return 1;
