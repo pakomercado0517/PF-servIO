@@ -58,8 +58,8 @@ export default function Login() {
 
             if( post.data.message === 'Logged') {
 
-                localStorage.setItem('user', post.data.userType)
-                console.log("userType: ", post.data.userType)
+                localStorage.setItem('user', JSON.stringify(post.data))
+                console.log("userType: ", post.data)
 
                 Swal.fire({
                     icon: 'success',
