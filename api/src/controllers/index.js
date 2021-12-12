@@ -8,16 +8,15 @@ const { User, Profession, Professional,ProfessionalOffer, ClientNeed, SpecificTe
 module.exports ={
     newUser : async (req, res) => {
         const { 
-            userName, 
+            // userName, 
             firstName, 
             lastName, 
             email, 
             phone, 
             city, 
-            state, 
+            // state, 
             photo, 
-            dniFront, 
-            dniBack, 
+            dni, 
             password,
             verified, 
             professional,
@@ -47,9 +46,9 @@ module.exports ={
             if(e.email === email){
                 error.push( 'Email already in use') 
             }
-            if(e.userName === userName){
-                error.push( 'User already in use') 
-            }
+            // if(e.userName === userName){
+            //     error.push( 'User already in use') 
+            // }
         })
 
         if(error.length > 0){
@@ -60,16 +59,16 @@ module.exports ={
             try {
                 let hashedPassword = await bcrypt.hash(password,10);
                 let newUser = await User.create({ 
-                    user_name: userName,
+                    // user_name: userName,
                     first_name : firstName,
                     last_name: lastName,
                     email,
-                    phone: phone ? phone : 123456789,
+                    phone: phone ? phone : 00000000,
                     city,
-                    state,
+                    // state,
                     photo: photo ? photo : '',
-                    dni_front:dniFront ? dniFront : '',
-                    dni_back:dniBack ? dniBack : '', 
+                    dni,
+                    // dni_back:dniBack ? dniBack : '', 
                     password:hashedPassword,
                     verified : verified ? verified : false,
                     professional,
@@ -99,7 +98,7 @@ module.exports ={
                     await newUser.setProfessional( newProfessional )
             }
 
-            res.status(200).send(`You are now registered, ${userName} please log in`) 
+            res.status(200).send(`You are now registered, ${firstName +' ' + lastName} please log in`) 
             } catch (error) {
                 res.status(400).send(error.message);
             }

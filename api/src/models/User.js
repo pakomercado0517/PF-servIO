@@ -2,12 +2,6 @@ const { DataTypes } = require('sequelize');
 
 module.exports = ( sequelize ) => {
     return sequelize.define('User', {
-        id: {
-            // type: DataTypes.UUIDV4,
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
         user_name: {
             type: DataTypes.STRING,
             // allowNull: false,
@@ -33,22 +27,22 @@ module.exports = ( sequelize ) => {
             type: DataTypes.STRING,
             // allowNull: false
         },
-        state: {
-            type: DataTypes.STRING,
-            // allowNull: false
-        },
+        // state: {
+        //     type: DataTypes.STRING,
+        //     // allowNull: false
+        // },
         photo: {
             type: DataTypes.STRING,
             // allowNull: false
         },
-        dni_front: {
-            type: DataTypes.STRING,
+        dni: {
+            type: DataTypes.INTEGER,
             // allowNull: false
         },
-        dni_back: {
-            type: DataTypes.STRING,
-            // allowNull: false
-        },
+        // dni_back: {
+        //     type: DataTypes.STRING,
+        //     // allowNull: false
+        // },
         password: {
             type: DataTypes.STRING,
             // allowNull: false
