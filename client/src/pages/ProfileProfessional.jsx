@@ -44,7 +44,9 @@ export default function ProfileProfessional(){
     return (
           <div className={ s.container }>
             <div className={ s.container_nav }>
-                <img src={ logo } alt="" />
+                <Link to="/">
+                    <img src={ logo } alt="" />
+                </Link>
             </div>
             <div className={s.container_details}>
                 <div className={ s.container_details_photo }>
