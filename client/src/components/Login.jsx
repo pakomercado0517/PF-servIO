@@ -51,12 +51,15 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-        const post = await axios.post('http://localhost:3001/users/login', input)
+        const post = await axios.post('http://localhost:3001/user/login', input)
             console.log('post',post.data)
             console.log('post',post)
 
 
-            if( post.data === 'Logged in') {
+            if( post.data.message === 'Logged') {
+
+                localStorage.setItem('user', JSON.stringify(post.data))
+                console.log("userType: ", post.data)
 
                 Swal.fire({
                     icon: 'success',
