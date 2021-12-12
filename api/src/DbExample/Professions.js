@@ -20,17 +20,26 @@ const professions = [
     {
         name: "cerrajero",
     },
+    {
+        name: "tapicero",
+    },
+    {
+        name: "gasista",
+    },
+    {
+        name: "sastre",
+    },
+    {
+        name: "soldador",
+    },
+    {
+        name: "niñera",
+    },
+    {
+        name: "cuidadosMayores",
+    },
 ]
-// albañil',
-//                                 'electricista',
-//                                 'tapicero',
-//                                 'pintor',
-//                                 'plomero',
-//                                 'gasista',
-//                                 'sastre',
-//                                 'soldador',
-//                                 'niñera',
-//                                 'cuidadosMayores'
+
 const professionsMap = professions.map(el => {
     return {name: el.name}
 })
