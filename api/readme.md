@@ -21,6 +21,7 @@ __Path '/'__  __(* Input opcional)__
 __Path '/login'__  
 - Funcionalidad : Inicia Sesion Usuario
 - Tipo : POST
+- input: email, password.
 - Output : Objeto con mensaje 'logged', cookies y tipo de usuario (cliente/professional)
 - Ruta: http://localhost:3001/user/login
 
@@ -63,6 +64,7 @@ __Path '/professionals'__
 __Path '/:id'__  
 - Funcionalidad : Obtiene a todos los usuarios de tipo professional.
 - Tipo : GET
+- input: id.
 - Output : Array con todos los usuarios de tipo professional.
 - Ruta: http://localhost:3001/user/:id
 
@@ -73,4 +75,31 @@ __Path '/'__
 - Tipo : POST
 - input: userName, firstName, lastName, email, phone*, city, state, photo*,dniFront*, dniBack*, password, verified*, professional,certification_name,certification_img, status, profession. 
 - Output : You are now registered, 'Usuario creado' please log in
-- Ruta: http://localhost:3001/user/
+- Ruta: http://localhost:3001/clientNeeds/
+
+__Path '/all'__  
+- Funcionalidad : Obtiene todas las necesidades creadas por los clientes
+- Tipo : GET
+- Output : Array con todas las necesidades del cliente.
+- Ruta: http://localhost:3001/clientNeeds/all
+
+## /professsionalOffer:
+
+__Path '/'__  
+- Funcionalidad : Crea una oferta por parte de un profesional a la necesidad de un cliente.
+- Tipo : POST
+- input: description, price, duration, materials, guarantee_time, ClientNeedId. 
+- Output : You are now registered, 'Usuario creado' please log in
+- Ruta: http://localhost:3001/professsionalOffer/
+
+__Path '/all'__  
+- Funcionalidad : Obtiene todas las ofertas creadas por los profesionales
+- Tipo : GET
+- Output : Array con todas las necesiofertas de los profesionales.
+- Ruta: http://localhost:3001/professsionalOffer/all
+
+__Path '/receivedOffers'__  
+- Funcionalidad : Obtiene todas las ofertas creadas por los profesionales
+- Tipo : GET
+- Output : Array con todas las ofertas recibidas en las necesidad del cliente que se encuentra loggeado.
+- Ruta: http://localhost:3001/professsionalOffer/receivedOffers
