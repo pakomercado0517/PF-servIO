@@ -112,11 +112,16 @@ module.exports ={
         const user = await User.findAll({
             where:{ email }
         })
-
+        let userType = ''
+        if(user[0].professional === true){
+            userType = 'Professional'
+        }else{
+            userType = 'Client'
+        }
         if(user.length < 1){
             res.send("Mail doesn't exist") 
         }
-
+        
         else if(user.length > 0) {
             bcrypt.compare(password, user[0].password, (err, isMatch) =>{
                 if(err){
@@ -125,7 +130,7 @@ module.exports ={
                 }
                 if(isMatch){ 
                     req.session.userId = user[0].id
-                    let obj ={message: 'Logged', cookies: req.session}
+                    let obj ={message: 'Logged', cookies: req.session, userType}
                     return res.send(obj)
                 }else{
                     res.send('Wrong passWord'); 

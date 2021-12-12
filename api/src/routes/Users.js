@@ -7,16 +7,16 @@ const userFunctions = require('../controllers/index.js')
 router.get('/logged', userFunctions.loginTest)
 router.get('/home', userFunctions.redirectLogin, userFunctions.redirectHome)
 router.post('/logout', userFunctions.logOut)
-router.post('/', userFunctions.newUser) // --------> /users/
+router.post('/', userFunctions.newUser)
 router.post('/login',userFunctions.login)
 router.get('/perfil', userFunctions.getUser)
-router.get('/all', userFunctions.getAllUsers) // --------> /users/all
-router.get('/common', userFunctions.getAllCommonUsers) // --------> /users/common
-router.get('/professionals', userFunctions.getAllProfessionals) // --------> /users/professionals
-router.get('/:id', userFunctions.getByUserId ) // --------> /users/:id
-router.post('/NewSpecificalNeed', userFunctions.newSpecificalNeed) //====> /clientNeeds/
-router.post('/NewTechnicalActivity', userFunctions.newTechnicalActivity) // =======> /TecnicalActivities/
-router.post('/newProfessionalOffer', userFunctions.newProfessionalOffer)// =======> /professsionalOffer
+router.get('/all', userFunctions.getAllUsers) 
+router.get('/common', userFunctions.getAllCommonUsers) 
+router.get('/professionals', userFunctions.getAllProfessionals) 
+router.get('/:id', userFunctions.getByUserId ) 
+router.post('/NewSpecificalNeed', userFunctions.newSpecificalNeed) 
+router.post('/NewTechnicalActivity', userFunctions.newTechnicalActivity) 
+router.post('/newProfessionalOffer', userFunctions.newProfessionalOffer)
 
 
 module.exports= router;
