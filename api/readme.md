@@ -3,7 +3,8 @@
 
 ## Rutas back
     Las presentes rutas se utilizan en la ruta http://localhost:3001/ + ruta de subtitulo + Path , por ejemplo en /user para acceder a path 
-    de obtener a todos los profesionales se le agrega /professionals, teniendo como ruta final:
+    de obtener a todos los profesionales se le agrega /professionals, 
+    teniendo como ruta final:
 
     http://localhost:3001/user/professionals
 
@@ -13,7 +14,7 @@
 __Path '/'__  __(* Input opcional)__
 - Funcionalidad : Crea usuario nuevo
 - Tipo : POST
-- input: userName, firstName, lastName, email, phone*, city, state, photo*,dniFront*, dniBack*, password, verified*, professional,certification_name,certification_img, status, profession. 
+- input:  firstName, lastName, email, phone*, city, state, photo*,dni, password, verified*, professional,certification_name,certification_img, status, profession. 
 - Output : You are now registered, 'Usuario creado' please log in
 - Ruta: http://localhost:3001/user/
 
