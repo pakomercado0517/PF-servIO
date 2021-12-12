@@ -3,6 +3,6 @@ const router = Router();
 const professionsFunctions = require('../controllers/index.js')
 
 router.get('/all', professionsFunctions.getAllProfessions )
-router.get('/Name', professionsFunctions.getAllProfessionsName)// pendiente de ejecutar
+router.get('/name', professionsFunctions.getAllProfessionsName)
 
 module.exports= router;

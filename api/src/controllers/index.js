@@ -219,14 +219,17 @@ module.exports ={
     },
 
     newSpecificalNeed : async (req, res) => {
-        const {name, description, location} = req.body
+        const {name, description, location , price, duration, guarantee_time} = req.body
         try {
             if(req.session.userId){
                 const newNeed = await ClientNeed.create({
                 name,
                 description,
                 status : 'in offer',
-                location
+                location,
+                price,
+                duration,
+                guarantee_time
             })
             
             let allUsers = await User.findAll({
@@ -296,7 +299,7 @@ module.exports ={
 
         
     },
-
+    //CONDICIONAR QUE SOLO PUEDAN OFERTAR PROFESIONALES
     newProfessionalOffer : async (req, res) => {
         const { description, price, duration, materials, guarantee_time, ClientNeedId } = req.body
         try {
