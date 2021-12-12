@@ -10,7 +10,7 @@ import s from './styles/ProfileProfessional.module.css'
 import logo from '../img/ServIO.svg'
 import { useSelector, useDispatch } from 'react-redux';
 import { getByUserId } from '../redux/actions';
-import {NavLink} from 'react-router-dom'
+import {NavLink, Link} from 'react-router-dom'
 
 export default function ProfileProfessional(){
 
