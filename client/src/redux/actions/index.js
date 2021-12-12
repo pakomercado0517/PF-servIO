@@ -25,6 +25,7 @@ export const GET_BY_USER_ID = 'GET_BY_USER_ID';
 export const GET_PROFESSIONAL_BY_ACTIVITY_NAME = 'GET_PROFESSIONAL_BY_ACTIVITY_NAME';
 export const GET_BY_ACTIVITY_NAME = 'GET_BY_ACTIVITY_NAME';
 export const GET_ALL_NEEDS = 'GET_ALL_NEEDS';
+export const SEARCH_PROFESSIONAL_BY_NAME = 'SEARCH_PROFESSIONAL_BY_NAME'
 export const NEW_ESPECIFICAL_NEED = 'NEW_ESPECIFICAL_NEED';
 export const NEW_TECHNICAL_ACTIVITY = 'NEW_TECHNICAL_ACTIVITY';
 export const NEW_USER = 'NEW_USER';
@@ -53,7 +54,7 @@ export function getAllProfessionals () {
     return async function (dispatch) {
 
         try {
-            const response = await axios.get(`${ constants.localhost }/users/professionals`)
+            const response = await axios.get(`${ constants.localhost }/user/professionals`)
             
             dispatch({
                 type: GET_ALL_PROFESSIONALS,
@@ -208,6 +209,23 @@ export function newProfessionalOffer (data) {
             const response = await axios.post(`${ constants.localhost }/newProfessionalOffer`, data)
             dispatch({
                 type: NEW_PROFESSIONAL_OFFER,
+                payload: response.data
+            });
+        } catch (error) {
+            console.log(error.message)
+        };
+    };
+};
+
+//busqueda de un profesional por su nombre {TEMPORAL PARA LA PRIMER DEMO}
+export function searchByName(input) {
+    
+    return async function (dispatch) {
+        
+        try {
+            const response = await axios.get(`${ constants.localhost }/professionals?name=${input}`)
+            dispatch({
+                type: SEARCH_PROFESSIONAL_BY_NAME,
                 payload: response.data
             });
         } catch (error) {
