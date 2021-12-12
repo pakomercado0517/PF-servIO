@@ -60,20 +60,20 @@ module.exports ={
             try {
                 let hashedPassword = await bcrypt.hash(password,10);
                 let newUser = await User.create({ 
-                user_name: userName,
-                first_name : firstName,
-                last_name: lastName,
-                email,
-                phone: phone ? phone : 123456789,
-                city,
-                state,
-                photo: photo ? photo : '',
-                dni_front:dniFront ? dniFront : '',
-                dni_back:dniBack ? dniBack : '', 
-                password:hashedPassword,
-                verified : verified ? verified : '',
-                professional,
-            })
+                    user_name: userName,
+                    first_name : firstName,
+                    last_name: lastName,
+                    email,
+                    phone: phone ? phone : 123456789,
+                    city,
+                    state,
+                    photo: photo ? photo : '',
+                    dni_front:dniFront ? dniFront : '',
+                    dni_back:dniBack ? dniBack : '', 
+                    password:hashedPassword,
+                    verified : verified ? verified : false,
+                    professional,
+                })
             
             if(professional === 'true') {
                 let newProfessional = await Professional.create({ 
@@ -190,6 +190,32 @@ module.exports ={
             res.send('Please join in')
         }
     }, 
+    getProfessionalByName: async (req, res) => {
+        const { name } = req.query
+        try {
+            const professional = await User.findAll({ 
+                include:[{ 
+                    model: Professional, include:[{model:Profession}]
+                }],
+                where: {professional : true},
+                where: {first_name:{ [Sequelize.Op.iLike]: `%${ name }%`}}
+            })
+            // const ids = await professional.map(e => e.Professional.UserId
+                
+            // )
+            // let uniqueArr = [...new Set(ids)]
+            // let arrUsers = []
+            // for(let i= 0; i < uniqueArr.length; i++){
+            //     arrUsers.push(await User.findAll({
+            //         where: {id: uniqueArr[i]}
+            //     }))
+            // }
+            res.status(200).send(professional)
+            
+        } catch (error) {
+            res.status(400).send(error.message)
+        }
+    },
 
     newSpecificalNeed : async (req, res) => {
         const {name, description, location} = req.body
