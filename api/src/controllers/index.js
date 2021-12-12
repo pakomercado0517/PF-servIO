@@ -189,6 +189,7 @@ module.exports ={
             res.send('Please join in')
         }
     }, 
+
     getProfessionalByName: async (req, res) => {
         const { name } = req.query
         try {
@@ -294,6 +295,7 @@ module.exports ={
 
         
     },
+
     newProfessionalOffer : async (req, res) => {
         const { description, price, duration, materials, guarantee_time, ClientNeedId } = req.body
         try {
@@ -325,6 +327,7 @@ module.exports ={
         }
         
     },
+
     getAllUsers: async (req, res) =>{ 
         try {
             const users = await User.findAll({
@@ -336,6 +339,7 @@ module.exports ={
             res.status(400).send(error.message)
         }
     },
+
     getAllProfessionals: async (req, res) =>{ 
         try {
             const professionals = await User.findAll({
@@ -350,6 +354,7 @@ module.exports ={
             res.status(400).send(error.message)
         }
     },
+
     getAllCommonUsers: async (req, res) => {
         try {
             const commonUsers = await User.findAll({
@@ -364,6 +369,7 @@ module.exports ={
             res.status(400).send(error.message)
         }
     },
+
     getByUserId : async (req, res) => {
         try {
             const id = req.params.id;
@@ -382,6 +388,7 @@ module.exports ={
             res.status(400).send(error.message)
         }
     },
+
     getUserByActivityName: async (req, res) =>{
         const { name } = req.body
         try {
@@ -407,6 +414,7 @@ module.exports ={
             res.status(400).send(error.message)
         }
     },
+
     getAllActivities: async (req, res) =>{
         try {
             const activities = await SpecificTechnicalActivity.findAll({ 
@@ -420,6 +428,7 @@ module.exports ={
             res.status(400).send(error.message)
         }
     },
+
     getByActivityName: async (req, res) =>{
         try {
             const activities = await SpecificTechnicalActivity.findAll({ 
@@ -434,6 +443,7 @@ module.exports ={
             res.status(400).send(error.message)
         }
     },
+
     getAllNeeds : async (req, res) => {
         try {
             const needs = await ClientNeed.findAll({
@@ -445,6 +455,7 @@ module.exports ={
             res.status(400).send(error.message)
         }
     },
+
     getAllProfessions: async (req, res) =>{
         const professions = await Profession.findAll({
             include:[{ 
@@ -453,6 +464,7 @@ module.exports ={
         })
         res.status(200).send(professions)
     },
+
     getAllPorfessionalOffers: async (req, res) => {
         try{
             const allOfferts = await ProfessionalOffer.findAll({})
@@ -461,6 +473,7 @@ module.exports ={
             res.status(400).send(err.message)
         }
     },
+
     getUserReceivedOffers: async (req, res) =>{
         userNeeds = await ClientNeed.findAll({
             where: {UserId : req.session.userId }
@@ -473,7 +486,18 @@ module.exports ={
             }))               
         }
         res.send(receivedOffers)
-    }
+    },
+
+    getAllProfessionsName: async (req, res) => {
+        try{
+            let professions = await Profession.findAll({})
+            let names = await professions.map(e => e.name)
+            res.status(200).send(names)
+        }catch{
+            res.status(404).send(err.message)
+        }
+    },
+
     // newSpecificalNeed: async (req, res) =>{
     //     const {name, description, location} = req.body
     //     const newNeed = await ClientNeed.create({
