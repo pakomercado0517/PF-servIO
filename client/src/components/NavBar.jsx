@@ -4,7 +4,7 @@ import logo from '../img/ServIO.svg';
 import { NavLink } from 'react-router-dom';
 import {FiSearch} from 'react-icons/fi'
 import { useDispatch } from 'react-redux';
-import {searchByName} from '../redux/actions'
+import {searchByName, getAllProfessionals} from '../redux/actions'
 
 export default function NavBar() {
 
@@ -17,9 +17,10 @@ export default function NavBar() {
     useEffect(()=>{
         if (input.name) {
             dispatch(searchByName(input.name))
+        } else {
+            dispatch(getAllProfessionals())
         }
     }, [dispatch, input.name])
-    console.log(input.name);
 
     function handleName (e) {setInput({...input, name:e.target.value})}
     return (

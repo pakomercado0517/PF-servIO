@@ -6,7 +6,7 @@ import Landing from '../components/Landing';
 import {CgOptions} from 'react-icons/cg'
 // import {IoEyeSharp} from 'react-icons/io5'
 import CardProfessional from '../components/CardProtessional.jsx'
-import { getAllProfessionals} from '../redux/actions';
+import { getAllProfessionals, orderProfessionals} from '../redux/actions';
 import img from '../img/ivana-cajina-_7LbC5J-jw4-unsplash.jpg'
 import Pagination from "../components/Pagination";
 
@@ -28,22 +28,29 @@ export default function Home(){
 
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPosts = professionals.slice(indexOfFirstPost, indexOfLastPost);
+    const currentPosts = professionals?.slice(indexOfFirstPost, indexOfLastPost);
   
     const paginate = pageNumber => {
       setCurrentPage(pageNumber);
     };
     
+    const [input, setInput] = useState({
+        order: ''
+    })
+
+    function handleOrder(e) {setInput({...input, order:e.target.id})}
+
     useEffect(()=>{
 
-        function getProfesionals(){
+        if (input.order) {
+            dispatch(orderProfessionals(input.order))
+        }else{
             dispatch(getAllProfessionals())
         }
+        
+    },[dispatch, input.order])
 
-        getProfesionals()
-
-    },[dispatch])
-
+    // console.log(input.order);
     return (
         <div>
             <NavBar/>
@@ -56,9 +63,13 @@ export default function Home(){
                     <CgOptions/>
                     <span>Crear publicacion</span>
                 </div> */}
-                <div className={s.filter}>
-                    <CgOptions/>
-                    <span>Filtrar</span>
+                <div className='dropdown'>
+                    <button class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false" ><CgOptions/> Filtrar</button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
+                        <li><span class="dropdown-item" id='' onClick={handleOrder}>Default</span></li>
+                        <li><span class="dropdown-item" id='A-Z' onClick={handleOrder}>A-Z</span></li>
+                        <li><span class="dropdown-item" id='Z-A' onClick={handleOrder}>Z-A</span></li>
+                    </ul>
                 </div>
             </div>
             <Landing/>
@@ -66,11 +77,11 @@ export default function Home(){
             <Pagination
                 paginate={paginate}
                 postsPerPage={postsPerPage}
-                totalPosts={professionals.length}
+                totalPosts={professionals?.length}
             />
             <div className={s.professionalGrid}>
                 {
-                    currentPosts ? currentPosts.map((professional) => (
+                    currentPosts?.length > 0 ? currentPosts.map((professional) => (
                         <CardProfessional
                             idTech={professional.id} 
                             avatarTech={professional.photo} 
@@ -80,7 +91,7 @@ export default function Home(){
                             locationTech={professional.state + ', ' + professional.city}
                             //* PENDIENTE DATA DEL CALIFICATION
                             calificationTech={'calification: 5/5'}/>
-                    )) : null
+                    )) : <h1>No hay mas resultados</h1>
                 }
             </div>
             {/* DIV MUESTRA LOS TESTIMONIOS (FEEBACK DE LOS USUARIOS) */}

@@ -30,6 +30,7 @@ export const NEW_ESPECIFICAL_NEED = 'NEW_ESPECIFICAL_NEED';
 export const NEW_TECHNICAL_ACTIVITY = 'NEW_TECHNICAL_ACTIVITY';
 export const NEW_USER = 'NEW_USER';
 export const NEW_PROFESSIONAL_OFFER = 'NEW_PROFESSIONAL_OFFER';
+export const ORDER_DATA = 'ORDER_DATA';
 
 
 // trae todos los usuarios - clientes y profesionales
@@ -233,3 +234,11 @@ export function searchByName(input) {
         };
     };
 };
+
+export function orderProfessionals(data){
+    console.log('data......', data)
+    return{
+        type: ORDER_DATA,
+        payload: data
+    }
+}
