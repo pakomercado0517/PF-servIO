@@ -1,5 +1,4 @@
 const { Router } = require('express');
-const UsersRoute = require('./Users.js')
 const ClientNeedsRoute = require('./ClientNeeds.js')
 const ProfesssionalOffer = require('./ProfessionalOffers.js')
 const Professions = require('./Professions')
@@ -11,7 +10,7 @@ const User = require('./Users.js')
 const router = Router();
 
 
-router.use("/users", UsersRoute)
+
 router.use("/clientNeeds", ClientNeedsRoute)
 router.use("/professsionalOffer", ProfesssionalOffer)
 router.use("/professionals", Professional)
@@ -20,6 +19,7 @@ router.use("/reviews", Reviews)
 router.use("/TecnicalsActivities", TecnicalActivities)
 router.use("/Transactions", Transactions)
 router.use("/User", User)
-// router.use("/", x)
+
+
 module.exports = router;
 

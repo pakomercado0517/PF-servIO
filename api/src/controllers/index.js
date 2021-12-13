@@ -3,31 +3,31 @@ const { Op } = require('sequelize');
 const Sequelize = require('sequelize')
 const bcrypt = require('bcrypt')
 // @ts-ignore
-const { User, Profession, Professional,ProfessionalOffer, ClientNeed, SpecificTechnicalActivity,Transactions } = require('../db.js')
+const { User, Profession, Professional,ProfessionalOffer, ClientNeed, SpecificTechnicalActivity,Transactions } = require('../db.js');
+const e = require('express');
 
 module.exports ={
     newUser : async (req, res) => {
         const { 
-            userName, 
+            // userName, 
             firstName, 
             lastName, 
             email, 
             phone, 
             city, 
-            state, 
+            // state, 
             photo, 
-            dniFront, 
-            dniBack, 
+            dni, 
             password,
-            password2, 
             verified, 
             professional,
             certification_name,
-            certification_img,status, 
+            certification_img,
+            status, 
             profession  
         } = req.body;
 
-        // errors = [];
+        error = [];
 
         // if(!userName || !firstName || !lastName || !email || !phone || !city || !state  || !dniFront|| !dniBack || !password || !password2 ){
         //     error.push({message: 'Please enter all the required fields'})
@@ -38,108 +38,121 @@ module.exports ={
         // if(password !== password2){
         //     error.push({message: 'The password do not match'}) 
         // }
-        // if(errors.length > 0){
-        //     res.send({ errors })
-        // }
-        // const users = await User.findAll({
-        //     include: [{ model:Professional }]
-        // })
-        //     users.map(e => {
-        //     if(e.email === email){
-        //         throw new Error( 'Email already in use') 
-        //     }
-        // })
 
-        let hashedPassword = await bcrypt.hash(password,10);
-        
-
-        try {
-            let newUser = await User.create({ 
-            user_name: userName,
-            first_name : firstName,
-            last_name: lastName,
-            email,
-            phone,
-            city,
-            state,
-            photo,
-            dni_front:dniFront,
-            dni_back:dniBack, 
-            password:hashedPassword,
-            verified,
-            professional,
+        const users = await User.findAll({
+            include: [{ model:Professional }]
         })
-        
-        if(professional === 'true') {
-            let newProfessional = await Professional.create({ 
-                certification_name:certification_name,
-                certification_img:certification_img,
-                status,
-            })
 
-            let professions = profession
-            if(typeof professions === 'string'){
-                professions = professions.split(',');
+        users.map(e => {
+            if(e.email === email){
+                error.push( 'Email already in use') 
             }
-    
-            const allProfessions = await Profession.findAll({ 
-                where:{
-                    name: {
-                        [Op.in]: Array.isArray(professions) ? professions : [professions]
-                    }
-                }
-            })  
-            
-                await newProfessional.setProfessions( allProfessions );
-                await newUser.setProfessional( newProfessional )
+            // if(e.userName === userName){
+            //     error.push( 'User already in use') 
+            // }
+        })
+
+        if(error.length > 0){
+            res.send(error)
         }
-        res.status(200).send(`You are now registered, ${userName} please log in`) 
-        } catch (error) {
-            res.status(400).send(error.message);
+        
+        else{
+            try {
+                let hashedPassword = await bcrypt.hash(password,10);
+                let newUser = await User.create({ 
+                    // user_name: userName,
+                    first_name : firstName,
+                    last_name: lastName,
+                    email,
+                    phone: phone ? phone : 00000000,
+                    city,
+                    // state,
+                    photo: photo ? photo : '',
+                    dni,
+                    // dni_back:dniBack ? dniBack : '', 
+                    password:hashedPassword,
+                    verified : verified ? verified : false,
+                    professional,
+                })
+            
+            if(professional === 'true') {
+                let newProfessional = await Professional.create({ 
+                    certification_name:certification_name ? certification_name: '',
+                    certification_img:certification_img ? certification_img : '',
+                    status : status ? status : 'normal',
+                })
+
+                let professions = profession.toLowerCase()
+                if(typeof professions === 'string'){
+                    professions = professions.split(',');
+                }
+        
+                const allProfessions = await Profession.findAll({ 
+                    where:{
+                        name: {
+                            [Op.in]: Array.isArray(professions) ? professions : [professions]
+                        }
+                    }
+                })  
+                
+                    await newProfessional.setProfessions( allProfessions );
+                    await newUser.setProfessional( newProfessional )
+            }
+
+            res.status(200).send(`You are now registered, ${firstName +' ' + lastName} please log in`) 
+            } catch (error) {
+                res.status(400).send(error.message);
+            }
         }
     },
 
     login: async (req, res) => {
-        const {email, password} = req.body
+        try{
+            const {email, password} = req.body
 
-        const user = await User.findAll({
-            where:{ email}
-        })
-
-        if(user.length < 1){
-            res.send('Wrong mail') 
+                    const user = await User.findAll({
+                        where:{ email }
+                    })
+                    
+                    let userType = ''        
+                    if(user.length < 1){
+                        res.status(200).send("Mail doesn't exist") 
+                    } 
+                    if(user[0].professional === true){
+                        userType = 'Professional'
+                    }else{
+                        userType = 'Client'
+                    }
+                    
+                    if(user.length > 0) {
+                        bcrypt.compare(password, user[0].password, (err, isMatch) =>{
+                            if(err){
+                                res.status(200).send('error')
+                                throw err; 
+                            }
+                            if(isMatch){ 
+                                req.session.userId = user[0].id
+                                let obj ={message: 'Logged', cookies: req.session, userType}
+                                return res.send(obj)
+                            }else{
+                                res.send('Wrong passWord'); 
+                            }
+                        }) 
+                    } if(user.length < 0){
+                        res.status(200).send('Something is wrong') 
+                    } 
+        }catch(error){
+            // res.status(400).send(error.message)/
         }
-
-        else if(user.length > 0) {
-            bcrypt.compare(password, user[0].password, (err, isMatch) =>{
-                if(err){
-                    res.send('error')
-                    throw err; 
-                }
-                if(isMatch){ 
-                    req.session.userId = user[0].id
-                    return res.send('Logged in')
-                }else{
-                    res.send('Wrong passWord'); 
-                }
-            }) 
-        } else{
-            res.send('Something is wrong') 
-        }
-        
-        // a =user[0].id.toString() 
-        // bcrypt.compare(password, user[0].password, (err, isMatch) =>{
-        //     if(err){
-        //         throw err; 
-        //     }
-        //     if(isMatch){ 
-        //         req.session.userId = user[0].id.toString()
-        //         res.status(200).send(req.session.userId)  
-        //     }else{
-        //         throw new Error('Wrong passWord'); 
-        //     }
-        // }) 
+       
     }, 
+    loginTest: async (req, res) =>{
+        if(req.session.userId){
+            res.send(true)
+        }else{
+            res.send(false)
+        }
+    },
 
     redirectLogin: async (req, res, next) =>{ 
         if(!req.session.userId){
@@ -167,12 +180,12 @@ module.exports ={
         })
         
     },
-
     getUser: async (req, res) => {
-        if(req.session.userId){
+        const {userId} = req.body
+        if(userId){
             const user = await User.findAll({
             where:{
-                id: parseInt(req.session.userId),                  
+                id: parseInt(userId),                  
             },
             include: [{ model: ClientNeed }],
         })
@@ -184,32 +197,75 @@ module.exports ={
         }
     }, 
 
-    newSpecificalNeed : async (req, res) => {
-        const {name, description, status, location, UserId} = req.body
+    getProfessionalByName: async (req, res) => {
+        const { name } = req.query
         try {
-            const newNeed = await ClientNeed.create({
+            if(!name){
+                const professional = await User.findAll({ 
+                    include:[{ 
+                        model: Professional, include:[{model:Profession}]
+                    }],
+                    where: {professional : true},
+                })
+                res.status(200).send(professional)
+            }else{
+                const professional = await User.findAll({ 
+                    include:[{ 
+                        model: Professional, include:[{model:Profession}]
+                    }],
+                    where: {professional : true},
+                    where: {first_name:{ [Sequelize.Op.iLike]: `%${ name }%`}}
+                })
+                res.status(200).send(professional)
+            }
+        } catch (error) {
+            res.status(400).send(error.message)
+        }
+    },
+
+    newSpecificalNeed : async (req, res) => {
+        const {name, description, location , price, duration, guarantee_time, userId} = req.body
+        try {
+            if(userId){
+                const newNeed = await ClientNeed.create({
                 name,
                 description,
-                status,
-                location
+                status : 'in offer',
+                location,
+                price,
+                duration,
+                guarantee_time
             })
-    
+            
             let allUsers = await User.findAll({
                 where :{
-                    id : UserId
-                }
+                    id : parseInt(userId)
+                },
             })
-            await newNeed.setUser(allUsers[0])
-            res.status(200).send(allUsers)
 
+            await newNeed.setUser(allUsers[0])
+            let userWithNeed = await User.findAll({
+                where :{
+                    id : parseInt(userId)
+                },
+                include: [{ model: ClientNeed}]
+            })
+            res.status(200).send(newNeed)
+            }else{
+                res.status(400).send('Please login')
+            }
+            
         } catch (error) {
             res.status(400).send(error.message);
         }
     },
 
     newTechnicalActivity: async (req, res) => {
-        const { professionalId ,name, price, photo, materials, decription, guarantee_time } = req.body
-        try {
+        const { name, price, photo, materials, decription, guarantee_time } = req.body
+        if(!req.session.userId){
+            res.send('Please login')
+        }else{
+            try {
             let activityFromProfession = await SpecificTechnicalActivity.create({
                 name,
                 price,
@@ -220,49 +276,67 @@ module.exports ={
             })
             
             let professional = await Professional.findAll({
-                where: { id: professionalId }
+                where: { UserId: req.session.userId }
             })
             await activityFromProfession.setProfessional(professional[0])
             res.status(200).send(professional)
         } catch (error) {
             res.status(400).send(error.message);
         }
-    },
-    //COMENTAR QUE SE REQUIERE INPUT DIRECTO DE IDS DE USUARIOS 
-    newTransaction : async (req, res) => {
-        const {id} = req.body
-        try {
-            let newTransaction = await Transactions.create({
-                id
-            })
-            res.status(200).send(newTransaction)
-
-        } catch (error) {
-            res.status(400).send(error.message)
         }
         
     },
+    //COMENTAR QUE SE REQUIERE INPUT DIRECTO DE IDS DE USUARIOS 
+    newTransaction : async (req, res) => {
+        if(req.session.userId){
+            try {
+                let newTransaction = await Transactions.create({
+                    id: parseInt(req.session.userId)
+                })
+                res.status(200).send(newTransaction)
+
+            } catch (error) {
+                res.status(400).send(error.message)
+            }
+        }else{
+            res.send('Pleas Login')
+        }
+
+        
+    },
+    //CONDICIONAR QUE SOLO PUEDAN OFERTAR PROFESIONALES
     newProfessionalOffer : async (req, res) => {
-        const {description, price, duration, materials, guarantee_time, professionalId} = req.body
+        const { description, price, duration, materials, guarantee_time, ClientNeedId } = req.body
         try {
-            const newOffert = await ProfessionalOffer.create({
+            if(!req.session.userId){
+                res.status(400).send('Please Login')
+            }else{
+                const newOffert = await ProfessionalOffer.create({
                 description,
                 price,
                 duration,
                 materials,
                 guarantee_time
-            })
-            let offert = await Professional.findAll({
-                where: { id: professionalId }
-            })
-            await newOffert.setProfessional(offert[0])
-            res.status(200).send(newOffert)
+                })
+                let clientNeeds = await ClientNeed.findAll({
+                    where:{ id: ClientNeedId}
+                }) 
+                let offert = await Professional.findAll({
+                    where: { UserId: req.session.userId }
+                })
+                await newOffert.setProfessional(offert[0])
+                await newOffert.setClientNeed(clientNeeds[0])
+                res.status(200).send(newOffert)
+            }
             
-        } catch (error) {
+            
+        } 
+        catch (error) {
             res.status(400).send(error.message)
         }
         
     },
+
     getAllUsers: async (req, res) =>{ 
         try {
             const users = await User.findAll({
@@ -274,6 +348,7 @@ module.exports ={
             res.status(400).send(error.message)
         }
     },
+
     getAllProfessionals: async (req, res) =>{ 
         try {
             const professionals = await User.findAll({
@@ -288,6 +363,7 @@ module.exports ={
             res.status(400).send(error.message)
         }
     },
+
     getAllCommonUsers: async (req, res) => {
         try {
             const commonUsers = await User.findAll({
@@ -302,6 +378,7 @@ module.exports ={
             res.status(400).send(error.message)
         }
     },
+
     getByUserId : async (req, res) => {
         try {
             const id = req.params.id;
@@ -320,14 +397,15 @@ module.exports ={
             res.status(400).send(error.message)
         }
     },
+
     getUserByActivityName: async (req, res) =>{
-        const {name} = req.body
+        const { name } = req.body
         try {
             const activities = await SpecificTechnicalActivity.findAll({ 
                 include:[{ 
                     model: Professional, include:[{model:Profession}]
                 }],
-                where: {name:{ [Sequelize.Op.iLike]: `%${name}%`}}
+                where: {name:{ [Sequelize.Op.iLike]: `%${ name }%`}}
             })
             const ids = await activities.map(e => e.Professional.UserId
                 
@@ -345,6 +423,7 @@ module.exports ={
             res.status(400).send(error.message)
         }
     },
+
     getAllActivities: async (req, res) =>{
         try {
             const activities = await SpecificTechnicalActivity.findAll({ 
@@ -358,6 +437,7 @@ module.exports ={
             res.status(400).send(error.message)
         }
     },
+
     getByActivityName: async (req, res) =>{
         try {
             const activities = await SpecificTechnicalActivity.findAll({ 
@@ -372,6 +452,7 @@ module.exports ={
             res.status(400).send(error.message)
         }
     },
+
     getAllNeeds : async (req, res) => {
         try {
             const needs = await ClientNeed.findAll({
@@ -383,6 +464,7 @@ module.exports ={
             res.status(400).send(error.message)
         }
     },
+
     getAllProfessions: async (req, res) =>{
         const professions = await Profession.findAll({
             include:[{ 
@@ -391,6 +473,50 @@ module.exports ={
         })
         res.status(200).send(professions)
     },
+
+    getAllPorfessionalOffers: async (req, res) => {
+        try{
+            const allOfferts = await ProfessionalOffer.findAll({})
+            res.status(200).send(allOfferts)
+        }catch{
+            res.status(400).send(err.message)
+        }
+    },
+
+    getUserReceivedOffers: async (req, res) =>{
+        userNeeds = await ClientNeed.findAll({
+            where: {UserId : req.session.userId }
+        })
+        const needsId = await userNeeds.map(e => e.id)
+        let receivedOffers = []
+        for(let i = 0; i < needsId.length; i++) {
+            receivedOffers.push(await ProfessionalOffer.findAll({
+                            where: {id : needsId[i]},
+            }))               
+        }
+        res.send(receivedOffers)
+    },
+
+    getAllProfessionsName: async (req, res) => {
+        try{
+            let professions = await Profession.findAll({})
+            let names = await professions.map(e => e.name)
+            res.status(200).send(names)
+        }catch{
+            res.status(404).send(err.message)
+        }
+    },
+
+    // newSpecificalNeed: async (req, res) =>{
+    //     const {name, description, location} = req.body
+    //     const newNeed = await ClientNeed.create({
+    //         name,
+    //         description, 
+    //         location,
+    //         status: 'in offer'
+    //     })
+    //     res.send(newNeed)
+    // },
     // getByProfessionName: async (req, res) =>{
     //     const {profession} = req.body
     //     const professionalArr = profession.split(',')

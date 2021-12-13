@@ -22,13 +22,21 @@ export const GET_ALL_USERS = 'GET_ALL_USERS';
 export const GET_ALL_PROFESSIONALS = 'GET_ALL_PROFESSIONALS';
 export const GET_ALL_COMMON_USERS = 'GET_ALL_COMMON_USERS';
 export const GET_BY_USER_ID = 'GET_BY_USER_ID';
+export const GET_BY_COMPTE_ID = 'GET_BY_COMPTE_ID';
 export const GET_PROFESSIONAL_BY_ACTIVITY_NAME = 'GET_PROFESSIONAL_BY_ACTIVITY_NAME';
 export const GET_BY_ACTIVITY_NAME = 'GET_BY_ACTIVITY_NAME';
 export const GET_ALL_NEEDS = 'GET_ALL_NEEDS';
+export const SEARCH_PROFESSIONAL_BY_NAME = 'SEARCH_PROFESSIONAL_BY_NAME'
 export const NEW_ESPECIFICAL_NEED = 'NEW_ESPECIFICAL_NEED';
 export const NEW_TECHNICAL_ACTIVITY = 'NEW_TECHNICAL_ACTIVITY';
 export const NEW_USER = 'NEW_USER';
 export const NEW_PROFESSIONAL_OFFER = 'NEW_PROFESSIONAL_OFFER';
+
+export const FILTER_PROFESSIONS = 'FILTER_PROFESSIONS;'
+
+export const ORDER_DATA = 'ORDER_DATA';
+export const SHOW_FORM_CLIENT_NEED = 'SHOW_FORM_CLIENT_NEED';
+
 
 
 // trae todos los usuarios - clientes y profesionales
@@ -53,7 +61,7 @@ export function getAllProfessionals () {
     return async function (dispatch) {
 
         try {
-            const response = await axios.get(`${ constants.localhost }/users/professionals`)
+            const response = await axios.get(`${ constants.localhost }/user/professionals`)
             
             dispatch({
                 type: GET_ALL_PROFESSIONALS,
@@ -82,12 +90,12 @@ export function getAllCommonUsers () {
 };
 
 // Trae los detalles del usuario dando un id 
-export function getByUserId (id) {
+export function getByUserId(id) {
     
     return async function (dispatch) {
         
         try {
-            const response = await axios.get(`${ constants.localhost }/User/${ id }`)
+            const response = await axios.get(`${ constants.localhost }/user/${ id }`)
             dispatch({
                 type: GET_BY_USER_ID,
                 payload: response.data
@@ -150,12 +158,12 @@ export function getAllNeeds () {
 };
 
 // crea usuario cliente o professional
-export function newUser (data) {
+export function newUser(data) {
         
     return async function (dispatch) {
         
         try {
-            const response = await axios.post(`${ constants.localhost }/`, data)
+            const response = await axios.post(`${ constants.localhost }/user/`, data)
             dispatch({
                 type: NEW_USER,
                 payload: response.data
@@ -215,3 +223,72 @@ export function newProfessionalOffer (data) {
         };
     };
 };
+
+//busqueda de un profesional por su nombre {TEMPORAL PARA LA PRIMER DEMO}
+export function searchByName(input) {
+    
+    return async function (dispatch) {
+        
+        try {
+            const response = await axios.get(`${ constants.localhost }/professionals?name=${input}`)
+            dispatch({
+                type: SEARCH_PROFESSIONAL_BY_NAME,
+                payload: response.data
+            });
+        } catch (error) {
+            console.log(error.message)
+        };
+    };
+};
+
+
+// Nombres de profeciones
+export function filterProfessions (){
+
+    return async function (dispatch) {
+        
+        try {
+            const response = await axios.get(`${ constants.localhost }/professions/name`)
+            dispatch({
+                type: FILTER_PROFESSIONS,
+                payload: response.data
+            })
+        }catch (error){
+            console.log(error)
+        }
+    }
+}
+
+export function orderProfessionals(data){
+    return{
+        type: ORDER_DATA,
+        payload: data
+    }
+}
+
+export function showFormClientNeed(data){
+    console.log('data......', data)
+    return{
+        type: SHOW_FORM_CLIENT_NEED,
+        payload: data
+    }
+}
+
+export function getByCompteId(id) {
+    
+    return async function (dispatch) {
+        
+        try {
+            const response = await axios.get(`${ constants.localhost }/user/${ id }`)
+            dispatch({
+                type: GET_BY_COMPTE_ID,
+                payload: response.data
+
+            });
+        } catch (error) {
+            console.log(error.message)
+        };
+
+        
+    }
+}

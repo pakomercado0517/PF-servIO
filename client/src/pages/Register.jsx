@@ -22,12 +22,14 @@ export default function Crear() {
         dni:'',
         password:'',
         repeatPassword:'',
-        // professional:'',
+        professional:'',
         cliente:'',
         city:'',
-        // profession:''
+        profession:[],
         
     })
+
+    console.log(details)
 
     const[errors, setErrors] = useState({});
 
@@ -94,38 +96,43 @@ export default function Crear() {
         e.preventDefault();
 
         const err = validate(details)
-
+        
         setErrors(err)
-        const post = await axios.post(`http://localhost:3001/user`, details)
-        console.log('post',post)
-        console.log('post',post.data)
-    
-            console.log(Object.keys(err).length === 0)
-            if(Object.keys(err).length === 0){
-                
-                // dispatch(newUser(details))
+        // axios.post(`http://localhost:3001/user/`, {details})
+        // .then(res => {
+        //     console.log(res);
+        //     console.log(res.data);
+        // })
+        // console.log('post',post)
+        // console.log('post',post.data)
 
-                Swal.fire({
-                    icon: 'success',
-                    title: 'User Created!',
-                    showConfirmButton: false,
-                    timer: 2500
-                })
+        Swal.fire({
+            icon: 'success',
+            title: 'User Created!',
+            showConfirmButton: false,
+            timer: 2500
+        })
+        
+        setDetails({
+            firstName:'',
+            lastName: '',
+            email: '',
+            dni:'',
+            password:'',
+            repeatPassword:'',
+            professional:'',
+            cliente:'',
+            city:'',
+            profession:[],
+        })
+        history('/')
+    
+            // console.log(Object.keys(err).length === 0)
+            // if(Object.keys(err).length === 0){
                 
-                setDetails({
-                    firstName:'',
-                    lastName: '',
-                    email: '',
-                    dni:'',
-                    password:'',
-                    repeatPassword:'',
-                    professional:'',
-                    cliente:'',
-                    city:'',
-                    profession:[],
-                })
-                history('/')
-            }
+            //     // dispatch(newUser(details))
+
+            // }
         
     }
 
@@ -136,6 +143,7 @@ export default function Crear() {
         })
         setErrors( validate (details))
     }
+
 
     // function handleCheck(e){
     //     if(e.target.checked){
@@ -178,7 +186,7 @@ export default function Crear() {
                             <label>Nombre:</label>
                             <input 
                                 type= 'text'
-                                value= {details.firstName}
+                                value={details.firstName}
                                 name= 'firstName'
                                 onChange={(e) => handleChange(e)}
                             />
@@ -226,7 +234,7 @@ export default function Crear() {
                             )}
                             
                         </div>
-                      
+
                         <div className={s.names}>
                             <label>Password:</label>
                             <input 
@@ -265,15 +273,15 @@ export default function Crear() {
                                 type='checkbox'
                                 name='professional'
                                 value='professional'
-                                // // onChange={(e) => handleCheck(e)}
+                                onChange={(e) => handleCheck(e)}
                                 />
-
+                            <br/>
                             <label>Cliente:</label>
                                 <input
                                     type='checkbox'
                                     name='cliente'
                                     value='cliente'
-                                    // // onChange={(e) => handleCheck(e)}
+                                    onChange={(e) => handleCheck2(e)}
                                     />
 
                                 {/* {errors.cliente && (
@@ -281,7 +289,7 @@ export default function Crear() {
                                 )}  */}
                         </div>
                         <div className={s.names}>
-                            {/* <label>Seleccona tu Oficio:</label>
+                            <label>Seleccona tu Oficio:</label>
                             
                             <opcion className={s.check} >
                                 {oficio.map((c,key) => (
@@ -290,7 +298,7 @@ export default function Crear() {
                                             {c.name} 
                                     </opcion>
                                 ))}
-                            </opcion> */}
+                            </opcion>
                             {errors.countries && (
                                 <p className='error'>{errors.countries}</p>
                             )}
