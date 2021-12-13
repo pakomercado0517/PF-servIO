@@ -40,16 +40,17 @@ export default function Home(){
 
     function landingView(){
         console.log("si pasa")
-        if(!localStorage.getItem("landing")) {
+        if(!window.localStorage.getItem("landing")) {
             console.log("Pasaa")
-            localStorage.setItem("landing", "visible")
+            window.localStorage.setItem("landing", "visible")
             setstate("visible")
         } else {
-            localStorage.removeItem("landing")
+            window.localStorage.removeItem("landing")
             setstate("notVisible")
         }
-        console.log(localStorage.getItem("landing"))
+        console.log(window.localStorage.getItem("landing"))
     }
+    // window.localStorage.setItem('landing', 'visible')
 
     useEffect(() => {
     }, [state])
@@ -95,7 +96,7 @@ export default function Home(){
                 </div>
             </div>
 
-            { !(localStorage.getItem("landing") === "visible") ? <Landing/>:<></>}
+            { !window.localStorage.getItem("landing") ? <Landing/>:<></>}
 
             {/* DIV RENDERIZA LAS CARDS DEL PROFESIONAL */}
             <Pagination
