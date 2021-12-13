@@ -107,39 +107,44 @@ module.exports ={
     },
 
     login: async (req, res) => {
-        const {email, password} = req.body
+        try{
+            const {email, password} = req.body
 
-        const user = await User.findAll({
-            where:{ email }
-        })
-        
-        let userType = ''        
-        if(user.length < 1){
-            res.send("Mail doesn't exist") 
-        } 
-        if(user[0].professional === true){
-            userType = 'Professional'
-        }else{
-            userType = 'Client'
+                    const user = await User.findAll({
+                        where:{ email }
+                    })
+                    
+                    let userType = ''        
+                    if(user.length < 1){
+                        res.status(200).send("Mail doesn't exist") 
+                    } 
+                    if(user[0].professional === true){
+                        userType = 'Professional'
+                    }else{
+                        userType = 'Client'
+                    }
+                    
+                    if(user.length > 0) {
+                        bcrypt.compare(password, user[0].password, (err, isMatch) =>{
+                            if(err){
+                                res.status(200).send('error')
+                                throw err; 
+                            }
+                            if(isMatch){ 
+                                req.session.userId = user[0].id
+                                let obj ={message: 'Logged', cookies: req.session, userType}
+                                return res.send(obj)
+                            }else{
+                                res.send('Wrong passWord'); 
+                            }
+                        }) 
+                    } if(user.length < 0){
+                        res.status(200).send('Something is wrong') 
+                    } 
+        }catch(error){
+            // res.status(400).send(error.message)/
         }
-        
-        if(user.length > 0) {
-            bcrypt.compare(password, user[0].password, (err, isMatch) =>{
-                if(err){
-                    res.send('error')
-                    throw err; 
-                }
-                if(isMatch){ 
-                    req.session.userId = user[0].id
-                    let obj ={message: 'Logged', cookies: req.session, userType}
-                    return res.send(obj)
-                }else{
-                    res.send('Wrong passWord'); 
-                }
-            }) 
-        } else{
-            res.send('Something is wrong') 
-        } 
+       
     }, 
     loginTest: async (req, res) =>{
         if(req.session.userId){
@@ -175,12 +180,12 @@ module.exports ={
         })
         
     },
-
     getUser: async (req, res) => {
-        if(req.session.userId){
+        const {userId} = req.body
+        if(userId){
             const user = await User.findAll({
             where:{
-                id: parseInt(req.session.userId),                  
+                id: parseInt(userId),                  
             },
             include: [{ model: ClientNeed }],
         })
@@ -219,9 +224,9 @@ module.exports ={
     },
 
     newSpecificalNeed : async (req, res) => {
-        const {name, description, location , price, duration, guarantee_time} = req.body
+        const {name, description, location , price, duration, guarantee_time, userId} = req.body
         try {
-            if(req.session.userId){
+            if(userId){
                 const newNeed = await ClientNeed.create({
                 name,
                 description,
@@ -234,18 +239,18 @@ module.exports ={
             
             let allUsers = await User.findAll({
                 where :{
-                    id : parseInt(req.session.userId)
+                    id : parseInt(userId)
                 },
             })
 
             await newNeed.setUser(allUsers[0])
             let userWithNeed = await User.findAll({
                 where :{
-                    id : parseInt(req.session.userId)
+                    id : parseInt(userId)
                 },
                 include: [{ model: ClientNeed}]
             })
-            res.status(200).send(userWithNeed)
+            res.status(200).send(newNeed)
             }else{
                 res.status(400).send('Please login')
             }
