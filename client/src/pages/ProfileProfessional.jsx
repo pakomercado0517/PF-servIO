@@ -16,9 +16,9 @@ export default function ProfileProfessional(){
 
     const dispatch= useDispatch();
     const [state, setstate] = useState({
-        login: true,
-        seeAllReview: true,
-        seeAllServices: true,
+        login: false,
+        seeAllReview: false,
+        seeAllServices: false,
     })
     
     const professionals = useSelector((state) => state.user)

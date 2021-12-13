@@ -25,7 +25,7 @@ export default function NavBar() {
             method: 'POST'
         })
         .then(response => {
-            localStorage.removeItem('user')
+            localStorage.clear()
             window.location.replace('/')
         })
     }
