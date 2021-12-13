@@ -149,7 +149,7 @@ export default function Crear() {
     //             temporada: details.temporada.filter(t => t !== e.target.value )
     //         })
     //     }
-    // }
+    // }  
 
     function handleSelect(e){
         
