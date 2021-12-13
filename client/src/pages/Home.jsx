@@ -119,7 +119,7 @@ export default function Home(){
                 }
             </div>
             {/* DIV MUESTRA LOS TESTIMONIOS (FEEBACK DE LOS USUARIOS) */}
-            { login && !(login.userType === "Professional") ? <TestimoniosHome></TestimoniosHome>:<></>}
+            { !(login && (login.message === "Logged")) ? <TestimoniosHome></TestimoniosHome>:<></>}
         </div>    
     )
 }
