@@ -85,7 +85,6 @@ module.exports ={
                     certification_img: '',
                     status :  'normal',
                 })
-                console.log("ACAAA",profession.toLowerCase())
                 let professions = profession.toLowerCase()
                 if(typeof professions === 'string'){
                     professions = professions.split(',');

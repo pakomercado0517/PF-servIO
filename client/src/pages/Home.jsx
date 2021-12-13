@@ -95,7 +95,7 @@ export default function Home(){
                 </div>
             </div>
 
-            { localStorage.getItem("landing") === "visible" ? <Landing/>:<></>}
+            { !(localStorage.getItem("landing") === "visible") ? <Landing/>:<></>}
 
             {/* DIV RENDERIZA LAS CARDS DEL PROFESIONAL */}
             <Pagination
