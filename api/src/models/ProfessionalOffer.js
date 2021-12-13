@@ -2,12 +2,6 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
     return sequelize.define('ProfessionalOffer', {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-            allowNull: false,
-        },
         description: {
             type: DataTypes.STRING,
             // allowNull: false,

@@ -1,0 +1,29 @@
+.feedback{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .titleFeed{
+    font-size: 50px;
+    font-weight: bold;
+    color: gray;
+  }
+  
+  .subtitleFeed{
+    font-weight: bold;
+    color: rgba(128, 128, 128, 0.918);
+    width: 70%;
+    align-self: center;
+  }
+  
+  .cardsFeed{
+    display: flex;
+  }
+  
+  .imgFeed{
+    height: 120px;
+    width: 120px;
+    object-fit: cover;
+    border-radius: 100%;
+  }

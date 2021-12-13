@@ -103,35 +103,6 @@ ClientReview.belongsTo(ProfessionalOffer);
 
 
 
-//*************************************PETICIONES ANTERIORES****************************************************************
-// // relacion usuario - professional
-// User.hasOne(Professional);
-// Professional.belongsTo(User);
-
-// // relacion profesional - profesion
-// // Profession.belongsToMany(Professional, { through: 'Profession_Professional' });
-// // Professional.belongsToMany(Profession, { through: 'Profession_Professional' });
-
-// // relacion necesidades del cliente - profesion
-// User.hasMany(ClientNeed);
-// ClientNeed.belongsTo(User);
-
-// // relacion puntaje del cliente - profesional
-
-// User.hasMany(ClientReview);
-// Professional.hasMany(ClientReview);
-
-// // relacion ofertas de profesional - profesion
-// Professional.hasMany(ProfessionalOffer);
-// ProfessionalOffer.belongsTo(Professional);
-
-// // relacion profesional - servicios ofrecidos
-// Professional.hasMany(SpecificTechnicalActivity);
-// SpecificTechnicalActivity.belongsTo(Professional);
-// // relacion transacciones cliente - profesional
-// User.hasMany(Transactions);
-// Professional.hasMany(Transactions);
-//******************************************************************************************************************************
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

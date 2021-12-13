@@ -6,10 +6,12 @@ import { newUser, filterProfessions } from '../redux/actions/index'
 import {useNavigate } from "react-router-dom";
 import s from './styles/Register.module.css'
 
+
 export default function Crear() {
 
     const dispatch = useDispatch()
     const [validaChek, setvalidaChek] = useState(false)
+
 
     const history = useNavigate() //redirige a '/....'
 
@@ -136,6 +138,7 @@ export default function Crear() {
         })
         setErrors( validate (details))
     }
+
 
     // function handleCheck(e){
     //     if(e.target.checked){

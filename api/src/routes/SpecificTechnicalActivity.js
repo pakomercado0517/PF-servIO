@@ -7,4 +7,4 @@ router.get('/all', userFunctions.getAllActivities )
 router.get('/ActivityByActivityName', userFunctions.getByActivityName )
 router.post('/', userFunctions.newTechnicalActivity)
 
-module.exports= router;
+module.exports = router;

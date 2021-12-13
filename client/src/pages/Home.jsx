@@ -4,11 +4,13 @@ import s from './styles/Home.module.css'
 import NavBar from '../components/NavBar';
 import Landing from '../components/Landing';
 import {CgOptions} from 'react-icons/cg'
-// import {IoEyeSharp} from 'react-icons/io5'
+import {IoEyeSharp} from 'react-icons/io5'
 import CardProfessional from '../components/CardProtessional.jsx'
-import { getAllProfessionals} from '../redux/actions';
+import { getAllProfessionals, orderProfessionals} from '../redux/actions';
 import img from '../img/ivana-cajina-_7LbC5J-jw4-unsplash.jpg'
 import Pagination from "../components/Pagination";
+
+import TestimoniosHome from '../components/TestimoniosHome';
 
 export default function Home(){
 
@@ -17,52 +19,86 @@ export default function Home(){
 
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage, setPostsPerPage] = useState(16);
+    const [state, setstate] = useState("")
+
+    const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
 
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPosts = professionals.slice(indexOfFirstPost, indexOfLastPost);
+    const currentPosts = professionals?.slice(indexOfFirstPost, indexOfLastPost);
   
     const paginate = pageNumber => {
       setCurrentPage(pageNumber);
     };
     
-    useEffect(()=>{
+    const [input, setInput] = useState({
+        order: ''
+    })
 
-        function getProfesionals(){
+    function handleOrder(e) {setInput({...input, order:e.target.id})}
+
+    function landingView(){
+        console.log("si pasa")
+        if(!localStorage.getItem("landing")) {
+            console.log("Pasaa")
+            localStorage.setItem("landing", "visible")
+            setstate("visible")
+        } else {
+            localStorage.removeItem("landing")
+            setstate("notVisible")
+        }
+        console.log(localStorage.getItem("landing"))
+    }
+
+    useEffect(() => {
+    }, [state])
+
+    useEffect(()=>{
+        if (input.order) {
+            dispatch(orderProfessionals(input.order))
+        }else{
             dispatch(getAllProfessionals())
         }
+    },[dispatch, input.order])
 
-        getProfesionals()
-
-    },[dispatch])
-
+    // console.log(input.order);
     return (
         <div>
             <NavBar/>
             <div className={s.container__filter}>
-                {/* <div className={s.show__presentation}>
+                { login && login.message === "Logged"?  
+                <>
+                <div onClick={landingView} className={s.show__presentation}>
                     <IoEyeSharp/>
                     <span>Ocultar</span>
                 </div>
                 <div>
-                    <CgOptions/>
                     <span>Crear publicacion</span>
-                </div> */}
-                <div className={s.filter}>
-                    <CgOptions/>
-                    <span>Filtrar</span>
+                </div>
+                </>: <></>
+                
+                }
+                <div className='dropdown'>
+                    <button class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false" ><CgOptions/> Filtrar</button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
+                        <li><span class="dropdown-item" id='' onClick={handleOrder}>Default</span></li>
+                        <li><span class="dropdown-item" id='A-Z' onClick={handleOrder}>A-Z</span></li>
+                        <li><span class="dropdown-item" id='Z-A' onClick={handleOrder}>Z-A</span></li>
+                    </ul>
                 </div>
             </div>
-            <Landing/>
+
+            { localStorage.getItem("landing")==="visible" ? <Landing/>:<></>}
+
             {/* DIV RENDERIZA LAS CARDS DEL PROFESIONAL */}
             <Pagination
                 paginate={paginate}
                 postsPerPage={postsPerPage}
-                totalPosts={professionals.length}
+                totalPosts={professionals?.length}
             />
             <div className={s.professionalGrid}>
                 {
-                    currentPosts ? currentPosts.map((professional) => (
+                    currentPosts?.length > 0 ? currentPosts.map((professional) => (
                         <CardProfessional
                             idTech={professional.id} 
                             avatarTech={professional.photo} 
@@ -72,46 +108,11 @@ export default function Home(){
                             locationTech={professional.state + ', ' + professional.city}
                             //* PENDIENTE DATA DEL CALIFICATION
                             calificationTech={'calification: 5/5'}/>
-                    )) : null
+                    )) : <h1>No hay mas resultados</h1>
                 }
             </div>
             {/* DIV MUESTRA LOS TESTIMONIOS (FEEBACK DE LOS USUARIOS) */}
-            <div className={s.feedback}>
-                <span className={s.titleFeed}>Lo que dicen nuestros usuarios</span>
-                <p className={s.subtitleFeed}>
-                    feedback de clientes y profesinales que respaldan nuestro servicio
-                    y garantisamos una buena experiencia, en conjunto con intuitividad 
-                    de la intefaz 
-                </p>
-                <div className={s.cardsFeed}>
-                    <div>
-                        <div>
-                            <img src={img} alt="" className={s.imgFeed}/>
-                            <div>
-                                <span>Marcos Ford</span>
-                                <span>Cliente</span>
-                                <span>Rating</span>
-                            </div>
-                        </div>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt illo, ducimus magnam natus eum assumenda aliquam sint, dolores quos, placeat quae sit nihil minima molestiae excepturi maiores alias voluptatibus nesciunt. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta placeat fugit veritatis, perferendis velit quasi deserunt, repellat laborum odio, impedit non cum molestiae. Impedit maxime a repellendus, eos nesciunt aliquam!
-                        </p>
-                    </div>
-                    <div>
-                        <div>
-                            <img src={img} alt="" className={s.imgFeed}/>
-                            <div>
-                                <span>Marcos Ford</span>
-                                <span>Cliente</span>
-                                <span>Rating</span>
-                            </div>
-                        </div>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt illo, ducimus magnam natus eum assumenda aliquam sint, dolores quos, placeat quae sit nihil minima molestiae excepturi maiores alias voluptatibus nesciunt. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta placeat fugit veritatis, perferendis velit quasi deserunt, repellat laborum odio, impedit non cum molestiae. Impedit maxime a repellendus, eos nesciunt aliquam!
-                        </p>
-                    </div>
-                </div>
-            </div>
+            { login && !(login.userType === "Professional") ? <TestimoniosHome></TestimoniosHome>:<></>}
         </div>    
     )
 }
