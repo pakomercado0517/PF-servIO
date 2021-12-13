@@ -1,18 +1,40 @@
 import React, {useEffect, useState} from 'react';
 import s from './styles/NavBar.module.css'
 import logo from '../img/ServIO.svg';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import {FiSearch} from 'react-icons/fi'
-import { useDispatch } from 'react-redux';
-import {searchByName, getAllProfessionals} from '../redux/actions'
+import {MdAccountCircle, MdExpandMore} from 'react-icons/md'
+import { useDispatch, useSelector } from 'react-redux';
+import {searchByName, getAllProfessionals, getByCompteId} from '../redux/actions'
+import { CgLogOut } from 'react-icons/cg';
 
 export default function NavBar() {
 
     const dispatch = useDispatch()
+    const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
+
+    const profile = useSelector(state => state.compte)
 
     const[input, setInput]= useState({
         name:""
     })
+    console.log(profile);
+
+    function logout() {
+        fetch('http://localhost:3001/user/logout',{
+            method: 'POST'
+        })
+        .then(response => {
+            localStorage.removeItem('user')
+            window.location.replace('/')
+        })
+    }
+
+    useEffect(()=>{
+        if (localStorage.getItem('user')) {
+            dispatch(getByCompteId(login.cookies.userId))
+        }
+    },[])
 
     useEffect(()=>{
         if (input.name) {
@@ -47,19 +69,23 @@ export default function NavBar() {
                     <NavLink to='/' className={s['container__inicio--btn'] }   >Inicio</NavLink>
                     <NavLink to='/nosotros' className={s['container__inicio--btn']}>Sobre Nosotros</NavLink>
                 </div>
-                {/*
-                <div className={s.conteiner__Hamb}>
-                    <div class={s['conteiner__Hamb--menu']}>
-                        <button to='/:idProfessional' className={s['conteiner__Hamb--btn']} >X</button>
-                        <div className={s['conteiner__Hamb--down']}>
-                            <div className={s['conteiner__Hamb--table']}>
-                                <span>Servicios</span>
-                                <span>Trabajos</span>
-                                <span>Ajustes</span>
-                            </div>
+                
+                { login && login.message === "Logged"? <div>
+                    <div>
+                        <MdAccountCircle/>
+                        <span>{profile[0]?.first_name + ' ' + profile[0]?.last_name}</span>
+                        <div className='dropdown'>
+                            <button  class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false"><MdExpandMore/></button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
+                                {/* <li><span class="dropdown-item" id='' onClick={handleOrder}>Servicios</span></li>
+                                <li><span class="dropdown-item" id='A-Z' onClick={handleOrder}>Trabajos</span></li>
+                                <li><span class="dropdown-item" id='Z-A' onClick={handleOrder}>Ajustes</span></li> */}
+                                <li><span class="dropdown-item" id='Z-A'onClick={logout}>Cerrar sesion</span></li>
+                    </ul>
                         </div>
+                        
                     </div>
-                </div> */}
+                </div>: null}
             </div>
         </div>
     )
