@@ -22,6 +22,7 @@ export const GET_ALL_USERS = 'GET_ALL_USERS';
 export const GET_ALL_PROFESSIONALS = 'GET_ALL_PROFESSIONALS';
 export const GET_ALL_COMMON_USERS = 'GET_ALL_COMMON_USERS';
 export const GET_BY_USER_ID = 'GET_BY_USER_ID';
+export const GET_BY_COMPTE_ID = 'GET_BY_COMPTE_ID';
 export const GET_PROFESSIONAL_BY_ACTIVITY_NAME = 'GET_PROFESSIONAL_BY_ACTIVITY_NAME';
 export const GET_BY_ACTIVITY_NAME = 'GET_BY_ACTIVITY_NAME';
 export const GET_ALL_NEEDS = 'GET_ALL_NEEDS';
@@ -236,9 +237,24 @@ export function searchByName(input) {
 };
 
 export function orderProfessionals(data){
-    console.log('data......', data)
     return{
         type: ORDER_DATA,
         payload: data
     }
 }
+
+export function getByCompteId(id) {
+    
+    return async function (dispatch) {
+        
+        try {
+            const response = await axios.get(`${ constants.localhost }/user/${ id }`)
+            dispatch({
+                type: GET_BY_COMPTE_ID,
+                payload: response.data
+            });
+        } catch (error) {
+            console.log(error.message)
+        };
+    };
+};

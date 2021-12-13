@@ -66,14 +66,13 @@ export default function Home(){
         <div>
             <NavBar/>
             <div className={s.container__filter}>
-                { login.message === "Logged"?  
+                { login && login.message === "Logged"?  
                 <>
                 <div onClick={landingView} className={s.show__presentation}>
                     <IoEyeSharp/>
                     <span>Ocultar</span>
                 </div>
                 <div>
-                    <CgOptions/>
                     <span>Crear publicacion</span>
                 </div>
                 </>: <></>
@@ -113,7 +112,7 @@ export default function Home(){
                 }
             </div>
             {/* DIV MUESTRA LOS TESTIMONIOS (FEEBACK DE LOS USUARIOS) */}
-            { !(login.userType === "Professional") ? <TestimoniosHome></TestimoniosHome>:<></>}
+            { login && !(login.userType === "Professional") ? <TestimoniosHome></TestimoniosHome>:<></>}
         </div>    
     )
 }
