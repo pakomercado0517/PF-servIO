@@ -20,5 +20,17 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             // allowNull: false,
         },
+        price: {
+            type: DataTypes.INTEGER,
+            // allowNull: false,
+        },
+        duration: {
+            type: DataTypes.INTEGER,
+            // allowNull: false,
+        },
+        guarantee_time: {
+            type: DataTypes.INTEGER,
+            // allowNull: false,
+        }
         }, {});
 }

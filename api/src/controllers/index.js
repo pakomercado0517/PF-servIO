@@ -3,7 +3,8 @@ const { Op } = require('sequelize');
 const Sequelize = require('sequelize')
 const bcrypt = require('bcrypt')
 // @ts-ignore
-const { User, Profession, Professional,ProfessionalOffer, ClientNeed, SpecificTechnicalActivity,Transactions } = require('../db.js')
+const { User, Profession, Professional,ProfessionalOffer, ClientNeed, SpecificTechnicalActivity,Transactions } = require('../db.js');
+const e = require('express');
 
 module.exports ={
     newUser : async (req, res) => {
@@ -111,17 +112,18 @@ module.exports ={
         const user = await User.findAll({
             where:{ email }
         })
-        let userType = ''
+        
+        let userType = ''        
+        if(user.length < 1){
+            res.send("Mail doesn't exist") 
+        } 
         if(user[0].professional === true){
             userType = 'Professional'
         }else{
             userType = 'Client'
         }
-        if(user.length < 1){
-            res.send("Mail doesn't exist") 
-        }
         
-        else if(user.length > 0) {
+        if(user.length > 0) {
             bcrypt.compare(password, user[0].password, (err, isMatch) =>{
                 if(err){
                     res.send('error')
@@ -173,7 +175,6 @@ module.exports ={
         })
         
     },
-
     getUser: async (req, res) => {
         if(req.session.userId){
             const user = await User.findAll({
@@ -193,39 +194,41 @@ module.exports ={
     getProfessionalByName: async (req, res) => {
         const { name } = req.query
         try {
-            const professional = await User.findAll({ 
-                include:[{ 
-                    model: Professional, include:[{model:Profession}]
-                }],
-                where: {professional : true},
-                where: {first_name:{ [Sequelize.Op.iLike]: `%${ name }%`}}
-            })
-            // const ids = await professional.map(e => e.Professional.UserId
-                
-            // )
-            // let uniqueArr = [...new Set(ids)]
-            // let arrUsers = []
-            // for(let i= 0; i < uniqueArr.length; i++){
-            //     arrUsers.push(await User.findAll({
-            //         where: {id: uniqueArr[i]}
-            //     }))
-            // }
-            res.status(200).send(professional)
-            
+            if(!name){
+                const professional = await User.findAll({ 
+                    include:[{ 
+                        model: Professional, include:[{model:Profession}]
+                    }],
+                    where: {professional : true},
+                })
+                res.status(200).send(professional)
+            }else{
+                const professional = await User.findAll({ 
+                    include:[{ 
+                        model: Professional, include:[{model:Profession}]
+                    }],
+                    where: {professional : true},
+                    where: {first_name:{ [Sequelize.Op.iLike]: `%${ name }%`}}
+                })
+                res.status(200).send(professional)
+            }
         } catch (error) {
             res.status(400).send(error.message)
         }
     },
 
     newSpecificalNeed : async (req, res) => {
-        const {name, description, location} = req.body
+        const {name, description, location , price, duration, guarantee_time} = req.body
         try {
             if(req.session.userId){
                 const newNeed = await ClientNeed.create({
                 name,
                 description,
                 status : 'in offer',
-                location
+                location,
+                price,
+                duration,
+                guarantee_time
             })
             
             let allUsers = await User.findAll({
@@ -295,7 +298,7 @@ module.exports ={
 
         
     },
-
+    //CONDICIONAR QUE SOLO PUEDAN OFERTAR PROFESIONALES
     newProfessionalOffer : async (req, res) => {
         const { description, price, duration, materials, guarantee_time, ClientNeedId } = req.body
         try {

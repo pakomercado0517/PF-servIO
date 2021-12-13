@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { BsArrowRightCircle } from 'react-icons/bs'
 import { BsArrowLeftCircle } from 'react-icons/bs'
 // import { FaRegEdit } from 'react-icons/fa'
@@ -10,7 +10,7 @@ import s from './styles/ProfileProfessional.module.css'
 import logo from '../img/ServIO.svg'
 import { useSelector, useDispatch } from 'react-redux';
 import { getByUserId } from '../redux/actions';
-import {NavLink} from 'react-router-dom'
+import {NavLink, Link} from 'react-router-dom'
 
 export default function ProfileProfessional(){
 
@@ -44,7 +44,9 @@ export default function ProfileProfessional(){
     return (
           <div className={ s.container }>
             <div className={ s.container_nav }>
-                <img src={ logo } alt="" />
+                <NavLink to="/">
+                    <img src={ logo } alt="" />
+                </NavLink>
             </div>
             <div className={s.container_details}>
                 <div className={ s.container_details_photo }>
@@ -84,8 +86,8 @@ export default function ProfileProfessional(){
                 }
             </div>
             <h4>Servicios particulares</h4>
-            <div className={ s.container_services }>
-                <div className={ state.seeAllServices?s.container_services_first:s.container_services_first_all }>
+            <div className={ s.container_cards }>
+                <div className={ state.seeAllServices?s.container_cards_first:s.container_cards_first_all }>
                     <CardParticularService/>
                     <CardParticularService/>
                     <CardParticularService/>
@@ -96,16 +98,16 @@ export default function ProfileProfessional(){
                     <CardParticularService/>
                     <CardParticularService/>
                 </div>
-                <div className={ state.seeAllServices?s.container_services_second:s.container_services_second_all }>
+                <div className={ state.seeAllServices?s.container_cards_second:s.container_cards_second_all }>
                     <BsArrowRightCircle onClick={ newStateServices } size="50px"/>
                 </div>
-                <div className={ state.seeAllServices?s.container_services_second_all:s.container_services_second }>
+                <div className={ state.seeAllServices?s.container_cards_second_all:s.container_cards_second }>
                     <BsArrowLeftCircle onClick={ newStateServices } size="50px"/>
                 </div>
             </div>
             <h4>Reviews</h4>
-            <div className={ s.container_reviews }>
-                <div className={ state.seeAllReview? s.container_reviews_first:s.container_reviews_first_all }>
+            <div className={ s.container_cards }>
+                <div className={ state.seeAllReview? s.container_cards_first:s.container_cards_first_all }>
                     <CardReview/>
                     <CardReview/>
                     <CardReview/>
@@ -116,10 +118,10 @@ export default function ProfileProfessional(){
                     <CardReview/>
                     <CardReview/>
                 </div>
-                <div className={ state.seeAllReview?s.container_reviews_second:s.container_reviews_second_all }>
+                <div className={ state.seeAllReview?s.container_cards_second:s.container_cards_second_all }>
                     <BsArrowRightCircle onClick={ newStateReview } size="50px"/>
                 </div>
-                <div className={ state.seeAllReview?s.container_reviews_second_all:s.container_reviews_second }>
+                <div className={ state.seeAllReview?s.container_cards_second_all:s.container_cards_second }>
                     <BsArrowLeftCircle onClick={ newStateReview } size="50px"/>
                 </div>
             </div>
