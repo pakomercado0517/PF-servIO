@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2'
 import axios from 'axios'
-import { useDispatch, useSelector } from "react-redux";
-import { newUser, filterProfessions } from '../redux/actions/index'
+import { useSelector } from "react-redux";
 import {useNavigate } from "react-router-dom";
 import s from './styles/Register.module.css'
 
+import { CgOptions } from 'react-icons/cg';
+
 export default function Crear() {
-
-    const dispatch = useDispatch()
+    
     const [validaChek, setvalidaChek] = useState(false)
-
-    const history = useNavigate() //redirige a '/....'
-
-    const oficio = useSelector((state) => state.professionsName)
-
+    const[errors, setErrors] = useState({});
     const [details, setDetails] = useState({
         firstName:'',
         lastName: '',
@@ -25,13 +21,21 @@ export default function Crear() {
         professional:'',
         cliente:'',
         city:'',
-        profession:[],
-        
+        profession:"",
     })
 
-    console.log(details)
+    const history = useNavigate() //redirige a '/....'
+    // const oficio = useSelector((state) => state.professionsName)
+    const oficio = [
+        "carpintero",
+        "herrero",
+        "electricista",
+        "albañil"
+    ]
 
-    const[errors, setErrors] = useState({});
+    useEffect(() => {
+        console.log(details.professional)
+    }, [details])
 
     function validate(valores){
         let errores = {};
@@ -93,18 +97,28 @@ export default function Crear() {
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
 
+        e.preventDefault();
         const err = validate(details)
-        
         setErrors(err)
-        // axios.post(`http://localhost:3001/user/`, {details})
-        // .then(res => {
-        //     console.log(res);
-        //     console.log(res.data);
-        // })
-        // console.log('post',post)
-        // console.log('post',post.data)
+        const obj= 
+        {
+            // userName: "Alejandrito2",
+            ...details,
+            phone: "123456789", 
+            photo: "Hola", 
+            verified: "true", 
+            certification_name:"oiasfjmqw",
+            certification_img:"qpoejsc.png",
+            status: "no sabe no contesta", 
+        }
+        await axios.post(`http://localhost:3001/user/`, obj)
+        .then(res => {
+            console.log("Respuesta de API: ", res);
+            console.log("Data por API: ", res.data);
+        }).catch(err =>{
+            console.log("Error.....", err)
+        })
 
         Swal.fire({
             icon: 'success',
@@ -126,14 +140,6 @@ export default function Crear() {
             profession:[],
         })
         history('/')
-    
-            // console.log(Object.keys(err).length === 0)
-            // if(Object.keys(err).length === 0){
-                
-            //     // dispatch(newUser(details))
-
-            // }
-        
     }
 
     function handleChange(e){
@@ -141,172 +147,171 @@ export default function Crear() {
             ...details,
             [e.target.name] : e.target.value
         })
-        setErrors( validate (details))
+        setErrors(validate(details))
     }
 
-
-    // function handleCheck(e){
-    //     if(e.target.checked){
-    //         setDetails({
-    //             ...details,
-    //             temporada: [...details.temporada, e.target.value]
-    //         })
-    //     }else{
-    //         setDetails({
-    //             ...details,
-    //             temporada: details.temporada.filter(t => t !== e.target.value )
-    //         })
-    //     }
-    // }    
+    function handleCheck(e){
+        if (e.target.value === "professional" && e.target.checked) setDetails({...details, professional:"true"})
+        if (e.target.value === "cliente" && e.target.checked) setDetails({...details, professional:"false"})
+    } 
 
     function handleSelect(e){
-        
-        if(e.target.checked){
-            setDetails({
-                ...details,
-                countries:[...details.countries, e.target.value] 
-            })
-        }else{
-            setDetails({
-                ...details,
-                countries: details.countries.filter(t => t !== e.target.value )
-            })
-        }
+        console.log(e.target.id)
+        setDetails({
+            ...details,
+            profession: details.profession + e.target.id + ","
+        })
     }
 
     return (
-        <div >
-            
-            <div className={s.titulo}>
-                <h2>Crea tu Usuario</h2>
+        <div className={ s.container} >
+            <div className={ s.container_img }>
+                <p>
+                    Sé parte de nuestra plataforma, registrate ya y disfruta!
+                </p>
             </div>
-            <div  className={s.form}>
-                <form onSubmit= {(e) => handleSubmit(e)}>
-                        <div className={s.names}>
-                            <label>Nombre:</label>
-                            <input 
-                                type= 'text'
-                                value={details.firstName}
-                                name= 'firstName'
-                                onChange={(e) => handleChange(e)}
-                            />
-                            {errors.name && (
-                                <p className='error'>{errors.firstName}</p>
-                            )}
-                            
-                        </div>
-                        <div className={s.names}>
-                            <label>Apellido:</label>
-                            <input 
-                                type= 'text'
-                                value= {details.lastName}
-                                name= 'lastName'
-                                onChange={(e) => handleChange(e)}
-                            />
-                            {errors.name && (
-                                <p className='error'>{errors.lastName}</p>
-                            )}
-                            
-                        </div>
-                        <div className={s.names}>
-                            <label>e-mail:</label>
-                            <input 
-                                type= 'email'
-                                value= {details.email}
-                                name= 'email'
-                                onChange={(e) => handleChange(e)}
-                            />
-                            {errors.name && (
-                                <p className='error'>{errors.email}</p>
-                            )}
-                            
-                        </div>
-                        <div className={s.names}>
-                            <label>DNI:</label>
-                            <input 
-                                type= 'text'
-                                value= {details.dni}
-                                name= 'dni'
-                                onChange={(e) => handleChange(e)}
-                            />
-                            {errors.name && (
-                                <p className='error'>{errors.dni}</p>
-                            )}
-                            
-                        </div>
+            <div className={ s.container_registro }>
+                <div className={s.container_registro_titulo}>
+                    <h2>Crea tu Usuario</h2>
+                </div>
+                <form className={ s.container_registro_form } onSubmit={(e) => handleSubmit(e)}>
+                    <div className={s.container_registro_form_input}>
+                        <label>Nombre:</label>
+                        <input
+                            className='form-control'
+                            type='text'
+                            value={details.firstName}
+                            name='firstName'
+                            onChange={(e) => handleChange(e)}
+                        />
+                        {errors.name && (
+                            <p className={ s.error }>{errors.firstName}</p>
+                        )}
 
-                        <div className={s.names}>
-                            <label>Password:</label>
-                            <input 
-                                type= 'password'
-                                value= {details.password}
-                                name= 'password'
-                                onChange={(e) => handleChange(e)}
-                            />
-                            {errors.name && (
-                                <p className='error'>{errors.repeatPassword}</p>
-                            )}
-                            
-                        </div>
-                       
-                        <div className={s.names}>
-                            <label>repeat password:</label>
-                            <input 
-                                type= 'password'
-                                value= {details.repeatPassword}
-                                name= 'repeatPassword'
-                                onChange={(e) => handleChange(e)}
-                            />
-                            {errors.repeatPassword && (
-                                <p className='error'>{errors.repeatPassword}</p>
-                            )}
-                            
-                        </div>
+                    </div>
+                    <div className={s.container_registro_form_input}>
+                        <label>Apellido:</label>
+                        <input
+                            className='form-control'
+                            type='text'
+                            value={details.lastName}
+                            name='lastName'
+                            onChange={(e) => handleChange(e)}
+                        />
+                        {errors.name && (
+                            <p className={ s.error }>{errors.lastName}</p>
+                        )}
 
+                    </div>
+                    <div className={s.container_registro_form_input}>
+                        <label>e-mail:</label>
+                        <input
+                            className='form-control'
+                            type='email'
+                            value={details.email}
+                            name='email'
+                            onChange={(e) => handleChange(e)}
+                        />
+                        {errors.name && (
+                            <p className={ s.error }>{errors.email}</p>
+                        )}
+
+                    </div>
+                    <div className={s.container_registro_form_input}>
+                        <label>DNI:</label>
+                        <input
+                            className='form-control'
+                            type='text'
+                            value={details.dni}
+                            name='dni'
+                            onChange={(e) => handleChange(e)}
+                        />
+                        {errors.name && (
+                            <p className={ s.error }>{errors.dni}</p>
+                        )}
+
+                    </div>
+
+                    <div className={s.container_registro_form_input}>
+                        <label>Password:</label>
+                        <input
+                            className='form-control'
+                            type='password'
+                            value={details.password}
+                            name='password'
+                            onChange={(e) => handleChange(e)}
+                        />
+                        {errors.name && (
+                            <p className={ s.error }>{errors.repeatPassword}</p>
+                        )}
+
+                    </div>
+
+                    <div className={s.container_registro_form_input}>
+                        <label>repeat password:</label>
+                        <input
+                            className='form-control'
+                            type='password'
+                            value={details.repeatPassword}
+                            name='repeatPassword'
+                            onChange={(e) => handleChange(e)}
+                        />
+                        {/* {errors.repeatPassword && (
+                            <p className={ s.error }>{errors.repeatPassword}</p>
+                        )} */}
+
+                    </div>
+
+
+                    <h4>¿Buscas ofrecer o contratar un servicio?</h4>
+                    <h5>Registrate como profesional o cliente!</h5>
+
+                    <div className={s.container_registro_form_check}>
+                        <label>Profesional:<input
+                            type='checkbox'
+                            name='professional'
+                            value='professional'
+                            onChange={(e) => handleCheck(e)}
+                        /></label>
+                        <br />
+                        <label>Cliente:<input
+                            type='checkbox'
+                            name='cliente'
+                            value='cliente'
+                            onChange={(e) => handleCheck(e)}
+                        /></label>
                         
-                            <p>¿Buscas ofrecer o contratar un servicio?</p>
-                            <p>Registrate como profesional o cliente !</p>
-                        
-                        <div className={s.names}>
-                            <label>Profesional:</label>
-                            <input
-                                type='checkbox'
-                                name='professional'
-                                value='professional'
-                                onChange={(e) => handleCheck(e)}
-                                />
-                            <br/>
-                            <label>Cliente:</label>
-                                <input
-                                    type='checkbox'
-                                    name='cliente'
-                                    value='cliente'
-                                    onChange={(e) => handleCheck2(e)}
-                                    />
 
-                                {/* {errors.cliente && (
+                        {/* {errors.cliente && (
                                     <p>{errors.temporada}</p>
                                 )}  */}
+                    </div>
+                    <div className={s.container_registro_form_oficio}>
+                        <label>Seleccona tu Oficio:</label>
+                        <div className='dropdown'>
+                            <button class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false" ><CgOptions /> Filtrar</button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
+                                {
+                                    oficio.map((el, index)=>{
+                                        return (
+                                            <li key={"li"+index}><span class="dropdown-item" id={el} onClick={handleSelect}>{el}</span></li>
+                                        )
+                                    })
+                                }
+                            </ul>
                         </div>
-                        <div className={s.names}>
-                            <label>Seleccona tu Oficio:</label>
-                            
-                            <opcion className={s.check} >
-                                {oficio.map((c,key) => (
-                                    <opcion className={s.check__pais} key={key} onChange= {(e) => {handleSelect(e); console.log(e.target.value)}} >
-                                        <input type="checkbox" value={c.id} name='oficio' />
-                                            {c.name} 
-                                    </opcion>
-                                ))}
-                            </opcion>
-                            {errors.countries && (
-                                <p className='error'>{errors.countries}</p>
-                            )}
+                        <div className={ s.container_registro_form_oficio_span }>
+                            <p>{details.profession}</p>
                         </div>
-
-                        <button type='submit' className={s.btnActivity}>Agregar actividad</button>
-                    </form>
-                </div>
+                        {errors.countries && (
+                            <p className={ s.error }>{errors.countries}</p>
+                        )}
+                    </div>
+                    <div className={ s.container_registro_form_button }>
+                        <button type='submit' className={"btn btn-success " + s.buttonSubmit}>Registrarse</button>
+                    </div>
+                </form>
+            </div>
         </div>
     )
 }
