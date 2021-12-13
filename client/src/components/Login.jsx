@@ -65,7 +65,7 @@ export default function Login() {
                     icon: 'success',
                     title: 'Logged in',
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 2500
                 })
                 navigate('/')
                 // window.location.href = 'http://localhost:3000/'
@@ -131,25 +131,25 @@ export default function Login() {
                     <div className="row mb-2">
                         <div className="col d-flex justify-content-center">
                             <div className="form-check">
-                                <input
+                                {/* <input
                                     className="form-check-input"
                                     type="checkbox"
                                     // value={false}
                                     id="form2Example34"
-                                />
-                                <label 
+                                /> */}
+                                {/* <label 
                                     className="form-check-label" 
                                     checked autoComplete="off"
                                 >
                                 Recordar mi sesión
-                                </label>
+                                </label> */}
                             </div>
                         </div>
 
                     <div className="row mb-3">
-                        <div className="col d-flex justify-content-center">
+                        {/* <div className="col d-flex justify-content-center">
                             <a href="#!">¿Olvidaste tu contraseña?</a>
-                        </div>
+                        </div> */}
                     </div>
                     </div>
 
@@ -164,13 +164,13 @@ export default function Login() {
 
                     <div className="text-center row mb-1">
                         <p>¿Aún no te registras? <a href="/register">Registrate!</a></p>
-                        <p>O regístrate con:</p>
+                        {/* <p>O regístrate con:</p> */}
 
-                        <button 
+                        {/* <button 
                             type="button" 
                             className="btn btn-lg btn-google btn-block text-uppercase btn-outline" href="#">
                             <img src="https://img.icons8.com/color/40/000000/google-logo.png" alt="google"/> 
-                        </button>
+                        </button> */}
                     </div>
 
                 </form>
