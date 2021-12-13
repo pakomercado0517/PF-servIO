@@ -35,6 +35,7 @@ export const NEW_PROFESSIONAL_OFFER = 'NEW_PROFESSIONAL_OFFER';
 export const FILTER_PROFESSIONS = 'FILTER_PROFESSIONS;'
 
 export const ORDER_DATA = 'ORDER_DATA';
+export const SHOW_FORM_CLIENT_NEED = 'SHOW_FORM_CLIENT_NEED';
 
 
 
@@ -265,6 +266,13 @@ export function orderProfessionals(data){
     }
 }
 
+export function showFormClientNeed(data){
+    console.log('data......', data)
+    return{
+        type: SHOW_FORM_CLIENT_NEED,
+        payload: data
+    }
+}
 
 export function getByCompteId(id) {
     
