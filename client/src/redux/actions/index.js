@@ -251,6 +251,12 @@ export function filterProfessions (){
             dispatch({
                 type: FILTER_PROFESSIONS,
                 payload: response.data
+            })
+        }catch (error){
+            console.log(error)
+        }
+    }
+}
 
 export function orderProfessionals(data){
     return{
@@ -258,6 +264,7 @@ export function orderProfessionals(data){
         payload: data
     }
 }
+
 
 export function getByCompteId(id) {
     
@@ -275,9 +282,5 @@ export function getByCompteId(id) {
         };
 
         
-    };
+    }
 }
-
-    };
-};
-
