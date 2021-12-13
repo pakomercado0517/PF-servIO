@@ -32,7 +32,8 @@ const {
   ClientNeed,
   ProfessionalOffer,
   Profession,
-  Profession_Professional,
+  SpecificTechnicalActivity,
+  Transactions,
 } = require("./src/db");
 const server = require("./src/app.js");
 const { initialFunction } = require("./src/DbExample/user.js");
@@ -44,6 +45,8 @@ const { professionsMap } = require("./src/DbExample/Professions");
 const {
   userProfessionMap,
 } = require("./src/DbExample/profession_professionals");
+const { tecsMap } = require("./src/DbExample/specificTechniques");
+const { transMap } = require("./src/DbExample/transactions");
 // console.log('user', user)
 
 conn.sync({ force: true }).then(() => {
@@ -53,9 +56,6 @@ conn.sync({ force: true }).then(() => {
       (await Professional.bulkCreate(professionalMap))
         ? console.log("|---Professional---| Created")
         : console.log("Professional not created");
-      (await ClientReview.bulkCreate(reviewMap))
-        ? console.log("|---Client Review---| Created")
-        : console.log("Client Review not created");
       (await ClientNeed.bulkCreate(needMap))
         ? console.log("|---Client Need---| Created")
         : console.log("Client Need not created");
@@ -65,7 +65,15 @@ conn.sync({ force: true }).then(() => {
       (await Profession.bulkCreate(professionsMap))
         ? console.log("|---Professional---| Created")
         : console.log("Professional not created");
-
+      (await SpecificTechnicalActivity.bulkCreate(tecsMap))
+        ? console.log("|---Specific Techniques---| created")
+        : console.log("¡¡¡Specific Techniques!!! not created");
+      (await Transactions.bulkCreate(transMap))
+        ? console.log("|---Transactions---| created")
+        : console.log("¡¡¡Transactions!!! not created");
+      (await ClientReview.bulkCreate(reviewMap))
+        ? console.log("|---Client Review---| Created")
+        : console.log("Client Review not created");
       await userProfessionMap();
     } catch (err) {
       // console.log(err);
