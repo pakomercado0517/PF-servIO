@@ -26,6 +26,7 @@ module.exports ={
             status, 
             profession  
         } = req.body;
+        console.log(req.body)
 
         error = [];
 
@@ -77,11 +78,14 @@ module.exports ={
             
             if(professional === 'true') {
                 let newProfessional = await Professional.create({ 
-                    certification_name:certification_name ? certification_name: '',
-                    certification_img:certification_img ? certification_img : '',
-                    status : status ? status : 'normal',
+                    // certification_name:certification_name ? certification_name: '',
+                    // certification_img:certification_img ? certification_img : '',
+                    // status : status ? status : 'normal',
+                    certification_name: '',
+                    certification_img: '',
+                    status :  'normal',
                 })
-
+                console.log("ACAAA",profession.toLowerCase())
                 let professions = profession.toLowerCase()
                 if(typeof professions === 'string'){
                     professions = professions.split(',');
@@ -98,7 +102,6 @@ module.exports ={
                     await newProfessional.setProfessions( allProfessions );
                     await newUser.setProfessional( newProfessional )
             }
-
             res.status(200).send(`You are now registered, ${firstName +' ' + lastName} please log in`) 
             } catch (error) {
                 res.status(400).send(error.message);
