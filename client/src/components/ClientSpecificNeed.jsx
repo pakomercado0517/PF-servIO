@@ -40,7 +40,7 @@ export const ClientSpecificNeed = () => {
                 guarantee_time:123213,
                 userId: user.cookies.userId
             }
-            console.log(obj)
+            // console.log(obj)
             const post = await axios.post('http://localhost:3001/clientNeeds', obj)
             .then(() => {
                 const fondo = document.getElementById("fondo-form-client-need")
@@ -48,12 +48,12 @@ export const ClientSpecificNeed = () => {
                 
                 Swal.fire({
                     icon: 'success',
-                    title: 'Logged in',
+                    title: 'Publicacion creada!',
                     showConfirmButton: false,
                     timer: 1500
                 })
             })
-            console.log('post',post.data)
+            console.log('post',post)
 
             // if( post.data.message === 'Logged') {
 
