@@ -6,11 +6,12 @@ import Landing from '../components/Landing';
 import {CgOptions} from 'react-icons/cg'
 import {IoEyeSharp} from 'react-icons/io5'
 import CardProfessional from '../components/CardProtessional.jsx'
-import { getAllProfessionals, orderProfessionals} from '../redux/actions';
+import { getAllProfessionals, orderProfessionals, showFormClientNeed } from '../redux/actions';
 import img from '../img/ivana-cajina-_7LbC5J-jw4-unsplash.jpg'
 import Pagination from "../components/Pagination";
 
 import TestimoniosHome from '../components/TestimoniosHome';
+import { ClientSpecificNeed } from '../components/ClientSpecificNeed';
 
 export default function Home(){
 
@@ -30,7 +31,7 @@ export default function Home(){
     const paginate = pageNumber => {
       setCurrentPage(pageNumber);
     };
-    
+
     const [input, setInput] = useState({
         order: ''
     })
@@ -61,18 +62,23 @@ export default function Home(){
         }
     },[dispatch, input.order])
 
+    function showModalFormCLient(){
+        dispatch(showFormClientNeed("show"))
+    }
+
     // console.log(input.order);
     return (
         <div>
+            <ClientSpecificNeed></ClientSpecificNeed>
             <NavBar/>
             <div className={s.container__filter}>
-                { login.message === "Logged"?  
+                { login && login.message === "Logged"?  
                 <>
                 <div onClick={landingView} className={s.show__presentation}>
                     <IoEyeSharp/>
                     <span>Ocultar</span>
                 </div>
-                <div>
+                <div onClick={showModalFormCLient} className={s.show__presentation}>
                     <CgOptions/>
                     <span>Crear publicacion</span>
                 </div>
@@ -89,7 +95,7 @@ export default function Home(){
                 </div>
             </div>
 
-            { localStorage.getItem("landing")==="visible" ? <Landing/>:<></>}
+            { localStorage.getItem("landing") === "visible" ? <Landing/>:<></>}
 
             {/* DIV RENDERIZA LAS CARDS DEL PROFESIONAL */}
             <Pagination
@@ -113,7 +119,7 @@ export default function Home(){
                 }
             </div>
             {/* DIV MUESTRA LOS TESTIMONIOS (FEEBACK DE LOS USUARIOS) */}
-            { !(login.userType === "Professional") ? <TestimoniosHome></TestimoniosHome>:<></>}
+            { login && !(login.userType === "Professional") ? <TestimoniosHome></TestimoniosHome>:<></>}
         </div>    
     )
 }
