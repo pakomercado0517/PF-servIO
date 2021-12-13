@@ -1,4 +1,6 @@
-import {GET_ALL_NEEDS, GET_ALL_PROFESSIONALS, GET_BY_USER_ID, NEW_USER, SEARCH_PROFESSIONAL_BY_NAME, ORDER_DATA, SHOW_FORM_CLIENT_NEED} from '../actions'
+import {GET_ALL_NEEDS, GET_ALL_PROFESSIONALS, GET_BY_USER_ID, NEW_USER, SEARCH_PROFESSIONAL_BY_NAME, ORDER_DATA, SHOW_FORM_CLIENT_NEED, GET_BY_COMPTE_ID } from '../actions'
+
+
 
 const initialState = {
     professionals: [],
@@ -6,6 +8,11 @@ const initialState = {
     clientNeeds: [],
     message:[],
     modal:"",
+
+    professionsName:[],
+
+    compte: [],
+
 };
 
 function rootReducer( state = initialState, { type, payload } ) {
@@ -19,6 +26,11 @@ function rootReducer( state = initialState, { type, payload } ) {
             return {
                 ...state,
                 user: payload,
+            };
+        case GET_BY_COMPTE_ID:
+            return {
+                ...state,
+                compte: payload,
             };
         case GET_ALL_NEEDS:
             return {
@@ -40,6 +52,14 @@ function rootReducer( state = initialState, { type, payload } ) {
                 ...state,
                 modal: payload
             }
+
+            case FILTER_PROFESSIONS:
+                return {
+                    ...state,
+                    professionsName: payload,
+                }
+        
+
         case ORDER_DATA:
             let option = [];
             switch (payload) {
@@ -64,8 +84,10 @@ function rootReducer( state = initialState, { type, payload } ) {
                 ...state,
                 professionals: option
             }
+
         default:
             return state;
+        
 
     };
 };

@@ -12,7 +12,7 @@ export default function Landing() {
                 <span className={styles.landing__title}>servIO</span>
                 <p className={styles.landing__subtitle}>busca servicios profesionales desde la plataforma con seguridad y eficacia desde la comodidad de tu hogar... Crea tu necesidad!!
                 </p>
-                { !(login.userType === "Professional") ? <div className={ styles.div_principal__first__buttons }>
+                { !(login && login.message === "Logged") ? <div className={ styles.div_principal__first__buttons }>
                     <NavLink to="/login" className={ styles.div_principal__first__buttons__button }> 
                         Iniciar sesión
                     </NavLink>

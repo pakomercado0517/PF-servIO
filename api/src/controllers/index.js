@@ -175,7 +175,6 @@ module.exports ={
         })
         
     },
-
     getUser: async (req, res) => {
         if(req.session.userId){
             const user = await User.findAll({
