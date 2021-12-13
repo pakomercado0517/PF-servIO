@@ -144,34 +144,20 @@ export default function Crear() {
         setErrors( validate (details))
     }
 
-    function handleCheck(e){
-        if(e.target.checked){
-            console.log(e.target.checked)
-            setDetails({
-                ...details,
-                professional: [...details.professional, e.target.value]
-            })
-        }else{
-            setDetails({
-                ...details,
-                professional: details.professional.filter(t => t !== e.target.value )
-            })
-        }
-    }
-    function handleCheck2(e){
-        if(e.target.checked){
-            console.log(e.target.checked)
-            setDetails({
-                ...details,
-                cliente: [...details.cliente, e.target.value]
-            })
-        }else{
-            setDetails({
-                ...details,
-                cliente: details.cliente.filter(t => t !== e.target.value )
-            })
-        }
-    }
+
+    // function handleCheck(e){
+    //     if(e.target.checked){
+    //         setDetails({
+    //             ...details,
+    //             temporada: [...details.temporada, e.target.value]
+    //         })
+    //     }else{
+    //         setDetails({
+    //             ...details,
+    //             temporada: details.temporada.filter(t => t !== e.target.value )
+    //         })
+    //     }
+    // }    
 
     function handleSelect(e){
         
