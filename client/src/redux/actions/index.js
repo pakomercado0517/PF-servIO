@@ -31,7 +31,11 @@ export const NEW_ESPECIFICAL_NEED = 'NEW_ESPECIFICAL_NEED';
 export const NEW_TECHNICAL_ACTIVITY = 'NEW_TECHNICAL_ACTIVITY';
 export const NEW_USER = 'NEW_USER';
 export const NEW_PROFESSIONAL_OFFER = 'NEW_PROFESSIONAL_OFFER';
+
+export const FILTER_PROFESSIONS = 'FILTER_PROFESSIONS;'
+
 export const ORDER_DATA = 'ORDER_DATA';
+
 
 
 // trae todos los usuarios - clientes y profesionales
@@ -158,7 +162,7 @@ export function newUser(data) {
     return async function (dispatch) {
         
         try {
-            const response = await axios.post(`${ constants.localhost }/User/`, data)
+            const response = await axios.post(`${ constants.localhost }/user/`, data)
             dispatch({
                 type: NEW_USER,
                 payload: response.data
@@ -236,6 +240,18 @@ export function searchByName(input) {
     };
 };
 
+
+// Nombres de profeciones
+export function filterProfessions (){
+
+    return async function (dispatch) {
+        
+        try {
+            const response = await axios.get(`${ constants.localhost }/professions/name`)
+            dispatch({
+                type: FILTER_PROFESSIONS,
+                payload: response.data
+
 export function orderProfessionals(data){
     return{
         type: ORDER_DATA,
@@ -252,9 +268,16 @@ export function getByCompteId(id) {
             dispatch({
                 type: GET_BY_COMPTE_ID,
                 payload: response.data
+
             });
         } catch (error) {
             console.log(error.message)
         };
+
+        
+    };
+}
+
     };
 };
+

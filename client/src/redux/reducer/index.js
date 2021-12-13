@@ -1,11 +1,17 @@
-import {GET_ALL_NEEDS, GET_ALL_PROFESSIONALS, GET_BY_USER_ID, NEW_USER, SEARCH_PROFESSIONAL_BY_NAME, ORDER_DATA, GET_BY_COMPTE_ID} from '../actions'
+
+import {GET_ALL_NEEDS, GET_ALL_PROFESSIONALS, GET_BY_USER_ID, NEW_USER, SEARCH_PROFESSIONAL_BY_NAME,FILTER_PROFESSIONS, ORDER_DATA, GET_BY_COMPTE_ID} from '../actions'
+
 
 const initialState = {
     professionals: [],
     user: [],
     clientNeeds: [],
     message:[],
-    compte: []
+
+    professionsName:[],
+
+    compte: [],
+
 };
 
 function rootReducer( state = initialState, { type, payload } ) {
@@ -40,6 +46,14 @@ function rootReducer( state = initialState, { type, payload } ) {
                 ...state,
                 professionals: payload
             }
+
+            case FILTER_PROFESSIONS:
+                return {
+                    ...state,
+                    professionsName: payload,
+                }
+        
+
         case ORDER_DATA:
             let option = [];
             switch (payload) {
@@ -64,8 +78,10 @@ function rootReducer( state = initialState, { type, payload } ) {
                 ...state,
                 professionals: option
             }
+
         default:
             return state;
+        
 
     };
 };
