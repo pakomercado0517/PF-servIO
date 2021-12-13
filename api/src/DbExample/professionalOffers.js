@@ -1,94 +1,124 @@
-const offers=[
+const offers = [
   {
-    description: 'Destapar cañería',
+    description: "Destapar cañería",
     price: 300,
     duration: 60,
     materials: false,
     guarantee_time: 30,
-    professionalId: 1
+    professionalId: 1,
+    ClientNeedId: 1,
   },
   {
-    description: 'Destapar cañería',
+    description: "Destapar cañería",
     price: 300,
     duration: 60,
     materials: false,
     guarantee_time: 30,
-    professionalId: 1
+    professionalId: 1,
+    ClientNeedId: 15,
   },
   {
-    description: 'Destapar cañería',
+    description: "Destapar cañería",
     price: 300,
     duration: 60,
     materials: false,
     guarantee_time: 30,
-    professionalId: 4
+    professionalId: 4,
+    ClientNeedId: 2,
   },
   {
-    description: 'Destapar cañería',
+    description: "Destapar cañería",
     price: 300,
     duration: 60,
     materials: false,
     guarantee_time: 30,
-    professionalId: 4
+    professionalId: 4,
+    ClientNeedId: 3,
   },
   {
-    description: 'Cambiar llave de agua',
+    description: "Cambiar llave de agua",
     price: 150,
     duration: 30,
     materials: true,
     guarantee_time: 30,
-    professionalId: 5
+    professionalId: 5,
+    ClientNeedId: 4,
   },
   {
-    description: 'Cortado y lijado de tablas',
+    description: "Cortado y lijado de tablas",
     price: 40,
     duration: 40,
-    materials: true, 
+    materials: true,
     guarantee_time: 30,
-    professionalId: 2
+    professionalId: 2,
+    ClientNeedId: 5,
   },
   {
-    description: 'Barnizado a tablas (precio por pieza)',
+    description: "Barnizado a tablas (precio por pieza)",
     price: 50,
     duration: 120,
     materials: true,
     guarantee_time: 30,
-    professionalId: 2
+    professionalId: 2,
+    ClientNeedId: 6,
   },
   {
-    description: 'Armado de zapatas para colado',
+    description: "Armado de zapatas para colado",
     price: 80,
     duration: 30,
     materials: false,
     guarantee_time: 0,
-    professionalId: 3
+    professionalId: 3,
+    ClientNeedId: 7,
   },
   {
-    description: 'Colado de losa precio por m3',
+    description: "Colado de losa precio por m3",
     price: 250,
     duration: 00,
     materials: false,
     guarantee_time: 0,
-    professionalId: 3
+    professionalId: 3,
+    ClientNeedId: 10,
   },
   {
-    description: 'Colado de losa precio por m3',
+    description: "Colado de losa precio por m3",
     price: 250,
     duration: 00,
     materials: false,
     guarantee_time: 0,
-    professionalId: 5
+    professionalId: 5,
+    ClientNeedId: 8,
   },
-]
+  {
+    description: "Colado de losa precio por m3",
+    price: 250,
+    duration: 00,
+    materials: false,
+    guarantee_time: 0,
+    professionalId: 10,
+    ClientNeedId: 7,
+  },
+  {
+    description: "Colado de losa precio por m3",
+    price: 250,
+    duration: 00,
+    materials: false,
+    guarantee_time: 0,
+    professionalId: 45,
+    ClientNeedId: 2,
+  },
+];
 
-const offerMap= offers.map(el => {
+const offerMap = offers.map((el) => {
   return {
     description: el.description,
     price: el.price,
     duration: el.duration,
     materials: el.materials,
-    guarantee_time: el.guarantee_time,ProfessionalId: el.professionalId
-  }
-})
+    guarantee_time: el.guarantee_time,
+    ProfessionalId: el.professionalId,
+    ClientNeedId: el.ClientNeedId,
+  };
+});
 
-module.exports ={offerMap}
+module.exports = { offerMap };
