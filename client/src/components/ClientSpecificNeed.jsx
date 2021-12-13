@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 
 import { showFormClientNeed } from '../redux/actions'
+import Swal from 'sweetalert2'
 
 import axios from 'axios'
 // import img from '../img/brooke-cagle-tLG2hcpITZE-unsplash.jpg';
@@ -14,7 +15,7 @@ import axios from 'axios'
 export const ClientSpecificNeed = () => {
     
     const modal = useSelector(state => state.modal)
-    // const user = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
+    const user = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
 
     const [form, setform] = useState({
         description: "",
@@ -31,31 +32,27 @@ export const ClientSpecificNeed = () => {
     const postNeed = async (e) =>{
         e.preventDefault()
         try {
-            // console.log(user)
-            // const infoUser = await axios.get('http://localhost:3001/user/' + user.cookies.userId)
-            // console.log(infoUser.data[0].first_name + " " + infoUser.data[0].last_name)
-            // console.log(infoUser.data[0].city)
-            // price, duration, guarantee_time.
-            // let obj = {
-            //     ...form,
-            //     location: "ebgwre", 
-            //     price: 65,
-            //     duration: 654,
-            //     guarantee_time: 51,
-            //     materials: "true",
-            //     professionalId: 2,
-            //     status: "in offer"
-            // }
             var obj = {
-                name:"barrer",
-                description:"asdasdasd",
+                ...form,
                 location:"sadsadsa",
                 price:1200,
                 duration:12321,
                 guarantee_time:123213,
+                userId: user.cookies.userId
             }
             console.log(obj)
             const post = await axios.post('http://localhost:3001/clientNeeds', obj)
+            .then(() => {
+                const fondo = document.getElementById("fondo-form-client-need")
+                fondo.style.top = "-100vh"
+                
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Logged in',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            })
             console.log('post',post.data)
 
             // if( post.data.message === 'Logged') {
