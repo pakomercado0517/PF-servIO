@@ -60,9 +60,6 @@ export default function NavBar() {
                         onChange={handleName} 
                         value={input.name}>
                     </input>
-                        {/* <div className={s.conteiner__btn}>
-                        <button type='submit' className={s['conteiner__btn--btn']}></   button>
-                        </div> */}
                 </div>
 
                 <div className={s.container__navigate}>
@@ -71,11 +68,11 @@ export default function NavBar() {
                 </div>
                 
                 { login && login.message === "Logged"? <div>
-                    <div>
-                        <MdAccountCircle/>
-                        <span>{profile[0]?.first_name + ' ' + profile[0]?.last_name}</span>
+                    <div className={s.session}>
+                        <MdAccountCircle className={s.iconLogin}/>
+                        <span>{profile[0]?.first_name.length > 6 ? profile[0]?.first_name.slice(0,6 + '...'): profile[0]?.first_name}</span>
                         <div className='dropdown'>
-                            <button  class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false"><MdExpandMore/></button>
+                            <button  class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false"></button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
                                 {/* <li><span class="dropdown-item" id='' onClick={handleOrder}>Servicios</span></li>
                                 <li><span class="dropdown-item" id='A-Z' onClick={handleOrder}>Trabajos</span></li>
