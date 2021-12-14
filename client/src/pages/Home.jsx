@@ -69,11 +69,6 @@ export default function Home(){
     }, [stateRedux])
 
 
-
-    // function showModalFormCLient(){
-    //     dispatch(showFormClientNeed("show"))
-    // }
-
     return (
         <div>
             <ClientSpecificNeed/>
@@ -117,7 +112,6 @@ export default function Home(){
                             idTech={professional.id} 
                             avatarTech={professional.photo} 
                             titleTech={professional.first_name + ' ' + professional.last_name}
-                            //* PENDIENTE DATA DEL WORKTECH 
                             workTech={ professional.Professional?.Professions[0].name }
                             locationTech={professional.state + ', ' + professional.city}
                             //* PENDIENTE DATA DEL CALIFICATION
