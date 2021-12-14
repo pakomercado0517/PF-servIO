@@ -34,6 +34,9 @@
 }
 
 .div_principal__first__buttons__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 140px;
     height: 35px;
     border: none;
@@ -43,13 +46,16 @@
     padding: 8px;
     font-family: 'Poppins', sans-serif;
     cursor: pointer;
+    text-decoration: none;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .div_principal__first__buttons__button:active{
     transform: scale(.9);
-    
+}
 
+.div_principal__first__buttons__button:hover{
+    color: white;
 }
 
 .div_principal__second{
