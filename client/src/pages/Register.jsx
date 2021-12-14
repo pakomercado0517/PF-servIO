@@ -139,7 +139,7 @@ export default function Crear() {
             city:'',
             profession:[],
         })
-        history('/')
+        history('/login')
     }
 
     function handleChange(e){
