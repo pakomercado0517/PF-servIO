@@ -77,7 +77,7 @@ export default function Crear() {
     
         //validacion Repeat-password
         if(!(valores.password === valores.repeatPassword)) {
-            errores.repeatPassword = 'Por favor ingresa nuevamente el password'
+            errores.repeatPassword = 'Las passwords no coinciden'
         }else if(! /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(valores.repeatPassword)){
             errores.repeatPassword= 'El password debe tener mínimo ocho caracteres, al menos una letra y un número'
         }
@@ -95,6 +95,8 @@ export default function Crear() {
     
         return errores;
     }
+
+    // document. getElementById("Button"). disabled = true
 
     const handleSubmit = async (e) => {
 
