@@ -5,7 +5,9 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import {FiSearch} from 'react-icons/fi'
 import {MdAccountCircle, MdExpandMore} from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux';
-import {searchByName, getAllProfessionals, getByCompteId} from '../redux/actions'
+import {searchByName, getAllProfessionals, getByCompteId, showFormClientNeed} from '../redux/actions'
+import { CgOptions } from 'react-icons/cg';
+import { Search } from './Search';
 // import { CgLogOut } from 'react-icons/cg';
 
 export default function NavBar() {
@@ -15,9 +17,9 @@ export default function NavBar() {
 
     const profile = useSelector(state => state.compte)
 
-    const[input, setInput]= useState({
-        name:""
-    })
+    // const[input, setInput]= useState({
+    //     name:""
+    // })
     // console.log(profile);
 
     function logout() {
@@ -36,22 +38,27 @@ export default function NavBar() {
         }
     },[])
 
-    useEffect(()=>{
-        if (input.name) {
-            dispatch(searchByName(input.name))
-        } else {
-            dispatch(getAllProfessionals())
-        }
-    }, [dispatch, input.name])
+    // useEffect(()=>{
+    //     if (input.name) {
+    //         dispatch(searchByName(input.name))
+    //     } else {
+    //         dispatch(getAllProfessionals())
+    //     }
+    // }, [dispatch, input.name])
 
-    function handleName (e) {setInput({...input, name:e.target.value})}
+    // function handleName (e) {setInput({...input, name:e.target.value})}
+
+    function showModalFormCLient(){
+        dispatch(showFormClientNeed("show"))
+    }
+
     return (
         <div className={ s.navbar }>
             <div className={ s.container__logo }>
                 <img src={ logo } alt="Logo" />
             </div>
             <div className={s.container__elements}>
-                <div className={s.container__input}>
+                {/* <div className={s.container__input}>
                     <FiSearch/>
                     <input 
                         className={s['container__input--text']}
@@ -60,11 +67,20 @@ export default function NavBar() {
                         onChange={handleName} 
                         value={input.name}>
                     </input>
-                </div>
+                </div> */}
+                <Search/>
+
+                
 
                 <div className={s.container__navigate}>
                     <NavLink to='/' className={s['container__inicio--btn'] }   >Inicio</NavLink>
                     <NavLink to='/nosotros' className={s['container__inicio--btn']}>Sobre Nosotros</NavLink>
+                </div>
+
+                
+                <div onClick={showModalFormCLient} className={s.show__presentation}>
+                    <CgOptions/>
+                    <span>Crear publicacion</span>
                 </div>
                 
                 { login && login.message === "Logged"? <div>
