@@ -21,3 +21,11 @@
     color: #707070;
     width: 80%;
 } 
+
+.container__btn{
+    color: rgba(121, 119, 117, 0.938);
+    font-size: medium;
+    font-weight: bold;
+    border:none;
+    text-decoration: none;
+}
