@@ -35,6 +35,9 @@ export const Search = () => {
                         onChange={handleName} 
                         value={input.name}>
                     </input>
+                    <div className={s.conteiner__btn}>
+                        <button type='submit' className={s['container__btn--btn']}></   button>
+                    </div>
                 </div>
         </div>
     )

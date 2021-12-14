@@ -1,14 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import s from './styles/NavBar.module.css'
+import React from 'react';
+import { Search } from './Search';
+import { NavLink } from 'react-router-dom';
 import logo from '../img/ServIO.svg';
-import { NavLink, useNavigate } from 'react-router-dom';
-import {FiSearch} from 'react-icons/fi'
-import {MdAccountCircle, MdExpandMore} from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux';
 import {searchByName, getAllProfessionals, getByCompteId, showFormClientNeed} from '../redux/actions'
+import s from './styles/NavBar.module.css'
 import { CgOptions } from 'react-icons/cg';
-import { Search } from './Search';
-// import { CgLogOut } from 'react-icons/cg';
+import { useEffect } from 'react';
+import { MdAccountCircle } from 'react-icons/md';
 
 export default function NavBar() {
 
@@ -16,11 +15,6 @@ export default function NavBar() {
     const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
 
     const profile = useSelector(state => state.compte)
-
-    // const[input, setInput]= useState({
-    //     name:""
-    // })
-    // console.log(profile);
 
     function logout() {
         fetch('http://localhost:3001/user/logout',{
@@ -38,16 +32,6 @@ export default function NavBar() {
         }
     },[])
 
-    // useEffect(()=>{
-    //     if (input.name) {
-    //         dispatch(searchByName(input.name))
-    //     } else {
-    //         dispatch(getAllProfessionals())
-    //     }
-    // }, [dispatch, input.name])
-
-    // function handleName (e) {setInput({...input, name:e.target.value})}
-
     function showModalFormCLient(){
         dispatch(showFormClientNeed("show"))
     }
@@ -58,47 +42,52 @@ export default function NavBar() {
                 <img src={ logo } alt="Logo" />
             </div>
             <div className={s.container__elements}>
-                {/* <div className={s.container__input}>
-                    <FiSearch/>
-                    <input 
-                        className={s['container__input--text']}
-                        type='text'
-                        placeholder="Buscar Tecnico"
-                        onChange={handleName} 
-                        value={input.name}>
-                    </input>
-                </div> */}
-                <Search/>
 
-                
+                <Search/>
 
                 <div className={s.container__navigate}>
                     <NavLink to='/' className={s['container__inicio--btn'] }   >Inicio</NavLink>
                     <NavLink to='/nosotros' className={s['container__inicio--btn']}>Sobre Nosotros</NavLink>
                 </div>
 
-                
                 <div onClick={showModalFormCLient} className={s.show__presentation}>
                     <CgOptions/>
                     <span>Crear publicacion</span>
                 </div>
-                
-                { login && login.message === "Logged"? <div>
-                    <div className={s.session}>
-                        <MdAccountCircle className={s.iconLogin}/>
-                        <span>{profile[0]?.first_name.length > 6 ? profile[0]?.first_name.slice(0,6 + '...'): profile[0]?.first_name}</span>
-                        <div className='dropdown'>
-                            <button  class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false"></button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
-                                {/* <li><span class="dropdown-item" id='' onClick={handleOrder}>Servicios</span></li>
-                                <li><span class="dropdown-item" id='A-Z' onClick={handleOrder}>Trabajos</span></li>
-                                <li><span class="dropdown-item" id='Z-A' onClick={handleOrder}>Ajustes</span></li> */}
-                                <li><span class="dropdown-item" id='Z-A'onClick={logout}>Cerrar sesion</span></li>
-                    </ul>
+{/*                 
+                <div className={s.conteiner__Hamb}>
+                    <div class={s['conteiner__Hamb--menu']}>
+                        <button to='/:idProfessional' className={s['conteiner__Hamb--btn']} >X</button>
+                        <div className={s['conteiner__Hamb--down']}>
+                            <div className={s['conteiner__Hamb--table']}>
+                                <span>Servicios</span>
+                                <span>Trabajos</span>
+                                <span>Ajustes</span>
+                            </div>
                         </div>
-                        
                     </div>
+                </div> */}
+
+                { login && login.message === "Logged"? <div>
+                <div className={s.session}>
+                    <MdAccountCircle className={s.iconLogin}/>
+                    {/* <span>{profile[0]?.first_name.length > 6 ? profile[0]?.first_name.slice(0,6 + '...'):   profile[0]?.first_name}</span> */}
+
+                <span>{ profile[0]?.first_name }</span>
+                <div className='dropdown'>
+                <button  class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false"></button>
+                
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
+                <li><span class="dropdown-item" >Notificaciones</span></li>
+                <li><span class="dropdown-item" >Carrito</span></li>
+                <li><span class="dropdown-item" >Editar Perfil</span></li>
+                <li><span class="dropdown-item"  onClick={logout}>Cerrar sesion</span></li>
+                </ul>
+                </div>
+
+                </div>
                 </div>: null}
+
             </div>
         </div>
     )
