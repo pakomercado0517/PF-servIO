@@ -50,7 +50,6 @@ export default function Home(){
         }
         console.log(window.localStorage.getItem("landing"))
     }
-    // window.localStorage.setItem('landing', 'visible')
 
     useEffect(() => {
     }, [state, professionals])
@@ -70,7 +69,7 @@ export default function Home(){
     // console.log(input.order);
     return (
         <div>
-            <ClientSpecificNeed></ClientSpecificNeed>
+            <ClientSpecificNeed/>
             <NavBar/>
             <div className={s.container__filter}>
                 { login && login.message === "Logged"?  
