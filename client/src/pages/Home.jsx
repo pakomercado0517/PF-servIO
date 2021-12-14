@@ -1,22 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import s from './styles/Home.module.css'
-import NavBar from '../components/NavBar';
+// import NavBar from '../components/NavBar';
 import Landing from '../components/Landing';
 import {CgOptions} from 'react-icons/cg'
 import {IoEyeSharp} from 'react-icons/io5'
 import CardProfessional from '../components/CardProtessional.jsx'
-import { getAllProfessionals, orderProfessionals, showFormClientNeed } from '../redux/actions';
+import { getAllProfessionals, orderProfessionals } from '../redux/actions';
 // import img from '../img/ivana-cajina-_7LbC5J-jw4-unsplash.jpg'
 import Pagination from "../components/Pagination";
 import TestimoniosHome from '../components/TestimoniosHome';
 import { ClientSpecificNeed } from '../components/ClientSpecificNeed';
 
 export default function Home(){
-
+    
     const dispatch = useDispatch();
     const professionals = useSelector(state => state.professionals);
-
+    const stateRedux = useSelector(state => state)
+    
     const [state, setstate] = useState("")
     
     const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
@@ -26,10 +27,7 @@ export default function Home(){
     let indexOfLastPost = currentPage * postsPerPage;
     let indexOfFirstPost = indexOfLastPost - postsPerPage;
     let currentPosts = professionals?.slice(indexOfFirstPost, indexOfLastPost);
-  
-    const paginate = pageNumber => {
-      setCurrentPage(pageNumber);
-    };
+    const paginate = pageNumber => setCurrentPage(pageNumber);
 
     const [input, setInput] = useState({
         order: ''
@@ -66,14 +64,24 @@ export default function Home(){
         
     },[dispatch, input.order])
 
-    function showModalFormCLient(){
-        dispatch(showFormClientNeed("show"))
-    }
+    useEffect(() => {
+        currentPosts = professionals?.slice(indexOfFirstPost, indexOfLastPost)
+    }, [stateRedux])
+
+
+
+    // function showModalFormCLient(){
+    //     dispatch(showFormClientNeed("show"))
+    // }
 
     return (
         <div>
             <ClientSpecificNeed/>
-            <NavBar/>
+            {/* <NavBar/> */}
+                {/* <div onClick={showModalFormCLient} className={s.show__presentation}>
+                    <CgOptions/>
+                    <span>Crear publicacion</span>
+                </div> */}
             <div className={s.container__filter}>
                 { login && login.message === "Logged"?  
                 <>
@@ -81,15 +89,11 @@ export default function Home(){
                     <IoEyeSharp/>
                     <span>Ocultar</span>
                 </div>
-                <div onClick={showModalFormCLient} className={s.show__presentation}>
-                    <CgOptions/>
-                    <span>Crear publicacion</span>
-                </div>
                 </>: <></>
                 
                 }
                 <div className='dropdown'>
-                    <button class="border-0 btn btn-primary dropdown-toggle bg-info" id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false" ><CgOptions/> Filtrar</button>
+                    <button class="border-0 btn btn-primary dropdown-toggle bg-info" id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false" ><CgOptions/>Ordenado</button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
                         <li><span class="dropdown-item" id='' onClick={handleOrder}>Default</span></li>
                         <li><span class="dropdown-item" id='A-Z' onClick={handleOrder}>A-Z</span></li>
@@ -114,7 +118,7 @@ export default function Home(){
                             avatarTech={professional.photo} 
                             titleTech={professional.first_name + ' ' + professional.last_name}
                             //* PENDIENTE DATA DEL WORKTECH 
-                            workTech={'Arquitecto'}
+                            workTech={ professional.Professional?.Professions[0].name }
                             locationTech={professional.state + ', ' + professional.city}
                             //* PENDIENTE DATA DEL CALIFICATION
                             calificationTech={'calification: 5/5'}/>
