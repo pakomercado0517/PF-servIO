@@ -6,7 +6,7 @@ import {FiSearch} from 'react-icons/fi'
 import {MdAccountCircle, MdExpandMore} from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux';
 import {searchByName, getAllProfessionals, getByCompteId} from '../redux/actions'
-import { CgLogOut } from 'react-icons/cg';
+// import { CgLogOut } from 'react-icons/cg';
 
 export default function NavBar() {
 
@@ -18,7 +18,7 @@ export default function NavBar() {
     const[input, setInput]= useState({
         name:""
     })
-    console.log(profile);
+    // console.log(profile);
 
     function logout() {
         fetch('http://localhost:3001/user/logout',{
