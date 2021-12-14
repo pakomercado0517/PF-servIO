@@ -53,7 +53,7 @@ export default function Home(){
     // window.localStorage.setItem('landing', 'visible')
 
     useEffect(() => {
-    }, [state])
+    }, [state, professionals])
 
     useEffect(()=>{
         if (input.order) {

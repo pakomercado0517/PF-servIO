@@ -65,15 +65,15 @@ function rootReducer( state = initialState, { type, payload } ) {
             switch (payload) {
                 case 'A-Z':
                     option = state.professionals.sort((a,b) => {
-                        if (a.first_name > b.first_name) return 1;
-                        if(a.first_name < b.first_name) return -1;
+                        if (a.first_name[0] > b.first_name[0]) return 1;
+                        if(a.first_name[0] < b.first_name[0]) return -1;
                         return 0;
                     })
                     break;
                 case 'Z-A':
                     option = state.professionals.sort((a,b) => {
-                        if (a.first_name > b.first_name) return -1;
-                        if(a.first_name < b.first_name)return 1;
+                        if (a.first_name[0] > b.first_name[0]) return -1;
+                        if(a.first_name[0] < b.first_name[0])return 1;
                         return 0;
                     })
                     break
