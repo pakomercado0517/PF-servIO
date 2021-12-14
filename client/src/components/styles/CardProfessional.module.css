@@ -1,8 +1,30 @@
 .professionalCard{
     background-color: white;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    width: 80%;
+    width: 90%;
     height: 95%;
     border-radius: 5px;
     padding: 5px;
+}
+
+.avatar{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 5%;
+    color: gray;
+}
+
+.avatar_img{
+    border-radius: 100%;
+    width: 20%;
+    height: 20%;
+    align-self: center;
+}
+
+.subtitleTech{
+    display: flex;
+    align-items: center;
+    color: gray;
 }
