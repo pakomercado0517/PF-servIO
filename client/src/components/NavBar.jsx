@@ -3,7 +3,7 @@ import { Search } from './Search';
 import { NavLink } from 'react-router-dom';
 import logo from '../img/ServIO.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { getByCompteId, showFormClientNeed } from '../redux/actions'
+import { getByAccountId, showFormClientNeed } from '../redux/actions'
 import s from './styles/NavBar.module.css'
 import { CgOptions } from 'react-icons/cg';
 import { useEffect } from 'react';
@@ -14,14 +14,30 @@ export default function NavBar() {
     const dispatch = useDispatch()
     const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
     console.log('login daaaaleee',login)
-    const profile = useSelector(state => state.compte)
+    console.log('login daaaaleeekoki',login.cookies.userId)
+
+    const stateTotalRedux = useSelector(state => state)
 
     useEffect(()=>{
         if (localStorage.getItem('user')) {
-            dispatch(getByCompteId(login.cookies.userId))
+            dispatch(getByAccountId(login.cookies.userId))
         }
-    },[dispatch])
+    },[])
 
+    useEffect(()=>{
+
+    },[stateTotalRedux])
+
+
+    // function showMyProfile(){
+
+        {/* http://localhost:3000/clients/${id} */}
+    // }
+
+    function showModalFormCLient(){
+        dispatch(showFormClientNeed("show"))
+    }
+    
     function logout() {
         fetch('http://localhost:3001/user/logout',{
             method: 'POST'
@@ -32,9 +48,6 @@ export default function NavBar() {
         })
     }
 
-    function showModalFormCLient(){
-        dispatch(showFormClientNeed("show"))
-    }
 
     return (
         <div className={ s.navbar }>
@@ -60,10 +73,12 @@ export default function NavBar() {
                 { login && login.message === "Logged"? 
                 
                 <>
-                
+
                     <div className={s.session}>
+                    <NavLink to = {`/clients/${login.cookies.userId}`}>
                         <MdAccountCircle className={s.iconLogin}/>
-                    <span>{ profile[0]?.first_name + ' ' } </span>
+                    <span>{ stateTotalRedux.account[0]?.first_name + ' ' } </span>
+                    </NavLink>
 
                     { login && login.userType === "Client" ? 
                     <div className='dropdown'>
@@ -80,7 +95,15 @@ export default function NavBar() {
                             className="dropdown-menu" 
                             aria-labelledby="dropdownMenuButton1"
                         >
+                            {/* http://localhost:3000/clients/${id} */}
+                            
                             <li><span className="dropdown-item" >Perfil Cliente</span></li>
+                            {/* <NavLink to={`/clients/${login.cookies.userId}`} className={s.dropdown__item}>Mi perfil</NavLink> */}
+                            <NavLink to = {`/clients/${login.cookies.userId}`}>
+                            <li><span 
+                                className="dropdown-item" 
+                            >Ver mi Perfil</span></li>
+                            </NavLink>
                             <li><span className="dropdown-item" >Editar Perfil</span></li>
                             <li><span className="dropdown-item" >Servicios Solicitados</span></li>
                             <li><span 

@@ -1,4 +1,15 @@
-import {GET_ALL_NEEDS, GET_ALL_PROFESSIONALS, GET_BY_USER_ID, NEW_USER, SEARCH_PROFESSIONAL_BY_NAME, ORDER_DATA, FILTER_PROFESSIONS,SHOW_FORM_CLIENT_NEED, GET_BY_COMPTE_ID, GET_ALL_COMMON_USERS } from '../actions'
+import {
+    GET_ALL_NEEDS, 
+    GET_ALL_PROFESSIONALS, 
+    GET_BY_USER_ID, 
+    NEW_USER, 
+    SEARCH_PROFESSIONAL_BY_NAME, 
+    ORDER_DATA, 
+    FILTER_PROFESSIONS,
+    SHOW_FORM_CLIENT_NEED, 
+    GET_BY_ACCOUNT_ID
+} from '../actions'
+
 
 
 
@@ -11,7 +22,7 @@ const initialState = {
 
     professionsName:[],
 
-    compte: [],
+    account: [],
 
 };
 
@@ -27,10 +38,10 @@ function rootReducer( state = initialState, { type, payload } ) {
                 ...state,
                 user: payload,
             };
-        case GET_BY_COMPTE_ID:
+        case GET_BY_ACCOUNT_ID:
             return {
                 ...state,
-                compte: payload,
+                account: payload,
             };
         case GET_ALL_NEEDS:
             return {
