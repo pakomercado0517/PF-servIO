@@ -27,11 +27,11 @@ server.use(
 );
 server.use(passport.initialize());
 server.use(passport.session());
-server.use(async (req, res, next) => {
-  console.log(await req.session);
-  console.log("User is: ", await req.user);
-  next();
-});
+// server.use(async (req, res, next) => {
+//   console.log(await req.session);
+//   console.log("User is: ", await req.user);
+//   next();
+// });
 
 server.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from

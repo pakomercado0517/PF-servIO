@@ -5,7 +5,7 @@ const { Op } = require("sequelize");
 
 module.exports = (passport) => {
   passport.serializeUser((user, done) => {
-    console.log("userrrrr...", user.id);
+    // console.log("userrrrr...", user.id);
     done(null, user.id);
   });
 
@@ -66,29 +66,27 @@ module.exports = (passport) => {
             // certification_img,
             // status,
           });
-          if (professional === true) {
-            let newProfessional = await Professional.create({
-              certification_name: "",
-              certification_img: "",
-              status: "normal",
-            });
-            // let professions = profession.toLowerCase();
-            // console.log("profession: ", profession);
-            // if (typeof profession === "string") {
-            //   professions = professions.split(",");
-            // }
-            // let allProfessions = await Profession.findAll({
-            //   where: {
-            //     name: {
-            //       [Op.in]: Array.isArray(professions)
-            //         ? professions
-            //         : [professions],
-            //     },
-            //   },
-            // });
-            // await newProfessional.setProfessions(allProfessions);
-            await newUser.setProfessional(newProfessional);
+          let newProfessional = await Professional.create({
+            certification_name: "",
+            certification_img: "",
+            status: "normal",
+          });
+          let professions = profession.toLowerCase();
+          console.log("profession: ", profession);
+          if (typeof profession === "string") {
+            professions = professions.split(",");
           }
+          let allProfessions = await Profession.findAll({
+            where: {
+              name: {
+                [Op.in]: Array.isArray(professions)
+                  ? professions
+                  : [professions],
+              },
+            },
+          });
+          await newProfessional.setProfessions(allProfessions);
+          await newUser.setProfessional(newProfessional);
 
           done(null, newUser);
           // return newUser;
