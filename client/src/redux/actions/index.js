@@ -22,7 +22,7 @@ export const GET_ALL_USERS = 'GET_ALL_USERS';
 export const GET_ALL_PROFESSIONALS = 'GET_ALL_PROFESSIONALS';
 export const GET_ALL_COMMON_USERS = 'GET_ALL_COMMON_USERS';
 export const GET_BY_USER_ID = 'GET_BY_USER_ID';
-export const GET_BY_COMPTE_ID = 'GET_BY_COMPTE_ID';
+export const GET_BY_ACCOUNT_ID = 'GET_BY_ACCOUNT_ID';
 export const GET_PROFESSIONAL_BY_ACTIVITY_NAME = 'GET_PROFESSIONAL_BY_ACTIVITY_NAME';
 export const GET_BY_ACTIVITY_NAME = 'GET_BY_ACTIVITY_NAME';
 export const GET_ALL_NEEDS = 'GET_ALL_NEEDS';
@@ -273,14 +273,14 @@ export function showFormClientNeed(data){
     }
 }
 
-export function getByCompteId(id) {
+export function getByAccountId(id) {
     
     return async function (dispatch) {
         
         try {
             const response = await axios.get(`${ constants.localhost }/user/${ id }`)
             dispatch({
-                type: GET_BY_COMPTE_ID,
+                type: GET_BY_ACCOUNT_ID,
                 payload: response.data
 
             });
