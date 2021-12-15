@@ -18,7 +18,7 @@ export default function Landing() {
                     </NavLink>
                     <NavLink to='/register' style={{textDecoration: 'none'}}>
                         <button className={ styles.div_principal__first__buttons__button }>Registrarse</button>
-                        </NavLink>
+                    </NavLink>
 
                 </div>:<></>}
                 

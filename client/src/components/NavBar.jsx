@@ -13,8 +13,8 @@ export default function NavBar() {
 
     const dispatch = useDispatch()
     const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
-    console.log('login daaaaleee',login)
-    console.log('login daaaaleeekoki',login.cookies.userId)
+    // console.log('login daaaaleee',login)
+    // console.log('login daaaaleeekoki',login.cookies.userId)
 
     const stateTotalRedux = useSelector(state => state)
 

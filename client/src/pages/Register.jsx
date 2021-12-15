@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2'
 import axios from 'axios'
-import { useSelector } from "react-redux";
 import {useNavigate } from "react-router-dom";
 import s from './styles/Register.module.css'
 
