@@ -38,7 +38,7 @@ export default function Crear() {
         professionalCase:false,
         professional: "false",
         city:'',
-        profession:'',
+        profession:[],
     })
     useEffect(() => {
     }, [])
@@ -47,9 +47,18 @@ export default function Crear() {
         if (!buttonSubmit) {
             document.getElementById("buttonSubmit").disabled = true
         } else {
-            document.getElementById("buttonSubmit").disabled = false
+            if(details.professionalCase){
+                if (details.profession[0]) {
+                    document.getElementById("buttonSubmit").disabled = false
+                }else {
+                    document.getElementById("buttonSubmit").disabled = true
+                }
+            } else {
+                document.getElementById("buttonSubmit").disabled = false
+            }
+            // document.getElementById("buttonSubmit").disabled = false
         }
-    }, [buttonSubmit])
+    }, [buttonSubmit, details])
     
     useEffect(() => {
         let aux = 0;
@@ -115,7 +124,6 @@ export default function Crear() {
         } else {
             errores.repeatPassword = 'Las passwords no coinciden'
         }
-        console.log("Errores",errores)
         setErrors({
             ...errors,
             ...errores
@@ -138,6 +146,7 @@ export default function Crear() {
         {
             // userName: "Alejandrito2",
             ...details,
+            profession: details.profession.join(),
             phone: "123456789", 
             photo: "Hola", 
             verified: "true", 
@@ -149,30 +158,77 @@ export default function Crear() {
         .then(res => {
             console.log("Respuesta de API: ", res);
             console.log("Data por API: ", res.data);
+            if (res.data[0] === "Email already in use") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'El email ya existe, por favor ingrese otro!',
+                    showConfirmButton: true,
+                    timer: null
+                })
+                return
+            }
+            setDetails({
+                firstName:'',
+                lastName: '',
+                email: '',
+                dni:'',
+                password:'',
+                repeatPassword:'',
+                professional:'',
+                cliente:'',
+                city:'',
+                profession:[],
+            })
+
+            async function login(dataLogin){
+                try {
+                    const post = await axios.post('http://localhost:3001/user/login', dataLogin)
+                    console.log('post',post.data)
+                    console.log('post',post)
+    
+    
+                    if( post.data.message === 'Logged') {
+    
+                        localStorage.setItem('user', JSON.stringify(post.data))
+                        console.log("userType: ", post.data)
+    
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Usuario creado y logueado!',
+                            showConfirmButton: true,
+                            timer: 4500
+                        })
+                    history('/')
+                    }
+                    
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Algo salio mal con el login, por favor intentelo nuevamente!',
+                        showConfirmButton: true,
+                        timer: null
+                    })
+                    history('/login')
+                }
+            }
+
+            login({
+                email: details.email,
+                password: details.password
+            })
+            
+            
         }).catch(err =>{
+            Swal.fire({
+                icon: 'error',
+                title: 'Algo salio mal!',
+                showConfirmButton: true,
+                timer: null
+            })
             console.log("Error.....", err)
         })
 
-        Swal.fire({
-            icon: 'success',
-            title: 'User Created!',
-            showConfirmButton: false,
-            timer: 2500
-        })
         
-        setDetails({
-            firstName:'',
-            lastName: '',
-            email: '',
-            dni:'',
-            password:'',
-            repeatPassword:'',
-            professional:'',
-            cliente:'',
-            city:'',
-            profession:[],
-        })
-        history('/login')
     }
 
     function handleCheck(e){
@@ -181,6 +237,7 @@ export default function Crear() {
                 ...details,
                 professionalCase:false,
                 professional:"false",
+                profession: []
             })
         } else {
             setDetails({
@@ -192,11 +249,20 @@ export default function Crear() {
     } 
 
     function handleSelect(e){
-        console.log(e.target.id)
-        setDetails({
-            ...details,
-            profession: details.profession + e.target.id + ","
-        })
+        if(details.profession.includes(e.target.id)){
+            setDetails({
+                ...details,
+                profession: details.profession.filter(el => el !== e.target.id)
+            })
+            e.target.style.background = "none"
+
+        } else {
+            setDetails({
+                ...details,
+                profession: [...details.profession, e.target.id]
+            })
+            e.target.style.background = "#b0b0b0"
+        }
     }
 
     return (
@@ -324,7 +390,7 @@ export default function Crear() {
                                 <>
                                     <label>Seleccona tu Oficio:</label>
                                     <div className='dropdown'>
-                                        <button className="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false" ><CgOptions /> Filtrar</button>
+                                        <button className="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false" ><CgOptions />Elegir oficio</button>
                                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
                                             {
                                                 oficio.map((el, index) => {
@@ -340,7 +406,9 @@ export default function Crear() {
                         }
                         
                         <div className={ s.container_registro_form_oficio_span }>
-                            <p>{details.profession}</p>
+                            {details.profession?.map((el, i) => {
+                                return <p key={ "p" + i}> { el } </p>
+                            })}
                         </div>
                     </div>
                     <div className={ s.container_registro_form_button }>
