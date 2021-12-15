@@ -12,6 +12,7 @@ import {
 
 
 
+
 const initialState = {
     professionals: [],
     user: [],
@@ -68,7 +69,11 @@ function rootReducer( state = initialState, { type, payload } ) {
                     ...state,
                     professionsName: payload,
                 }
-        
+        case GET_ALL_COMMON_USERS:
+            return {
+                ...state,
+                professionals: payload
+            }
 
         case ORDER_DATA:
             let option = [];

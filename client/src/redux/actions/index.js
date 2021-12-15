@@ -78,7 +78,7 @@ export function getAllCommonUsers () {
     return async function (dispatch) {
 
         try {
-            const response = await axios.get(`${ constants.localhost }/commonUsers`)
+            const response = await axios.get(`${ constants.localhost }/clientneeds/all`)
             dispatch({
                 type: GET_ALL_COMMON_USERS,
                 payload: response.data
