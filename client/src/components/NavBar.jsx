@@ -3,7 +3,7 @@ import { Search } from './Search';
 import { NavLink } from 'react-router-dom';
 import logo from '../img/ServIO.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { getByAccountId, showFormClientNeed } from '../redux/actions'
+import { getByAccountId, showFormClientNeed, showFormProfessionalOffer } from '../redux/actions'
 import s from './styles/NavBar.module.css'
 import { CgOptions } from 'react-icons/cg';
 import { useEffect } from 'react';
@@ -13,8 +13,8 @@ export default function NavBar() {
 
     const dispatch = useDispatch()
     const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
-    // console.log('login daaaaleee',login)
-    // console.log('login daaaaleeekoki',login.cookies.userId)
+    // console.log('login nav',login)
+    // console.log('login nav user id',login.cookies.userId)
 
     const stateTotalRedux = useSelector(state => state)
 
@@ -28,14 +28,12 @@ export default function NavBar() {
 
     },[stateTotalRedux])
 
-
-    // function showMyProfile(){
-
-        {/* http://localhost:3000/clients/${id} */}
-    // }
-
     function showModalFormCLient(){
         dispatch(showFormClientNeed("show"))
+    }
+    
+    function showModalFormProfessional() {
+        dispatch(showFormProfessionalOffer("show"))
     }
     
     function logout() {
@@ -47,7 +45,6 @@ export default function NavBar() {
             window.location.replace('/')
         })
     }
-
 
     return (
         <div className={ s.navbar }>
@@ -133,7 +130,10 @@ export default function NavBar() {
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
                         <li><span className="dropdown-item" >Perfil Profesional</span></li>
                         <li><span className="dropdown-item" >Editar Perfil</span></li>
-                        <li><span className="dropdown-item" >Ofrecer Servicios Profesionales</span></li>
+                        <li><span 
+                            className="dropdown-item" 
+                            onClick={showModalFormProfessional}
+                        >Ofrecer Servicios Profesionales</span></li>
                         <li><span className="dropdown-item" >Ver Trabajos Pendientes</span></li>
                         <li><span className="dropdown-item" >Notificaciones</span></li>
                         <li><span className="dropdown-item" >Carrito</span></li>
