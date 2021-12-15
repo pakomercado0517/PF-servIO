@@ -19,13 +19,12 @@ export default function NavBar() {
     const stateTotalRedux = useSelector(state => state)
 
     useEffect(()=>{
-        if (localStorage.getItem('user')) {
+        if (login) {
             dispatch(getByAccountId(login.cookies.userId))
         }
     },[])
 
     useEffect(()=>{
-
     },[stateTotalRedux])
 
     function showModalFormCLient(){
@@ -68,39 +67,15 @@ export default function NavBar() {
 
 
                 { login && login.message === "Logged"? 
-                
-                <>
 
-                    <div className={s.session}>
-                    <NavLink to = {`/clients/${login.cookies.userId}`}>
-                        <MdAccountCircle className={s.iconLogin}/>
-                    <span>{ stateTotalRedux.account[0]?.first_name + ' ' } </span>
-                    </NavLink>
+                    <>
 
-                    { login && login.userType === "Client" ? 
-                    <div className='dropdown'>
-                        <button
-                            className="btn btn-secondary dropdown-toggle" 
-                            id="dropdownMenuButton1" 
-                            data-bs-toggle="dropdown" 
-                            type="button" 
-                            
-                            aria-expanded="false"
-                        ></button>
-                            
-                        <ul 
-                            className="dropdown-menu" 
-                            aria-labelledby="dropdownMenuButton1"
-                        >
-                            {/* http://localhost:3000/clients/${id} */}
-                            
-                            <li><span className="dropdown-item" >Perfil Cliente</span></li>
-                            {/* <NavLink to={`/clients/${login.cookies.userId}`} className={s.dropdown__item}>Mi perfil</NavLink> */}
-                            <NavLink to = {`/clients/${login.cookies.userId}`}>
-                            <li><span 
-                                className="dropdown-item" 
-                            >Ver mi Perfil</span></li>
+                        <div className={s.session}>
+                            <NavLink to={`/clients/${login.cookies.userId}`}>
+                                <MdAccountCircle className={s.iconLogin} />
+                                <span>{stateTotalRedux.account[0]?.first_name + ' '} </span>
                             </NavLink>
+
                             <li><span className="dropdown-item" >Editar Perfil</span></li>
                             <li><span className="dropdown-item" >Servicios Solicitados</span></li>
                             <li><span 
@@ -149,6 +124,7 @@ export default function NavBar() {
                     </div>
                 </>
                 :<></>
+
                 }
             </div>
         </div>

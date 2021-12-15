@@ -11,6 +11,7 @@ const {
   ClientNeed,
   SpecificTechnicalActivity,
   Transactions,
+  Profession_Professional
 } = require("../db.js");
 const e = require("express");
 
@@ -575,7 +576,7 @@ module.exports = {
           dni,
           professional,
         },
-        { where: { id: { [Op.eq]: id } } }
+        { where: { id: id }  }
       );
       await Professional.update(
         {
@@ -585,15 +586,46 @@ module.exports = {
         },
         { where: { UserId: { [Op.eq]: id } } }
       );
-      const findProfession = await Profession.findAll({
-        where: { name: profession },
-      });
-      res.redirect(`/user/${id}`);
-    } catch (error) {
-      res.send(error.message);
+    
+    let prof = await Professional.findOne({
+        where: { UserId : id}
+    })
+    let professionalId = prof.id
+    await Profession_Professional.destroy({
+        where:{ ProfessionalId:professionalId }
+    });
+
+    //   const findProfession = await Profession.findAll({
+    //     where: { name: profession },
+    //   });
+    let professions = profession.toLowerCase();
+          if (typeof professions === "string") {
+            professions = professions.split(",");
+          }
+
+          const allProfessions = await Profession.findAll({
+            where: {
+              name: {
+                [Op.in]: Array.isArray(professions)
+                  ? professions
+                  : [professions],
+              },
+            },
+          });
+    
+    await prof.setProfessions(allProfessions);
+    
+      res.send('updated');
+    } catch (error) { 
+      res.send(error.message); 
     }
   },
+  test : async (req, res) =>{
+      const {id} = req.body
+ 
 
+    res.send('borrado')
+  }
   // newSpecificalNeed: async (req, res) =>{
   //     const {name, description, location} = req.body
   //     const newNeed = await ClientNeed.create({
