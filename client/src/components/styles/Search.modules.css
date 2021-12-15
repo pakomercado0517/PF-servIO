@@ -1,7 +1,8 @@
 
 .container__input{
     display: flex;
-    align-items: center;
+    
+    align-items:flex-start;
     justify-content: space-around;
     background-color: rgba(128, 128, 128, 0.068);
     max-width: 60%;
@@ -21,11 +22,3 @@
     color: #707070;
     width: 80%;
 } 
-
-.container__btn{
-    color: rgba(121, 119, 117, 0.938);
-    font-size: medium;
-    font-weight: bold;
-    border:none;
-    text-decoration: none;
-}

@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from 'react'
-// import { Form, Button } from 'reactstrap'
-import s from './styles/ClientSpecificNeed.module.css'
-
-import { useSelector } from 'react-redux'
-
-import { useDispatch } from 'react-redux'
-
+import axios from 'axios'
+import { useSelector, useDispatch } from 'react-redux'
 import { showFormClientNeed } from '../redux/actions'
 import Swal from 'sweetalert2'
 
-import axios from 'axios'
-// import img from '../img/brooke-cagle-tLG2hcpITZE-unsplash.jpg';
+import s from './styles/ClientSpecificNeed.module.css'
+
 
 export const ClientSpecificNeed = () => {
     
@@ -55,34 +50,6 @@ export const ClientSpecificNeed = () => {
             })
             console.log('post',post)
 
-            // if( post.data.message === 'Logged') {
-
-            //     localStorage.setItem('user', JSON.stringify(post.data))
-            //     console.log("userType: ", post.data)
-
-            //     Swal.fire({
-            //         icon: 'success',
-            //         title: 'Logged in',
-            //         showConfirmButton: false,
-            //         timer: 1500
-            //     })
-            //     navigate('/')
-            //     // window.location.href = 'http://localhost:3000/'
-            // } else if (post.data === 'Wrong passWord') {
-            //     Swal.fire({
-            //         icon: 'warning',
-            //         title: 'Wrong password',
-            //         showConfirmButton: false,
-            //         timer: 1500
-            //     })
-            // } else if (post.data === 'Wrong mail') {
-            //     Swal.fire({
-            //         icon: 'info',
-            //         title: 'Wrong mail',
-            //         showConfirmButton: false,
-            //         timer: 1500
-            //     })
-            // }
         } catch (error) {
             console.error("message: ", error)
         }
