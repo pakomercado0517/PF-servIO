@@ -1,4 +1,4 @@
-import {GET_ALL_NEEDS, GET_ALL_PROFESSIONALS, GET_BY_USER_ID, NEW_USER, SEARCH_PROFESSIONAL_BY_NAME, ORDER_DATA, FILTER_PROFESSIONS,SHOW_FORM_CLIENT_NEED, GET_BY_COMPTE_ID } from '../actions'
+import {GET_ALL_NEEDS, GET_ALL_PROFESSIONALS, GET_BY_USER_ID, NEW_USER, SEARCH_PROFESSIONAL_BY_NAME, ORDER_DATA, FILTER_PROFESSIONS,SHOW_FORM_CLIENT_NEED, GET_BY_COMPTE_ID, GET_ALL_COMMON_USERS } from '../actions'
 
 
 
@@ -58,7 +58,11 @@ function rootReducer( state = initialState, { type, payload } ) {
                     ...state,
                     professionsName: payload,
                 }
-        
+        case GET_ALL_COMMON_USERS:
+            return {
+                ...state,
+                professionals: payload
+            }
 
         case ORDER_DATA:
             let option = [];
