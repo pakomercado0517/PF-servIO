@@ -3,7 +3,7 @@ import { Search } from './Search';
 import { NavLink } from 'react-router-dom';
 import logo from '../img/ServIO.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import {searchByName, getAllProfessionals, getByCompteId, showFormClientNeed} from '../redux/actions'
+import { getByCompteId, showFormClientNeed } from '../redux/actions'
 import s from './styles/NavBar.module.css'
 import { CgOptions } from 'react-icons/cg';
 import { useEffect } from 'react';
@@ -16,6 +16,12 @@ export default function NavBar() {
     console.log('login daaaaleee',login)
     const profile = useSelector(state => state.compte)
 
+    useEffect(()=>{
+        if (localStorage.getItem('user')) {
+            dispatch(getByCompteId(login.cookies.userId))
+        }
+    },[dispatch])
+
     function logout() {
         fetch('http://localhost:3001/user/logout',{
             method: 'POST'
@@ -25,12 +31,6 @@ export default function NavBar() {
             window.location.replace('/')
         })
     }
-
-    useEffect(()=>{
-        if (localStorage.getItem('user')) {
-            dispatch(getByCompteId(login.cookies.userId))
-        }
-    },[])
 
     function showModalFormCLient(){
         dispatch(showFormClientNeed("show"))
@@ -44,15 +44,15 @@ export default function NavBar() {
             <div className={s.container__elements}>
 
                 <Search/>
-
                 <div className={s.container__navigate}>
+
                     <NavLink to='/' className={s['container__inicio--btn'] }   >Inicio</NavLink>
                     <NavLink to='/nosotros' className={s['container__inicio--btn']}>Sobre Nosotros</NavLink>
-                </div>
 
                 <div onClick={showModalFormCLient} className={s.show__presentation}>
                     <CgOptions/>
                     <span>Crear publicacion</span>
+                </div>
                 </div>
 
 
@@ -68,7 +68,7 @@ export default function NavBar() {
                     { login && login.userType === "Client" ? 
                     <div className='dropdown'>
                         <button
-                            class="btn btn-secondary dropdown-toggle" 
+                            className="btn btn-secondary dropdown-toggle" 
                             id="dropdownMenuButton1" 
                             data-bs-toggle="dropdown" 
                             type="button" 
@@ -77,23 +77,29 @@ export default function NavBar() {
                         ></button>
                             
                         <ul 
-                            class="dropdown-menu" 
+                            className="dropdown-menu" 
                             aria-labelledby="dropdownMenuButton1"
                         >
-                            <li><span class="dropdown-item" >Perfil Cliente</span></li>
-                            <li><span class="dropdown-item" >Editar Perfil</span></li>
-                            <li><span class="dropdown-item" >Servicios Solicitados</span></li>
-                            <li><span class="dropdown-item" >Crear Publicacion</span></li>  
-                            <li><span class="dropdown-item" >Notificaciones</span></li>
-                            <li><span class="dropdown-item" >Carrito</span></li>
-                            <li><span class="dropdown-item" >Registrarse Como Tecnico</span></li>
-                            <li><span class="dropdown-item"  onClick={logout}>Cerrar sesion</span></li>
+                            <li><span className="dropdown-item" >Perfil Cliente</span></li>
+                            <li><span className="dropdown-item" >Editar Perfil</span></li>
+                            <li><span className="dropdown-item" >Servicios Solicitados</span></li>
+                            <li><span 
+                                className="dropdown-item" 
+                                onClick={showModalFormCLient}
+                            >Crear Publicacion</span></li>  
+                            <li><span className="dropdown-item" >Notificaciones</span></li>
+                            <li><span className="dropdown-item" >Carrito</span></li>
+                            <li><span className="dropdown-item" >Registrarse Como Tecnico</span></li>
+                            <li><span 
+                                className="dropdown-item" 
+                                onClick={logout}
+                            >Cerrar sesion</span></li>
                         </ul>
                     </div>
                     : 
                     <div className='dropdown'>
                         <button
-                            class="btn btn-secondary dropdown-toggle" 
+                            className="btn btn-secondary dropdown-toggle" 
                             id="dropdownMenuButton1" 
                             data-bs-toggle="dropdown" 
                             type="button" 
@@ -101,18 +107,18 @@ export default function NavBar() {
                             aria-expanded="false"
                         ></button>
                         
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
-                        <li><span class="dropdown-item" >Perfil Profesional</span></li>
-                        <li><span class="dropdown-item" >Editar Perfil</span></li>
-                        <li><span class="dropdown-item" >Ofrecer Servicios Profesionales</span></li>
-                        <li><span class="dropdown-item" >Ver Trabajos Pendientes</span></li>
-                        <li><span class="dropdown-item" >Notificaciones</span></li>
-                        <li><span class="dropdown-item" >Carrito</span></li>
-                        <li><span class="dropdown-item" >------------</span></li>
-                        <li><span class="dropdown-item" >Ver perfil Cliente</span></li>
-                        <li><span class="dropdown-item" >Crear Publicacion</span></li>  
-                        <li><span class="dropdown-item" >Servicios Solicitados</span></li>
-                        <li><span class="dropdown-item"  onClick={logout}>Cerrar sesion</span></li>
+                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
+                        <li><span className="dropdown-item" >Perfil Profesional</span></li>
+                        <li><span className="dropdown-item" >Editar Perfil</span></li>
+                        <li><span className="dropdown-item" >Ofrecer Servicios Profesionales</span></li>
+                        <li><span className="dropdown-item" >Ver Trabajos Pendientes</span></li>
+                        <li><span className="dropdown-item" >Notificaciones</span></li>
+                        <li><span className="dropdown-item" >Carrito</span></li>
+                        <li><span className="dropdown-item" >------------</span></li>
+                        <li><span className="dropdown-item" >Ver perfil Cliente</span></li>
+                        <li><span className="dropdown-item" >Crear Publicacion</span></li>  
+                        <li><span className="dropdown-item" >Servicios Solicitados</span></li>
+                        <li><span className="dropdown-item"  onClick={logout}>Cerrar sesion</span></li>
                         </ul>
                     </div>
                     
