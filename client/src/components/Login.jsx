@@ -4,7 +4,10 @@ import Swal from 'sweetalert2'
 import axios from 'axios'
 import logo from '../img/ServIO.svg';
 
+import { useDispatch } from 'react-redux';
+
 import s from './styles/Login.module.css'
+import { getByAccountId } from '../redux/actions';
 
 export default function Login() {
 
@@ -13,6 +16,8 @@ export default function Login() {
         email: '',
         password: '',
     });
+
+    const dispatch = useDispatch()
 
     const [errors, setErrors] = useState({});
 
@@ -55,11 +60,12 @@ export default function Login() {
             console.log('post',post.data)
             console.log('post',post)
 
-
             if( post.data.message === 'Logged') {
 
                 localStorage.setItem('user', JSON.stringify(post.data))
                 console.log("userType: ", post.data)
+
+                dispatch(getByAccountId(post.data.cookies.userId))
 
                 Swal.fire({
                     icon: 'success',
@@ -68,7 +74,6 @@ export default function Login() {
                     timer: 2500
                 })
                 navigate('/')
-                // window.location.href = 'http://localhost:3000/'
             } else if (post.data === 'Wrong passWord') {
                 Swal.fire({
                     icon: 'warning',

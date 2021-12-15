@@ -6,6 +6,9 @@ import s from './styles/Register.module.css'
 
 import { CgOptions } from 'react-icons/cg';
 
+import { useDispatch } from 'react-redux';
+import { getByAccountId } from '../redux/actions';
+
 export default function Crear() {
     
     const[errors, setErrors] = useState({
@@ -17,6 +20,8 @@ export default function Crear() {
         repeatPassword:'',
     });
     const [buttonSubmit, setbuttonSubmit] = useState(false)
+
+    const dispatch = useDispatch()
     
     const history = useNavigate() //redirige a '/....'
     // const oficio = useSelector((state) => state.professionsName)
@@ -190,7 +195,10 @@ export default function Crear() {
     
                         localStorage.setItem('user', JSON.stringify(post.data))
                         console.log("userType: ", post.data)
-    
+
+                        dispatch(getByAccountId(post.data.cookies.userId))
+
+                        
                         Swal.fire({
                             icon: 'success',
                             title: 'Usuario creado y logueado!',
