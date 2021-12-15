@@ -5,7 +5,7 @@ const userFunctions = require("../controllers/index.js");
 router.post("/", userFunctions.newUser);
 router.post("/login", userFunctions.login);
 router.post("/logout", userFunctions.logOut);
-router.post("/updateUser/:id", userFunctions.updateProfile);
+router.put("/updateUser/:id", userFunctions.updateProfile);
 router.get("/logged", userFunctions.loginTest);
 // router.get('/home', userFunctions.redirectLogin, userFunctions.redirectHome)
 router.get("/perfil", userFunctions.getUser);

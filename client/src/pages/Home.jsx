@@ -50,7 +50,7 @@ export default function Home(){
     }
 
     useEffect(() => {
-    }, [state, professionals])
+    }, [state])
 
     console.log(professionals);
 
@@ -67,14 +67,18 @@ export default function Home(){
                         dispatch(getAllCommonUsers())
                     }
                 })
+
             }
         }
         ordercomponent()
         
     },[dispatch, input.order])
 
+    const mood = localStorage.getItem("mood")
+
     useEffect(() => {
         currentPosts = professionals?.slice(indexOfFirstPost, indexOfLastPost)
+        console.log(stateRedux.professionals)
     }, [stateRedux])
 
 
@@ -139,7 +143,28 @@ export default function Home(){
                         )): <h1>No hay mas resultados</h1>
                     }
                 </div>
+                // {
+                //     !props.needs[0]?<h1>Cargandooo</h1>:(
+                //         <div className={ s.container_cards }>
+                //         {
+                //             props.needs.map((el, index) => {
+                //                 return (
+                //                     <CardClientNeed key={ "CardClientNeed" + index}
+                //                     user={ el.User }
+                //                     name={ el.name }
+                //                     description={ el.description }
+                //                     date={ el.date }
+                //                     userId={ el.userId }
+                //                     location={ el.location }
+                //                     />     
+                //                 )
+                //             })
+                //         }
+                //         </div>
+                //     )
+                // }
             }
+
             {/* DIV MUESTRA LOS TESTIMONIOS (FEEBACK DE LOS USUARIOS) */}
             { !(login && (login.message === "Logged")) ? <TestimoniosHome></TestimoniosHome>:<></>}
         </div>    

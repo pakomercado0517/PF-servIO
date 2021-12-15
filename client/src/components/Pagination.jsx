@@ -10,7 +10,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
 
   useEffect(()=> {
     localStorage.setItem('mood', 'professionals')
-  },[localStorage])
+  },[])
 
   function moodRender(e){
     if(e === 'btnradio2') {
