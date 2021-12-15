@@ -13,7 +13,7 @@ export default function NavBar() {
 
     const dispatch = useDispatch()
     const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
-
+    console.log('login daaaaleee',login)
     const profile = useSelector(state => state.compte)
 
     function logout() {
@@ -54,41 +54,75 @@ export default function NavBar() {
                     <CgOptions/>
                     <span>Crear publicacion</span>
                 </div>
-{/*                 
-                <div className={s.conteiner__Hamb}>
-                    <div class={s['conteiner__Hamb--menu']}>
-                        <button to='/:idProfessional' className={s['conteiner__Hamb--btn']} >X</button>
-                        <div className={s['conteiner__Hamb--down']}>
-                            <div className={s['conteiner__Hamb--table']}>
-                                <span>Servicios</span>
-                                <span>Trabajos</span>
-                                <span>Ajustes</span>
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
 
-                { login && login.message === "Logged"? <div>
-                <div className={s.session}>
-                    <MdAccountCircle className={s.iconLogin}/>
-                    {/* <span>{profile[0]?.first_name.length > 6 ? profile[0]?.first_name.slice(0,6 + '...'):   profile[0]?.first_name}</span> */}
 
-                <span>{ profile[0]?.first_name }</span>
-                <div className='dropdown'>
-                <button  class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false"></button>
+
+                { login && login.message === "Logged"? 
                 
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
-                <li><span class="dropdown-item" >Notificaciones</span></li>
-                <li><span class="dropdown-item" >Carrito</span></li>
-                <li><span class="dropdown-item" >Editar Perfil</span></li>
-                <li><span class="dropdown-item"  onClick={logout}>Cerrar sesion</span></li>
-                </ul>
-                </div>
+                <>
+                
+                    <div className={s.session}>
+                        <MdAccountCircle className={s.iconLogin}/>
+                    <span>{ profile[0]?.first_name + ' ' } </span>
 
-                </div>
-                </div>: null}
-
+                    { login && login.userType === "Client" ? 
+                    <div className='dropdown'>
+                        <button
+                            class="btn btn-secondary dropdown-toggle" 
+                            id="dropdownMenuButton1" 
+                            data-bs-toggle="dropdown" 
+                            type="button" 
+                            
+                            aria-expanded="false"
+                        ></button>
+                            
+                        <ul 
+                            class="dropdown-menu" 
+                            aria-labelledby="dropdownMenuButton1"
+                        >
+                            <li><span class="dropdown-item" >Perfil Cliente</span></li>
+                            <li><span class="dropdown-item" >Editar Perfil</span></li>
+                            <li><span class="dropdown-item" >Servicios Solicitados</span></li>
+                            <li><span class="dropdown-item" >Crear Publicacion</span></li>  
+                            <li><span class="dropdown-item" >Notificaciones</span></li>
+                            <li><span class="dropdown-item" >Carrito</span></li>
+                            <li><span class="dropdown-item" >Registrarse Como Tecnico</span></li>
+                            <li><span class="dropdown-item"  onClick={logout}>Cerrar sesion</span></li>
+                        </ul>
+                    </div>
+                    : 
+                    <div className='dropdown'>
+                        <button
+                            class="btn btn-secondary dropdown-toggle" 
+                            id="dropdownMenuButton1" 
+                            data-bs-toggle="dropdown" 
+                            type="button" 
+                            
+                            aria-expanded="false"
+                        ></button>
+                        
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
+                        <li><span class="dropdown-item" >Perfil Profesional</span></li>
+                        <li><span class="dropdown-item" >Editar Perfil</span></li>
+                        <li><span class="dropdown-item" >Ofrecer Servicios Profesionales</span></li>
+                        <li><span class="dropdown-item" >Ver Trabajos Pendientes</span></li>
+                        <li><span class="dropdown-item" >Notificaciones</span></li>
+                        <li><span class="dropdown-item" >Carrito</span></li>
+                        <li><span class="dropdown-item" >------------</span></li>
+                        <li><span class="dropdown-item" >Ver perfil Cliente</span></li>
+                        <li><span class="dropdown-item" >Crear Publicacion</span></li>  
+                        <li><span class="dropdown-item" >Servicios Solicitados</span></li>
+                        <li><span class="dropdown-item"  onClick={logout}>Cerrar sesion</span></li>
+                        </ul>
+                    </div>
+                    
+                }
+                    </div>
+                </>
+                :<></>
+                }
             </div>
         </div>
+
     )
-}
+};
