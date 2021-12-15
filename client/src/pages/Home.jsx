@@ -6,7 +6,7 @@ import Landing from '../components/Landing';
 import {CgOptions} from 'react-icons/cg'
 import {IoEyeSharp} from 'react-icons/io5'
 import CardProfessional from '../components/CardProtessional.jsx'
-import { getAllProfessionals, orderProfessionals } from '../redux/actions';
+import { getAllProfessionals, orderProfessionals, getAllCommonUsers } from '../redux/actions';
 // import img from '../img/ivana-cajina-_7LbC5J-jw4-unsplash.jpg'
 import Pagination from "../components/Pagination";
 import TestimoniosHome from '../components/TestimoniosHome';
@@ -16,8 +16,8 @@ export default function Home(){
     
     const dispatch = useDispatch();
     const professionals = useSelector(state => state.professionals);
+    // const usersCommon = useSelector(state => state.userCommon);
     const stateRedux = useSelector(state => state)
-    
     const [state, setstate] = useState("")
     
     const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
@@ -26,7 +26,8 @@ export default function Home(){
     let [currentPage, setCurrentPage] = useState(1);
     let indexOfLastPost = currentPage * postsPerPage;
     let indexOfFirstPost = indexOfLastPost - postsPerPage;
-    let currentPosts = professionals?.slice(indexOfFirstPost, indexOfLastPost);
+    let currentPosts = professionals?.slice(indexOfFirstPost, indexOfLastPost)
+
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     const [input, setInput] = useState({
@@ -51,13 +52,21 @@ export default function Home(){
     useEffect(() => {
     }, [state])
 
+    console.log(professionals);
+
     useEffect(()=>{
         function ordercomponent() {
             if (input.order) {
                 dispatch(orderProfessionals(input.order))
             }
             else{
-                dispatch(getAllProfessionals())
+                window.addEventListener('storage', ()=>{
+                    if (!localStorage.getItem('mood', 'professionals')) {  
+                        dispatch(getAllProfessionals())
+                    }else if (localStorage.getItem('mood', 'user')){
+                        dispatch(getAllCommonUsers())
+                    }
+                })
             }
         }
         ordercomponent()
@@ -100,12 +109,14 @@ export default function Home(){
             { !window.localStorage.getItem("landing") ? <Landing/>:<></>}
 
             {/* DIV RENDERIZA LAS CARDS DEL PROFESIONAL */}
-            <Pagination
+                
+                <Pagination
                 paginate={paginate}
                 postsPerPage={postsPerPage}
                 totalPosts={professionals?.length}
-            />
-            <div className={s.professionalGrid}>
+                />
+            
+            {localStorage.mood === 'professionals' ? <div className={s.professionalGrid}>
                 {
                     currentPosts?.length > 0 ? currentPosts.map((professional) => (
                         <CardProfessional
@@ -118,7 +129,17 @@ export default function Home(){
                             calificationTech={'calification: 5/5'}/>
                     )) : <h1>No hay mas resultados</h1>
                 }
-            </div>
+            </div> : 
+                <div>
+                    {
+                        currentPosts?.length > 0 ? currentPosts.map((user)=>(
+                           <div>
+                               <h1></h1>
+                           </div> 
+                        )): <h1>No hay mas resultados</h1>
+                    }
+                </div>
+            }
             {/* DIV MUESTRA LOS TESTIMONIOS (FEEBACK DE LOS USUARIOS) */}
             { !(login && (login.message === "Logged")) ? <TestimoniosHome></TestimoniosHome>:<></>}
         </div>    
