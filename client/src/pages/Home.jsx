@@ -26,6 +26,9 @@ export default function Home(){
 //     const [state, setstate] = useState("")
 //     console.log(clientNeeds);
     // const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
+
+
+
     const [login]=useLocalStorage("user", null)
     
     let [postsPerPage, setPostsPerPage] = useState(16);
@@ -50,9 +53,6 @@ export default function Home(){
         if(!landing) setLanding("visible")
     }
 
-//     useEffect(() => {
-//     }, [state])
-
     useEffect(()=>{
         if (input.order) {
             dispatch(orderProfessionals(input.order))
@@ -74,6 +74,7 @@ export default function Home(){
     return (
         <div>
             <ClientSpecificNeed/>
+
             {/* <NavBar/> */}
                 {/* <div onClick={showModalFormCLient} className={s.show__presentation}>
                     <CgOptions/>
