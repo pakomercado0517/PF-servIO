@@ -12,9 +12,9 @@ export const ClientSpecificNeed = () => {
     const modal = useSelector(state => state.modal)
     console.log('client modal==>',modal)
     const user = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
-    console.log('client user==>',user.cookies.userId)
+    console.log('client user==>',user?.cookies.userId)
     const [input, setInput] = useState({
-        userId: user.cookies.userId,
+        userId: user?.cookies.userId,
         name: "",
         description: "",
         status: "in offer"
