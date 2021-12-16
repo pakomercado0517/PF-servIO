@@ -45,11 +45,11 @@ export default function ProfileProfessional(){
           <div className={ s.container }>
 
             <EditPodeddional/>
-            <div className={ s.container_nav }>
-                <NavLink to="/">
+            {/* <div className={ s.container_nav }>
+                {/* <NavLink to="/">
                     <img src={ logo } alt="" />
-                </NavLink>
-            </div>
+                </NavLink
+            </div> */}
 
             <div className={s.container_details}>
                 <div className={ s.container_details_photo }>

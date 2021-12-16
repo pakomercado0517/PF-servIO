@@ -9,7 +9,7 @@ import {
     SHOW_FORM_CLIENT_NEED,
     SHOW_FORM_PROFESSIONAL_OFFER,
     GET_BY_ACCOUNT_ID,
-    GET_ALL_COMMON_USERS
+    SWITCH_RENDER
 } from '../actions'
 
 
@@ -23,7 +23,7 @@ const initialState = {
     modal:"",
     modalProfessionalsOffer: "",
     professionsName:[],
-
+    switch: true,
     account: [],
 
 };
@@ -75,10 +75,10 @@ function rootReducer( state = initialState, { type, payload } ) {
                 ...state,
                 professionsName: payload,
             };
-        case GET_ALL_COMMON_USERS:
+        case SWITCH_RENDER:
             return {
                 ...state,
-                professionals: payload
+                switch: payload
             };
         case ORDER_DATA:
             let option = [];
