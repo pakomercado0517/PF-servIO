@@ -9,7 +9,8 @@ import {
     SHOW_FORM_CLIENT_NEED,
     SHOW_FORM_PROFESSIONAL_OFFER,
     GET_BY_ACCOUNT_ID,
-    SWITCH_RENDER
+    SWITCH_RENDER,
+    GLOBAL_LOCAL_STORAGE
 } from '../actions'
 
 
@@ -25,6 +26,7 @@ const initialState = {
     professionsName:[],
     switch: true,
     account: [],
+    globalLocalStorage:[],
 
 };
 
@@ -34,6 +36,11 @@ function rootReducer( state = initialState, { type, payload } ) {
             return {
                 ...state,
                 professionals: payload,
+            };
+        case GLOBAL_LOCAL_STORAGE:
+            return {
+                ...state,
+                ...payload,
             };
         case GET_BY_USER_ID:
             return {
