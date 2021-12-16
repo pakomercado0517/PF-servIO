@@ -52,6 +52,10 @@ module.exports = (passport) => {
             return done(null, false, console.log("Usuario ya existe..."));
           }
 
+          if (user) {
+            return done(null, false, console.log("Usuario ya existe..."));
+          }
+
           let pass = await bcrypt.hash(password, 10);
           let newUser = await User.create({
             email: email,
