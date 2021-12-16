@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
 import { showFormProfessionalOffer } from '../redux/actions'
 import Swal from 'sweetalert2'
-import s from './styles/ProfessionalServiceOffer.modules.css'
+import s from './styles/ProfessionalServiceOffer.module.css'
 
 
 export const ProfessionalServiceOffer = () => {

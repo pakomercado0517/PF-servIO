@@ -3,13 +3,12 @@ import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
 import { showFormProfessionalOffer } from '../redux/actions'
 import Swal from 'sweetalert2'
-import s from './styles/ProfessionalServiceOffer.modules.css'
-
+import s from './styles/ProfessionalOfferToClientNeed.module.css'
 
 export const ProfessionalOfferToClientNeed = () => {
     
-    const modal = useSelector(state => state.modalProfessionalsOffer)
-    console.log('professional modal==>',modal)
+    const { modalProfessionalsOffer } = useSelector(state => state)
+    // console.log('professional modal==>',modalProfessionalsOffer)
     
     const user = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
     console.log('pro user==>',user)
@@ -62,14 +61,14 @@ export const ProfessionalOfferToClientNeed = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (modal === "show") {
+        if (modalProfessionalsOffer === "show") {
             const fondo = document.getElementById("fondo-form-Professional-offer")
-            fondo.style.top = "0px"
-        } else if("notshow") {
+            fondo.style.top = "0vh"
+        } else if(modalProfessionalsOffer === "notshow") {
             const fondo = document.getElementById("fondo-form-Professional-offer")
             fondo.style.top = "-100vh"
         }
-    }, [modal])
+    }, [modalProfessionalsOffer])
 
     function hideFormProfessionalOfferToClientNeed(){
         dispatch(showFormProfessionalOffer("notshow"))
@@ -77,7 +76,7 @@ export const ProfessionalOfferToClientNeed = () => {
     
     return (
         <>
-            <div id='fondo-form-Professional-offer' className={s.container}>
+            <div id='fondo-form-Professional-offer' className={ s.container }>
                 <div 
                     className={s.container_background} 
                     onClick={hideFormProfessionalOfferToClientNeed}>

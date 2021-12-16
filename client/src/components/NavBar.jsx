@@ -8,10 +8,19 @@ import s from './styles/NavBar.module.css'
 import { CgOptions } from 'react-icons/cg';
 import { useEffect } from 'react';
 import { MdAccountCircle } from 'react-icons/md';
+import { useLocalStorage } from '../hooks/useLocalStorage';
+import { useGlobalStorage } from '../hooks/useGlobalStorage';
+
+import { ProfessionalOfferToClientNeed } from './ProfessionalOfferToClientNeed';
+
 
 export default function NavBar() {
 
     const dispatch = useDispatch()
+                    // useLocalStorage
+    // const [login] = useLocalStorage("user", "")
+    // const [login] = useGlobalStorage("user", "asf")
+    // console.log("acaaa: ", login)
     const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
     // console.log('login daaaaleee',login)
     // console.log('login daaaaleeekoki',login.cookies.userId)
@@ -20,7 +29,7 @@ export default function NavBar() {
 
     useEffect(()=>{
         if (localStorage.getItem('user')) {
-            dispatch(getByAccountId(login?login.cookies.userId:""))
+            dispatch(getByAccountId(login ? login.cookies.userId:""))
         }
     },[])
 
@@ -47,12 +56,13 @@ export default function NavBar() {
             window.location.replace('/')
         })
     }
-    function showModalFormProfessional() {
+    function showFormProfessionalOffer5() {
         dispatch(showFormProfessionalOffer("show"))
     }
 
     return (
         <div className={ s.navbar }>
+            {/* <ProfessionalOfferToClientNeed/> */}
             <div className={ s.container__logo }>
                 <img src={ logo } alt="Logo" />
             </div>
@@ -109,7 +119,7 @@ export default function NavBar() {
                                         <li><span className={s.dropdown_item + " dropdown-item"} >Servicios Solicitados</span></li>
                                         <li><span
                                             className={s.dropdown_item + " dropdown-item"}
-                                            onClick={showModalFormCLient}
+                                            onClick={showFormProfessionalOffer5}
                                         >Crear Publicacion</span></li>
                                         <li><span className={s.dropdown_item + " dropdown-item"} >Notificaciones</span></li>
                                         <li><span className={s.dropdown_item + " dropdown-item"} >Carrito</span></li>
@@ -140,7 +150,11 @@ export default function NavBar() {
                                         <li><span className={s.dropdown_item + " dropdown-item"} >Carrito</span></li>
                                         <li><span className={s.dropdown_item + " dropdown-item"} >------------</span></li>
                                         <li><span className={s.dropdown_item + " dropdown-item"} >Ver perfil Cliente</span></li>
-                                        <li><span className={s.dropdown_item + " dropdown-item"} >Crear Publicacion</span></li>
+                                        <li><span
+                                            className={s.dropdown_item + " dropdown-item"}
+                                            onClick={showFormProfessionalOffer5}
+                                        >Crear Publicacion</span></li>
+                                        {/* <li><span className={s.dropdown_item + " dropdown-item"} >Crear Publicacion</span></li> */}
                                         <li><span className={s.dropdown_item + " dropdown-item"} >Servicios Solicitados</span></li>
                                         <li><span className={s.dropdown_item + " dropdown-item"} onClick={logout}>Cerrar sesion</span></li>
                                     </ul>

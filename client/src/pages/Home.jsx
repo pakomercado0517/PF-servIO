@@ -13,6 +13,8 @@ import TestimoniosHome from '../components/TestimoniosHome';
 import { ClientSpecificNeed } from '../components/ClientSpecificNeed';
 import CardClientNeed from '../components/CardClientNeed';
 
+import { ProfessionalOfferToClientNeed } from '../components/ProfessionalOfferToClientNeed';
+
 import { useLocalStorage } from '../hooks/useLocalStorage'
 
 export default function Home(){
@@ -29,7 +31,8 @@ export default function Home(){
 
 
 
-    const [login]=useLocalStorage("user", null)
+    const [login, setLogin] = useLocalStorage("user", null)
+    // const [usuario, setLogin] = useLocalStorage("usuario", "Imanol")
     
     let [postsPerPage, setPostsPerPage] = useState(16);
     let [currentPage, setCurrentPage] = useState(1);
@@ -49,8 +52,8 @@ export default function Home(){
     const [landing, setLanding] = useLocalStorage("landing", "visible")
     
     function landingView(){
-        if (landing==="visible") setLanding("")
-        if(!landing) setLanding("visible")
+        if (landing==="visible") setLanding("NoVisible")
+        if(landing==="NoVisible") setLanding("visible")
     }
 
     useEffect(()=>{
@@ -74,7 +77,7 @@ export default function Home(){
     return (
         <div>
             <ClientSpecificNeed/>
-
+            <ProfessionalOfferToClientNeed></ProfessionalOfferToClientNeed>
             {/* <NavBar/> */}
                 {/* <div onClick={showModalFormCLient} className={s.show__presentation}>
                     <CgOptions/>
@@ -138,7 +141,7 @@ export default function Home(){
                                 date={ user.date }
                                 userId={ user.userId }
                                 location={ user.location }
-                                />   
+                                />
                         )): <h1>No hay mas resultados</h1>
                     }
                 </div>
