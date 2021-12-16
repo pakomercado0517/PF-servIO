@@ -2,13 +2,15 @@ import './App.css';
 
 import { Routes, Route } from "react-router-dom"
 import Home from './pages/Home';
+import NavBar from './components/NavBar';
 import ProfileClient from './pages/ProfileClient';
 import ProfileProfessional from './pages/ProfileProfessional';
 import Register from './pages/Register';
 import Login  from './components/Login';
 import Nosotros from './pages/Nosotros.jsx';
 import HomeProfessional from './components/HomeProfessional';
-import NavBar from './components/NavBar';
+import { ProfessionalOfferToClientNeed } from './components/ProfessionalOfferToClientNeed';
+import { ProfessionalServiceOffer } from './components/ProfessionalServiceOffer';
 
 
 function App() {
@@ -24,7 +26,11 @@ function App() {
         <Route exact path="/professional/:id" element={<ProfileProfessional />} />
           
         <Route exact path="/homeprofessional" element={<HomeProfessional />} />
-        
+
+        {/* tests */}
+        <Route exact path="/offerprofessional" element={<ProfessionalOfferToClientNeed />} />
+        <Route exact path="/ProfessionalServiceOffer" element={<ProfessionalServiceOffer />} />
+
       </Routes>
     </>
   );
