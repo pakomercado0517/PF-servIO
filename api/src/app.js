@@ -6,7 +6,7 @@ const session = require('express-session');
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy
 
-
+require("./config/passport")(passport);
 require('./db.js');
 const server = express();
 
