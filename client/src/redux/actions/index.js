@@ -4,20 +4,6 @@ const constants = {
     localhost: 'http://localhost:3001',
 }
 
-// router.get('/allUsers', userFunctions.getAllUsers)
-// router.get('/allProfessionals', userFunctions.getAllProfessionals)
-// router.get('/commonUsers', userFunctions.getAllCommonUsers )
-
-// router.get('/allUsers/:id', userFunctions.getByUserId )
-// router.get('/getUserByActivityName', userFunctions.getUserByActivityName )
-// router.get('/getByActivityName', userFunctions.getByActivityName )
-// router.get('/getAllNeeds', userFunctions.getAllNeeds )
-
-// router.post('/NewSpecificalNeed', userFunctions.newSpecificalNeed)
-// router.post('/NewTechnicalActivity', userFunctions.newTechnicalActivity)
-// router.post('/', userFunctions.newUser)
-// router.post('/newProfessionalOffer', userFunctions.newProfessionalOffer)
-
 export const GET_ALL_USERS = 'GET_ALL_USERS';
 export const GET_ALL_PROFESSIONALS = 'GET_ALL_PROFESSIONALS';
 export const GET_ALL_COMMON_USERS = 'GET_ALL_COMMON_USERS';
@@ -37,7 +23,7 @@ export const FILTER_PROFESSIONS = 'FILTER_PROFESSIONS;'
 export const ORDER_DATA = 'ORDER_DATA';
 export const SHOW_FORM_CLIENT_NEED = 'SHOW_FORM_CLIENT_NEED';
 
-
+export const SHOW_FORM_PROFESSIONAL_OFFER = 'SHOW_FORM_PROFESSIONAL_OFFER';
 
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers () {
@@ -205,7 +191,7 @@ export function newTechnicalActivity (data) {
             console.log(error.message)
         };
     };
-}
+};
 
 // nueva oferta del profesional al necesidad especifica del cliente  
 export function newProfessionalOffer (data) {
@@ -255,23 +241,30 @@ export function filterProfessions (){
             })
         }catch (error){
             console.log(error)
-        }
-    }
-}
+        };
+    };
+};
 
 export function orderProfessionals(data){
     return{
         type: ORDER_DATA,
         payload: data
     }
-}
+};
 
 export function showFormClientNeed(data){
     return{
         type: SHOW_FORM_CLIENT_NEED,
         payload: data
-    }
-}
+    };
+};
+
+export function showFormProfessionalOffer(data){
+    return{
+        type: SHOW_FORM_PROFESSIONAL_OFFER,
+        payload: data
+    };
+};
 
 export function getByAccountId(id) {
     
@@ -289,5 +282,5 @@ export function getByAccountId(id) {
         };
 
         
-    }
-}
+    };
+};

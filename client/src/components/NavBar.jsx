@@ -3,7 +3,7 @@ import { Search } from './Search';
 import { NavLink } from 'react-router-dom';
 import logo from '../img/ServIO.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { getByAccountId, showFormClientNeed } from '../redux/actions'
+import { getByAccountId, showFormClientNeed, showFormProfessionalOffer } from '../redux/actions'
 import s from './styles/NavBar.module.css'
 import { CgOptions } from 'react-icons/cg';
 import { useEffect } from 'react';
@@ -19,13 +19,20 @@ export default function NavBar() {
     const stateTotalRedux = useSelector(state => state)
 
     useEffect(()=>{
-        if (login) {
+        if (localStorage.getItem('user')) {
             dispatch(getByAccountId(login.cookies.userId))
         }
     },[])
 
     useEffect(()=>{
+
     },[stateTotalRedux])
+
+
+    // function showMyProfile(){
+
+        {/* http://localhost:3000/clients/${id} */}
+    // }
 
     function showModalFormCLient(){
         dispatch(showFormClientNeed("show"))
@@ -40,7 +47,9 @@ export default function NavBar() {
             window.location.replace('/')
         })
     }
-
+    function showModalFormProfessional() {
+        dispatch(showFormProfessionalOffer("show"))
+    }
 
     return (
         <div className={ s.navbar }>
