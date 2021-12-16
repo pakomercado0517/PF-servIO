@@ -250,9 +250,9 @@ module.exports = {
       name,
       description,
       location,
-      price,
-      duration,
-      guarantee_time,
+    //   price,
+    //   duration,
+    //   guarantee_time,
       userId,
     } = req.body;
     try {
@@ -262,9 +262,9 @@ module.exports = {
           description,
           status: "in offer",
           location,
-          price,
-          duration,
-          guarantee_time,
+        //   price,
+        //   duration,
+        //   guarantee_time,
         });
 
         let allUsers = await User.findAll({
@@ -625,7 +625,36 @@ module.exports = {
  
 
     res.send('borrado')
-  }
+  },
+  getProfessionalActivities: async (req, res) => {
+    const  id  = req.params.id
+    try {
+      if(id){
+        const professional = await Professional.findOne({
+          where: { UserId:id }
+        })
+          if(professional){
+            const professionalId = professional.id 
+            const activities = await SpecificTechnicalActivity.findAll({
+              where: {ProfessionalId: professionalId}
+            });
+            if(activities.length > 0){
+              res.status(200).send(activities);
+            }else{
+              res.status(200).send('There are not specifical Activities');
+            }
+              
+          }else{
+            res.status(200).send('There are not specifical Activities');
+          }
+      }else{
+        res.status(200).send('There are not specifical Activities');
+      }
+      
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
+  },
   // newSpecificalNeed: async (req, res) =>{
   //     const {name, description, location} = req.body
   //     const newNeed = await ClientNeed.create({
