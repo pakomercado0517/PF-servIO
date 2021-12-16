@@ -42,7 +42,7 @@ export default function ProfileProfessional(){
     }
 
     return (
-          <div className={ s.container }>
+         <div className={ s.container }>
             {/* <div className={ s.container_nav }>
                 <NavLink to="/">
                     <img src={ logo } alt="" />

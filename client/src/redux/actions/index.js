@@ -19,11 +19,16 @@ export const NEW_USER = 'NEW_USER';
 export const NEW_PROFESSIONAL_OFFER = 'NEW_PROFESSIONAL_OFFER';
 
 export const FILTER_PROFESSIONS = 'FILTER_PROFESSIONS;'
+export const SWITCH_RENDER = 'SWITCH_RENDER'
 
 export const ORDER_DATA = 'ORDER_DATA';
 export const SHOW_FORM_CLIENT_NEED = 'SHOW_FORM_CLIENT_NEED';
 
 export const SHOW_FORM_PROFESSIONAL_OFFER = 'SHOW_FORM_PROFESSIONAL_OFFER';
+
+export const GLOBAL_LOCAL_STORAGE = 'GLOBAL_LOCAL_STORAGE';
+
+
 
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers () {
@@ -59,21 +64,21 @@ export function getAllProfessionals () {
     };
 };
 // trae los usuarios (clientes) incluyendo necesidades del cliente
-export function getAllCommonUsers () {
+// export function getAllCommonUsers () {
     
-    return async function (dispatch) {
+//     return async function (dispatch) {
 
-        try {
-            const response = await axios.get(`${ constants.localhost }/clientNeeds/all`)
-            dispatch({
-                type: GET_ALL_COMMON_USERS,
-                payload: response.data
-            });
-        } catch (error) {
-            console.log(error.message)
-        };
-    };
-};
+//         try {
+//             const response = await axios.get(`${ constants.localhost }/clientNeeds/all`)
+//             dispatch({
+//                 type: GET_ALL_COMMON_USERS,
+//                 payload: response.data
+//             });
+//         } catch (error) {
+//             console.log(error.message)
+//         };
+//     };
+// };
 
 // Trae los detalles del usuario dando un id 
 export function getByUserId(id) {
@@ -245,6 +250,14 @@ export function filterProfessions (){
     };
 };
 
+// funcion para manejar datos del localStorage globalmente
+export function setToGlobalStorage(data){
+    return {
+        type: GLOBAL_LOCAL_STORAGE,
+        payload: data,
+    }
+}
+
 export function orderProfessionals(data){
     return{
         type: ORDER_DATA,
@@ -284,3 +297,11 @@ export function getByAccountId(id) {
         
     };
 };
+
+
+export function changeSwitch(boolean){
+    return {
+        type: SWITCH_RENDER,
+        payload: boolean
+    }
+}
