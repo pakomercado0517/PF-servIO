@@ -50,7 +50,7 @@ export default function Home(){
     }
 
     useEffect(() => {
-        dispatch(getAllCommonUsers())
+        // dispatch(getAllCommonUsers())
     }, [state])
 
     console.log(professionals);
@@ -75,7 +75,7 @@ export default function Home(){
         
     },[dispatch, input.order])
 
-    const mood = localStorage.getItem("mood")
+    // const mood = localStorage.getItem("mood")
 
     useEffect(() => {
         currentPosts = professionals?.slice(indexOfFirstPost, indexOfLastPost)
