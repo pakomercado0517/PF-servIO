@@ -13,10 +13,12 @@ export default function Landing() {
                 <p className={styles.landing__subtitle}>busca servicios profesionales desde la plataforma con seguridad y eficacia desde la comodidad de tu hogar... Crea tu necesidad!!
                 </p>
                 { !(login && login.message === "Logged") ? <div className={ styles.div_principal__first__buttons }>
-                    <NavLink to="/login" className={ styles.div_principal__first__buttons__button }> 
-                        Iniciar sesión
+                    <NavLink to="/login" style={{textDecoration: 'none'}}>
+                        <button className={ styles.div_principal__first__buttons__button }>Iniciar sesion</button>
                     </NavLink>
-                    <NavLink to='/register' className={ styles.div_principal__first__buttons__button }>Registrarse</NavLink>
+                    <NavLink to='/register' style={{textDecoration: 'none'}}>
+                        <button className={ styles.div_principal__first__buttons__button }>Registrarse</button>
+                    </NavLink>
 
                 </div>:<></>}
                 

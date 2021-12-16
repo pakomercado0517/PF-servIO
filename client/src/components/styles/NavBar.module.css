@@ -19,7 +19,8 @@
     display: flex;
     align-items: center;
     height: 40px;
-    width: 40%;
+    /* width: 40%; */
+    min-width: 55%;
 }
 
 .container__input{
@@ -27,12 +28,12 @@
     align-items: center;
     justify-content: space-around;
     background-color: rgba(128, 128, 128, 0.068);
-    width: 60%;
+    max-width: 60%;
     height: 30px;
     border-radius: 5px;
     color: #707070;
     padding-left: 5px;
-    margin-right: 5%;
+    /* margin-right: 5%; */
 } 
 
 .container__input--text{
@@ -48,8 +49,8 @@
 .container__navigate{
     display: flex;
     justify-content: space-around;
-    width: 75%;
-    margin-right: 10%;
+    width: 50%;
+    /* margin-right: 10%; */
 }
 
 .container__inicio--btn{
@@ -59,54 +60,35 @@
     border:none;
     text-decoration: none;
 }
-/* .conteiner__btn{
-    
-} 
 
-.conteiner__btn--btn{
-    /* background: url('../../img/iconBusqueda.ico'); 
-    padding: 15px 15px;
-    border-radius: 10px;
-    margin: 3px;
+.session{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 170px;
 }
 
-
-
-.conteiner__Hamb{
-    margin-left: 15%;
+.iconLogin{
+    font-size: 45px;
+    color: gray;
 }
 
-.conteiner__Hamb--btn{
-    border: none;
-    background-color: white;
+.dropdown{
+    cursor: pointer;
 }
-
-.conteiner__Hamb--menu{
-    position: relative;
+.dropdown-menu{
+    cursor: pointer;
 }
+.dropdown-item{
+    cursor: pointer;
+    /* display: block; */
+    /* width: 100%; */
+    /* padding: 0.25rem 1rem; */
+    /* clear: both; */
+    /* font-weight: 400; */
+    /* color: #212529; */
+    /* text-align: inherit; */
+    /* text-decoration: none; */
+    /* white-space: nowrap; */
 
-.conteiner__Hamb--menu .conteiner__Hamb--down{
-    display: none;
 }
-
-.conteiner__Hamb--menu:hover .conteiner__Hamb--down{
-    display: block;
-    position: absolute;
-    right:0;
-
-    top:100%;
-    z-index: 1;
-    background-color: white;
-    padding: 20px;
-    min-height: 200px;
-    min-width: 100px;
-}
-
-.conteiner__Hamb--table a {
-    display: block;
-    color: rgb(121, 119, 117);
-    font-size: medium;
-    font-weight: 800;
-    text-decoration: none;
-    margin: 10px;
-} */

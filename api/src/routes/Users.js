@@ -11,7 +11,7 @@ router.post(
     failureFlash: true,
   }),
   (req, res, next) => {
-    res.redirect(`/user//${req.user.id}`);
+    res.redirect(`/user/${req.user.id}`);
   }
 );
 router.post(
@@ -25,6 +25,11 @@ router.post(
   }
 );
 router.post("/logout", userFunctions.logOut);
+
+// router.post("/", userFunctions.newUser);
+// router.post("/login", userFunctions.login);
+router.post("/logout", userFunctions.logOut);
+router.put("/updateUser/:id", userFunctions.updateProfile);
 router.get("/logged", userFunctions.loginTest);
 // router.get('/home', userFunctions.redirectLogin, userFunctions.redirectHome)
 router.get("/perfil", userFunctions.getUser);

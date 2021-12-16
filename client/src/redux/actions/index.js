@@ -4,25 +4,11 @@ const constants = {
     localhost: 'http://localhost:3001',
 }
 
-// router.get('/allUsers', userFunctions.getAllUsers)
-// router.get('/allProfessionals', userFunctions.getAllProfessionals)
-// router.get('/commonUsers', userFunctions.getAllCommonUsers )
-
-// router.get('/allUsers/:id', userFunctions.getByUserId )
-// router.get('/getUserByActivityName', userFunctions.getUserByActivityName )
-// router.get('/getByActivityName', userFunctions.getByActivityName )
-// router.get('/getAllNeeds', userFunctions.getAllNeeds )
-
-// router.post('/NewSpecificalNeed', userFunctions.newSpecificalNeed)
-// router.post('/NewTechnicalActivity', userFunctions.newTechnicalActivity)
-// router.post('/', userFunctions.newUser)
-// router.post('/newProfessionalOffer', userFunctions.newProfessionalOffer)
-
 export const GET_ALL_USERS = 'GET_ALL_USERS';
 export const GET_ALL_PROFESSIONALS = 'GET_ALL_PROFESSIONALS';
 export const GET_ALL_COMMON_USERS = 'GET_ALL_COMMON_USERS';
 export const GET_BY_USER_ID = 'GET_BY_USER_ID';
-export const GET_BY_COMPTE_ID = 'GET_BY_COMPTE_ID';
+export const GET_BY_ACCOUNT_ID = 'GET_BY_ACCOUNT_ID';
 export const GET_PROFESSIONAL_BY_ACTIVITY_NAME = 'GET_PROFESSIONAL_BY_ACTIVITY_NAME';
 export const GET_BY_ACTIVITY_NAME = 'GET_BY_ACTIVITY_NAME';
 export const GET_ALL_NEEDS = 'GET_ALL_NEEDS';
@@ -37,7 +23,7 @@ export const FILTER_PROFESSIONS = 'FILTER_PROFESSIONS;'
 export const ORDER_DATA = 'ORDER_DATA';
 export const SHOW_FORM_CLIENT_NEED = 'SHOW_FORM_CLIENT_NEED';
 
-
+export const SHOW_FORM_PROFESSIONAL_OFFER = 'SHOW_FORM_PROFESSIONAL_OFFER';
 
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers () {
@@ -78,7 +64,7 @@ export function getAllCommonUsers () {
     return async function (dispatch) {
 
         try {
-            const response = await axios.get(`${ constants.localhost }/commonUsers`)
+            const response = await axios.get(`${ constants.localhost }/clientNeeds/all`)
             dispatch({
                 type: GET_ALL_COMMON_USERS,
                 payload: response.data
@@ -205,7 +191,7 @@ export function newTechnicalActivity (data) {
             console.log(error.message)
         };
     };
-}
+};
 
 // nueva oferta del profesional al necesidad especifica del cliente  
 export function newProfessionalOffer (data) {
@@ -255,33 +241,39 @@ export function filterProfessions (){
             })
         }catch (error){
             console.log(error)
-        }
-    }
-}
+        };
+    };
+};
 
 export function orderProfessionals(data){
     return{
         type: ORDER_DATA,
         payload: data
     }
-}
+};
 
 export function showFormClientNeed(data){
-    console.log('data......', data)
     return{
         type: SHOW_FORM_CLIENT_NEED,
         payload: data
-    }
-}
+    };
+};
 
-export function getByCompteId(id) {
+export function showFormProfessionalOffer(data){
+    return{
+        type: SHOW_FORM_PROFESSIONAL_OFFER,
+        payload: data
+    };
+};
+
+export function getByAccountId(id) {
     
     return async function (dispatch) {
         
         try {
             const response = await axios.get(`${ constants.localhost }/user/${ id }`)
             dispatch({
-                type: GET_BY_COMPTE_ID,
+                type: GET_BY_ACCOUNT_ID,
                 payload: response.data
 
             });
@@ -290,5 +282,5 @@ export function getByCompteId(id) {
         };
 
         
-    }
-}
+    };
+};

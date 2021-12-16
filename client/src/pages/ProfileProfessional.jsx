@@ -7,7 +7,6 @@ import CardReview from '../components/CardReview';
 import CardParticularService from '../components/CardParticularService';
 import star from '../img/star.svg'
 import s from './styles/ProfileProfessional.module.css'
-import logo from '../img/ServIO.svg'
 import { useSelector, useDispatch } from 'react-redux';
 import { getByUserId } from '../redux/actions';
 import {NavLink, Link} from 'react-router-dom'
@@ -43,11 +42,6 @@ export default function ProfileProfessional(){
 
     return (
           <div className={ s.container }>
-            <div className={ s.container_nav }>
-                <NavLink to="/">
-                    <img src={ logo } alt="" />
-                </NavLink>
-            </div>
             <div className={s.container_details}>
                 <div className={ s.container_details_photo }>
                 </div>

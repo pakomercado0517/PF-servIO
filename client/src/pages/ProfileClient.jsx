@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { FaRegEdit } from 'react-icons/fa'
 import { BsArrowRightCircle } from 'react-icons/bs'
 import s from './styles/ProfileClient.module.css'
-// import star from '../img/star.svg'
 import CardReview from '../components/CardReview';
 import CardParticularService from '../components/CardParticularService';
 import imgCliente from '../img/user_profile_photo.jpg'

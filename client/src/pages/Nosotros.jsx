@@ -1,5 +1,4 @@
 import React from 'react';
-import NavBar from '../components/NavBar';
 import s from './styles/Nosotros.module.css';
 import img1 from '../img/nosotros1.svg';
 import img2 from '../img/nosotros2.svg';
@@ -12,7 +11,6 @@ export default function nosotros() {
     return (
         
         <div>
-            <NavBar/>
             <div className={s.conteiner}>
                 <div className={s.conteiner_titulo}>
                     <h2>¿Que hacemos en ServIO? </h2>
