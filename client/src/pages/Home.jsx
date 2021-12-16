@@ -12,13 +12,13 @@ import Pagination from "../components/Pagination";
 import TestimoniosHome from '../components/TestimoniosHome';
 import { ClientSpecificNeed } from '../components/ClientSpecificNeed';
 
+import { useLocalStorage } from '../hooks/useLocalStorage'
+
 export default function Home(){
     
     const dispatch = useDispatch();
     const professionals = useSelector(state => state.professionals);
-    // const usersCommon = useSelector(state => state.userCommon);
     const stateRedux = useSelector(state => state)
-    const [state, setstate] = useState("")
     
     const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
     
@@ -36,24 +36,12 @@ export default function Home(){
 
     function handleOrder(e) {setInput({...input, order:e.target.id})}
 
+    // VISIBILIDAD DEL LANDING DE PRESENTACIÓN //
+    const [landing, setLanding] = useLocalStorage("landing", "visible")
     function landingView(){
-        console.log("si pasa")
-        if(!window.localStorage.getItem("landing")) {
-            console.log("Pasaa")
-            window.localStorage.setItem("landing", "visible")
-            setstate("visible")
-        } else {
-            window.localStorage.removeItem("landing")
-            setstate("notVisible")
-        }
-        console.log(window.localStorage.getItem("landing"))
+        if (landing==="visible") setLanding("")
+        if(!landing) setLanding("visible")
     }
-
-    useEffect(() => {
-        // dispatch(getAllCommonUsers())
-    }, [state])
-
-    console.log(professionals);
 
     useEffect(()=>{
         function ordercomponent() {
@@ -75,13 +63,10 @@ export default function Home(){
         
     },[dispatch, input.order])
 
-    // const mood = localStorage.getItem("mood")
-
     useEffect(() => {
         currentPosts = professionals?.slice(indexOfFirstPost, indexOfLastPost)
         console.log(stateRedux.professionals)
     }, [stateRedux])
-
 
     return (
         <div>
@@ -110,8 +95,10 @@ export default function Home(){
                     </ul>
                 </div>
             </div>
+            
+            {/* COMPONENTE LANDING DE PRESENTACIÓN */}
 
-            { !window.localStorage.getItem("landing") ? <Landing/>:<></>}
+            { landing==="visible" ? <Landing/>:<></>}
 
             {/* DIV RENDERIZA LAS CARDS DEL PROFESIONAL */}
                 
