@@ -14,7 +14,7 @@ export const ClientSpecificNeed = () => {
     const user = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
     // console.log('client user==>',user.cookies.userId)
     const [input, setInput] = useState({
-        userId: user? user.cookies.userId:"",
+        // userId: user? user.cookies.userId:"",
 //     const [input, setInput] = useState({
 //         userId: user?.cookies.userId,
         name: "",
