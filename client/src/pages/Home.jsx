@@ -25,7 +25,8 @@ export default function Home(){
     const stateRedux = useSelector(state => state)
 //     const [state, setstate] = useState("")
 //     console.log(clientNeeds);
-    const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
+    // const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
+    const [login]=useLocalStorage("user", null)
     
     let [postsPerPage, setPostsPerPage] = useState(16);
     let [currentPage, setCurrentPage] = useState(1);
@@ -43,6 +44,7 @@ export default function Home(){
 
     // VISIBILIDAD DEL LANDING DE PRESENTACIÓN //
     const [landing, setLanding] = useLocalStorage("landing", "visible")
+    
     function landingView(){
         if (landing==="visible") setLanding("")
         if(!landing) setLanding("visible")
@@ -108,7 +110,7 @@ export default function Home(){
                 postsPerPage={postsPerPage}
                 totalPosts={switcheo === true ? professionals?.length: clientNeeds?.length}
                 />
-            
+
             { switcheo === true ? <div className={s.professionalGrid}>
                 {
                     currentPosts?.length > 0 ? currentPosts.map((professional) => (
@@ -122,6 +124,9 @@ export default function Home(){
                             calificationTech={'calification: 5/5'}/>
                     )) : <h1>No hay mas resultados</h1>
                 }
+
+                {/* CARDS DE SOLICITUDES DE CLIENTES */}
+
             </div> : 
                 <div>
                     {
@@ -136,18 +141,6 @@ export default function Home(){
                         )): <h1>No hay mas resultados</h1>
                     }
                 </div>
-                // {
-                //         <div className={ s.container_cards }>
-                //         {
-                //             props.needs.map((el, index) => {
-                //                 return (
-                //                       
-                //                 )
-                //             })
-                //         }
-                //         </div>
-                //     )
-                // }
             }
 
             {/* DIV MUESTRA LOS TESTIMONIOS (FEEBACK DE LOS USUARIOS) */}
