@@ -74,7 +74,7 @@ export default function Home(){
         
     },[dispatch, input.order])
 
-    const mood = localStorage.getItem("mood")
+    // const mood = localStorage.getItem("mood")
 
     useEffect(() => {
         currentPosts = professionals?.slice(indexOfFirstPost, indexOfLastPost)
