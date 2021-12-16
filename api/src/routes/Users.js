@@ -11,7 +11,7 @@ router.post(
     failureFlash: true,
   }),
   (req, res, next) => {
-    res.redirect(`/user//${req.user.id}`);
+    res.redirect(`/user/${req.user.id}`);
   }
 );
 router.post(

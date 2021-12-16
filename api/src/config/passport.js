@@ -38,18 +38,20 @@ module.exports = (passport) => {
           // password,
           verified,
           professional,
-          certification_name,
-          certification_img,
-          status,
+          // certification_name,
+          // certification_img,
+          // status,
           profession,
         } = req.body;
         try {
           const user = await User.findOne({
-            where: { email: email },
+            where: { email },
             include: [{ model: Professional }],
           });
-          if (user)
+          if (user){
             return done(null, false, console.log("Usuario ya existe..."));
+          }
+            
           let pass = await bcrypt.hash(password, 10);
           let newUser = await User.create({
             email: email,
@@ -66,6 +68,7 @@ module.exports = (passport) => {
             // certification_img,
             // status,
           });
+          
           let newProfessional = await Professional.create({
             certification_name: "",
             certification_img: "",
