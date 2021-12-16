@@ -26,6 +26,10 @@ export const SHOW_FORM_CLIENT_NEED = 'SHOW_FORM_CLIENT_NEED';
 
 export const SHOW_FORM_PROFESSIONAL_OFFER = 'SHOW_FORM_PROFESSIONAL_OFFER';
 
+export const GLOBAL_LOCAL_STORAGE = 'GLOBAL_LOCAL_STORAGE';
+
+
+
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers () {
     
@@ -245,6 +249,14 @@ export function filterProfessions (){
         };
     };
 };
+
+// funcion para manejar datos del localStorage globalmente
+export function setToGlobalStorage(data){
+    return {
+        type: GLOBAL_LOCAL_STORAGE,
+        payload: data,
+    }
+}
 
 export function orderProfessionals(data){
     return{
