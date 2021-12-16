@@ -655,6 +655,25 @@ module.exports = {
       res.status(400).send(error.message);
     }
   },
+  getNeedsById : async (req, res) => {
+    const  id  = req.params.id
+    try{
+        if(id > 0){
+          const needs = await ClientNeed.findAll({
+            where: {UserId : id}
+          })
+          if(needs){
+            res.status(200).send(needs)
+          }else{
+            res.status(200).send('User does not have any need')
+          }
+        }else{
+          res.status(200).send('Please insert an id')
+        }
+    }catch(error){
+      res.status(400).send(error.message);
+    }
+  }
   // newSpecificalNeed: async (req, res) =>{
   //     const {name, description, location} = req.body
   //     const newNeed = await ClientNeed.create({
