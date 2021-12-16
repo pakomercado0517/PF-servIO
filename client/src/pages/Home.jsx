@@ -6,27 +6,29 @@ import Landing from '../components/Landing';
 import {CgOptions} from 'react-icons/cg'
 import {IoEyeSharp} from 'react-icons/io5'
 import CardProfessional from '../components/CardProtessional.jsx'
-import { getAllProfessionals, orderProfessionals, getAllCommonUsers } from '../redux/actions';
+import { getAllProfessionals, orderProfessionals, getAllNeeds } from '../redux/actions';
 // import img from '../img/ivana-cajina-_7LbC5J-jw4-unsplash.jpg'
 import Pagination from "../components/Pagination";
 import TestimoniosHome from '../components/TestimoniosHome';
 import { ClientSpecificNeed } from '../components/ClientSpecificNeed';
+import CardClientNeed from '../components/CardClientNeed';
 
 export default function Home(){
     
     const dispatch = useDispatch();
     const professionals = useSelector(state => state.professionals);
-    // const usersCommon = useSelector(state => state.userCommon);
+    const clientNeeds = useSelector(state => state.clientNeeds);
+    const switcheo = useSelector(state => state.switch)
     const stateRedux = useSelector(state => state)
     const [state, setstate] = useState("")
-    
+    console.log(clientNeeds);
     const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
     
     let [postsPerPage, setPostsPerPage] = useState(16);
     let [currentPage, setCurrentPage] = useState(1);
     let indexOfLastPost = currentPage * postsPerPage;
     let indexOfFirstPost = indexOfLastPost - postsPerPage;
-    let currentPosts = professionals?.slice(indexOfFirstPost, indexOfLastPost)
+    let currentPosts = switcheo === true ? professionals?.slice(indexOfFirstPost, indexOfLastPost) : clientNeeds?.slice(indexOfFirstPost, indexOfLastPost)
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
@@ -50,36 +52,26 @@ export default function Home(){
     }
 
     useEffect(() => {
-        // dispatch(getAllCommonUsers())
     }, [state])
 
-    console.log(professionals);
-
     useEffect(()=>{
-        function ordercomponent() {
-            if (input.order) {
-                dispatch(orderProfessionals(input.order))
-            }
-            else{
-                window.addEventListener('storage', ()=>{
-                    if (!localStorage.getItem('mood', 'professionals')) {  
-                        dispatch(getAllProfessionals())
-                    }else if (localStorage.getItem('mood', 'user')){
-                        dispatch(getAllCommonUsers())
-                    }
-                })
-
+        if (input.order) {
+            dispatch(orderProfessionals(input.order))
+        }
+        else{
+            if(switcheo === true) {  
+                dispatch(getAllProfessionals())
+            }else if (switcheo === false){
+                dispatch(getAllNeeds())
             }
         }
-        ordercomponent()
-        
-    },[dispatch, input.order])
+
+    },[dispatch, input.order, switcheo])
 
     // const mood = localStorage.getItem("mood")
 
     useEffect(() => {
-        currentPosts = professionals?.slice(indexOfFirstPost, indexOfLastPost)
-        console.log(stateRedux.professionals)
+        currentPosts = switcheo === true ? professionals?.slice(indexOfFirstPost, indexOfLastPost) : clientNeeds?.slice(indexOfFirstPost, indexOfLastPost)
     }, [stateRedux])
 
 
@@ -118,10 +110,10 @@ export default function Home(){
                 <Pagination
                 paginate={paginate}
                 postsPerPage={postsPerPage}
-                totalPosts={professionals?.length}
+                totalPosts={switcheo === true ? professionals?.length: clientNeeds?.length}
                 />
             
-            {localStorage.mood === 'professionals' ? <div className={s.professionalGrid}>
+            { switcheo === true ? <div className={s.professionalGrid}>
                 {
                     currentPosts?.length > 0 ? currentPosts.map((professional) => (
                         <CardProfessional
@@ -137,27 +129,23 @@ export default function Home(){
             </div> : 
                 <div>
                     {
-                        currentPosts?.length > 0 ? currentPosts.map((user)=>(
-                           <div>
-                               <h1></h1>
-                           </div> 
+                        currentPosts?.length > 0 ? currentPosts?.map((user)=>(
+                            <CardClientNeed key={user.id}
+                                name={ user.name }
+                                description={ user.description }
+                                date={ user.date }
+                                userId={ user.userId }
+                                location={ user.location }
+                                />   
                         )): <h1>No hay mas resultados</h1>
                     }
                 </div>
                 // {
-                //     !props.needs[0]?<h1>Cargandooo</h1>:(
                 //         <div className={ s.container_cards }>
                 //         {
                 //             props.needs.map((el, index) => {
                 //                 return (
-                //                     <CardClientNeed key={ "CardClientNeed" + index}
-                //                     user={ el.User }
-                //                     name={ el.name }
-                //                     description={ el.description }
-                //                     date={ el.date }
-                //                     userId={ el.userId }
-                //                     location={ el.location }
-                //                     />     
+                //                       
                 //                 )
                 //             })
                 //         }
