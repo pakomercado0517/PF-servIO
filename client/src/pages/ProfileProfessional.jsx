@@ -10,7 +10,7 @@ import s from './styles/ProfileProfessional.module.css'
 import { useSelector, useDispatch } from 'react-redux';
 import { getByUserId } from '../redux/actions';
 import {NavLink, Link} from 'react-router-dom';
-import EditPodeddional from '../components/EditPodeddional'
+
 
 export default function ProfileProfessional(){
 
@@ -42,13 +42,11 @@ export default function ProfileProfessional(){
     }
 
     return (
-          <div className={ s.container }>
-
-            <EditPodeddional/>
+         <div className={ s.container }>
             {/* <div className={ s.container_nav }>
-                {/* <NavLink to="/">
+                <NavLink to="/">
                     <img src={ logo } alt="" />
-                </NavLink
+                </NavLink>
             </div> */}
 
             <div className={s.container_details}>
