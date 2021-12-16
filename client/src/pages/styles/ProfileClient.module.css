@@ -20,18 +20,22 @@
 }
 
 .div_photo {
+    display: flex;
     background-size: cover;
-    width: 25%;
-    height: 40vh;
+    width: 21vw;
+    height: 21vw;
+    border-radius: 100%;
     position: relative;
     top: 150px;
     margin: 0px 50px;
+    background-color: rgb(255, 255, 255);
 }
 
-.div_photo img {
+.div_photo img, .div_photo_perfil {
     border-radius: 100%;
-    width: 250px;
-    height: 250px; 
+    width: 21vw;
+    height: 21vw;
+    margin: auto;
     
 }
 

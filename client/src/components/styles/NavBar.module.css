@@ -68,7 +68,32 @@
     width: 170px;
 }
 
+.session_name{
+    color: black;
+    text-decoration: none;
+}
+
 .iconLogin{
     font-size: 45px;
     color: gray;
+}
+
+.dropdown{
+    cursor: pointer;
+}
+.dropdown-menu{
+    cursor: pointer;
+}
+.dropdown_item{
+    cursor: pointer;
+    /* display: block; */
+    /* width: 100%; */
+    /* padding: 0.25rem 1rem; */
+    /* clear: both; */
+    /* font-weight: 400; */
+    /* color: #212529; */
+    /* text-align: inherit; */
+    /* text-decoration: none; */
+    /* white-space: nowrap; */
+
 }

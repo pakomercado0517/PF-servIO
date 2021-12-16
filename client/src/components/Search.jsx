@@ -27,7 +27,7 @@ export const Search = () => {
     return (
         <div>
             <div className={s.container__input}>
-                    <FiSearch/>
+                <FiSearch/>
                     <input 
                         className={s['container__input--text']}
                         type='text'
