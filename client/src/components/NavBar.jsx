@@ -18,24 +18,21 @@ export default function NavBar() {
 
     const dispatch = useDispatch()
                     // useLocalStorage
-    // const [login] = useLocalStorage("user", "")
-    // const [login] = useGlobalStorage("user", "asf")
-    // console.log("acaaa: ", login)
-    const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
-    // console.log('login daaaaleee',login)
-    // console.log('login daaaaleeekoki',login.cookies.userId)
+    const [login] = useGlobalStorage("globalUser", null)
+    console.log("MENSAJEE: ", login)
+
+    // const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
 
     const stateTotalRedux = useSelector(state => state)
 
     useEffect(()=>{
-        if (localStorage.getItem('user')) {
-            dispatch(getByAccountId(login ? login.cookies.userId:""))
-        }
+        // if (localStorage.getItem('user')) {
+        //     dispatch(getByAccountId(login[0] ? login[0].cookies.userId:""))
+        // }
     },[])
 
     useEffect(()=>{
-        console.log(stateTotalRedux)
-    },[stateTotalRedux])
+    },[login])
 
 
     // function showMyProfile(){
@@ -82,17 +79,17 @@ export default function NavBar() {
 
 
 
-                { login && login.message === "Logged"? 
+                { login ? 
 
                     <>
 
                         <div className={s.session}>
-                            <NavLink to={`/clients/${login.cookies.userId}`}>
+                            <NavLink to={`/clients/${login[0]?.id}`}>
                                 <MdAccountCircle className={s.iconLogin} />
-                                <span className={ s.session_name }>{stateTotalRedux.account[0]?.first_name + ' '} </span>
+                                <span className={ s.session_name }>{login[0]?.first_name + ' '} </span>
                             </NavLink>
 
-                            {login && login.userType === "Client" ?
+                            {login[0] && !login[0].professioanl ?
                                 <div className='dropdown'>
                                     <button
                                         className="btn btn-secondary dropdown-toggle"
@@ -110,7 +107,7 @@ export default function NavBar() {
 
                                         <li><span className={s.dropdown_item + " dropdown-item"} >Perfil Cliente</span></li>
                                         {/* <NavLink to={`/clients/${login.cookies.userId}`} className={s.dropdown__item}>Mi perfil</NavLink> */}
-                                        <NavLink to={`/clients/${login.cookies.userId}`}>
+                                        <NavLink to={`/clients/${login[0]?.id}`}>
                                             <li><span
                                                 className={s.dropdown_item + " dropdown-item"}
                                             >Ver mi Perfil</span></li>

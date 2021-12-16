@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 
 import s from './styles/Login.module.css'
 import { getByAccountId } from '../redux/actions';
+import { useGlobalStorage } from '../hooks/useGlobalStorage';
 
 export default function Login() {
 
@@ -20,6 +21,7 @@ export default function Login() {
     const dispatch = useDispatch()
 
     const [errors, setErrors] = useState({});
+    const [globalUser, setGlobalUser] = useGlobalStorage("globalUser", "");
 
     const validate = (input) => {
         let errors = {};
@@ -61,8 +63,20 @@ export default function Login() {
             console.log('post',post)
 
             if( post.data.message === 'Logged') {
+                try {
+                    const user = await axios.get('http://localhost:3001/user/' + post.data.cookies.userId)
+                    console.log(user.data)
+                    setGlobalUser(user.data)
+                    console.log(globalUser)
+                } catch (error) {
+                    console.error(error)
+                }
+                
+                console.log('post',post.data)
+                console.log('post',post)
 
                 localStorage.setItem('user', JSON.stringify(post.data))
+                localStorage.setItem('prueba', JSON.stringify(post.data))
                 console.log("userType: ", post.data)
 
                 dispatch(getByAccountId(post.data.cookies.userId))
