@@ -40,19 +40,19 @@ export const ProfessionalOfferToClientNeed = () => {
         e.preventDefault()
         try {
             
-            const post = await axios.post('http://localhost:3001/clientNeeds', form)
-            .then(() => {
+            // const post = await axios.post('http://localhost:3001/clientNeeds', form)
+            // .then(() => {
                 const fondo = document.getElementById("fondo-form-Professional-offer")
                 fondo.style.top = "-100vh"
                 
                 Swal.fire({
                     icon: 'success',
-                    title: 'Publicacion creada!',
+                    title: 'Oferta enviada!',
                     showConfirmButton: false,
                     timer: 1500
                 })
-            })
-            console.log('post',post)
+            // })
+            // console.log('post',post)
 
         } catch (error) {
             console.error("message: ", error)
