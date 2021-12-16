@@ -1,35 +1,35 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import './styles/pagination.css'
+import {changeSwitch} from '../redux/actions'
+import {useDispatch} from 'react-redux'
+
 const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
   const pageNumbers = [];
   const [state, setstate] = useState("professional")
+  const dispatch = useDispatch()
 
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
     pageNumbers.push(i);
   }
 
-  useEffect(()=> {
-    localStorage.setItem('mood', 'professionals')
-  },[])
-
   function moodRender(e){
     if(e === 'btnradio2') {
-        window.localStorage.setItem("mood", "professionals")
-        setstate('professional')
+      dispatch(changeSwitch(true))
+      setstate('professional')
     } 
     if (e === 'btnradio1') {
-        window.localStorage.setItem("mood", 'user')
-        setstate('user')
+      dispatch(changeSwitch(false))
+      setstate('user')
     }
   }
 
   return (
     <div className='pagination'>
       <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" onClick={(e) => moodRender(e.target.id)} checked={localStorage.mood === 'professionals'}/>
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" onClick={(e) => moodRender(e.target.id)} checked={state === 'professional'}/>
         <label class="btn btn-outline-info" for="btnradio2">Profesionales</label>
         
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" onClick={(e) => moodRender(e.target.id)} checked={localStorage.mood === 'user'}/>
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" onClick={(e) => moodRender(e.target.id)} checked={state === 'user'}/>
         <label class="btn btn-outline-info" for="btnradio1">Usuarios</label>
       </div>
       <nav>

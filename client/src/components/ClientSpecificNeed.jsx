@@ -15,6 +15,8 @@ export const ClientSpecificNeed = () => {
     // console.log('client user==>',user.cookies.userId)
     const [input, setInput] = useState({
         userId: user? user.cookies.userId:"",
+//     const [input, setInput] = useState({
+//         userId: user?.cookies.userId,
         name: "",
         description: "",
         status: "in offer"
