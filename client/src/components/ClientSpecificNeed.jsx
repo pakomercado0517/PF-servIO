@@ -12,15 +12,17 @@ export const ClientSpecificNeed = () => {
     const modal = useSelector(state => state.modal)
     console.log('client modal==>',modal)
     const user = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
-    console.log('client user==>',user)
-    const [form, setform] = useState({
-        description: "",
+    console.log('client user==>',user.cookies.userId)
+    const [input, setInput] = useState({
+        userId: user.cookies.userId,
         name: "",
+        description: "",
+        status: "in offer"
     })
 
     function onChangeForm(e) {
-        setform({
-            ...form,
+        setInput({
+            ...input,
             [e.target.name]: e.target.value
         })
     }
@@ -28,16 +30,7 @@ export const ClientSpecificNeed = () => {
     const postNeed = async (e) =>{
         e.preventDefault()
         try {
-            var obj = {
-                ...form,
-                location:"sadsadsa",
-                price:1200,
-                duration:12321,
-                guarantee_time:123213,
-                userId: user.cookies.userId
-            }
-            // console.log(obj)
-            const post = await axios.post('http://localhost:3001/clientNeeds', obj)
+            const post = await axios.post('http://localhost:3001/clientNeeds', input)
             .then(() => {
                 const fondo = document.getElementById("fondo-form-client-need")
                 fondo.style.top = "-100vh"
@@ -49,12 +42,22 @@ export const ClientSpecificNeed = () => {
                     timer: 1500
                 })
             })
-            console.log('post',post)
-
-        } catch (error) {
-            console.error("message: ", error)
+            stateReset()
+            console.log( 'post',post )
+            
+        } catch ( error ) {
+            console.log( error.message )
         }
     }
+
+    function stateReset() {
+        setInput({
+            name:'',
+            description:'',
+            status: ''
+        })
+    }
+
 
     const dispatch = useDispatch()
 
@@ -77,7 +80,7 @@ export const ClientSpecificNeed = () => {
             <div id='fondo-form-client-need' className={s.container}>
                 <div className={s.container_background} onClick={hideFormClientNeed}></div>
                 <div className={s.container_form}>
-                    <form onSubmit={postNeed} action="">
+                    <form onSubmit={postNeed}>
                         <div className="row">
                             <div className={"col-12" && s.container_filter}>
                                 <h1>Solicitá tu servicio</h1>
@@ -85,7 +88,7 @@ export const ClientSpecificNeed = () => {
                                     <input
                                         type="text"
                                         name='name'
-                                        value={ form.titulo }
+                                        value={ input.name }
                                         onChange={ onChangeForm }
                                         className="form-control"
                                         aria-label="Default" aria-describedby="inputGroup-sizing-default"
@@ -101,7 +104,7 @@ export const ClientSpecificNeed = () => {
                                     <textarea
                                         type='text'
                                         name='description'
-                                        value={ form.description }
+                                        value={ input.description }
                                         onChange={ onChangeForm }
                                         className="form-control z-depth-1"
                                         id="exampleFormControlTextarea1"
