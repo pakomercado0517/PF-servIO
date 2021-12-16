@@ -13,15 +13,18 @@ import TestimoniosHome from '../components/TestimoniosHome';
 import { ClientSpecificNeed } from '../components/ClientSpecificNeed';
 import CardClientNeed from '../components/CardClientNeed';
 
+import { useLocalStorage } from '../hooks/useLocalStorage'
+
 export default function Home(){
     
     const dispatch = useDispatch();
     const professionals = useSelector(state => state.professionals);
+    
     const clientNeeds = useSelector(state => state.clientNeeds);
     const switcheo = useSelector(state => state.switch)
     const stateRedux = useSelector(state => state)
-    const [state, setstate] = useState("")
-    console.log(clientNeeds);
+//     const [state, setstate] = useState("")
+//     console.log(clientNeeds);
     const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
     
     let [postsPerPage, setPostsPerPage] = useState(16);
@@ -38,21 +41,15 @@ export default function Home(){
 
     function handleOrder(e) {setInput({...input, order:e.target.id})}
 
+    // VISIBILIDAD DEL LANDING DE PRESENTACIÓN //
+    const [landing, setLanding] = useLocalStorage("landing", "visible")
     function landingView(){
-        console.log("si pasa")
-        if(!window.localStorage.getItem("landing")) {
-            console.log("Pasaa")
-            window.localStorage.setItem("landing", "visible")
-            setstate("visible")
-        } else {
-            window.localStorage.removeItem("landing")
-            setstate("notVisible")
-        }
-        console.log(window.localStorage.getItem("landing"))
+        if (landing==="visible") setLanding("")
+        if(!landing) setLanding("visible")
     }
 
-    useEffect(() => {
-    }, [state])
+//     useEffect(() => {
+//     }, [state])
 
     useEffect(()=>{
         if (input.order) {
@@ -68,12 +65,9 @@ export default function Home(){
 
     },[dispatch, input.order, switcheo])
 
-    // const mood = localStorage.getItem("mood")
-
     useEffect(() => {
         currentPosts = switcheo === true ? professionals?.slice(indexOfFirstPost, indexOfLastPost) : clientNeeds?.slice(indexOfFirstPost, indexOfLastPost)
     }, [stateRedux])
-
 
     return (
         <div>
@@ -102,8 +96,10 @@ export default function Home(){
                     </ul>
                 </div>
             </div>
+            
+            {/* COMPONENTE LANDING DE PRESENTACIÓN */}
 
-            { !window.localStorage.getItem("landing") ? <Landing/>:<></>}
+            { landing==="visible" ? <Landing/>:<></>}
 
             {/* DIV RENDERIZA LAS CARDS DEL PROFESIONAL */}
                 
