@@ -6,7 +6,8 @@ import {
     SEARCH_PROFESSIONAL_BY_NAME, 
     ORDER_DATA, 
     FILTER_PROFESSIONS,
-    SHOW_FORM_CLIENT_NEED, 
+    SHOW_FORM_CLIENT_NEED,
+    SHOW_FORM_PROFESSIONAL_OFFER,
     GET_BY_ACCOUNT_ID,
     GET_ALL_COMMON_USERS
 } from '../actions'
@@ -20,7 +21,7 @@ const initialState = {
     clientNeeds: [],
     message:[],
     modal:"",
-
+    modalProfessionalsOffer: "",
     professionsName:[],
 
     account: [],
@@ -53,29 +54,32 @@ function rootReducer( state = initialState, { type, payload } ) {
             return {
                 ...state,
                 message: payload,
-            }
+            };
         case SEARCH_PROFESSIONAL_BY_NAME: 
             return {
                 ...state,
                 professionals: payload
-            }
+            };
         case SHOW_FORM_CLIENT_NEED: 
             return {
                 ...state,
                 modal: payload
-            }
-
-            case FILTER_PROFESSIONS:
-                return {
-                    ...state,
-                    professionsName: payload,
-                }
+            };
+        case SHOW_FORM_PROFESSIONAL_OFFER:
+            return {
+                ...state,
+                modalProfessionalsOffer: payload
+            };
+        case FILTER_PROFESSIONS:
+            return {
+                ...state,
+                professionsName: payload,
+            };
         case GET_ALL_COMMON_USERS:
             return {
                 ...state,
                 professionals: payload
-            }
-
+            };
         case ORDER_DATA:
             let option = [];
             switch (payload) {
@@ -95,16 +99,13 @@ function rootReducer( state = initialState, { type, payload } ) {
                     break
                 default:
                     break;
-            }
+            };
             return {
                 ...state,
                 professionals: option
-            }
-
+            };
         default:
             return state;
-        
-
     };
 };
 

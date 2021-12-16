@@ -3,7 +3,7 @@ import { Search } from './Search';
 import { NavLink } from 'react-router-dom';
 import logo from '../img/ServIO.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { getByAccountId, showFormClientNeed } from '../redux/actions'
+import { getByAccountId, showFormClientNeed, showFormProfessionalOffer } from '../redux/actions'
 import s from './styles/NavBar.module.css'
 import { CgOptions } from 'react-icons/cg';
 import { useEffect } from 'react';
@@ -19,13 +19,20 @@ export default function NavBar() {
     const stateTotalRedux = useSelector(state => state)
 
     useEffect(()=>{
-        if (login) {
+        if (localStorage.getItem('user')) {
             dispatch(getByAccountId(login.cookies.userId))
         }
     },[])
 
     useEffect(()=>{
+
     },[stateTotalRedux])
+
+
+    // function showMyProfile(){
+
+        {/* http://localhost:3000/clients/${id} */}
+    // }
 
     function showModalFormCLient(){
         dispatch(showFormClientNeed("show"))
@@ -40,7 +47,9 @@ export default function NavBar() {
             window.location.replace('/')
         })
     }
-
+    function showModalFormProfessional() {
+        dispatch(showFormProfessionalOffer("show"))
+    }
 
     return (
         <div className={ s.navbar }>
@@ -64,83 +73,87 @@ export default function NavBar() {
 
 
                 { login && login.message === "Logged"? 
+                
+                <>
 
-                    <>
+                    <div className={s.session}>
+                    <NavLink to = {`/clients/${login.cookies.userId}`}>
+                        <MdAccountCircle className={s.iconLogin}/>
+                    <span>{ stateTotalRedux.account[0]?.first_name + ' ' } </span>
+                    </NavLink>
 
-                        <div className={s.session}>
-                            <NavLink to={`/clients/${login.cookies.userId}`}>
-                                <MdAccountCircle className={s.iconLogin} />
-                                <span>{stateTotalRedux.account[0]?.first_name + ' '} </span>
+                    { login && login.userType === "Client" ? 
+                    <div className='dropdown'>
+                        <button
+                            className="btn btn-secondary dropdown-toggle" 
+                            id="dropdownMenuButton1" 
+                            data-bs-toggle="dropdown" 
+                            type="button" 
+                            
+                            aria-expanded="false"
+                        ></button>
+                            
+                        <ul 
+                            className="dropdown-menu" 
+                            aria-labelledby="dropdownMenuButton1"
+                        >
+                            {/* http://localhost:3000/clients/${id} */}
+                            
+                            <li><span className="dropdown-item" >Perfil Cliente</span></li>
+                            {/* <NavLink to={`/clients/${login.cookies.userId}`} className={s.dropdown__item}>Mi perfil</NavLink> */}
+                            <NavLink to = {`/clients/${login.cookies.userId}`}>
+                            <li><span 
+                                className="dropdown-item" 
+                            >Ver mi Perfil</span></li>
                             </NavLink>
-
-                            {login && login.userType === "Client" ?
-                                <div className='dropdown'>
-                                    <button
-                                        className="btn btn-secondary dropdown-toggle"
-                                        id="dropdownMenuButton1"
-                                        data-bs-toggle="dropdown"
-                                        type="button"
-                                        aria-expanded="false"
-                                    ></button>
-
-                                    <ul
-                                        className="dropdown-menu"
-                                        aria-labelledby="dropdownMenuButton1"
-                                    >
-                                        {/* http://localhost:3000/clients/${id} */}
-
-                                        <li><span className="dropdown-item" >Perfil Cliente</span></li>
-                                        {/* <NavLink to={`/clients/${login.cookies.userId}`} className={s.dropdown__item}>Mi perfil</NavLink> */}
-                                        <NavLink to={`/clients/${login.cookies.userId}`}>
-                                            <li><span
-                                                className="dropdown-item"
-                                            >Ver mi Perfil</span></li>
-                                        </NavLink>
-                                        <li><span className="dropdown-item" >Editar Perfil</span></li>
-                                        <li><span className="dropdown-item" >Servicios Solicitados</span></li>
-                                        <li><span
-                                            className="dropdown-item"
-                                            onClick={showModalFormCLient}
-                                        >Crear Publicacion</span></li>
-                                        <li><span className="dropdown-item" >Notificaciones</span></li>
-                                        <li><span className="dropdown-item" >Carrito</span></li>
-                                        <li><span className="dropdown-item" >Registrarse Como Tecnico</span></li>
-                                        <li><span
-                                            className="dropdown-item"
-                                            onClick={logout}
-                                        >Cerrar sesion</span></li>
-                                    </ul>
-                                </div>
-                                :
-                                <div className='dropdown'>
-                                    <button
-                                        className="btn btn-secondary dropdown-toggle"
-                                        id="dropdownMenuButton1"
-                                        data-bs-toggle="dropdown"
-                                        type="button"
-
-                                        aria-expanded="false"
-                                    ></button>
-
-                                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
-                                        <li><span className="dropdown-item" >Perfil Profesional</span></li>
-                                        <li><span className="dropdown-item" >Editar Perfil</span></li>
-                                        <li><span className="dropdown-item" >Ofrecer Servicios Profesionales</span></li>
-                                        <li><span className="dropdown-item" >Ver Trabajos Pendientes</span></li>
-                                        <li><span className="dropdown-item" >Notificaciones</span></li>
-                                        <li><span className="dropdown-item" >Carrito</span></li>
-                                        <li><span className="dropdown-item" >------------</span></li>
-                                        <li><span className="dropdown-item" >Ver perfil Cliente</span></li>
-                                        <li><span className="dropdown-item" >Crear Publicacion</span></li>
-                                        <li><span className="dropdown-item" >Servicios Solicitados</span></li>
-                                        <li><span className="dropdown-item" onClick={logout}>Cerrar sesion</span></li>
-                                    </ul>
-                                </div>
-
-                            }
-                        </div>
-                    </>
-                    : <></>
+                            <li><span className="dropdown-item" >Editar Perfil</span></li>
+                            <li><span className="dropdown-item" >Servicios Solicitados</span></li>
+                            <li><span 
+                                className="dropdown-item" 
+                                onClick={showModalFormCLient}
+                            >Crear Publicacion</span></li>  
+                            <li><span className="dropdown-item" >Notificaciones</span></li>
+                            <li><span className="dropdown-item" >Registrarse Como Tecnico</span></li>
+                            <li><span 
+                                className="dropdown-item" 
+                                onClick={logout}
+                            >Cerrar sesion</span></li>
+                        </ul>
+                    </div>
+                    : 
+                    <div className='dropdown'>
+                        <button
+                            className="btn btn-secondary dropdown-toggle" 
+                            id="dropdownMenuButton1" 
+                            data-bs-toggle="dropdown" 
+                            type="button" 
+                            
+                            aria-expanded="false"
+                        ></button>
+                        
+                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
+                        <li><span className="dropdown-item" >Perfil Profesional</span></li>
+                        <li><span className="dropdown-item" >Editar Perfil</span></li>
+                        <li><span 
+                            className="dropdown-item" 
+                            onClick={showModalFormProfessional}
+                        >Ofrecer Servicios Profesionales</span></li>
+                        <li><span 
+                            className="dropdown-item" 
+                        >Ver Trabajos Pendientes</span></li>
+                        <li><span className="dropdown-item" >Notificaciones</span></li>
+                        <li><span className="dropdown-item" >------------</span></li>
+                        <li><span className="dropdown-item" >Ver perfil Cliente</span></li>
+                        <li><span className="dropdown-item" >Crear Publicacion</span></li>  
+                        <li><span className="dropdown-item" >Servicios Solicitados</span></li>
+                        <li><span className="dropdown-item"  onClick={logout}>Cerrar sesion</span></li>
+                        </ul>
+                    </div>
+                    
+                }
+                    </div>
+                </>
+                :<></>
                 }
             </div>
         </div>

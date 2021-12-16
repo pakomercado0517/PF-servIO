@@ -1,28 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
-import { showFormClientNeed } from '../redux/actions'
+import { showFormProfessionalOffer } from '../redux/actions'
 import Swal from 'sweetalert2'
+import s from './styles/ProfessionalServiceOffer.modules.css'
 
-import s from './styles/ClientSpecificNeed.module.css'
 
-
-export const ClientSpecificNeed = () => {
+export const ProfessionalServiceOffer = () => {
     
-    const modal = useSelector(state => state.modal)
-    console.log('client modal==>',modal)
+    const modal = useSelector(state => state.modalProfessionalsOffer)
+    console.log('professional modal==>',modal)
+    
     const user = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
-    console.log('client user==>',user.cookies.userId)
-    const [input, setInput] = useState({
-        userId: user.cookies.userId,
-        name: "",
+    console.log('pro user==>',user)
+
+    const [form, setform] = useState({
         description: "",
-        status: "in offer"
+        name: "",
     })
 
     function onChangeForm(e) {
-        setInput({
-            ...input,
+        setform({
+            ...form,
             [e.target.name]: e.target.value
         })
     }
@@ -30,9 +29,18 @@ export const ClientSpecificNeed = () => {
     const postNeed = async (e) =>{
         e.preventDefault()
         try {
-            const post = await axios.post('http://localhost:3001/clientNeeds', input)
+            var obj = {
+                ...form,
+                location:"sadsadsa",
+                price:1200,
+                duration:12321,
+                guarantee_time:123213,
+                userId: user.cookies.userId
+            }
+            // console.log(obj)
+            const post = await axios.post('http://localhost:3001/clientNeeds', obj)
             .then(() => {
-                const fondo = document.getElementById("fondo-form-client-need")
+                const fondo = document.getElementById("fondo-form-Professional-offer")
                 fondo.style.top = "-100vh"
                 
                 Swal.fire({
@@ -42,57 +50,47 @@ export const ClientSpecificNeed = () => {
                     timer: 1500
                 })
             })
-            stateReset()
-            console.log( 'post',post )
-            
-        } catch ( error ) {
-            console.log( error.message )
+            console.log('post',post)
+
+        } catch (error) {
+            console.error("message: ", error)
         }
     }
-
-    function stateReset() {
-        setInput({
-            name:'',
-            description:'',
-            status: ''
-        })
-    }
-
 
     const dispatch = useDispatch()
 
     useEffect(() => {
         if (modal === "show") {
-            const fondo = document.getElementById("fondo-form-client-need")
+            const fondo = document.getElementById("fondo-form-Professional-offer")
             fondo.style.top = "0px"
         } else if("notshow") {
-            const fondo = document.getElementById("fondo-form-client-need")
+            const fondo = document.getElementById("fondo-form-Professional-offer")
             fondo.style.top = "-100vh"
         }
     }, [modal])
 
-    function hideFormClientNeed(){
-        dispatch(showFormClientNeed("notshow"))
-    }
+    function hideFormProfessionalOffer(){
+        dispatch(showFormProfessionalOffer("notshow"))
+    };
     
     return (
         <>
-            <div id='fondo-form-client-need' className={s.container}>
-                <div className={s.container_background} onClick={hideFormClientNeed}></div>
+            <div id='fondo-form-Professional-offer' className={s.container}>
+                <div className={s.container_background} onClick={hideFormProfessionalOffer}></div>
                 <div className={s.container_form}>
-                    <form onSubmit={postNeed}>
+                    <form onSubmit={postNeed} action="">
                         <div className="row">
                             <div className={"col-12" && s.container_filter}>
-                                <h1>Solicitá tu servicio</h1>
+                                <h1>Ofrecé tu servicio</h1>
                                 <div className="input-group mb-3">
                                     <input
                                         type="text"
                                         name='name'
-                                        value={ input.name }
+                                        value={ form.titulo }
                                         onChange={ onChangeForm }
                                         className="form-control"
                                         aria-label="Default" aria-describedby="inputGroup-sizing-default"
-                                        placeholder="Escribe aqui el titulo del servicio requerido"
+                                        placeholder="Escribe aqui el titulo del servicio ofrecido"
                                     />
                                 </div>
 
@@ -104,7 +102,7 @@ export const ClientSpecificNeed = () => {
                                     <textarea
                                         type='text'
                                         name='description'
-                                        value={ input.description }
+                                        value={ form.description }
                                         onChange={ onChangeForm }
                                         className="form-control z-depth-1"
                                         id="exampleFormControlTextarea1"
