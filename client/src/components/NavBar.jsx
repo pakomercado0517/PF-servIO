@@ -20,12 +20,12 @@ export default function NavBar() {
 
     useEffect(()=>{
         if (localStorage.getItem('user')) {
-            dispatch(getByAccountId(login.cookies.userId))
+            dispatch(getByAccountId(login?login.cookies.userId:""))
         }
     },[])
 
     useEffect(()=>{
-
+        console.log(stateTotalRedux)
     },[stateTotalRedux])
 
 

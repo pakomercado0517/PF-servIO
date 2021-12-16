@@ -17,12 +17,13 @@ export default function ProfileClient(){
 
     const state = useSelector(state => state)
 
-    const {id} = useParams()
+    const {idClient} = useParams()
+    console.log(idClient)
 
     const dispatch = useDispatch()
 
     useEffect(()=>{
-        dispatch(getByAccountId(id))
+        dispatch(getByAccountId(idClient))
     },[])
 
 
