@@ -31,7 +31,7 @@ export default function EditPodeddional() {
     // const id = window.localStorage.getItem('user').cookies;
 
     useEffect(() => {
-        dispatch(getByUserId(login.cookies.userId))
+        dispatch(getByUserId(login?.cookies.userId))
         
     },[])
 
@@ -141,8 +141,27 @@ export default function EditPodeddional() {
         console.log("Error: ", err)
     })
 
-
     }
+
+    useEffect(() => {
+        setDetails({
+            ...details,
+            firstName: state.user[0]?.first_name,
+            lastName: user[0]?.last_name,
+            email: user[0]?.email,
+            dni:user[0]?.dni,
+            password:user[0]?.password,
+            repeatPassword:user[0]?.password,
+            // professional:user[0]?.professional,
+            // cliente:'',
+            city:user[0]?.city,
+            //profession: user[0]?.professional.professions[0].name,
+            phone:'',
+            photo:'', 
+
+        })
+    
+    }, [state])
 
     useEffect(() => {
         setErrors(validate(details))    
