@@ -11,7 +11,7 @@ import Nosotros from './pages/Nosotros.jsx';
 import HomeProfessional from './components/HomeProfessional';
 import { ProfessionalOfferToClientNeed } from './components/ProfessionalOfferToClientNeed';
 import { ProfessionalServiceOffer } from './components/ProfessionalServiceOffer';
-
+import EditPodeddional from './components/EditPodeddional';
 
 function App() {
   return (
@@ -26,6 +26,8 @@ function App() {
         <Route exact path="/professional/:id" element={<ProfileProfessional />} />
           
         <Route exact path="/homeprofessional" element={<HomeProfessional />} />
+
+        <Route exact path="/editProfessional" element={<EditPodeddional />}/>
 
         {/* tests */}
         <Route exact path="/offerprofessional" element={<ProfessionalOfferToClientNeed />} />
