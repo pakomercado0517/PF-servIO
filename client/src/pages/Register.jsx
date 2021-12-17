@@ -3,7 +3,7 @@ import Swal from 'sweetalert2'
 import axios from 'axios'
 import {useNavigate } from "react-router-dom";
 import s from './styles/Register.module.css'
-
+// import { useNavigate } from "react-router-dom";
 import { CgOptions } from 'react-icons/cg';
 
 import { useDispatch } from 'react-redux';
@@ -11,6 +11,7 @@ import { getByAccountId } from '../redux/actions';
 
 export default function Crear() {
     
+    const navigate = useNavigate()
     const[errors, setErrors] = useState({
         firstName:"",
         lastName: "",
@@ -132,7 +133,7 @@ export default function Crear() {
             ...errors,
             ...errores
         })
-    }, [details])
+    }, [details.dni, details.email, details.firstName, details.lastName, details.password, details.repeatPassword])
     
     function handleChange(e){
         setDetails({
@@ -158,6 +159,27 @@ export default function Crear() {
             certification_img:"qpoejsc.png",
             status: "no sabe no contesta", 
         }
+<<<<<<< HEAD
+        try{
+            const user = await axios.post(`http://localhost:3001/user/`, obj)
+            console.log('user',user)
+            
+            Swal.fire({
+                title: 'Registro exitoso',
+                text: 'Ahora puedes iniciar sesión',
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+
+            });
+            navigate('/login')
+            
+        }catch(error){
+            console.log(error)
+
+        }
+       
+
+=======
         await axios.post(`http://localhost:3001/user/`, obj)
         .then(res => {
             // console.log("Respuesta de API: ", res);
@@ -234,6 +256,7 @@ export default function Crear() {
             })
             console.log("Error.....", err)
         })
+>>>>>>> af6a3aa561a1e706a4f95adf1dc1751514986002
 
         
     }

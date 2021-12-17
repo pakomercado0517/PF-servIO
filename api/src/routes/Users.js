@@ -12,7 +12,12 @@ router.post(
   }),
   (req, res, next) => {
     // res.redirect(`/user/${req.user.id}`);
+<<<<<<< HEAD
+    // res.status(200).json({ message: "Register completed!" }, req.user?.id);
+    res.status(200).json({ "message": "Register completed!", "result": req.user});
+=======
     res.status(200).json({ "message": "Register completed!" , "result": req.user?.id});
+>>>>>>> af6a3aa561a1e706a4f95adf1dc1751514986002
     next();
     (req, res) => {
       res.redirect(`/user/${req.user.id}`);
@@ -22,8 +27,9 @@ router.post(
 router.post(
   "/login",
   passport.authenticate("local-login", {
-    failureRedirect: "/user/professionals",
+    failureRedirect: "/user/login",
     failureFlash: true,
+    
   }),
   (req, res, next) => {
     res.send(req.user);
