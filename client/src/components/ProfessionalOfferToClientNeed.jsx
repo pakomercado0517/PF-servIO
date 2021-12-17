@@ -60,10 +60,7 @@ export const ProfessionalOfferToClientNeed = () => {
                     timer: 1500
                 })
             })
-<<<<<<< HEAD
-=======
             // })
->>>>>>> 1b774e74bc213af39fa68cf4b97f4aa1124fe1ef
             // console.log('post',post)
 
         } catch (error) {
