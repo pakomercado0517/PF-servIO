@@ -18,7 +18,6 @@ export default function ProfileClient(){
     const state = useSelector(state => state)
 
     const {idClient} = useParams()
-    console.log(idClient)
 
     const dispatch = useDispatch()
 
@@ -29,7 +28,6 @@ export default function ProfileClient(){
 
     useEffect(()=>{
     },[state])
-    console.log(state)
 
     return (
         <div className={ s.div_principal }>

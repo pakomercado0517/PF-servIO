@@ -9,10 +9,8 @@ import s from './styles/ProfessionalServiceOffer.module.css'
 export const ProfessionalServiceOffer = () => {
     
     const modal = useSelector(state => state.modalProfessionalsOffer)
-    console.log('professional modal==>',modal)
     
     const user = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
-    console.log('pro user==>',user)
 
     const [form, setform] = useState({
         // categoria: '', // sugerencia para agregar categoria de servicio ofrecido y no en el registro
@@ -38,9 +36,11 @@ export const ProfessionalServiceOffer = () => {
     const postNeed = async (e) =>{
         e.preventDefault()
         try {
+
             
             // const post = await axios.post('http://localhost:3001/clientNeeds', obj)
             // .then(() => {
+
                 const fondo = document.getElementById("fondo-form-Professional-offer")
                 fondo.style.top = "-100vh"
                 

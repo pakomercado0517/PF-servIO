@@ -16,6 +16,7 @@ import CardClientNeed from '../components/CardClientNeed';
 import { ProfessionalOfferToClientNeed } from '../components/ProfessionalOfferToClientNeed';
 
 import { useLocalStorage } from '../hooks/useLocalStorage'
+import { useGlobalStorage } from '../hooks/useGlobalStorage';
 
 export default function Home(){
     
@@ -25,20 +26,19 @@ export default function Home(){
     const clientNeeds = useSelector(state => state.clientNeeds);
     const switcheo = useSelector(state => state.switch)
     const stateRedux = useSelector(state => state)
+    const [switcheo2] = useGlobalStorage("switcheo", null)
 //     const [state, setstate] = useState("")
-//     console.log(clientNeeds);
     // const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
 
-
-
-    const [login, setLogin] = useLocalStorage("user", null)
+    const [login] = useLocalStorage("user", null)
     // const [usuario, setLogin] = useLocalStorage("usuario", "Imanol")
     
     let [postsPerPage, setPostsPerPage] = useState(16);
     let [currentPage, setCurrentPage] = useState(1);
     let indexOfLastPost = currentPage * postsPerPage;
     let indexOfFirstPost = indexOfLastPost - postsPerPage;
-    let currentPosts = switcheo === true ? professionals?.slice(indexOfFirstPost, indexOfLastPost) : clientNeeds?.slice(indexOfFirstPost, indexOfLastPost)
+    let currentPosts = switcheo2 === "professional" ? professionals?.slice(indexOfFirstPost, indexOfLastPost) : clientNeeds?.slice(indexOfFirstPost, indexOfLastPost)
+    const [currentPosts2, setCurrentPosts2] = useLocalStorage("currentPosts", currentPosts)
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
@@ -61,17 +61,17 @@ export default function Home(){
             dispatch(orderProfessionals(input.order))
         }
         else{
-            if(switcheo === true) {  
+            if(switcheo2 === "professional") {  
                 dispatch(getAllProfessionals())
-            }else if (switcheo === false){
+            }else if (switcheo2 === "user"){
                 dispatch(getAllNeeds())
             }
         }
 
-    },[dispatch, input.order, switcheo])
+    },[dispatch, input.order, switcheo2])
 
     useEffect(() => {
-        currentPosts = switcheo === true ? professionals?.slice(indexOfFirstPost, indexOfLastPost) : clientNeeds?.slice(indexOfFirstPost, indexOfLastPost)
+        setCurrentPosts2((switcheo2 === "professional") ? professionals?.slice(indexOfFirstPost, indexOfLastPost) : clientNeeds?.slice(indexOfFirstPost, indexOfLastPost))
     }, [stateRedux])
 
     return (
@@ -115,14 +115,14 @@ export default function Home(){
                 totalPosts={switcheo === true ? professionals?.length: clientNeeds?.length}
                 />
 
-            { switcheo === true ? <div className={s.professionalGrid}>
+            { switcheo2 === "professional" ? <div className={s.professionalGrid}>
                 {
-                    currentPosts?.length > 0 ? currentPosts.map((professional) => (
+                    currentPosts2?.length > 0 ? currentPosts.map((professional) => (
                         <CardProfessional
                             idTech={professional.id} 
                             avatarTech={professional.photo} 
                             titleTech={professional.first_name + ' ' + professional.last_name}
-                            workTech={ professional.Professional?.Professions[0].name }
+                            workTech={ professional.Professional?.Professions[0]?.name }
                             locationTech={professional.state + ', ' + professional.city}
                             //* PENDIENTE DATA DEL CALIFICATION
                             calificationTech={'calification: 5/5'}/>
@@ -134,7 +134,7 @@ export default function Home(){
             </div> : 
                 <div>
                     {
-                        currentPosts?.length > 0 ? currentPosts?.map((user)=>(
+                        currentPosts2?.length > 0 ? currentPosts?.map((user)=>(
                             <CardClientNeed key={user.id}
                                 name={ user.name }
                                 description={ user.description }
