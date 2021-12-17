@@ -59,27 +59,15 @@ export default function Login() {
         e.preventDefault()
         try {
         const post = await axios.post('http://localhost:3001/user/login', input)
-            console.log('post',post.data)
-            console.log('post',post)
 
-            if( post.data.message === 'Logged') {
-                try {
-                    const user = await axios.get('http://localhost:3001/user/' + post.data.cookies.userId)
-                    console.log(user.data)
-                    setGlobalUser(user.data)
-                    console.log(globalUser)
-                } catch (error) {
-                    console.error(error)
-                }
+            if( post.statusText === 'OK') {
                 
-                console.log('post',post.data)
-                console.log('post',post)
+                await setGlobalUser(post.data)
 
                 localStorage.setItem('user', JSON.stringify(post.data))
-                localStorage.setItem('prueba', JSON.stringify(post.data))
                 console.log("userType: ", post.data)
 
-                dispatch(getByAccountId(post.data.cookies.userId))
+                // dispatch(getByAccountId(post.data.cookies.userId))
 
                 Swal.fire({
                     icon: 'success',
