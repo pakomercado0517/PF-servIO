@@ -121,7 +121,6 @@ module.exports = (passport) => {
           console.log("pass:", pass);
           if (!pass) return done(null, false);
           done(null, user);
-          return user;
         } catch (error) {
           done(null, error);
         }
