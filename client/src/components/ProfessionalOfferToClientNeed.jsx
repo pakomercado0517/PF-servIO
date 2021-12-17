@@ -10,10 +10,8 @@ export const ProfessionalOfferToClientNeed = () => {
 
     const dispatch = useDispatch()
     const { modalProfessionalsOffer } = useSelector(state => state)
-    // console.log('professional modal==>',modalProfessionalsOffer)
     
     const user = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
-    console.log('pro user==>',user)
 
     const [form, setform] = useState({
         name: "",   // campo no seteado en el modelo de DB
@@ -39,6 +37,16 @@ export const ProfessionalOfferToClientNeed = () => {
     const postNeed = async (e) =>{
         e.preventDefault()
         try {
+            var obj = {
+                ...form,
+                location:"sadsadsa",
+                price:1200,
+                duration:12321,
+                guarantee_time:123213,
+                userId: user.cookies.userId
+            }
+            const post = await axios.post('http://localhost:3001/clientNeeds', obj)
+            .then(() => {
             
             // const post = await axios.post('http://localhost:3001/clientNeeds', form)
             // .then(() => {
@@ -51,6 +59,7 @@ export const ProfessionalOfferToClientNeed = () => {
                     showConfirmButton: false,
                     timer: 1500
                 })
+            })
             // })
             // console.log('post',post)
 

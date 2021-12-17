@@ -26,7 +26,6 @@ const initialState = {
     professionsName:[],
     switch: true,
     account: [],
-    globalLocalStorage:[],
 
 };
 

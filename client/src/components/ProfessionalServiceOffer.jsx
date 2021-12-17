@@ -9,10 +9,8 @@ import s from './styles/ProfessionalServiceOffer.module.css'
 export const ProfessionalServiceOffer = () => {
     
     const modal = useSelector(state => state.modalProfessionalsOffer)
-    console.log('professional modal==>',modal)
     
     const user = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
-    console.log('pro user==>',user)
 
     const [form, setform] = useState({
         description: "",
@@ -37,7 +35,6 @@ export const ProfessionalServiceOffer = () => {
                 guarantee_time:123213,
                 userId: user.cookies.userId
             }
-            // console.log(obj)
             const post = await axios.post('http://localhost:3001/clientNeeds', obj)
             .then(() => {
                 const fondo = document.getElementById("fondo-form-Professional-offer")
@@ -50,7 +47,6 @@ export const ProfessionalServiceOffer = () => {
                     timer: 1500
                 })
             })
-            console.log('post',post)
 
         } catch (error) {
             console.error("message: ", error)
