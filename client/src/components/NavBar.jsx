@@ -57,39 +57,53 @@ export default function NavBar() {
         dispatch(showFormProfessionalOffer("show"))
     }
 
-    return (
-        <div className={ s.navbar }>
-            {/* <ProfessionalOfferToClientNeed/> */}
-            <div className={ s.container__logo }>
-                <img src={ logo } alt="Logo" />
+return (
+    <div className={ s.navbar }>
+
+        <div className={ s.container__logo }>
+            <img src={ logo } alt="Logo" />
+        </div>
+        
+        <div className={s.container__elements}>
+
+            <Search/>
+            <div className={s.container__navigate}>
+
+                <NavLink to='/' className={s['container__inicio--btn'] }   >Inicio</NavLink>
+                <NavLink to='/nosotros' className={s['container__inicio--btn']}>Sobre Nosotros</NavLink>
+
+            <div onClick={showModalFormCLient} className={s.show__presentation}>
+                <CgOptions/>
+                <span>Crear publicacion</span>
             </div>
-            <div className={s.container__elements}>
+            </div>
 
-                <Search/>
-                <div className={s.container__navigate}>
 
-                    <NavLink to='/' className={s['container__inicio--btn'] }   >Inicio</NavLink>
-                    <NavLink to='/nosotros' className={s['container__inicio--btn']}>Sobre Nosotros</NavLink>
 
-                <div onClick={showModalFormCLient} className={s.show__presentation}>
-                    <CgOptions/>
-                    <span>Crear publicacion</span>
-                </div>
-                </div>
+            {/* { login? 
 
+                <>
+
+                    <div className={s.session}>
+                        <NavLink to={`/clients/${login.cookies.userId}`}>
+                            <MdAccountCircle className={s.iconLogin} />
+                            <span className={ s.session_name }>{stateTotalRedux.account[0]?.first_name + ' '} </span>
+                        </NavLink> */}
 
 
                 { login ? 
-
                     <>
-
                         <div className={s.session}>
                             <NavLink to={`/clients/${login[0]?.id}`}>
                                 <MdAccountCircle className={s.iconLogin} />
                                 <span className={ s.session_name }>{login[0]?.first_name + ' '} </span>
                             </NavLink>
 
-                            {login[0] && !login[0].professioanl ?
+                            {login[0] && !login[0].professional ?
+
+// ------------------------------Opciones Perfil cliente-------------------------------
+
+
                                 <div className='dropdown'>
                                     <button
                                         className="btn btn-secondary dropdown-toggle"
@@ -98,15 +112,12 @@ export default function NavBar() {
                                         type="button"
                                         aria-expanded="false"
                                     ></button>
-
                                     <ul
                                         className="dropdown-menu"
                                         aria-labelledby="dropdownMenuButton1"
                                     >
-                                        {/* http://localhost:3000/clients/${id} */}
 
                                         <li><span className={s.dropdown_item + " dropdown-item"} >Perfil Cliente</span></li>
-                                        {/* <NavLink to={`/clients/${login.cookies.userId}`} className={s.dropdown__item}>Mi perfil</NavLink> */}
                                         <NavLink to={`/clients/${login[0]?.id}`}>
                                             <li><span
                                                 className={s.dropdown_item + " dropdown-item"}
@@ -128,6 +139,7 @@ export default function NavBar() {
                                     </ul>
                                 </div>
                                 :
+                                // Opciones perfil tecnico
                                 <div className='dropdown'>
                                     <button
                                         className="btn btn-secondary dropdown-toggle"
@@ -157,13 +169,13 @@ export default function NavBar() {
                                     </ul>
                                 </div>
 
-                            }
-                        </div>
-                    </>
-                    : <></>
-                }
-            </div>
+                            } 
+                            </div>
+                        </>
+                : <></>
+            }
         </div>
+    </div>
 
-    )
+)
 };
