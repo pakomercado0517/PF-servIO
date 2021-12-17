@@ -61,6 +61,7 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
+<<<<<<< HEAD
             const post = await axios.post('http://localhost:3001/user/login', input)
             dispatch(getByUserId(post.data.id))
             setGlobalUser(post.data)
@@ -70,6 +71,19 @@ export default function Login() {
             // console.log('post login data',post.data.id)
 
             if( post.statusText === 'OK') {
+=======
+        const post = await axios.post('http://localhost:3001/user/login', input)
+
+            if( post.statusText === 'OK') {
+                
+                await setGlobalUser(post.data)
+
+                localStorage.setItem('user', JSON.stringify(post.data))
+                console.log("userType: ", post.data)
+
+                // dispatch(getByAccountId(post.data.cookies.userId))
+
+>>>>>>> af6a3aa561a1e706a4f95adf1dc1751514986002
                 Swal.fire({
                     icon: 'success',
                     title: 'Logged in',
