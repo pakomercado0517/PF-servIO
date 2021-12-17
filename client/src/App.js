@@ -47,7 +47,7 @@ function App() {
         />
         <Route
           exact
-          path="/TecnicalsActivities/"
+          path="/TecnicalsActivities/:id"
           element={<ProfessionalSpecificActivity />}
         />
       </Routes>
