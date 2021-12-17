@@ -48,7 +48,8 @@ export const ProfessionalServiceOffer = () => {
                     icon: 'success',
                     title: 'Publicacion creada!',
                     showConfirmButton: false,
-                    timer: 1500
+                    // timer: 1500,
+                    showCloseButton: true
                 })
             // })
             // console.log('post',post)
@@ -93,16 +94,27 @@ return (
                 <div className="row mb-4">
                 <div>
                     <div className={"col" && s.container_filter}>
+                        <h1 className="d-flex justify-content-center">Ofrecé tu servicio</h1>
                         <div className="input-group mb-1">
-                        <h1 className="me-3">Ofrecé tu servicio</h1>
                             <input
                                 type="text"
                                 name='name'
                                 value={ form.name }
                                 onChange={ onChangeForm }
-                                className="form-control"
+                                className="form-control mb-4"
                                 aria-label="Default" aria-describedby="inputGroup-sizing-default"
                                 placeholder="Escribe aquí el título del servicio"
+                            />
+                        </div>
+
+                        <div className="input-group mb-1">
+                            <label className="me-2 mb-4">
+                                Elige una foto
+                            </label>
+                            <input
+                                type="file"
+                                name='photo'
+                                accept="image/png, image/jpeg"
                             />
                         </div>
 
@@ -160,35 +172,47 @@ return (
                             </div>
                         </div>
 
-                        {/* <div className="row mb-4"> */}
+                        <div className="row mb-4">
+                        
                             <div className="col">
-                            <div className="form-outline">
-                            {/* <span>dias de garantia</span> */}
-                                <input
-                                    type="number"
-                                    name='guarantee_time'
-                                    value={ form.guarantee_time }
-                                    onChange={ onChangeForm }
-                                    className="col form-control me-2"
-                                    aria-label="Default" aria-describedby="inputGroup-sizing-default"
-                                    placeholder="Días de garantíaaa"
-                                />
+                                <div className="form-outline">
+                                
+                                    <label
+                                        className="form-label d-flex justify-content-center"
+                                    >
+                                        Dias de garantia
+                                    </label>
+                                    <input
+                                        type="number"
+                                        name='guarantee_time'
+                                        value={ form.guarantee_time }
+                                        onChange={ onChangeForm }
+                                        className="form-control me-2"
+                                        aria-label="Default" aria-describedby="inputGroup-sizing-default"
+                                        placeholder="Días de garantía"
+                                        />
+                                </div>
                             </div>
-                            <div className="form-outline">
+
                             <div className="col">
-                            {/* <span>dias de trabajo</span> */}
-                                <input
-                                    type="number"
-                                    name='guarantee_time'
-                                    value={ form.guarantee_time }
-                                    onChange={ onChangeForm }
-                                    className="col form-control me-2"
-                                    aria-label="Default" aria-describedby="inputGroup-sizing-default"
-                                    placeholder="Días estimados de trabajo"
-                                    />
+                                <div className="form-outline">
+                                <label
+                                        className="form-label d-flex justify-content-center"
+                                    >
+                                        Días de trabajo
+                                    </label>
+                                    <input
+                                        type="number"
+                                        name='guarantee_time'
+                                        value={ form.guarantee_time }
+                                        onChange={ onChangeForm }
+                                        className="form-control me-2"
+                                        aria-label="Default" aria-describedby="inputGroup-sizing-default"
+                                        placeholder="Días estimados de trabajo"
+                                        />
+                                </div>
                             </div>
-                            </div>
-                            </div>
+                        </div>
                         {/* </div> */}
 
                         <div className="col input-group mt-2 mb-2">
@@ -204,13 +228,16 @@ return (
                                 />
                         </div>
 
-                    </div>
+                        </div>
+                        <div className='row'>
+
                     <button
                         type="submit"
                         className={ "btn btn-primary btn-lg btn-block mt-4"}
                         >
                         Crear Actividad
                     </button>
+                            </div>
                 </div>
                 </div>
             </form>
