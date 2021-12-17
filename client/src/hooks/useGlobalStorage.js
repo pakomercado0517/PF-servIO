@@ -23,7 +23,7 @@ export const useGlobalStorage = (key, defaultValue) => {
     }
   
     useEffect(() => {
-        if (state[key + "GlobalStorage"] && state[key + "GlobalStorage"][0]) {
+        if (state[key + "GlobalStorage"]) {
             localStorage.setItem(key + "GlobalStorage", JSON.stringify(state[key + "GlobalStorage"]));
         }
     }, [key, state]);
