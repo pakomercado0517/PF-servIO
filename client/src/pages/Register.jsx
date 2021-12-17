@@ -160,17 +160,17 @@ export default function Crear() {
         }
         await axios.post(`http://localhost:3001/user/`, obj)
         .then(res => {
-            console.log("Respuesta de API: ", res);
-            console.log("Data por API: ", res.data);
-            if (res.data[0] === "Email already in use") {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'El email ya existe, por favor ingrese otro!',
-                    showConfirmButton: true,
-                    timer: null
-                })
-                return
-            }
+            // console.log("Respuesta de API: ", res);
+            // console.log("Data por API: ", res.data);
+            // if (res.data[0] === "Email already in use") {
+            //     Swal.fire({
+            //         icon: 'error',
+            //         title: 'El email ya existe, por favor ingrese otro!',
+            //         showConfirmButton: true,
+            //         timer: null
+            //     })
+            //     return
+            // }
             setDetails({
                 firstName:'',
                 lastName: '',
@@ -183,46 +183,46 @@ export default function Crear() {
                 city:'',
                 profession:[],
             })
+            history('/login')
 
-            async function login(dataLogin){
-                try {
-                    const post = await axios.post('http://localhost:3001/user/login', dataLogin)
-                    console.log('post',post.data)
-                    console.log('post',post)
+            // async function login(dataLogin){
+            //     try {
+            //         const post = await axios.post('http://localhost:3001/user/login', dataLogin)
+            //         console.log('post',post.data)
+            //         console.log('post',post)
     
     
-                    if( post.data.message === 'Logged') {
+            //         if( post.data.message === 'Logged') {
     
-                        localStorage.setItem('user', JSON.stringify(post.data))
-                        console.log("userType: ", post.data)
+            //             localStorage.setItem('user', JSON.stringify(post.data))
+            //             console.log("userType: ", post.data)
 
-                        dispatch(getByAccountId(post.data.cookies.userId))
+            //             dispatch(getByAccountId(post.data.cookies.userId))
 
                         
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Usuario creado y logueado!',
-                            showConfirmButton: true,
-                            timer: 4500
-                        })
-                    history('/')
-                    }
+            //             Swal.fire({
+            //                 icon: 'success',
+            //                 title: 'Usuario creado y logueado!',
+            //                 showConfirmButton: true,
+            //                 timer: 4500
+            //             })
+            //         }
                     
-                } catch (error) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Algo salio mal con el login, por favor intentelo nuevamente!',
-                        showConfirmButton: true,
-                        timer: null
-                    })
-                    history('/login')
-                }
-            }
+            //     } catch (error) {
+            //         Swal.fire({
+            //             icon: 'error',
+            //             title: 'Algo salio mal con el login, por favor intentelo nuevamente!',
+            //             showConfirmButton: true,
+            //             timer: null
+            //         })
+            //         history('/login')
+            //     }
+            // }
 
-            login({
-                email: details.email,
-                password: details.password
-            })
+            // login({
+            //     email: details.email,
+            //     password: details.password
+            // })
             
             
         }).catch(err =>{
