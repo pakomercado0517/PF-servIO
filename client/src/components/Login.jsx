@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import s from './styles/Login.module.css'
 import { getByUserId } from '../redux/actions';
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 export default function Login() {
 
@@ -24,7 +25,7 @@ export default function Login() {
 
     const [errors, setErrors] = useState({});
     const [globalUser, setGlobalUser] = useGlobalStorage("globalUser", "");
-
+    const [localUser, setLocalUser] = useLocalStorage("localUser", "");
     const validate = (input) => {
         let errors = {};
         if (!input.email) {
@@ -62,12 +63,13 @@ export default function Login() {
         try {
             const post = await axios.post('http://localhost:3001/user/login', input)
             dispatch(getByUserId(post.data.id))
-
-            console.log('post login',post)
+            setGlobalUser(post.data)
+            setLocalUser(post.data)
+            console.log('post login status',post.statusText)
             // console.log('post login data',post.data)
             // console.log('post login data',post.data.id)
 
-            if( post.data === 'Has ingreado correctamente!!!') {
+            if( post.statusText === 'OK') {
                 Swal.fire({
                     icon: 'success',
                     title: 'Logged in',
@@ -75,44 +77,21 @@ export default function Login() {
                     timer: 2500
                 })
                 navigate('/')
-                try {
-                    const user = await axios.get('http://localhost:3001/user/' + post.data.id)
-                    // console.log(user.data)
-                    setGlobalUser(user.data)
-                    // console.log(globalUser)
-                } catch (error) {
-                    console.error(error)
-                }
-                
-                console.log('post',post.data)
-                console.log('post',post)
-
-                // localStorage.setItem('user', JSON.stringify(post.data))
-                // localStorage.setItem('prueba', JSON.stringify(post.data))
-                console.log("userType: ", post.data)
-
-                dispatch(getByUserId(post.data.id))
-
-            } else if (post.data === 'Wrong passWord') {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Wrong password',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-            } else if (post.data === 'Wrong mail') {
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Wrong mail',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
             }
-            
         } catch (error) {
-            console.log(error.message)
+            console.log(error)
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                showConfirmButton: false,
+                timer: 2500
+            })
         }
-    };
+    }
+
+
+
 
 
     useEffect(() => {
