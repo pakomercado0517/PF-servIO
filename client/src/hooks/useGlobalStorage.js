@@ -12,25 +12,25 @@ function getStorageValue(key, defaultValue) {
 }
 
 export const useGlobalStorage = (key, defaultValue) => {
-    const actualValue = getStorageValue(key, defaultValue);
+    const actualValue = getStorageValue(key + "GlobalStorage", defaultValue);
     const state = useSelector( state => state )
     const dispatch=useDispatch()
 
-    if(actualValue===defaultValue) localStorage.setItem(key, JSON.stringify(actualValue))
+    if(actualValue===defaultValue) localStorage.setItem(key + "GlobalStorage", JSON.stringify(actualValue))
     // If value doesn't exist on store, dispatch value
-    if (!state.hasOwnProperty(key)) {
-        dispatch(setToGlobalStorage({[key]: actualValue}))
+    if (!state.hasOwnProperty(key + "GlobalStorage")) {
+        dispatch(setToGlobalStorage({[key + "GlobalStorage"]: actualValue}))
     }
   
     useEffect(() => {
-        if (state[key]) {
-            localStorage.setItem(key, JSON.stringify(state[key]));
+        if (state[key + "GlobalStorage"]) {
+            localStorage.setItem(key + "GlobalStorage", JSON.stringify(state[key + "GlobalStorage"]));
         }
     }, [key, state]);
   
     const setValue = (value) => {
-    return dispatch(setToGlobalStorage({[key]: value}))
+    return dispatch(setToGlobalStorage({[key + "GlobalStorage"]: value}))
     }
-  
-    return [state[key] || actualValue, setValue];
+    if (state[key + "GlobalStorage"] && state[key + "GlobalStorage"][0]) return [state[key + "GlobalStorage"], setValue]
+    return [actualValue, setValue];
 };

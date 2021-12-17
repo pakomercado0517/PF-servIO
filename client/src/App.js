@@ -13,6 +13,18 @@ import { ProfessionalOfferToClientNeed } from "./components/ProfessionalOfferToC
 import { ProfessionalServiceOffer } from "./components/ProfessionalServiceOffer";
 import ProfessionalSpecificActivity from "./components/ProfessionalSpecificActivity";
 import EditPodeddional from "./components/EditPodeddional";
+import { Routes, Route } from "react-router-dom"
+import Home from './pages/Home';
+import NavBar from './components/NavBar';
+import ProfileClient from './pages/ProfileClient';
+import ProfileProfessional from './pages/ProfileProfessional';
+import Register from './pages/Register';
+import Login  from './components/Login';
+import Nosotros from './pages/Nosotros.jsx';
+import HomeProfessional from './components/HomeProfessional';
+import { ProfessionalOfferToClientNeed } from './components/ProfessionalOfferToClientNeed';
+import { ProfessionalServiceOffer } from './components/ProfessionalServiceOffer';
+import EditPodeddional from './pages/EditPodeddional.jsx';
 
 function App() {
   return (

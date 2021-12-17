@@ -8,25 +8,29 @@ import s from './styles/NavBar.module.css'
 import { CgOptions } from 'react-icons/cg';
 import { useEffect } from 'react';
 import { MdAccountCircle } from 'react-icons/md';
+import { useLocalStorage } from '../hooks/useLocalStorage';
+import { useGlobalStorage } from '../hooks/useGlobalStorage';
+
+import { ProfessionalOfferToClientNeed } from './ProfessionalOfferToClientNeed';
+
 
 export default function NavBar() {
 
     const dispatch = useDispatch()
-    const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
-    // console.log('login daaaaleee',login)
-    // console.log('login daaaaleeekoki',login.cookies.userId)
+    const [login] = useGlobalStorage("globalUser", "")
+    const [switcheo, setSwitcheo] = useGlobalStorage("switcheo", null)
+    // const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
 
     const stateTotalRedux = useSelector(state => state)
 
     useEffect(()=>{
-        if (localStorage.getItem('user')) {
-            dispatch(getByAccountId(login?login.cookies.userId:""))
-        }
+        // if (localStorage.getItem('user')) {
+        //     dispatch(getByAccountId(login[0] ? login[0].cookies.userId:""))
+        // }
     },[])
 
-    useEffect(()=>{
-        console.log(stateTotalRedux)
-    },[stateTotalRedux])
+    // useEffect(()=>{
+    // },[login])
 
 
     // function showMyProfile(){
@@ -39,6 +43,7 @@ export default function NavBar() {
     }
     
     function logout() {
+        setSwitcheo("professional")
         fetch('http://localhost:3001/user/logout',{
             method: 'POST'
         })
@@ -46,43 +51,61 @@ export default function NavBar() {
             localStorage.clear()
             window.location.replace('/')
         })
+        
     }
-    function showModalFormProfessional() {
+    function showFormProfessionalOffer5() {
         dispatch(showFormProfessionalOffer("show"))
     }
 
-    return (
-        <div className={ s.navbar }>
-            <div className={ s.container__logo }>
-                <img src={ logo } alt="Logo" />
+return (
+    <div className={ s.navbar }>
+
+        <div className={ s.container__logo }>
+            <img src={ logo } alt="Logo" />
+        </div>
+        
+        <div className={s.container__elements}>
+
+            <Search/>
+            <div className={s.container__navigate}>
+
+                <NavLink to='/' className={s['container__inicio--btn'] }   >Inicio</NavLink>
+                <NavLink to='/nosotros' className={s['container__inicio--btn']}>Sobre Nosotros</NavLink>
+
+            <div onClick={showModalFormCLient} className={s.show__presentation}>
+                <CgOptions/>
+                <span>Crear publicacion</span>
             </div>
-            <div className={s.container__elements}>
-
-                <Search/>
-                <div className={s.container__navigate}>
-
-                    <NavLink to='/' className={s['container__inicio--btn'] }   >Inicio</NavLink>
-                    <NavLink to='/nosotros' className={s['container__inicio--btn']}>Sobre Nosotros</NavLink>
-
-                <div onClick={showModalFormCLient} className={s.show__presentation}>
-                    <CgOptions/>
-                    <span>Crear publicacion</span>
-                </div>
-                </div>
+            </div>
 
 
 
-                { login && login.message === "Logged"? 
+            {/* { login? 
 
-                    <>
+                <>
 
+                    <div className={s.session}>
+                        <NavLink to={`/clients/${login.cookies.userId}`}>
+                            <MdAccountCircle className={s.iconLogin} />
+                            <span className={ s.session_name }>{stateTotalRedux.account[0]?.first_name + ' '} </span>
+                        </NavLink> */}
+
+
+                { login ? 
+                <>
                         <div className={s.session}>
-                            <NavLink to={`/clients/${login.cookies.userId}`}>
+                            <NavLink to={`/clients/${login?.id}`}>
                                 <MdAccountCircle className={s.iconLogin} />
-                                <span className={ s.session_name }>{stateTotalRedux.account[0]?.first_name + ' '} </span>
+                                <span className={ s.session_name }>{login?.first_name + ' '} </span>
                             </NavLink>
 
-                            {login && login.userType === "Client" ?
+                            {login && !login.professional ?
+
+// ------------------------------Opciones Perfil cliente-------------------------------
+
+
+                            
+                            
                                 <div className='dropdown'>
                                     <button
                                         className="btn btn-secondary dropdown-toggle"
@@ -91,16 +114,13 @@ export default function NavBar() {
                                         type="button"
                                         aria-expanded="false"
                                     ></button>
-
                                     <ul
                                         className="dropdown-menu"
                                         aria-labelledby="dropdownMenuButton1"
                                     >
-                                        {/* http://localhost:3000/clients/${id} */}
 
                                         <li><span className={s.dropdown_item + " dropdown-item"} >Perfil Cliente</span></li>
-                                        {/* <NavLink to={`/clients/${login.cookies.userId}`} className={s.dropdown__item}>Mi perfil</NavLink> */}
-                                        <NavLink to={`/clients/${login.cookies.userId}`}>
+                                        <NavLink to={`/clients/${login?.id}`}>
                                             <li><span
                                                 className={s.dropdown_item + " dropdown-item"}
                                             >Ver mi Perfil</span></li>
@@ -109,7 +129,7 @@ export default function NavBar() {
                                         <li><span className={s.dropdown_item + " dropdown-item"} >Servicios Solicitados</span></li>
                                         <li><span
                                             className={s.dropdown_item + " dropdown-item"}
-                                            onClick={showModalFormCLient}
+                                            onClick={showFormProfessionalOffer5}
                                         >Crear Publicacion</span></li>
                                         <li><span className={s.dropdown_item + " dropdown-item"} >Notificaciones</span></li>
                                         <li><span className={s.dropdown_item + " dropdown-item"} >Carrito</span></li>
@@ -121,6 +141,8 @@ export default function NavBar() {
                                     </ul>
                                 </div>
                                 :
+                        // ------------------------------Opciones Perfil Tecnico---------------------------------
+
                                 <div className='dropdown'>
                                     <button
                                         className="btn btn-secondary dropdown-toggle"
@@ -140,19 +162,24 @@ export default function NavBar() {
                                         <li><span className={s.dropdown_item + " dropdown-item"} >Carrito</span></li>
                                         <li><span className={s.dropdown_item + " dropdown-item"} >------------</span></li>
                                         <li><span className={s.dropdown_item + " dropdown-item"} >Ver perfil Cliente</span></li>
-                                        <li><span className={s.dropdown_item + " dropdown-item"} >Crear Publicacion</span></li>
+                                        <li><span
+                                            className={s.dropdown_item + " dropdown-item"}
+                                            onClick={showFormProfessionalOffer5}
+                                        >Crear Publicacion</span></li>
+                                        {/* <li><span className={s.dropdown_item + " dropdown-item"} >Crear Publicacion</span></li> */}
                                         <li><span className={s.dropdown_item + " dropdown-item"} >Servicios Solicitados</span></li>
                                         <li><span className={s.dropdown_item + " dropdown-item"} onClick={logout}>Cerrar sesion</span></li>
                                     </ul>
                                 </div>
 
-                            }
-                        </div>
-                    </>
-                    : <></>
-                }
-            </div>
-        </div>
+                            } 
+                            </div>
+                        </>
+                        :<></>
 
-    )
+            }
+        </div>
+    </div>
+
+)
 };

@@ -246,6 +246,23 @@ export function filterProfessions() {
     }
   };
 }
+export function filterProfessions (){
+
+    return async function (dispatch) {
+        
+        try {
+            const response = await axios.get(`${ constants.localhost }/professions/name`)
+            dispatch({
+                type: FILTER_PROFESSIONS,
+                payload: response.data.sort((a, b) => { a.localeCompare(b) })
+                
+            })
+        }catch (error){
+            console.log(error)
+        };
+        
+    };
+};
 
 // funcion para manejar datos del localStorage globalmente
 export function setToGlobalStorage(data) {
