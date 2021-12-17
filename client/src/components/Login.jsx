@@ -1,16 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
 import axios from 'axios'
 import logo from '../img/ServIO.svg';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import s from './styles/Login.module.css'
-import { getByAccountId } from '../redux/actions';
+import { getByUserId } from '../redux/actions';
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
 
 export default function Login() {
+
+    const user = useSelector(state => state.user)
 
     const navigate = useNavigate()
     const [ input, setInput ] = useState({
@@ -53,34 +55,19 @@ export default function Login() {
             [e.target.name]: e.target.value
         });
     };
-    console.log(setInput)
+    // console.log(setInput)
     
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-        const post = await axios.post('http://localhost:3001/user/login', input)
-            console.log('post',post.data)
-            console.log('post',post)
+            const post = await axios.post('http://localhost:3001/user/login', input)
+            dispatch(getByUserId(post.data.id))
 
-            if( post.data.message === 'Logged') {
-                try {
-                    const user = await axios.get('http://localhost:3001/user/' + post.data.cookies.userId)
-                    console.log(user.data)
-                    setGlobalUser(user.data)
-                    console.log(globalUser)
-                } catch (error) {
-                    console.error(error)
-                }
-                
-                console.log('post',post.data)
-                console.log('post',post)
+            console.log('post login',post)
+            // console.log('post login data',post.data)
+            // console.log('post login data',post.data.id)
 
-                localStorage.setItem('user', JSON.stringify(post.data))
-                localStorage.setItem('prueba', JSON.stringify(post.data))
-                console.log("userType: ", post.data)
-
-                dispatch(getByAccountId(post.data.cookies.userId))
-
+            if( post.data === 'Has ingreado correctamente!!!') {
                 Swal.fire({
                     icon: 'success',
                     title: 'Logged in',
@@ -88,6 +75,24 @@ export default function Login() {
                     timer: 2500
                 })
                 navigate('/')
+                try {
+                    const user = await axios.get('http://localhost:3001/user/' + post.data.id)
+                    // console.log(user.data)
+                    setGlobalUser(user.data)
+                    // console.log(globalUser)
+                } catch (error) {
+                    console.error(error)
+                }
+                
+                console.log('post',post.data)
+                console.log('post',post)
+
+                // localStorage.setItem('user', JSON.stringify(post.data))
+                // localStorage.setItem('prueba', JSON.stringify(post.data))
+                console.log("userType: ", post.data)
+
+                dispatch(getByUserId(post.data.id))
+
             } else if (post.data === 'Wrong passWord') {
                 Swal.fire({
                     icon: 'warning',
@@ -108,6 +113,11 @@ export default function Login() {
             console.log(error.message)
         }
     };
+
+
+    useEffect(() => {
+        return console.log('user!!!', user)
+            }, [user])
 
     return (
         <div className={ s.login_master }>
