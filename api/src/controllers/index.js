@@ -2,6 +2,7 @@
 const { Op } = require("sequelize");
 const Sequelize = require("sequelize");
 const bcrypt = require("bcrypt");
+const passport = require("passport");
 // @ts-ignore
 const {
   User,
@@ -11,160 +12,168 @@ const {
   ClientNeed,
   SpecificTechnicalActivity,
   Transactions,
-  Profession_Professional
+  Profession_Professional,
 } = require("../db.js");
 const e = require("express");
 
 module.exports = {
-  newUser: async (req, res) => {
-    const {
-      // userName,
-      firstName,
-      lastName,
-      email,
-      phone,
-      city,
-      // state,
-      photo,
-      dni,
-      password,
-      verified,
-      professional,
-      certification_name,
-      certification_img,
-      status,
-      profession,
-    } = req.body;
-    console.log(req.body);
+  // newUser: async (req, res) => {
+  //   const {
+  //     // userName,
+  //     firstName,
+  //     lastName,
+  //     email,
+  //     phone,
+  //     city,
+  //     // state,
+  //     photo,
+  //     dni,
+  //     password,
+  //     verified,
+  //     professional,
+  //     certification_name,
+  //     certification_img,
+  //     status,
+  //     profession,
+  //   } = req.body;
+  //   console.log(req.body);
 
-    error = [];
+  //   error = [];
 
-    // if(!userName || !firstName || !lastName || !email || !phone || !city || !state  || !dniFront|| !dniBack || !password || !password2 ){
-    //     error.push({message: 'Please enter all the required fields'})
-    // }
-    // if(password.length < 6){
-    //     error.push({message: 'Password should be at least 6 characters'})
-    // }
-    // if(password !== password2){
-    //     error.push({message: 'The password do not match'})
-    // }
+  //   // if(!userName || !firstName || !lastName || !email || !phone || !city || !state  || !dniFront|| !dniBack || !password || !password2 ){
+  //   //     error.push({message: 'Please enter all the required fields'})
+  //   // }
+  //   // if(password.length < 6){
+  //   //     error.push({message: 'Password should be at least 6 characters'})
+  //   // }
+  //   // if(password !== password2){
+  //   //     error.push({message: 'The password do not match'})
+  //   // }
 
-    const users = await User.findAll({
-      include: [{ model: Professional }],
-    });
+  //   const users = await User.findAll({
+  //     include: [{ model: Professional }],
+  //   });
 
-    users.map((e) => {
-      if (e.email === email) {
-        error.push("Email already in use");
-      }
-      // if(e.userName === userName){
-      //     error.push( 'User already in use')
-      // }
-    });
+  //   users.map((e) => {
+  //     if (e.email === email) {
+  //       error.push("Email already in use");
+  //     }
+  //     // if(e.userName === userName){
+  //     //     error.push( 'User already in use')
+  //     // }
+  //   });
 
-    if (error.length > 0) {
-      res.send(error);
-    } else {
-      try {
-        let hashedPassword = await bcrypt.hash(password, 10);
-        let newUser = await User.create({
-          // user_name: userName,
-          first_name: firstName,
-          last_name: lastName,
-          email,
-          phone: phone ? phone : 00000000,
-          city,
-          // state,
-          photo: photo ? photo : "",
-          dni,
-          // dni_back:dniBack ? dniBack : '',
-          password: hashedPassword,
-          verified: verified ? verified : false,
-          professional,
-        });
+  //   if (error.length > 0) {
+  //     res.send(error);
+  //   } else {
+  //     try {
+  //       let hashedPassword = await bcrypt.hash(password, 10);
+  //       let newUser = await User.create({
+  //         // user_name: userName,
+  //         first_name: firstName,
+  //         last_name: lastName,
+  //         email,
+  //         phone: phone ? phone : 00000000,
+  //         city,
+  //         // state,
+  //         photo: photo ? photo : "",
+  //         dni,
+  //         // dni_back:dniBack ? dniBack : '',
+  //         password: hashedPassword,
+  //         verified: verified ? verified : false,
+  //         professional,
+  //       });
 
-        if (professional === "true") {
-          let newProfessional = await Professional.create({
-            // certification_name:certification_name ? certification_name: '',
-            // certification_img:certification_img ? certification_img : '',
-            // status : status ? status : 'normal',
-            certification_name: "",
-            certification_img: "",
-            status: "normal",
-          });
-          let professions = profession.toLowerCase();
-          if (typeof professions === "string") {
-            professions = professions.split(",");
-          }
+  //       if (professional === "true") {
+  //         let newProfessional = await Professional.create({
+  //           // certification_name:certification_name ? certification_name: '',
+  //           // certification_img:certification_img ? certification_img : '',
+  //           // status : status ? status : 'normal',
+  //           certification_name: "",
+  //           certification_img: "",
+  //           status: "normal",
+  //         });
+  //         let professions = profession.toLowerCase();
+  //         if (typeof professions === "string") {
+  //           professions = professions.split(",");
+  //         }
 
-          const allProfessions = await Profession.findAll({
-            where: {
-              name: {
-                [Op.in]: Array.isArray(professions)
-                  ? professions
-                  : [professions],
-              },
-            },
-          });
+  //         const allProfessions = await Profession.findAll({
+  //           where: {
+  //             name: {
+  //               [Op.in]: Array.isArray(professions)
+  //                 ? professions
+  //                 : [professions],
+  //             },
+  //           },
+  //         });
 
-          await newProfessional.setProfessions(allProfessions);
-          await newUser.setProfessional(newProfessional);
-        }
-        res
-          .status(200)
-          .send(
-            `You are now registered, ${
-              firstName + " " + lastName
-            } please log in`
-          );
-      } catch (error) {
-        res.status(400).send(error.message);
-      }
-    }
-  },
+  //         await newProfessional.setProfessions(allProfessions);
+  //         await newUser.setProfessional(newProfessional);
+  //       }
+  //       res
+  //         .status(200)
+  //         .send(
+  //           `You are now registered, ${
+  //             firstName + " " + lastName
+  //           } please log in`
+  //         );
+  //     } catch (error) {
+  //       res.status(400).send(error.message);
+  //     }
+  //   }
+  // },
 
-  login: async (req, res) => {
-    try {
-      const { email, password } = req.body;
+  // login: async (req, res) => {
+  //   try {
+  //     const { email, password } = req.body;
 
-      const user = await User.findAll({
-        where: { email },
-      });
+  //     const user = await User.findAll({
+  //       where: { email },
+  //     });
 
-      let userType = "";
-      if (user.length < 1) {
-        res.status(200).send("Mail doesn't exist");
-      }
-      if (user[0].professional === true) {
-        userType = "Professional";
-      } else {
-        userType = "Client";
-      }
+  //     let userType = "";
+  //     if (user.length < 1) {
+  //       res.status(200).send("Mail doesn't exist");
+  //     }
+  //     if (user[0].professional === true) {
+  //       userType = "Professional";
+  //     } else {
+  //       userType = "Client";
+  //     }
 
-      if (user.length > 0) {
-        bcrypt.compare(password, user[0].password, (err, isMatch) => {
-          if (err) {
-            res.status(200).send("error");
-            throw err;
-          }
-          if (isMatch) {
-            req.session.userId = user[0].id;
-            let obj = { message: "Logged", cookies: req.session, userType };
-            return res.send(obj);
-          } else {
-            res.send("Wrong passWord");
-          }
-        });
-      }
-      if (user.length < 0) {
-        res.status(200).send("Something is wrong");
-      }
-    } catch (error) {
-      // res.status(400).send(error.message)/
-    }
-  },
+  //     if (user.length > 0) {
+  //       bcrypt.compare(password, user[0].password, (err, isMatch) => {
+  //         if (err) {
+  //           res.status(200).send("error");
+  //           throw err;
+  //         }
+  //         if (isMatch) {
+  //           req.session.userId = user[0].id;
+  //           let obj = { message: "Logged", cookies: req.session, userType };
+  //           return res.send(obj);
+  //         } else {
+  //           res.send("Wrong passWord");
+  //         }
+  //       });
+  //     }
+  //     if (user.length < 0) {
+  //       res.status(200).send("Something is wrong");
+  //     }
+  //   } catch (error) {
+  //     // res.status(400).send(error.message)/
+  //   }
+  // },
   loginTest: async (req, res) => {
     if (req.session.userId) {
+      res.send(true);
+    } else {
+      res.send(false);
+    }
+  },
+
+  loginTestPassport: (req, res) => {
+    if (req.isAuthenticated()) {
       res.send(true);
     } else {
       res.send(false);
@@ -187,14 +196,18 @@ module.exports = {
     }
   },
 
-  logOut: (req, res, next) => {
-    req.session.destroy((err) => {
-      if (err) {
-        res.send("Logout Failed");
-      }
-      res.clearCookie("sid");
-      res.send("Logged Out");
-    });
+  // logOut: (req, res, next) => {
+  //   req.session.destroy((err) => {
+  //     if (err) {
+  //       res.send("Logout Failed");
+  //     }
+  //     res.clearCookie("sid");
+  //     res.send("Logged Out");
+  //   });
+  // },
+  logOut: (req, res) => {
+    req.logout();
+    res.send("logged out");
   },
   getUser: async (req, res) => {
     const { userId } = req.body;
@@ -250,9 +263,9 @@ module.exports = {
       name,
       description,
       location,
-    //   price,
-    //   duration,
-    //   guarantee_time,
+      //   price,
+      //   duration,
+      //   guarantee_time,
       userId,
     } = req.body;
     try {
@@ -262,9 +275,9 @@ module.exports = {
           description,
           status: "in offer",
           location,
-        //   price,
-        //   duration,
-        //   guarantee_time,
+          //   price,
+          //   duration,
+          //   guarantee_time,
         });
 
         let allUsers = await User.findAll({
@@ -576,7 +589,7 @@ module.exports = {
           dni,
           professional,
         },
-        { where: { id: id }  }
+        { where: { id: id } }
       );
       await Professional.update(
         {
@@ -586,94 +599,89 @@ module.exports = {
         },
         { where: { UserId: { [Op.eq]: id } } }
       );
-    
-    let prof = await Professional.findOne({
-        where: { UserId : id}
-    })
-    let professionalId = prof.id
-    await Profession_Professional.destroy({
-        where:{ ProfessionalId:professionalId }
-    });
 
-    //   const findProfession = await Profession.findAll({
-    //     where: { name: profession },
-    //   });
-    let professions = profession.toLowerCase();
-          if (typeof professions === "string") {
-            professions = professions.split(",");
-          }
+      let prof = await Professional.findOne({
+        where: { UserId: id },
+      });
+      let professionalId = prof.id;
+      await Profession_Professional.destroy({
+        where: { ProfessionalId: professionalId },
+      });
 
-          const allProfessions = await Profession.findAll({
-            where: {
-              name: {
-                [Op.in]: Array.isArray(professions)
-                  ? professions
-                  : [professions],
-              },
-            },
-          });
-    
-    await prof.setProfessions(allProfessions);
-    
-      res.send('updated');
-    } catch (error) { 
-      res.send(error.message); 
+      //   const findProfession = await Profession.findAll({
+      //     where: { name: profession },
+      //   });
+      let professions = profession.toLowerCase();
+      if (typeof professions === "string") {
+        professions = professions.split(",");
+      }
+
+      const allProfessions = await Profession.findAll({
+        where: {
+          name: {
+            [Op.in]: Array.isArray(professions) ? professions : [professions],
+          },
+        },
+      });
+
+      await prof.setProfessions(allProfessions);
+
+      res.send("updated");
+    } catch (error) {
+      res.send(error.message);
     }
   },
-  test : async (req, res) =>{
-      const {id} = req.body
- 
+  test: async (req, res) => {
+    const { id } = req.body;
 
-    res.send('borrado')
+    res.send("borrado");
   },
   getProfessionalActivities: async (req, res) => {
-    const  id  = req.params.id
+    const id = req.params.id;
     try {
-      if(id){
+      if (id) {
         const professional = await Professional.findOne({
-          where: { UserId:id }
-        })
-          if(professional){
-            const professionalId = professional.id 
-            const activities = await SpecificTechnicalActivity.findAll({
-              where: {ProfessionalId: professionalId}
-            });
-            if(activities.length > 0){
-              res.status(200).send(activities);
-            }else{
-              res.status(200).send('There are not specifical Activities');
-            }
-              
-          }else{
-            res.status(200).send('There are not specifical Activities');
+          where: { UserId: id },
+        });
+        if (professional) {
+          const professionalId = professional.id;
+          const activities = await SpecificTechnicalActivity.findAll({
+            where: { ProfessionalId: professionalId },
+          });
+          if (activities.length > 0) {
+            res.status(200).send(activities);
+          } else {
+            res.status(200).send("There are not specifical Activities");
           }
-      }else{
-        res.status(200).send('There are not specifical Activities');
+        } else {
+          res.status(200).send("There are not specifical Activities");
+        }
+      } else {
+        res.status(200).send("There are not specifical Activities");
       }
-      
     } catch (error) {
       res.status(400).send(error.message);
     }
   },
-  getNeedsById : async (req, res) => {
-    const  id  = req.params.id
-    try{
-        if(id > 0){
-          const needs = await ClientNeed.findAll({
-            where: {UserId : id}
-          })
-          if(needs){
-            res.status(200).send(needs)
-          }else{
-            res.status(200).send('User does not have any need')
-          }
-        }else{
-          res.status(200).send('Please insert an id')
+  getNeedsById: async (req, res) => {
+    const id = req.params.id;
+    try {
+      if (id > 0) {
+        const needs = await ClientNeed.findAll({
+          where: { UserId: id },
+        });
+        if (needs) {
+          res.status(200).send(needs);
+        } else {
+          res.status(200).send("User does not have any need");
         }
-    }catch(error){
+      } else {
+        res.status(200).send("Please insert an id");
+      }
+    } catch (error) {
       res.status(400).send(error.message);
     }
-  }
+  },
   // newSpecificalNeed: async (req, res) =>{
   //     const {name, description, location} = req.body
   //     const newNeed = await ClientNeed.create({
