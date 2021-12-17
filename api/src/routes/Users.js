@@ -12,7 +12,7 @@ router.post(
   }),
   (req, res, next) => {
     // res.redirect(`/user/${req.user.id}`);
-    res.status(200).json({ message: "Register completed!" }, req.user.id);
+    res.status(200).json({ "message": "Register completed!" , "result": req.user?.id});
     next();
     (req, res) => {
       res.redirect(`/user/${req.user.id}`);
