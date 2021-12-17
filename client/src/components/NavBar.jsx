@@ -92,7 +92,7 @@ return (
 
 
                 { login ? 
-                    <>
+                <>
                         <div className={s.session}>
                             <NavLink to={`/clients/${login[0]?.id}`}>
                                 <MdAccountCircle className={s.iconLogin} />
@@ -104,6 +104,8 @@ return (
 // ------------------------------Opciones Perfil cliente-------------------------------
 
 
+                            
+                            
                                 <div className='dropdown'>
                                     <button
                                         className="btn btn-secondary dropdown-toggle"
@@ -139,7 +141,8 @@ return (
                                     </ul>
                                 </div>
                                 :
-                                // Opciones perfil tecnico
+                        // ------------------------------Opciones Perfil Tecnico---------------------------------
+
                                 <div className='dropdown'>
                                     <button
                                         className="btn btn-secondary dropdown-toggle"
@@ -172,7 +175,8 @@ return (
                             } 
                             </div>
                         </>
-                : <></>
+                        :<></>
+
             }
         </div>
     </div>
