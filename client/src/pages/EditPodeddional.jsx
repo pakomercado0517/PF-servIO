@@ -1,54 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { CgOptions } from 'react-icons/cg';
+// import { CgOptions } from 'react-icons/cg';
 import { useDispatch, useSelector } from "react-redux";
-import { getByUserId} from '../redux/actions'
+import { getByUserId, filterProfessions } from '../redux/actions'
 import axios from 'axios';
 import s from './styles/EditPodeddional.module.css'
 
 
 export default function EditPodeddional() {
-
-    
     
     const[errors, setErrors] = useState({});
     const dispatch = useDispatch();
-
     const oficio = useSelector((state) => state.professionsName)
-    console.log(oficio)
-    // const [user, setUser] = useState([])
-    // const [edit, setEdit] = useState(true)
+    // console.log(oficio)
     const user = useSelector((state) => state.user);
     const state = useSelector((state) => state);
-    // const userProfecional =  dispatch(getByUserId)
-    
-    // console.log('profecionales', userProfecional)
     const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
     
-    // const id = window.localStorage.getItem('user').cookies;
-
     useEffect(() => {
-        dispatch(getByUserId(login?.cookies.userId))
+        dispatch(getByUserId(login?.id))
         
     },[])
 
-    // console.log(user)
-
-    // function editUser (id) {
-    //     fetch(`http://localhost:3001/user/${id}`),{
-    //         method: 'PUT'
-    //     }
-
-    // }
-        
-    // console.log(editUser)
-    // console.log(isLoading)
-
-    // const[editeUser, setediteUser] = useState('');
-
-    // const firstName = user[0]?.first_name
-    // useEffect(() => {
-    //     console.log('mensaje:', user)
-    // }, [editeUser])
+    useEffect(() => {
+        dispatch(filterProfessions (oficio))    
+    }, [])
+    // console.log('prfesional: ', user[0]?.Professional?.Professions[0]?.name)
     const [profession, setProfession] = useState([])
     const [details, setDetails] = useState({
 
@@ -68,9 +44,9 @@ export default function EditPodeddional() {
 
     function validate(valores){
         let errores = {};
-        // setediteUser('hola')
+        
         //validacion nombre
-        console.log('error: ',errores)
+        // console.log('error: ',errores)
         if(!valores.firstName) {
             errores.firstName = 'Por favor ingresa tu nombre'
         }else if(!/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(valores.firstName)){
@@ -114,7 +90,7 @@ export default function EditPodeddional() {
     }
 
     function handleSelect(e){
-        console.log(e.target.id)
+        console.log('profecion:', profession)
         setDetails({
             ...details,
             profession: details.profession + e.target.id + ","
@@ -123,14 +99,19 @@ export default function EditPodeddional() {
     function onClose(e){
         let index = profession.indexOf(e.target.value)
         setProfession([...profession.slice(0, index).concat(...profession.slice(index+1, profession.length))])
+        setDetails({
+            ...details,
+            profession: details.profession + e.target.id + ","
+        })
     }
 
-    function onClick(){
+    function onClick(e){
         if(profession.indexOf(details.profession) === -1 && details.profession !== ''){
         setProfession([...profession, details.profession])
-        setDetails({...details, profession : 'Select a Country'})
+        setDetails({...details, profession : 'Selecciona a um oficio'})
         }
-        setDetails({...details, profession : 'Select a Country'})
+        setDetails({...details, profession : 'Selecciona a um oficio'})
+        console.log(details.profession)
     }
 
     function changeCountry(event){
@@ -145,13 +126,6 @@ export default function EditPodeddional() {
         
         const id = user[0].id
 
-    //     await axios.put(`http://localhost:3001/user/updateUser/${id}`, details)
-    // .then(res => {
-    //     console.log("Respuesta de API: ", res);
-    //     // console.log("Data por API: ", res.data);
-    // }).catch(err =>{
-    //     console.log("Error: ", err)
-    // })
     try{
         await axios.put(`http://localhost:3001/user/updateUser/${id}`, details)
         console.log('combio')
@@ -161,7 +135,7 @@ export default function EditPodeddional() {
 
     console.log('id: ',id)
     }
-    // console.log('profecion: ', user[0]?.Professional?.Professions[0]?.name)
+    
     useEffect(() => {
         setDetails({
             ...details,
@@ -191,18 +165,18 @@ export default function EditPodeddional() {
             ...details,
             [e.target.name] : e.target.value
         })
-        console.log('foto: ',details.photo)
+        // console.log('detalle: ',details)
     }
 
     
     return (
         <div className={s.container}>
-            <div className={ s.container_img }>
+            <div className={ s.container_img}>
                 <p>
                     Sé parte de nuestra plataforma, registrate ya y disfruta!
                 </p>
             </div>
-            <div className={ s.container_edilt }>
+            <div className={ s.container_edilt}>
                 <div className={s.container_edilt_titulo}>
                     <h2>Edita tu perfil</h2>
                 </div>
@@ -288,7 +262,7 @@ export default function EditPodeddional() {
                         <p>{errors.photo}</p>
                     )}
                 </div>
-                <div className={s.container_edilt_form_input}>
+                {/* <div className={s.container_edilt_form_input}>
                     <label >Profecion: </label>
                     <input
                         type="text"  
@@ -297,7 +271,7 @@ export default function EditPodeddional() {
                         readonly
                         onChange={(e) => handleChange(e)}
                     />
-                </div>
+                </div> */}
                 {/* <label>Seleccona tu Oficio:</label> */}
                 <div>
                     <div className={s.subDiv}>
@@ -308,9 +282,9 @@ export default function EditPodeddional() {
                             onChange={changeCountry}
                             value={details.profession}
                             >
-                            <option>Select a Country</option>
+                            <option >{details.profession}</option>
                             {oficio.map(e => {
-                                return (<option>{e}</option>)
+                                return (<option >{e}</option>)
                             })
                             }
                             </select>
@@ -326,7 +300,7 @@ export default function EditPodeddional() {
                             {
                             profession.map(e => {
                                 return(
-                                <input type="button" value={e} className={s.countryBtn} onClick={onClose} />
+                                <input type="button" value={e} className={s.countryBtn}  onClick={onClose} />
                                 )
                                 
                                 })}
