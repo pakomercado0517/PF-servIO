@@ -11,7 +11,12 @@ router.post(
     failureFlash: true,
   }),
   (req, res, next) => {
-    res.redirect(`/user/${req.user.id}`);
+    // res.redirect(`/user/${req.user.id}`);
+    res.status(200).json({ message: "Register completed!" }, req.user.id);
+    next();
+    (req, res) => {
+      res.redirect(`/user/${req.user.id}`);
+    };
   }
 );
 router.post(
@@ -21,7 +26,7 @@ router.post(
     failureFlash: true,
   }),
   (req, res, next) => {
-    res.send(`Has ingreado correctamente!!!`);
+    res.send(req.user);
   }
 );
 router.post("/logout", userFunctions.logOut);
