@@ -175,13 +175,14 @@ export const ProfessionalOfferToClientNeed = () => {
                                 
                             </div>
                         </div>
-                    
+                        <div className="row">
                         <button
                             type="submit"
                             className={` "btn btn-primary btn-lg btn-block" s.container_filterButton`}
                         >
                             Enviar Oferta
                         </button>
+                        </div>
                     </form>
                 </div>
 
