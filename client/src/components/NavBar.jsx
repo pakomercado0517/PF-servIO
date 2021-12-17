@@ -17,10 +17,8 @@ import { ProfessionalOfferToClientNeed } from './ProfessionalOfferToClientNeed';
 export default function NavBar() {
 
     const dispatch = useDispatch()
-                    // useLocalStorage
-    const [login] = useGlobalStorage("globalUser", null)
-    console.log("MENSAJEE: ", login)
-
+    const [login] = useGlobalStorage("globalUser", "")
+    const [switcheo, setSwitcheo] = useGlobalStorage("switcheo", null)
     // const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
 
     const stateTotalRedux = useSelector(state => state)
@@ -31,8 +29,8 @@ export default function NavBar() {
         // }
     },[])
 
-    useEffect(()=>{
-    },[login])
+    // useEffect(()=>{
+    // },[login])
 
 
     // function showMyProfile(){
@@ -45,6 +43,7 @@ export default function NavBar() {
     }
     
     function logout() {
+        setSwitcheo("professional")
         fetch('http://localhost:3001/user/logout',{
             method: 'POST'
         })
@@ -52,6 +51,7 @@ export default function NavBar() {
             localStorage.clear()
             window.location.replace('/')
         })
+        
     }
     function showFormProfessionalOffer5() {
         dispatch(showFormProfessionalOffer("show"))
@@ -94,12 +94,12 @@ return (
                 { login ? 
                 <>
                         <div className={s.session}>
-                            <NavLink to={`/clients/${login[0]?.id}`}>
+                            <NavLink to={`/clients/${login?.id}`}>
                                 <MdAccountCircle className={s.iconLogin} />
-                                <span className={ s.session_name }>{login[0]?.first_name + ' '} </span>
+                                <span className={ s.session_name }>{login?.first_name + ' '} </span>
                             </NavLink>
 
-                            {login[0] && !login[0].professional ?
+                            {login && !login.professional ?
 
 // ------------------------------Opciones Perfil cliente-------------------------------
 
@@ -120,7 +120,7 @@ return (
                                     >
 
                                         <li><span className={s.dropdown_item + " dropdown-item"} >Perfil Cliente</span></li>
-                                        <NavLink to={`/clients/${login[0]?.id}`}>
+                                        <NavLink to={`/clients/${login?.id}`}>
                                             <li><span
                                                 className={s.dropdown_item + " dropdown-item"}
                                             >Ver mi Perfil</span></li>

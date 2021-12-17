@@ -13,9 +13,9 @@ export const ClientSpecificNeed = () => {
     // console.log('client modal==>',modal)
     const user = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
 
-    console.log('client user==>',user?.cookies.userId)
+    console.log('client user==>',user?.id)
     const [input, setInput] = useState({
-        userId: user?.cookies.userId,
+        userId: user?.id,
         name: "",
         description: "",
         status: "in offer"
@@ -44,7 +44,7 @@ export const ClientSpecificNeed = () => {
                 })
             })
             stateReset()
-            console.log( 'post',post )
+            // console.log( 'post',post )
             
         } catch ( error ) {
             console.log( error.message )

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import './styles/pagination.css'
 import {changeSwitch} from '../redux/actions'
 import {useDispatch} from 'react-redux'
@@ -7,13 +7,21 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useGlobalStorage } from "../hooks/useGlobalStorage";
 
 const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
+
   const pageNumbers = [];
   const [state, setstate] = useState("professional")
-  const [switcheo, setSwitcheo] = useGlobalStorage("switcheo", "user")
-  // console.log("switchet state: ", switcheo)
+  const [switcheo, setSwitcheo] = useGlobalStorage("switcheo", "professional")
   const dispatch = useDispatch()
 
   const [ login ] = useLocalStorage("user", null)
+
+  useEffect(() => {
+      if (!login) {
+        setSwitcheo("professional")
+      } else if(login.professional){
+        setSwitcheo("user")
+      }
+    }, [])
 
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
     pageNumbers.push(i);
@@ -36,7 +44,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
     <div className='pagination'>
 
       {
-        (login && login.userType==="Professional") ? (
+        (login && login.professional) ? (
           <>
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
               <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" onClick={(e) => moodRender(e.target.id)} checked={switcheo === 'professional'} />
