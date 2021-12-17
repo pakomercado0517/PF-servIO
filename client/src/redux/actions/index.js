@@ -242,11 +242,13 @@ export function filterProfessions (){
             const response = await axios.get(`${ constants.localhost }/professions/name`)
             dispatch({
                 type: FILTER_PROFESSIONS,
-                payload: response.data
+                payload: response.data.sort((a, b) => { a.localeCompare(b) })
+                
             })
         }catch (error){
             console.log(error)
         };
+        
     };
 };
 

@@ -11,7 +11,7 @@ import Nosotros from './pages/Nosotros.jsx';
 import HomeProfessional from './components/HomeProfessional';
 import { ProfessionalOfferToClientNeed } from './components/ProfessionalOfferToClientNeed';
 import { ProfessionalServiceOffer } from './components/ProfessionalServiceOffer';
-import EditPodeddional from './components/EditPodeddional';
+import EditPodeddional from './pages/EditPodeddional.jsx';
 
 function App() {
   return (
