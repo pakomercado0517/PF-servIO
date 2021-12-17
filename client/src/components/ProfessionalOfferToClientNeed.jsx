@@ -7,6 +7,8 @@ import s from './styles/ProfessionalOfferToClientNeed.module.css'
 
 export const ProfessionalOfferToClientNeed = () => {
     
+
+    const dispatch = useDispatch()
     const { modalProfessionalsOffer } = useSelector(state => state)
     // console.log('professional modal==>',modalProfessionalsOffer)
     
@@ -14,10 +16,14 @@ export const ProfessionalOfferToClientNeed = () => {
     console.log('pro user==>',user)
 
     const [form, setform] = useState({
-        name: "",
+        name: "",   // campo no seteado en el modelo de DB
         description: "",
-        materials:"",
+        duration: "",
         price: "",
+        materials:"",   // BUG ==> input no marca opcion al 1° click sino al 2°
+        guarantee_time: "",
+        // ProfessionalId: user?.cookies.userId,
+        ClientNeedId: "",
     })
 
     function onChangeForm(e) {
@@ -25,40 +31,34 @@ export const ProfessionalOfferToClientNeed = () => {
             ...form,
             [e.target.name]: e.target.value
         })
+        console.log('form',form)
+        console.log('tarjet name',e.target.name)
+        console.log('tarjet value',e.target.name)
     }
 
     const postNeed = async (e) =>{
         e.preventDefault()
         try {
-            var obj = {
-                ...form,
-                location:"sadsadsa",
-                price:1200,
-                duration:12321,
-                guarantee_time:123213,
-                userId: user.cookies.userId
-            }
-            // console.log(obj)
-            const post = await axios.post('http://localhost:3001/clientNeeds', obj)
-            .then(() => {
+            
+            // const post = await axios.post('http://localhost:3001/clientNeeds', form)
+            // .then(() => {
                 const fondo = document.getElementById("fondo-form-Professional-offer")
                 fondo.style.top = "-100vh"
                 
                 Swal.fire({
                     icon: 'success',
-                    title: 'Publicacion creada!',
+                    title: 'Oferta enviada!',
                     showConfirmButton: false,
                     timer: 1500
                 })
-            })
-            console.log('post',post)
+            // })
+            // console.log('post',post)
 
         } catch (error) {
             console.error("message: ", error)
         }
     }
 
-    const dispatch = useDispatch()
 
     useEffect(() => {
         if (modalProfessionalsOffer === "show") {
@@ -87,7 +87,7 @@ export const ProfessionalOfferToClientNeed = () => {
                         <div className="row">
                             <div className={"col-12" && s.container_filter}>
                                 <h1>Realizá tu oferta!</h1>
-                                <div className="input-group mb-3">
+                                {/* <div className="input-group mb-1">
                                     <input
                                         type="text"
                                         name='name'
@@ -97,11 +97,12 @@ export const ProfessionalOfferToClientNeed = () => {
                                         aria-label="Default" aria-describedby="inputGroup-sizing-default"
                                         placeholder="Escribe aqui el titulo del trabajo..."
                                     />
-                                </div>
+                                </div> */}
 
-                                <div className="form-group">
+                                <div className="form-group mb-2">
                                     <label
-                                        for="exampleFormControlTextarea1">
+                                        className="mb-2"
+                                        forhtml="exampleFormControlTextarea1">
                                         Descripción del servicio
                                     </label>
                                     <textarea
@@ -109,7 +110,7 @@ export const ProfessionalOfferToClientNeed = () => {
                                         name='description'
                                         value={ form.description }
                                         onChange={ onChangeForm }
-                                        className="form-control z-depth-1"
+                                        className="form-control z-depth-1 input-group mb-1"
                                         id="exampleFormControlTextarea1"
                                         placeholder="Sé preciso en tu descripción para llegar mejor al cliente..."
                                         rows="3"
@@ -117,36 +118,55 @@ export const ProfessionalOfferToClientNeed = () => {
                                     </textarea>
                                 </div>
 
-                                <div>
+                                <div className="">
                                     ¿Incluye material?   
-                                    <input 
+                                    <input
+                                        className="input"
                                         type="radio" 
                                         value="yes" 
                                         name="materials"
-                                        onChange={ onChangeForm }
+                                        onChange={ e=> onChangeForm(e) }
                                     /> Si
-                                    <input 
+                                    <input
+                                        className="input"
                                         type="radio" 
                                         value="no" 
                                         name="materials"
-                                        onChange={ onChangeForm }
+                                        onChange={ e=> onChangeForm(e) }
                                     /> No
                                 </div>
+                                <div className="row mt-2">
 
-                                <div className="input-group mb-3">
+                                <div className="col input-group mb-2">
+                                    <input
+                                        type="number"
+                                        name='guarantee_time'
+                                        value={ form.guarantee_time }
+                                        onChange={ onChangeForm }
+                                        className="form-control"
+                                        aria-label="Default" aria-describedby="inputGroup-sizing-default"
+                                        placeholder="Días de garantía"
+                                    />
+                                    
+                                </div>
+
+                                <div className="col input-group mb-2">
+                                    <span class="input-group-text">$</span>
                                     <input
                                         type="number"
                                         name='price'
                                         value={ form.price }
                                         onChange={ onChangeForm }
                                         className="form-control"
-                                        aria-label="Default" aria-describedby="inputGroup-sizing-default"
+                                        aria-label="Dollar amount (with dot and two decimal places)" aria-describedby="inputGroup-sizing-default"
                                         placeholder="Ingresa un precio"
-                                    />
+                                        />
                                 </div>
+                                </div>
+                                
                             </div>
                         </div>
-
+                    
                         <button
                             type="submit"
                             className={` "btn btn-primary btn-lg btn-block" s.container_filterButton`}
