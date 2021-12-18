@@ -16,3 +16,14 @@
     overflow-y: scroll;
 }
 
+/* Buttons */
+
+.container_buttons{
+    display: flex;
+}
+
+.container_buttons button{
+    width: 30vw;
+    margin: auto;
+}
+
