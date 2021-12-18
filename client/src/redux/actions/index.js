@@ -17,16 +17,13 @@ export const NEW_ESPECIFICAL_NEED = 'NEW_ESPECIFICAL_NEED';
 export const NEW_TECHNICAL_ACTIVITY = 'NEW_TECHNICAL_ACTIVITY';
 export const NEW_USER = 'NEW_USER';
 export const NEW_PROFESSIONAL_OFFER = 'NEW_PROFESSIONAL_OFFER';
-
 export const FILTER_PROFESSIONS = 'FILTER_PROFESSIONS;'
 export const SWITCH_RENDER = 'SWITCH_RENDER'
-
 export const ORDER_DATA = 'ORDER_DATA';
 export const SHOW_FORM_CLIENT_NEED = 'SHOW_FORM_CLIENT_NEED';
-
 export const SHOW_FORM_PROFESSIONAL_OFFER = 'SHOW_FORM_PROFESSIONAL_OFFER';
-
 export const GLOBAL_LOCAL_STORAGE = 'GLOBAL_LOCAL_STORAGE';
+export const GET_SPECIFIC_ACTIVITIES_BYID = 'GET_SPECIFIC_ACTIVITIES_BYID';
 
 
 
@@ -39,6 +36,22 @@ export function getAllUsers () {
             const response = await axios.get(`${ constants.localhost }/allUsers`)
             dispatch({
                 type: GET_ALL_USERS,
+                payload: response.data
+            });
+        } catch (error) {
+            console.log(error.message)
+        };
+    };
+};
+// trae las necesidades especificas por id de profesional
+export function getSpecificActivitiesById (id) {
+    
+    return async function (dispatch) {
+        
+        try {
+            const response = await axios.get(`${ constants.localhost }/TecnicalsActivities/${ id }`)
+            dispatch({
+                type: GET_SPECIFIC_ACTIVITIES_BYID,
                 payload: response.data
             });
         } catch (error) {
