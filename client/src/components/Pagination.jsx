@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react";
 import './styles/pagination.css'
+// import s from './styles/pa'
 import {changeSwitch} from '../redux/actions'
 import {useDispatch} from 'react-redux'
 
-import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useGlobalStorage } from "../hooks/useGlobalStorage";
 
 const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
@@ -13,7 +13,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
   const [switcheo, setSwitcheo] = useGlobalStorage("switcheo", "professional")
   const dispatch = useDispatch()
 
-  const [ login ] = useLocalStorage("user", null)
+  const [ login ] = useGlobalStorage("globalUser", "")
 
   useEffect(() => {
       if (!login) {
@@ -42,7 +42,6 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
 
   return (
     <div className='pagination'>
-
       {
         (login && login.professional) ? (
           <>

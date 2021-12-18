@@ -1,6 +1,7 @@
 import './App.css';
-
-import { Routes, Route } from "react-router-dom"
+// Router-dom
+import { Route, Routes } from 'react-router-dom';
+import ProfessionalSpecificActivity from "./components/ProfessionalSpecificActivity";
 import Home from './pages/Home';
 import NavBar from './components/NavBar';
 import ProfileClient from './pages/ProfileClient';
@@ -11,7 +12,9 @@ import Nosotros from './pages/Nosotros.jsx';
 import HomeProfessional from './components/HomeProfessional';
 import { ProfessionalOfferToClientNeed } from './components/ProfessionalOfferToClientNeed';
 import { ProfessionalServiceOffer } from './components/ProfessionalServiceOffer';
-import EditPodeddional from './pages/EditPodeddional.jsx';
+import EditPodeddional from './pages/EditPodeddional';
+import Cart from './components/Cart';
+import EditCliente from './pages/EditCliente.jsx'
 
 function App() {
   return (
@@ -24,19 +27,30 @@ function App() {
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/clients/:idClient" element={<ProfileClient />} />
         <Route exact path="/professional/:id" element={<ProfileProfessional />} />
-          
+        <Route exact path="/cart/" element={<Cart />} />
         <Route exact path="/homeprofessional" element={<HomeProfessional />} />
-
-        <Route exact path="/editProfessional" element={<EditPodeddional />}/>
+        <Route exact path="/editProfessional" element={<EditPodeddional />} />
+        <Route exact path="/editCliente" element={<EditCliente />} />
 
         {/* tests */}
-        <Route exact path="/offerprofessional" element={<ProfessionalOfferToClientNeed />} />
-        <Route exact path="/ProfessionalServiceOffer" element={<ProfessionalServiceOffer />} />
-
+        <Route
+          exact
+          path="/offerprofessional"
+          element={<ProfessionalOfferToClientNeed />}
+        />
+        <Route
+          exact
+          path="/ProfessionalServiceOffer"
+          element={<ProfessionalServiceOffer />}
+        />
+        <Route
+          exact
+          path="/TecnicalsActivities/:id"
+          element={<ProfessionalSpecificActivity />}
+        />
       </Routes>
     </>
   );
 }
 
 export default App;
-

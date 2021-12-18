@@ -10,7 +10,8 @@ import {
     SHOW_FORM_PROFESSIONAL_OFFER,
     GET_BY_ACCOUNT_ID,
     SWITCH_RENDER,
-    GLOBAL_LOCAL_STORAGE
+    GLOBAL_LOCAL_STORAGE,
+    GET_SPECIFIC_ACTIVITIES_BYID
 } from '../actions'
 
 
@@ -26,6 +27,7 @@ const initialState = {
     professionsName:[],
     switch: true,
     account: [],
+    specificActivitiesById: []
 
 };
 
@@ -35,6 +37,11 @@ function rootReducer( state = initialState, { type, payload } ) {
             return {
                 ...state,
                 professionals: payload,
+            };
+        case GET_SPECIFIC_ACTIVITIES_BYID:
+            return {
+                ...state,
+                specificActivitiesById: payload,
             };
         case GLOBAL_LOCAL_STORAGE:
             return {

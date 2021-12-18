@@ -1,16 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
 import axios from 'axios'
 import logo from '../img/ServIO.svg';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import s from './styles/Login.module.css'
-import { getByAccountId } from '../redux/actions';
+import { getByUserId } from '../redux/actions';
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 export default function Login() {
+
+    const user = useSelector(state => state.user)
 
     const navigate = useNavigate()
     const [ input, setInput ] = useState({
@@ -22,7 +25,7 @@ export default function Login() {
 
     const [errors, setErrors] = useState({});
     const [globalUser, setGlobalUser] = useGlobalStorage("globalUser", "");
-
+    const [localUser, setLocalUser] = useLocalStorage("localUser", "");
     const validate = (input) => {
         let errors = {};
         if (!input.email) {
@@ -53,22 +56,20 @@ export default function Login() {
             [e.target.name]: e.target.value
         });
     };
-    console.log(setInput)
+    // console.log(setInput)
     
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-        const post = await axios.post('http://localhost:3001/user/login', input)
+            const post = await axios.post('http://localhost:3001/user/login', input)
+            dispatch(getByUserId(post.data.id))
+            setGlobalUser(post.data)
+            setLocalUser(post.data)
+            console.log('post login status',post.statusText)
+            // console.log('post login data',post.data)
+            // console.log('post login data',post.data.id)
 
             if( post.statusText === 'OK') {
-                
-                await setGlobalUser(post.data)
-
-                localStorage.setItem('user', JSON.stringify(post.data))
-                console.log("userType: ", post.data)
-
-                // dispatch(getByAccountId(post.data.cookies.userId))
-
                 Swal.fire({
                     icon: 'success',
                     title: 'Logged in',
@@ -76,26 +77,26 @@ export default function Login() {
                     timer: 2500
                 })
                 navigate('/')
-            } else if (post.data === 'Wrong passWord') {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Wrong password',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-            } else if (post.data === 'Wrong mail') {
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Wrong mail',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
             }
-            
         } catch (error) {
-            console.log(error.message)
+            console.log(error)
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                showConfirmButton: false,
+                timer: 2500
+            })
         }
-    };
+    }
+
+
+
+
+
+    useEffect(() => {
+        return console.log('user!!!', user)
+            }, [user])
 
     return (
         <div className={ s.login_master }>

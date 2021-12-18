@@ -4,10 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { getByUserId, filterProfessions } from '../redux/actions'
 import axios from 'axios';
 import s from './styles/EditPodeddional.module.css'
+import {useGlobalStorage} from '../hooks/useGlobalStorage'
 
 
 export default function EditPodeddional() {
     
+    const [globalUser, setGlobalUser] = useGlobalStorage("globalUser", "");
     const[errors, setErrors] = useState({});
     const dispatch = useDispatch();
     const oficio = useSelector((state) => state.professionsName)
@@ -18,16 +20,14 @@ export default function EditPodeddional() {
     
     useEffect(() => {
         dispatch(getByUserId(login?.id))
+        dispatch(filterProfessions (oficio))
         
     },[])
 
-    useEffect(() => {
-        dispatch(filterProfessions (oficio))    
-    }, [])
     // console.log('prfesional: ', user[0]?.Professional?.Professions[0]?.name)
     const [profession, setProfession] = useState([])
+    console.log(profession)
     const [details, setDetails] = useState({
-
         firstName:user[0]?.first_name,
         lastName: user[0]?.last_name,
         email: user[0]?.email,
@@ -37,11 +37,11 @@ export default function EditPodeddional() {
         // professional:user[0]?.professional,
         // cliente:'',
         city:user[0]?.city,
-        profession:user[0]?.Professional?.Professions[0]?.name,
+        profession:profession.toString(),
         phone:'',
         photo:'', 
     })
-
+    console.log(details)
     function validate(valores){
         let errores = {};
         
@@ -70,7 +70,7 @@ export default function EditPodeddional() {
         //validacion password
         if(!valores.password) {
             errores.password = 'Por favor ingresa un password'
-        }else if(! /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(valores.password)){
+        }else if(! /^(?=.[A-Za-z])(?=.\d)[A-Za-z\d]{8,}$/.test(valores.password)){
             errores.password= 'El password debe tener mínimo ocho caracteres, al menos una letra y un número'
         }
     
@@ -108,15 +108,16 @@ export default function EditPodeddional() {
     function onClick(e){
         if(profession.indexOf(details.profession) === -1 && details.profession !== ''){
         setProfession([...profession, details.profession])
-        setDetails({...details, profession : 'Selecciona a um oficio'})
+        // setDetails({...details, profession : 'Selecciona a um oficio'})
         }
-        setDetails({...details, profession : 'Selecciona a um oficio'})
-        console.log(details.profession)
+        // setDetails({...details, profession : 'Selecciona a um oficio'})
+
     }
 
     function changeCountry(event){
         setDetails({...details, profession: event.target.value})
     }   
+
     const handleSubmit = async (e) =>{
         e.preventDefault();
 
@@ -124,16 +125,42 @@ export default function EditPodeddional() {
 
         setErrors(err)
         
-        const id = user[0].id
+        // const id = user[0].id
 
     try{
-        await axios.put(`http://localhost:3001/user/updateUser/${id}`, details)
+        let prof= profession.toString()
+        console.log(prof)
+        let newData= {
+            firstName:details.firstName,
+            lastName: details.lastName,
+            email: details.email,
+            dni:details.dni,
+            password:details.password,
+            // professional:user[0]?.professional,
+            // cliente:'',
+            city:details.city,
+            profession:prof,
+            phone:'',
+            photo:'', 
+        }
+        await axios.put(`http://localhost:3001/user/updateUser/101`, newData)
+        setGlobalUser({
+            ...globalUser,
+            first_name:details.firstName,
+            last_name: details.lastName,
+            email: details.email,
+            dni:details.dni,
+            password:details.password,
+            // professional:user[0]?.professional,
+            city:details.city, 
+        })
         console.log('combio')
     }catch(e){
         console.log(e)
     }
-
-    console.log('id: ',id)
+    
+    
+    // console.log('id: ',id)
     }
     
     useEffect(() => {
