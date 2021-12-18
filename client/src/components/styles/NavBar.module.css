@@ -97,3 +97,39 @@
     /* white-space: nowrap; */
 
 }
+
+/* Styles on CART */
+
+.container__elements_cart {
+    text-decoration: none;
+    color: black;
+    padding: 0px;
+    margin: 0px;
+    position: relative;
+    margin: 10px;
+    height: 5%;
+    background-color: #B0B0B0;
+    border-radius: 100%;
+}
+.container__elements_cart_logoCart{
+    margin: 6px;
+    height: 5%;
+    background-color: #B0B0B0;
+    border-radius: 100%;
+}
+
+.container__elements_cart_notification{
+    display: flex;
+    position: absolute;
+    top: 1px;
+    right: 0px;
+    background-color: rgb(36, 182, 0);
+    border-radius: 100%;
+    width: 17px;
+    height: 17px;
+}
+
+.container__elements_cart_notification span{
+    font-size: 12px;
+    margin: auto;
+}

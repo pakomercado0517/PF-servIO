@@ -1,17 +1,23 @@
-import React from 'react';
-import { Search } from './Search';
+import React, { useEffect } from 'react';
+// Router-dom
 import { NavLink } from 'react-router-dom';
-import logo from '../img/ServIO.svg';
-import { useDispatch, useSelector } from 'react-redux';
-import { getByAccountId, showFormClientNeed, showFormProfessionalOffer } from '../redux/actions'
-import s from './styles/NavBar.module.css'
+// Imagenes e iconos
 import { CgOptions } from 'react-icons/cg';
-import { useEffect } from 'react';
 import { MdAccountCircle } from 'react-icons/md';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import logo from '../img/ServIO.svg';
+import { BsCart2 } from 'react-icons/bs'
+//Componentes
+import { Search } from './Search';
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { showFormClientNeed, showFormProfessionalOffer } from '../redux/actions'
+// CSS
+import s from './styles/NavBar.module.css'
+// Hooks
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
+// import { useLocalStorage } from '../hooks/useLocalStorage';
 
-import { ProfessionalOfferToClientNeed } from './ProfessionalOfferToClientNeed';
+
 
 
 export default function NavBar() {
@@ -57,30 +63,43 @@ export default function NavBar() {
         dispatch(showFormProfessionalOffer("show"))
     }
 
-return (
-    <div className={ s.navbar }>
+    return (
+        <div className={s.navbar}>
 
-        <div className={ s.container__logo }>
-            <img src={ logo } alt="Logo" />
-        </div>
-        
-        <div className={s.container__elements}>
-
-            <Search/>
-            <div className={s.container__navigate}>
-
-                <NavLink to='/' className={s['container__inicio--btn'] }   >Inicio</NavLink>
-                <NavLink to='/nosotros' className={s['container__inicio--btn']}>Sobre Nosotros</NavLink>
-
-            <div onClick={showModalFormCLient} className={s.show__presentation}>
-                <CgOptions/>
-                <span>Crear publicacion</span>
-            </div>
+            <div className={s.container__logo}>
+                <img src={logo} alt="Logo" />
             </div>
 
+            <div className={s.container__elements}>
+
+                <Search />
+                <div className={s.container__navigate}>
+
+                    <NavLink to='/' className={s['container__inicio--btn']}   >Inicio</NavLink>
+                    <NavLink to='/nosotros' className={s['container__inicio--btn']}>Sobre Nosotros</NavLink>
+
+                    {/* CARRITO */}
+
+                    <NavLink className={ s.container__elements_cart } to='/Cart'>
+                        <div className={s.container__elements_cart_logoCart }>
+                            <BsCart2 size="30px"></BsCart2>
+                        </div>
+                        <div className={s.container__elements_cart_notification }>
+                            <span>5</span>
+                        </div>
+                    </NavLink>
+
+                    {/* CREAR PUBLICACIÓN */}
+
+                    <div onClick={showModalFormCLient} className={s.show__presentation}>
+                        <CgOptions />
+                        <span>Crear publicacion</span>
+                    </div>
+                </div>
 
 
-            {/* { login? 
+
+                {/* { login? 
 
                 <>
 
@@ -91,21 +110,21 @@ return (
                         </NavLink> */}
 
 
-                { login ? 
-                <>
+                {login ?
+                    <>
                         <div className={s.session}>
                             <NavLink to={`/clients/${login?.id}`}>
                                 <MdAccountCircle className={s.iconLogin} />
-                                <span className={ s.session_name }>{login?.first_name + ' '} </span>
+                                <span className={s.session_name}>{login?.first_name + ' '} </span>
                             </NavLink>
 
                             {login && !login.professional ?
 
-// ------------------------------Opciones Perfil cliente-------------------------------
+                                // ------------------------------Opciones Perfil cliente-------------------------------
 
 
-                            
-                            
+
+
                                 <div className='dropdown'>
                                     <button
                                         className="btn btn-secondary dropdown-toggle"
@@ -141,7 +160,7 @@ return (
                                     </ul>
                                 </div>
                                 :
-                        // ------------------------------Opciones Perfil Tecnico---------------------------------
+                                // ------------------------------Opciones Perfil Tecnico---------------------------------
 
                                 <div className='dropdown'>
                                     <button
@@ -172,14 +191,14 @@ return (
                                     </ul>
                                 </div>
 
-                            } 
-                            </div>
-                        </>
-                        :<></>
+                            }
+                        </div>
+                    </>
+                    : <></>
 
-            }
+                }
+            </div>
         </div>
-    </div>
 
-)
+    )
 };
