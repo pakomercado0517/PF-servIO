@@ -14,6 +14,7 @@ import { ProfessionalOfferToClientNeed } from './components/ProfessionalOfferToC
 import { ProfessionalServiceOffer } from './components/ProfessionalServiceOffer';
 import EditPodeddional from './pages/EditPodeddional';
 import Cart from './components/Cart';
+import EditCliente from './pages/EditCliente.jsx'
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route exact path="/cart/" element={<Cart />} />
         <Route exact path="/homeprofessional" element={<HomeProfessional />} />
         <Route exact path="/editProfessional" element={<EditPodeddional />} />
+        <Route exact path="/editCliente" element={<EditCliente />} />
 
         {/* tests */}
         <Route
