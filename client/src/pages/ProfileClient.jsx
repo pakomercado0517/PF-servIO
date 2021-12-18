@@ -1,29 +1,29 @@
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom';
-import { FaRegEdit } from 'react-icons/fa'
 import { BsArrowRightCircle } from 'react-icons/bs'
-import s from './styles/ProfileClient.module.css'
-// import CardReview from '../components/CardReview';
-// import CardClientNeed from '../components/CardClientNeed';
-
+import { FaRegEdit } from 'react-icons/fa'
 import { MdAccountCircle } from 'react-icons/md';
 import { GrLocation } from 'react-icons/gr'
+import { getByAccountId, getClientNeedsById } from '../redux/actions';
+import CardClientNeed from '../components/CardClientNeed';
+// import CardReview from '../components/CardReview';
 
-import { useDispatch, useSelector } from 'react-redux'
+import s from './styles/ProfileClient.module.css'
 
-import { getByAccountId } from '../redux/actions';
 
 export default function ProfileClient(){
 
-    const state = useSelector(state => state)
-
-    const {idClient} = useParams()
-
     const dispatch = useDispatch()
+    const state = useSelector(state => state)
+    const {idClient} = useParams()
+    const clientNeeds = useSelector(state => state.clientNeedById)
+
 
     useEffect(()=>{
         dispatch(getByAccountId(idClient))
-    },[])
+        dispatch(getClientNeedsById(idClient))
+    },[ dispatch, idClient ])
 
 
     useEffect(()=>{
@@ -48,21 +48,27 @@ export default function ProfileClient(){
                 </div>
                 <p>Username: <span>{state.account[0]?.user_name? state.account[0]?.user_name:  state.account[0]?.first_name}</span></p>
                 <p>Localidad: <span>{state.account[0]?.city? state.account[0]?.city: "Buenos Aires, Argentina"}</span> <GrLocation></GrLocation></p>
-                <p>Telefono: <span>{ state.account[0]?.phone }</span> </p>
+                <p>Teléfono: <span>{ state.account[0]?.phone }</span> </p>
                 <p>Email: <span>{ state.account[0]?.email }</span></p>
 
                 {/* CARDS DE SOLICITUDES HECHAS */}
 
                 <div className={ s.reviews }>
-                    <h4>Ultimas Solicitudes</h4>
-                    {/* <CardClientNeed/>
-                    <CardClientNeed/>
-                    <CardClientNeed/>
-                    <CardClientNeed/>
-                    <CardClientNeed/>
-                    <CardClientNeed/>
-                    <CardClientNeed/>
-                    <CardClientNeed/> */}
+                    <h4>Últimas Solicitudes</h4>
+                    <div className={ s.reviews_container }>
+                        { clientNeeds.map( clientNeed => {
+                            return (
+                                <Link to={`/client/need/${clientNeed.id}`} key={clientNeed.id}>
+                                    <CardClientNeed
+                                        name={ clientNeed.name }
+                                        description={ clientNeed.description }
+                                        photo={ clientNeed.photo }
+                                    />
+                                </Link>
+                            )
+                        })}
+                    </div>
+
                     <BsArrowRightCircle className={s.reviews_icon} size="50px"/>
                     <span >Ver Historial</span> 
                 </div>
