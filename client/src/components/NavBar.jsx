@@ -144,7 +144,7 @@ export default function NavBar() {
                                                 className={s.dropdown_item + " dropdown-item"}
                                             >Ver mi Perfil</span></li>
                                         </NavLink>
-                                        <li><span className={s.dropdown_item + " dropdown-item"} >Editar Perfil</span></li>
+                                        <li><NavLink to='editCliente'><span className={s.dropdown_item + " dropdown-item"} >Editar Perfil</span></NavLink></li>
                                         <li><span className={s.dropdown_item + " dropdown-item"} >Servicios Solicitados</span></li>
                                         <li><span
                                             className={s.dropdown_item + " dropdown-item"}
