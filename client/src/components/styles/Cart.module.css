@@ -10,3 +10,20 @@
     padding-top: 15px;
 }
 
+.container_list_cards {
+    margin: 15px;
+    height: 75vh;
+    overflow-y: scroll;
+}
+
+/* Buttons */
+
+.container_buttons{
+    display: flex;
+}
+
+.container_buttons button{
+    width: 30vw;
+    margin: auto;
+}
+

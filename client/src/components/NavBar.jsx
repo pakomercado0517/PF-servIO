@@ -24,6 +24,7 @@ export default function NavBar() {
 
     const dispatch = useDispatch()
     const [login] = useGlobalStorage("globalUser", "")
+    const [cart] = useGlobalStorage("cart", "")
     const [switcheo, setSwitcheo] = useGlobalStorage("switcheo", null)
     // const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
 
@@ -85,7 +86,7 @@ export default function NavBar() {
                             <BsCart2 size="30px"></BsCart2>
                         </div>
                         <div className={s.container__elements_cart_notification }>
-                            <span>5</span>
+                            <span>{cart.length}</span>
                         </div>
                     </NavLink>
 
