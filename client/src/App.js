@@ -1,7 +1,7 @@
 import './App.css';
 // Router-dom
-import { Routes, Route } from "react-router-dom"
-// Componentes
+
+import ProfessionalSpecificActivity from "./components/ProfessionalSpecificActivity";
 import Home from './pages/Home';
 import NavBar from './components/NavBar';
 import ProfileClient from './pages/ProfileClient';
@@ -27,19 +27,28 @@ function App() {
         <Route exact path="/clients/:idClient" element={<ProfileClient />} />
         <Route exact path="/professional/:id" element={<ProfileProfessional />} />
         <Route exact path="/cart/" element={<Cart />} />
-          
         <Route exact path="/homeprofessional" element={<HomeProfessional />} />
-
-        <Route exact path="/editProfessional" element={<EditPodeddional />}/>
+        <Route exact path="/editProfessional" element={<EditPodeddional />} />
 
         {/* tests */}
-        <Route exact path="/offerprofessional" element={<ProfessionalOfferToClientNeed />} />
-        <Route exact path="/ProfessionalServiceOffer" element={<ProfessionalServiceOffer />} />
-
+        <Route
+          exact
+          path="/offerprofessional"
+          element={<ProfessionalOfferToClientNeed />}
+        />
+        <Route
+          exact
+          path="/ProfessionalServiceOffer"
+          element={<ProfessionalServiceOffer />}
+        />
+        <Route
+          exact
+          path="/TecnicalsActivities/:id"
+          element={<ProfessionalSpecificActivity />}
+        />
       </Routes>
     </>
   );
 }
 
 export default App;
-
