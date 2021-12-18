@@ -24,6 +24,7 @@ export const SHOW_FORM_CLIENT_NEED = 'SHOW_FORM_CLIENT_NEED';
 export const SHOW_FORM_PROFESSIONAL_OFFER = 'SHOW_FORM_PROFESSIONAL_OFFER';
 export const GLOBAL_LOCAL_STORAGE = 'GLOBAL_LOCAL_STORAGE';
 export const GET_SPECIFIC_ACTIVITIES_BYID = 'GET_SPECIFIC_ACTIVITIES_BYID';
+export const GET_PROFESSIONAL_ACTIVITY_BY_ID = 'GET_PROFESSIONAL_ACTIVITY_BY_ID';
 
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers () {
@@ -242,7 +243,7 @@ export function searchByName(input) {
   };
 }
 
-// Nombres de profeciones
+// Nombres de profesiones
 export function filterProfessions() {
   return async function (dispatch) {
     try {
@@ -258,23 +259,6 @@ export function filterProfessions() {
     }
   };
 }
-export function filterProfessions (){
-
-    return async function (dispatch) {
-        
-        try {
-            const response = await axios.get(`${ constants.localhost }/professions/name`)
-            dispatch({
-                type: FILTER_PROFESSIONS,
-                payload: response.data.sort((a, b) => { a.localeCompare(b) })
-                
-            })
-        }catch (error){
-            console.log(error)
-        };
-        
-    };
-};
 
 // funcion para manejar datos del localStorage globalmente
 export function setToGlobalStorage(data) {

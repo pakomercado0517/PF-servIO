@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import './styles/pagination.css'
+// import s from './styles/pa'
 import {changeSwitch} from '../redux/actions'
 import {useDispatch} from 'react-redux'
 

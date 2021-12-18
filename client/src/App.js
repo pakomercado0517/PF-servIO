@@ -1,6 +1,6 @@
 import './App.css';
 // Router-dom
-
+import { Route, Routes } from 'react-router-dom';
 import ProfessionalSpecificActivity from "./components/ProfessionalSpecificActivity";
 import Home from './pages/Home';
 import NavBar from './components/NavBar';
@@ -12,7 +12,7 @@ import Nosotros from './pages/Nosotros.jsx';
 import HomeProfessional from './components/HomeProfessional';
 import { ProfessionalOfferToClientNeed } from './components/ProfessionalOfferToClientNeed';
 import { ProfessionalServiceOffer } from './components/ProfessionalServiceOffer';
-import EditPodeddional from './components/EditPodeddional';
+import EditPodeddional from './pages/EditPodeddional';
 import Cart from './components/Cart';
 
 function App() {

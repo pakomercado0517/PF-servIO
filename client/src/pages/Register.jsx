@@ -159,7 +159,6 @@ export default function Crear() {
             certification_img:"qpoejsc.png",
             status: "no sabe no contesta", 
         }
-<<<<<<< HEAD
         try{
             const user = await axios.post(`http://localhost:3001/user/`, obj)
             console.log('user',user)
@@ -177,87 +176,6 @@ export default function Crear() {
             console.log(error)
 
         }
-       
-
-=======
-        await axios.post(`http://localhost:3001/user/`, obj)
-        .then(res => {
-            // console.log("Respuesta de API: ", res);
-            // console.log("Data por API: ", res.data);
-            // if (res.data[0] === "Email already in use") {
-            //     Swal.fire({
-            //         icon: 'error',
-            //         title: 'El email ya existe, por favor ingrese otro!',
-            //         showConfirmButton: true,
-            //         timer: null
-            //     })
-            //     return
-            // }
-            setDetails({
-                firstName:'',
-                lastName: '',
-                email: '',
-                dni:'',
-                password:'',
-                repeatPassword:'',
-                professional:'',
-                cliente:'',
-                city:'',
-                profession:[],
-            })
-            history('/login')
-
-            // async function login(dataLogin){
-            //     try {
-            //         const post = await axios.post('http://localhost:3001/user/login', dataLogin)
-            //         console.log('post',post.data)
-            //         console.log('post',post)
-    
-    
-            //         if( post.data.message === 'Logged') {
-    
-            //             localStorage.setItem('user', JSON.stringify(post.data))
-            //             console.log("userType: ", post.data)
-
-            //             dispatch(getByAccountId(post.data.cookies.userId))
-
-                        
-            //             Swal.fire({
-            //                 icon: 'success',
-            //                 title: 'Usuario creado y logueado!',
-            //                 showConfirmButton: true,
-            //                 timer: 4500
-            //             })
-            //         }
-                    
-            //     } catch (error) {
-            //         Swal.fire({
-            //             icon: 'error',
-            //             title: 'Algo salio mal con el login, por favor intentelo nuevamente!',
-            //             showConfirmButton: true,
-            //             timer: null
-            //         })
-            //         history('/login')
-            //     }
-            // }
-
-            // login({
-            //     email: details.email,
-            //     password: details.password
-            // })
-            
-            
-        }).catch(err =>{
-            Swal.fire({
-                icon: 'error',
-                title: 'Algo salio mal!',
-                showConfirmButton: true,
-                timer: null
-            })
-            console.log("Error.....", err)
-        })
->>>>>>> af6a3aa561a1e706a4f95adf1dc1751514986002
-
         
     }
 
