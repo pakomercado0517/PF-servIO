@@ -2,16 +2,17 @@ import {
     GET_ALL_NEEDS, 
     GET_ALL_PROFESSIONALS, 
     GET_BY_USER_ID, 
+    GET_BY_ACCOUNT_ID,
+    GET_SPECIFIC_ACTIVITIES_BYID,
     NEW_USER, 
-    SEARCH_PROFESSIONAL_BY_NAME, 
+    NEW_CLIENT_NEED,
+    GLOBAL_LOCAL_STORAGE,
     ORDER_DATA, 
     FILTER_PROFESSIONS,
     SHOW_FORM_CLIENT_NEED,
     SHOW_FORM_PROFESSIONAL_OFFER,
-    GET_BY_ACCOUNT_ID,
     SWITCH_RENDER,
-    GLOBAL_LOCAL_STORAGE,
-    GET_SPECIFIC_ACTIVITIES_BYID
+    SEARCH_PROFESSIONAL_BY_NAME, 
 } from '../actions'
 
 
@@ -64,6 +65,11 @@ function rootReducer( state = initialState, { type, payload } ) {
                 clientNeeds: payload,
             };
         case NEW_USER:
+            return {
+                ...state,
+                message: payload,
+            };
+        case NEW_CLIENT_NEED:
             return {
                 ...state,
                 message: payload,

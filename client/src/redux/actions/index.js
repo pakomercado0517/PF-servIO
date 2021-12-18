@@ -13,7 +13,7 @@ export const GET_PROFESSIONAL_BY_ACTIVITY_NAME = 'GET_PROFESSIONAL_BY_ACTIVITY_N
 export const GET_BY_ACTIVITY_NAME = 'GET_BY_ACTIVITY_NAME';
 export const GET_ALL_NEEDS = 'GET_ALL_NEEDS';
 export const SEARCH_PROFESSIONAL_BY_NAME = 'SEARCH_PROFESSIONAL_BY_NAME'
-export const NEW_ESPECIFICAL_NEED = 'NEW_ESPECIFICAL_NEED';
+export const NEW_CLIENT_NEED = 'NEW_CLIENT_NEED';
 export const NEW_TECHNICAL_ACTIVITY = 'NEW_TECHNICAL_ACTIVITY';
 export const NEW_USER = 'NEW_USER';
 export const NEW_PROFESSIONAL_OFFER = 'NEW_PROFESSIONAL_OFFER';
@@ -177,11 +177,10 @@ export function newEspecificalNeed(data) {
   return async function (dispatch) {
     try {
       const response = await axios.post(
-        `${constants.localhost}/NewSpecificalNeed`,
-        data
+        `${constants.localhost}/clientNeeds`, data
       );
       dispatch({
-        type: NEW_ESPECIFICAL_NEED,
+        type: NEW_CLIENT_NEED,
         payload: response.data,
       });
     } catch (error) {
