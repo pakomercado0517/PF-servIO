@@ -10,3 +10,9 @@
     padding-top: 15px;
 }
 
+.container_list_cards {
+    margin: 15px;
+    height: 75vh;
+    overflow-y: scroll;
+}
+

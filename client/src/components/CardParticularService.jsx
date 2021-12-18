@@ -7,13 +7,26 @@ import { useGlobalStorage } from '../hooks/useGlobalStorage'
 export default function CardParticularService(props) {
     const [cart, setCart] = useGlobalStorage("cart", [])
     function addToCart(){
-        setCart([...cart, ...[
-            {
-                name: props.name,
-                description: props.description,
-                price: props.price
-            }
-        ]])
+        const exist = cart.filter(el => el.name === props.name )
+        const notExist = cart.filter(el => el.name !== props.name )
+        console.log("exists: ", exist)
+        if ( exist[0] ){
+            exist[0].count +=1;
+            setCart([
+                ...notExist,
+                ...exist
+            ])
+        } else {
+            setCart([
+                ...cart,
+                {
+                    name: props.name,
+                    description: props.description,
+                    price: props.price,
+                    count: 1
+                }
+            ])
+        }
     }
     return (
         <div className={s.container}>

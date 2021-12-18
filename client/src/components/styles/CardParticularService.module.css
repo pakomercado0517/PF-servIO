@@ -36,7 +36,10 @@
 }
 
 .container_description {
+    height: 180px;
+    background-color: rgba(255, 255, 255, 0.596);
     text-align: center;
+    /* margin-bottom: 15px; */
 }
 
 .container_description h5 {
@@ -46,12 +49,13 @@
 }
 
 .container_description p {
-    height: 150px;
-    background-color: rgba(255, 255, 255, 0.596);
+    height: 140px;
     padding: 3px 12px;
     font-size: 13px;
     margin: 3px;
+    overflow: hidden;
     border-radius: 5px;
+    padding-bottom: 15px;
 }
 
 .container_button {
