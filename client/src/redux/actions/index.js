@@ -12,6 +12,7 @@ export const GET_BY_ACCOUNT_ID = 'GET_BY_ACCOUNT_ID';
 export const GET_PROFESSIONAL_BY_ACTIVITY_NAME = 'GET_PROFESSIONAL_BY_ACTIVITY_NAME';
 export const GET_BY_ACTIVITY_NAME = 'GET_BY_ACTIVITY_NAME';
 export const GET_ALL_NEEDS = 'GET_ALL_NEEDS';
+export const GET_ALL_CLIENT_NEEDS = 'GET_ALL_CLIENT_NEEDS';
 export const SEARCH_PROFESSIONAL_BY_NAME = 'SEARCH_PROFESSIONAL_BY_NAME'
 export const NEW_CLIENT_NEED = 'NEW_CLIENT_NEED';
 export const NEW_TECHNICAL_ACTIVITY = 'NEW_TECHNICAL_ACTIVITY';
@@ -141,22 +142,36 @@ export function getByActivityName(name) {
     }
   };
 }
-// trae las necesidades del usuario
-export function getAllNeeds() {
+// trae las necesidades de un usuario en particular
+export function getClientNeedsById(id) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(
-        `${constants.localhost}/clientNeeds/all`
-      );
+      const response = await axios.get(`${constants.localhost}/clientNeeds/${id}`);
       dispatch({
-        type: GET_ALL_NEEDS,
+        type: GET_ALL_CLIENT_NEEDS,
         payload: response.data,
       });
     } catch (error) {
       console.log(error.message);
     }
   };
-}
+};
+
+// trae todas las necesidades de los usuarios
+export function getAllNeeds() {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(`${constants.localhost}/clientNeeds/all`);
+      dispatch({
+        type: GET_ALL_NEEDS,
+        payload: response.data,
+      });
+    }
+    catch (error) {
+      console.log(error.message);
+    }
+  };
+};
 
 // crea usuario cliente o professional
 export function newUser(data) {
