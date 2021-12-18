@@ -36,7 +36,7 @@ const professions = [
         name: "niñera",
     },
     {
-        name: "cuidadosMayores",
+        name: "cuidadosMayores", 
     },
 ]
 

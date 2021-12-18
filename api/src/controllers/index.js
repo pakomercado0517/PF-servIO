@@ -597,7 +597,7 @@ module.exports = {
           certification_img,
           status,
         },
-        { where: { UserId: { [Op.eq]: id } } }
+        { where: { UserId: id  } }
       );
 
       let prof = await Professional.findOne({
@@ -611,7 +611,7 @@ module.exports = {
       //   const findProfession = await Profession.findAll({
       //     where: { name: profession },
       //   });
-      let professions = profession.toLowerCase();
+      let professions = profession;
       if (typeof professions === "string") {
         professions = professions.split(",");
       }
@@ -623,7 +623,6 @@ module.exports = {
           },
         },
       });
-
       await prof.setProfessions(allProfessions);
 
       res.send("updated");

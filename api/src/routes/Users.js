@@ -22,11 +22,11 @@ router.post(
 router.post(
   "/login",
   passport.authenticate("local-login", {
-    failureRedirect: "/user/professionals",
+    // failureRedirect: "/user/login",
     failureFlash: true,
   }),
   (req, res, next) => {
-    res.send(req.user);
+    res.send({ message: "Logged", cookies: req.session, userType: req.user.professional? 'Professional': 'Normal User' });
   }
 );
 router.post("/logout", userFunctions.logOut);
