@@ -15,6 +15,7 @@ import { ProfessionalServiceOffer } from './components/ProfessionalServiceOffer'
 import EditPodeddional from './pages/EditPodeddional';
 import Cart from './components/Cart';
 import EditCliente from './pages/EditCliente.jsx'
+import EditUser from './pages/EditUser';
 
 function App() {
   return (
@@ -48,6 +49,9 @@ function App() {
           path="/TecnicalsActivities/:id"
           element={<ProfessionalSpecificActivity />}
         />
+
+        <Route exact path="/editUser" element={<EditUser />} />
+
       </Routes>
     </>
   );

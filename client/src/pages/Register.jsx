@@ -6,8 +6,8 @@ import s from './styles/Register.module.css'
 // import { useNavigate } from "react-router-dom";
 import { CgOptions } from 'react-icons/cg';
 
-import { useDispatch } from 'react-redux';
-import { getByAccountId } from '../redux/actions';
+// import { useDispatch } from 'react-redux';
+// import { getByAccountId } from '../redux/actions';
 
 export default function Crear() {
     
@@ -22,9 +22,9 @@ export default function Crear() {
     });
     const [buttonSubmit, setbuttonSubmit] = useState(false)
 
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
     
-    const history = useNavigate() //redirige a '/....'
+    // const history = useNavigate() //redirige a '/....'
     // const oficio = useSelector((state) => state.professionsName)
     const oficio = [
         "carpintero",
