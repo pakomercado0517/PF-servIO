@@ -142,6 +142,11 @@
     margin: 10px;
 }
 
+.container_edilt_form_input_img{
+    width: 50%;
+    margin: 10px;
+}
+
 .buttonSubmit{
     display: inline-block;
     width: 400px;
@@ -172,4 +177,8 @@
     width: 100%;
     opacity: 0;
 
+}
+
+.container_edilt_form_pofcional{
+    width: 70%;
 }
