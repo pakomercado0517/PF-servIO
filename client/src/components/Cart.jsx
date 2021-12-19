@@ -9,11 +9,11 @@ import { useGlobalStorage } from '../hooks/useGlobalStorage'
 export default function Cart() {
 
 
-    const [cart, setCart] = useGlobalStorage("cart", "")
+    const [cart, setCart] = useGlobalStorage("cart", [])
     const [total, settotal] = useState(0)
 
     useEffect(() => {
-        const aux = cart.map(el => el.count * el.price)
+        const aux = cart && cart.map(el => el.count * el.price)
         if(aux[0]){
             settotal(aux?.reduce((a, b) => a+b))
         }
