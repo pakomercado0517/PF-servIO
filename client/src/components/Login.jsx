@@ -63,8 +63,8 @@ export default function Login() {
         try {
             const post = await axios.post('http://localhost:3001/user/login', input)
             dispatch(getByUserId(post.data.id))
-            setGlobalUser(post.data)
-            setLocalUser(post.data)
+            setGlobalUser(post.data.data)
+            setLocalUser(post.data.data)
             console.log('post login status',post.statusText)
             // console.log('post login data',post.data)
             // console.log('post login data',post.data.id)
