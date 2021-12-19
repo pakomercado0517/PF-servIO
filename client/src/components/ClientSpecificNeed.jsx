@@ -3,22 +3,25 @@ import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
 import { showFormClientNeed } from '../redux/actions'
 import Swal from 'sweetalert2'
-
+// import { useGlobalStorage } from '../hooks/useGlobalStorage';
+// import { useLocalStorage } from '../hooks/useLocalStorage';
 import s from './styles/ClientSpecificNeed.module.css'
 
 
 export const ClientSpecificNeed = () => {
     
     const modal = useSelector(state => state.modal)
-    // console.log('client modal==>',modal)
-    const user = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
+    const user = useSelector(state => state.globalUserGlobalStorage)
+    console.log('client user specific client need 16==>',user)
 
-    console.log('client user==>',user?.id)
+    // const [globalUser, setGlobalUser] = useGlobalStorage("globalUser", "");
+    // const [localUser, setLocalUser] = useLocalStorage("localUser", "");
+
+    // console.log('client user 23==>',user?.id)
     const [input, setInput] = useState({
         userId: user?.id,
         name: "",
         description: "",
-        status: "in offer"
     })
 
     function onChangeForm(e) {
@@ -32,19 +35,21 @@ export const ClientSpecificNeed = () => {
         e.preventDefault()
         try {
             const post = await axios.post('http://localhost:3001/clientNeeds', input)
-            .then(() => {
-                const fondo = document.getElementById("fondo-form-client-need")
-                fondo.style.top = "-100vh"
                 
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Publicacion creada!',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
+            // setGlobalUser(post.data)
+            // setLocalUser(post.data)
+            // console.log('client post need==>47',post)
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Publicacion creada!',
+                showConfirmButton: true,
+                // timer: 1500
             })
+            const fondo = document.getElementById("fondo-form-client-need")
+            fondo.style.top = "-100vh"
+            
             stateReset()
-            // console.log( 'post',post )
             
         } catch ( error ) {
             console.log( error.message )

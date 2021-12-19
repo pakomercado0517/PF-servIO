@@ -7,10 +7,11 @@ const passport = require("passport");
 router.post(
   "/",
   passport.authenticate("local-signup", {
-    failureRedirect: "/user/register",
+    // failureRedirect: "/user/register",
     failureFlash: true,
   }),
   (req, res, next) => {
+    
     // res.redirect(`/user/${req.user.id}`);
     res.status(200).json({ "message": "Register completed!" , "result": req.user?.id});
     next();
@@ -26,7 +27,7 @@ router.post(
     failureFlash: true,
   }),
   (req, res, next) => {
-    res.send({ message: "Logged", cookies: req.session, userType: req.user.professional? 'Professional': 'Normal User' });
+    res.send({ message: "Logged", cookies: req.session, userType: req.user.professional? 'Professional': 'Normal User', data : req.user });
   }
 );
 router.post("/logout", userFunctions.logOut);

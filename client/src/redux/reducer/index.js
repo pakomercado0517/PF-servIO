@@ -1,17 +1,19 @@
 import {
+    NEW_USER, 
+    NEW_CLIENT_NEED,
     GET_ALL_NEEDS, 
+    GET_ALL_CLIENT_NEEDS,
     GET_ALL_PROFESSIONALS, 
     GET_BY_USER_ID, 
-    NEW_USER, 
-    SEARCH_PROFESSIONAL_BY_NAME, 
+    GET_BY_ACCOUNT_ID,
+    GET_SPECIFIC_ACTIVITIES_BYID,
+    GLOBAL_LOCAL_STORAGE,
     ORDER_DATA, 
     FILTER_PROFESSIONS,
     SHOW_FORM_CLIENT_NEED,
     SHOW_FORM_PROFESSIONAL_OFFER,
-    GET_BY_ACCOUNT_ID,
     SWITCH_RENDER,
-    GLOBAL_LOCAL_STORAGE,
-    GET_SPECIFIC_ACTIVITIES_BYID
+    SEARCH_PROFESSIONAL_BY_NAME, 
 } from '../actions'
 
 
@@ -21,6 +23,7 @@ const initialState = {
     professionals: [],
     user: [],
     clientNeeds: [],
+    clientNeedById: [],
     message:[],
     modal:"",
     modalProfessionalsOffer: "",
@@ -63,7 +66,17 @@ function rootReducer( state = initialState, { type, payload } ) {
                 ...state,
                 clientNeeds: payload,
             };
+        case GET_ALL_CLIENT_NEEDS:
+            return {
+                ...state,
+                clientNeedById: payload,
+            };
         case NEW_USER:
+            return {
+                ...state,
+                message: payload,
+            };
+        case NEW_CLIENT_NEED:
             return {
                 ...state,
                 message: payload,

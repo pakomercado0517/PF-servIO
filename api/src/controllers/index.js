@@ -171,7 +171,11 @@ module.exports = {
       res.send(false);
     }
   },
-
+  logginData: async(req, res, next) => {
+    let professional = await User.findOne({ 
+    });
+    res.send(req.user?.id)
+  },
   loginTestPassport: (req, res) => {
     if (req.isAuthenticated()) {
       res.send(true);
