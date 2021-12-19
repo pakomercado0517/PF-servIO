@@ -12,18 +12,22 @@ export default function EditCliente() {
     const dispatch = useDispatch();
     const[errors, setErrors] = useState({});
     const [buttonSubmit, setbuttonSubmit] = useState(false)
+    const oficio = useSelector((state) => state.professionsName)
+    const [profession, setProfession] = useState([])
 
     const [details, setDetails] = useState({
         firstName: globalUser.first_name,
         lastName: globalUser.last_name,
         email: globalUser.email,
         professional: globalUser.professional,
-        professionalCase:false
+        professionalCase:false,
+        profession:profession.toString(),
     })
 
     // console.log('profecional: ', globalUser.professional)
     useEffect(() => {
-        dispatch(getByUserId(login?.id))        
+        dispatch(getByUserId(login?.id))  
+        dispatch(filterProfessions (oficio))      
     },[])
     
     function validate(valores){
@@ -48,6 +52,7 @@ export default function EditCliente() {
         setErrors(err)
 
         try{
+            let prof= profession.toString()
             let newData= {
                 firstName:details.firstName,
                 lastName: details.lastName,
@@ -55,6 +60,7 @@ export default function EditCliente() {
                 dni:details.dni,
                 password:details.password,
                 professional: details.professional,
+                profession:prof,
 
             }
             await axios.put(`http://localhost:3001/user/updateUser/101`, newData)
@@ -102,6 +108,23 @@ export default function EditCliente() {
             })
         }
     } 
+
+    function onClick(e){
+        if(profession.indexOf(details.profession) === -1 && details.profession !== ''){
+        setProfession([...profession, details.profession])
+        }
+    }
+    function changeCountry(event){
+        setDetails({...details, profession: event.target.value})
+    }  
+    function onClose(e){
+        let index = profession.indexOf(e.target.value)
+        setProfession([...profession.slice(0, index).concat(...profession.slice(index+1, profession.length))])
+        setDetails({
+            ...details,
+            profession: details.profession + e.target.id + ","
+        })
+    }
     
     return (
         <div className={s.container}>
@@ -213,6 +236,38 @@ export default function EditCliente() {
                             checked={details.professionalCase}
                             onChange={(e) => handleCheck(e)}
                         /></label>
+                    <div className={s.subDiv}>
+                        <label for="countries">Seleccona tu Oficio:</label>
+                        <div>
+                            <select 
+                            className={s.inputClass3}
+                            onChange={changeCountry}
+                            value={details.profession}
+                            >
+                            <option >Elige tu profesión</option>
+                            {oficio.map(e => {
+                                return (<option >{e}</option>)
+                            })
+                            }
+                            </select>
+                            <input 
+                            onClick={onClick} 
+                            className={s.btnAdd} 
+                            type="button" 
+                            value="+" 
+                            />
+                        </div>
+                        <div className={s.countriesDiv}>
+
+                            {
+                            profession.map(e => {
+                                return(
+                                <input type="button" value={e} className={s.countryBtn}  onClick={onClose} />
+                                )
+                                
+                                })}
+                        </div>
+                    </div>
                 </div>
 
                 <div >
