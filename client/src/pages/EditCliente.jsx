@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import s from './styles/EditCliente.module.css';
 import {useGlobalStorage} from '../hooks/useGlobalStorage';
 import { useDispatch, useSelector } from "react-redux";
-import { getByUserId, filterProfessions } from '../redux/actions'
+import { getByUserId, filterProfessions } from '../redux/actions';
+import axios from 'axios';
 
 export default function EditCliente() {
 
@@ -10,14 +11,17 @@ export default function EditCliente() {
     const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
     const dispatch = useDispatch();
     const[errors, setErrors] = useState({});
+    const [buttonSubmit, setbuttonSubmit] = useState(false)
 
     const [details, setDetails] = useState({
         firstName: globalUser.first_name,
         lastName: globalUser.last_name,
         email: globalUser.email,
+        professional: globalUser.professional,
+        professionalCase:false
     })
 
-    // console.log(globalUser.first_name, globalUser.last_name, globalUser.email  )
+    // console.log('profecional: ', globalUser.professional)
     useEffect(() => {
         dispatch(getByUserId(login?.id))        
     },[])
@@ -42,9 +46,31 @@ export default function EditCliente() {
         const err = validate(details)
 
         setErrors(err)
-        
-        
-        console.log('enviar')
+
+        try{
+            let newData= {
+                firstName:details.firstName,
+                lastName: details.lastName,
+                email: details.email,
+                dni:details.dni,
+                password:details.password,
+                professional: details.professional,
+
+            }
+            await axios.put(`http://localhost:3001/user/updateUser/101`, newData)
+            setGlobalUser({
+                ...globalUser,
+                first_name:details.firstName,
+                last_name: details.lastName,
+                email: details.email,
+                dni:details.dni,
+                password:details.password,
+                rofessional: details.professional,
+                
+            })
+        }catch(e){
+            console.log(e)
+        }
     }
 
     function handleChange(e){
@@ -56,8 +82,26 @@ export default function EditCliente() {
         setErrors(
             validate(errors)
         )
-        // console.log('detalle: ',details)
+        
     }
+
+    function handleCheck(e){
+        console.log(details.professionalCase)
+        if (e.target.value === 'checkboxClient') {
+            setDetails({
+                ...details,
+                professionalCase:false,
+                professional:false,
+                // profession: []
+            })
+        } else {
+            setDetails({
+                ...details,
+                professionalCase:true,
+                professional:true,
+            })
+        }
+    } 
     
     return (
         <div className={s.container}>
@@ -88,8 +132,8 @@ export default function EditCliente() {
                     <input 
                         type="text"  
                         name="lastName"
-                        // value={globalUser.last_name}
-                        // onChange={(e) => handleChange(e)}
+                        value={globalUser.last_name}
+                        onChange={(e) => handleChange(e)}
                     />
                     {/* {!errors.name && (
                         <p >{errors.lastName}</p>
@@ -101,7 +145,7 @@ export default function EditCliente() {
                         type='email' 
                         name='email'
                         value={globalUser.email}
-                        // onChange={(e) => handleChange(e)}
+                        onChange={(e) => handleChange(e)}
                     />
                     {/* {errors.email && (
                         <p>{errors.email}</p>
@@ -149,7 +193,7 @@ export default function EditCliente() {
                     )} */}
                 </div>
 
-                <div >
+                <div className={s.container_edilt_form_input_img} >
                     <label for="imageFile">Selecciona alguna imágen (png):</label><br/>
                     <div className={s.div_file}>
                         <p className={s.text}>Elegir archivo</p>
@@ -161,12 +205,22 @@ export default function EditCliente() {
                         /> 
                     </div>
                 </div>
-                    <div >
-                        <p>Reguerdas que los campos que no edites nada no se  van a cambian, lo unico que no se 
-                        va a poder editar es el DNI.</p>  
-                    </div>
+
+                <div className={s.container_edilt_form_pofcional}>
+                    <label>Dar de alta como profecional:<input
+                            type='checkbox'
+                            value={globalUser.professional}
+                            checked={details.professionalCase}
+                            onChange={(e) => handleCheck(e)}
+                        /></label>
+                </div>
+
+                <div >
+                    <p>Reguerdas que los campos que no edites nada no se  van a cambian, lo unico que no se 
+                    va a poder editar es el DNI.</p>  
+                </div>
                 
-                <button type='submit' className={"btn btn-success " + s.buttonSubmit} >Cambiar Perfil</button>
+                <button type='submit'id='buttonSubmit' className={"btn btn-success " + s.buttonSubmit} >Cambiar Perfil</button>
             </form>
             </div>
         </div>
