@@ -14,7 +14,9 @@ export default function Cart() {
 
     useEffect(() => {
         const aux = cart.map(el => el.count * el.price)
-        settotal(aux?.reduce((a, b) => a+b))
+        if(aux[0]){
+            settotal(aux?.reduce((a, b) => a+b))
+        }
     }, [cart])
 
     function mercadoPago() {
