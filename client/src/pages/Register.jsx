@@ -180,6 +180,7 @@ export default function Crear() {
     }
 
     function handleCheck(e){
+        console.log(e.target.value)
         if (e.target.id === 'checkboxClient') {
             setDetails({
                 ...details,
