@@ -72,8 +72,6 @@ export default function Cart() {
             document.getElementById("cho-container").disable = true
         });
     }
-        
-
     const [cart, setCart] = useGlobalStorage("cart", [])
     const [total, settotal] = useState(0)
 
