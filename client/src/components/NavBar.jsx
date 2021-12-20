@@ -145,7 +145,7 @@ export default function NavBar() {
                                                 className={s.dropdown_item + " dropdown-item"}
                                             >Ver mi Perfil</span></li>
                                         </NavLink>
-                                        <li><NavLink to='editCliente'><span className={s.dropdown_item + " dropdown-item"} >Editar Perfil</span></NavLink></li>
+                                        <li><NavLink to='editUser'><span className={s.dropdown_item + " dropdown-item"} >Editar Perfil</span></NavLink></li>
                                         <li><span className={s.dropdown_item + " dropdown-item"} >Servicios Solicitados</span></li>
                                         <li><span
                                             className={s.dropdown_item + " dropdown-item"}
@@ -175,7 +175,7 @@ export default function NavBar() {
 
                                     <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
                                         <li><span className={s.dropdown_item + " dropdown-item"} >Perfil Profesional</span></li>
-                                        <li><NavLink to='editProfessional'><span className={s.dropdown_item + " dropdown-item"} >Editar Perfil</span></NavLink></li>
+                                        <li><NavLink to='editUser'><span className={s.dropdown_item + " dropdown-item"} >Editar Perfil</span></NavLink></li>
                                         <li><span className={s.dropdown_item + " dropdown-item"} >Ofrecer Servicios Profesionales</span></li>
                                         <li><span className={s.dropdown_item + " dropdown-item"} >Ver Trabajos Pendientes</span></li>
                                         <li><span className={s.dropdown_item + " dropdown-item"} >Notificaciones</span></li>
