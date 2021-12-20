@@ -14,6 +14,7 @@ import axios from 'axios'
 // const { ACCESS_PUBLIC } = process.env.local;
 
 export default function Cart() {
+    console.log(process.env.ACCESS_PUBLIC)
     let mp;
     const { MercadoPago } = useScript(
         "https://sdk.mercadopago.com/js/v2",
