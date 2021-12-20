@@ -5,21 +5,83 @@ import s from './styles/Cart.module.css'
 import CardCart from './CardCart'
 // Hooks
 import { useGlobalStorage } from '../hooks/useGlobalStorage'
+import useScript from '../hooks/useScript'
+
+import axios from 'axios'
+// import { useMercadoPago } from '../hooks/useMercadoPago'
+
+// require('dotenv').config();
+// const { ACCESS_PUBLIC } = process.env.local;
 
 export default function Cart() {
+    let mp;
+    const { MercadoPago } = useScript(
+        "https://sdk.mercadopago.com/js/v2",
+        "MercadoPago"
+    );
+    
+    useEffect(() => {
+        if(MercadoPago){
+            mp = new MercadoPago( "ACCESS_PUBLIC" ,{
+                locale: 'es-AR'
+            });
+        }
+    }, [MercadoPago])
 
+    
+    function createCheckoutButton(preferenceId){
+        mp.checkout({
+            preference: {
+                id: preferenceId
+            },
+            render: {
+                container: '#cho-container', // Class name where the payment button will be displayed
+                label: 'Comprar Ahora', // Change the payment button text (optional)
+            }
+        });
+    }
 
-    const [cart, setCart] = useGlobalStorage("cart", "")
+    async function axiosMP(){
+        await axios.post("http://localhost:3001/create_preference",{
+            items: [
+                {
+                title: 'Compra de servicios',
+                unit_price: total,
+                quantity: 1,
+                }
+            ]
+        })
+        .then(function(response) {
+            console.log("Pasee primer then", response.data)
+            return response.data;
+        })
+        .then(function(preference) {
+            console.log("Pasee segundo then")
+            createCheckoutButton(preference.id);
+            document.getElementById("checkout_button").style.display = "none";
+            // document.getElementsByClassName("shopping-cart").fadeOut(500);
+            // $(".shopping-cart").fadeOut(500);
+            setTimeout(() => {
+                // document.getElementsByClassName("container_payment").show(500).fadeIn();
+                // $(".container_payment").show(500).fadeIn();
+            }, 500);
+        })
+        .catch(function() {
+            alert("Unexpected error");
+            document.getElementById("cho-container").disable = true
+        });
+    }
+        
+
+    const [cart, setCart] = useGlobalStorage("cart", [])
     const [total, settotal] = useState(0)
 
     useEffect(() => {
-        const aux = cart.map(el => el.count * el.price)
-        settotal(aux?.reduce((a, b) => a+b))
+        if (cart[0]){
+            const aux = cart.map(el => el.count * el.price)
+            settotal(aux?.reduce((a, b) => a+b))
+        }
     }, [cart])
-
-    function mercadoPago() {
-
-    }
 
     return (
         <div className={s.container}>
@@ -45,8 +107,11 @@ export default function Cart() {
             </div>
             <div className={s.container_buttons}>
                 <span>Total: { total }</span>
-                <button className={ 'btn btn-success'} onClick={ mercadoPago }>Comprar</button>
+                <button id='checkout_button' disabled="true" className={ 'btn btn-success' } onClick={ axiosMP }> Continuar Compra</button>
+                <div id='cho-container'></div>
             </div>
+            <div className='shopping-cart'></div>
+            <div className='container_payment'></div>
         </div>
     )
 }
