@@ -12,10 +12,9 @@ import Nosotros from './pages/Nosotros.jsx';
 import HomeProfessional from './components/HomeProfessional';
 import { ProfessionalOfferToClientNeed } from './components/ProfessionalOfferToClientNeed';
 import { ProfessionalServiceOffer } from './components/ProfessionalServiceOffer';
-import EditPodeddional from './pages/EditPodeddional';
 import Cart from './components/Cart';
-import EditCliente from './pages/EditCliente.jsx'
 import EditUser from './pages/EditUser';
+
 
 function App() {
   return (
@@ -30,8 +29,7 @@ function App() {
         <Route exact path="/professional/:id" element={<ProfileProfessional />} />
         <Route exact path="/cart/" element={<Cart />} />
         <Route exact path="/homeprofessional" element={<HomeProfessional />} />
-        <Route exact path="/editProfessional" element={<EditPodeddional />} />
-        <Route exact path="/editCliente" element={<EditCliente />} />
+        <Route exact path="/editUser" element={<EditUser />} />
 
         {/* tests */}
         <Route
@@ -50,7 +48,8 @@ function App() {
           element={<ProfessionalSpecificActivity />}
         />
 
-        <Route exact path="/editUser" element={<EditUser />} />
+        
+        
 
       </Routes>
     </>
