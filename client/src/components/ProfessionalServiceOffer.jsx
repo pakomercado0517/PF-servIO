@@ -10,10 +10,9 @@ export const ProfessionalServiceOffer = () => {
     
     const modal = useSelector(state => state.modalProfessionalsOffer)
     
-    const user = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
+    // const user = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
 
     const [form, setform] = useState({
-        // categoria: '', // sugerencia para agregar categoria de servicio ofrecido y no en el registro
         name: "",
         description: "", // no esta en la base de datos
         photo: "",
@@ -25,6 +24,7 @@ export const ProfessionalServiceOffer = () => {
         professionalId: "",
         
     })
+    console.log('professional offer==>',form)
 
     function onChangeForm(e) {
         setform({
@@ -38,8 +38,9 @@ export const ProfessionalServiceOffer = () => {
         try {
 
             
-            // const post = await axios.post('http://localhost:3001/clientNeeds', obj)
+            const post = await axios.post('http://localhost:3001/clientNeeds', form)
             // .then(() => {
+                console.log('post 40',post)
 
                 const fondo = document.getElementById("fondo-form-Professional-offer")
                 fondo.style.top = "-100vh"
@@ -136,37 +137,41 @@ return (
                         </div>
 
                         <div className="col input-group mb-2 pt-3 pb-3">
-                            <div className="me-5">
+                            <div className="me-5"
+                                value={ form.guarantee } 
+                            >
                                 ¿Incluye Garantia?   {`    `}
                                 <input
                                     className="input"
                                     type="radio" 
-                                    value="yes" 
-                                    name="materials"
+                                    name="guarantee"
+                                    value='true'
                                     onChange={ e=> onChangeForm(e) }
                                 /> Si {`    `}
                                 <input
                                     className="input"
                                     type="radio" 
-                                    value="no" 
-                                    name="materials"
+                                    name="guarantee"
+                                    value='false' 
                                     onChange={ e=> onChangeForm(e) }
                                 /> No {`    `}
                             </div>
-                            <div className="me-2">
+                            <div className="me-2"
+                                value={ form.materials }
+                            >
                                 ¿Incluye material? {`    `}   
                                 <input
-                                    className="input"
+                                    className=""
                                     type="radio" 
-                                    value="yes" 
                                     name="materials"
+                                    value='true' 
                                     onChange={ e=> onChangeForm(e) }
                                     /> Si {`    `}
                                 <input
-                                    className="input"
+                                    className=""
                                     type="radio" 
-                                    value="no" 
                                     name="materials"
+                                    value='false'
                                     onChange={ e=> onChangeForm(e) }
                                     /> No {`    `}
                             </div>
@@ -203,8 +208,8 @@ return (
                                     </label>
                                     <input
                                         type="number"
-                                        name='guarantee_time'
-                                        value={ form.guarantee_time }
+                                        name='job_time'
+                                        value={ form.job_time }
                                         onChange={ onChangeForm }
                                         className="form-control me-2"
                                         aria-label="Default" aria-describedby="inputGroup-sizing-default"
