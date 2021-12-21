@@ -34,13 +34,14 @@ function App() {
         {/* tests */}
         <Route
           exact
-          path="/ProfessionalOfferToClientNeed"
-          element={<ProfessionalOfferToClientNeed />}
-        />
-        <Route
-          exact
           path="/ProfessionalServiceOffer"
           element={<ProfessionalServiceOffer />}
+        />
+        
+        <Route
+          exact
+          path="/ProfessionalOfferToClientNeed"
+          element={<ProfessionalOfferToClientNeed />}
         />
         <Route
           exact

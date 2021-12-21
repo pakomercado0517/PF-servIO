@@ -7,7 +7,7 @@ const Professional = require('./Professionals.js')
 const TecnicalActivities = require('./SpecificTechnicalActivity.js')
 const Transactions = require('./Transactions.js')
 const User = require('./Users.js')
-const MercadoPago = require('./MercadoPago.js')
+// const MercadoPago = require('./MercadoPago.js')
 const router = Router();
 
 
@@ -20,7 +20,7 @@ router.use("/reviews", Reviews)
 router.use("/TecnicalsActivities", TecnicalActivities)
 router.use("/Transactions", Transactions)
 router.use("/User", User)
-router.use("/create_preference", MercadoPago)
+// router.use("/create_preference", MercadoPago)
 
 
 module.exports = router;

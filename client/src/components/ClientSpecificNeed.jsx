@@ -3,8 +3,6 @@ import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
 import { showFormClientNeed } from '../redux/actions'
 import Swal from 'sweetalert2'
-// import { useGlobalStorage } from '../hooks/useGlobalStorage';
-// import { useLocalStorage } from '../hooks/useLocalStorage';
 import s from './styles/ClientSpecificNeed.module.css'
 
 
@@ -12,12 +10,7 @@ export const ClientSpecificNeed = () => {
     
     const modal = useSelector(state => state.modal)
     const user = useSelector(state => state.globalUserGlobalStorage)
-    console.log('client user specific client need 16==>',user)
 
-    // const [globalUser, setGlobalUser] = useGlobalStorage("globalUser", "");
-    // const [localUser, setLocalUser] = useLocalStorage("localUser", "");
-
-    // console.log('client user 23==>',user?.id)
     const [input, setInput] = useState({
         userId: user?.id,
         name: "",
@@ -34,11 +27,7 @@ export const ClientSpecificNeed = () => {
     const postNeed = async (e) =>{
         e.preventDefault()
         try {
-            const post = await axios.post('http://localhost:3001/clientNeeds', input)
-                
-            // setGlobalUser(post.data)
-            // setLocalUser(post.data)
-            // console.log('client post need==>47',post)
+            await axios.post('http://localhost:3001/clientNeeds', input)
 
             Swal.fire({
                 icon: 'success',

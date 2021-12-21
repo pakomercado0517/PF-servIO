@@ -2,17 +2,21 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
 import { showFormProfessionalOffer } from '../redux/actions'
+import {useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
 import s from './styles/ProfessionalServiceOffer.module.css'
 
 
 export const ProfessionalServiceOffer = () => {
     
+    const navigate = useNavigate()
     const modal = useSelector(state => state.modalProfessionalsOffer)
-    
+    const user = useSelector(state => state.globalUserGlobalStorage)
+
+    // const idProfessional = useSelector(state => state.professional)
     // const user = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
 
-    const [form, setform] = useState({
+    const [form, setForm] = useState({
         name: "",
         description: "", // no esta en la base de datos
         photo: "",
@@ -21,15 +25,28 @@ export const ProfessionalServiceOffer = () => {
         guarantee: "",  // no esta en la base de datos
         guarantee_time: "", // no esta en la base de datos
         job_time: "",  // días
-        professionalId: "",
-        
+        // professionalId: "",
+        userId: user?.id,
     })
     console.log('professional offer==>',form)
 
     function onChangeForm(e) {
-        setform({
+        setForm({
             ...form,
             [e.target.name]: e.target.value
+        })
+    }
+
+    function stateReset() {
+        setForm({
+            name: "",
+            description: "",
+            photo: "",
+            materials: "",
+            price: "",
+            guarantee: "",
+            guarantee_time: "",
+            job_time: "",
         })
     }
 
@@ -38,22 +55,21 @@ export const ProfessionalServiceOffer = () => {
         try {
 
             
-            const post = await axios.post('http://localhost:3001/clientNeeds', form)
-            // .then(() => {
-                console.log('post 40',post)
+            const post = await axios.post('http://localhost:3001/TecnicalsActivities', form);
+            console.log('post 58',post)
 
-                const fondo = document.getElementById("fondo-form-Professional-offer")
-                fondo.style.top = "-100vh"
-                
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Publicacion creada!',
-                    showConfirmButton: false,
-                    // timer: 1500,
-                    showCloseButton: true
-                })
-            // })
-            // console.log('post',post)
+            const fondo = document.getElementById("fondo-form-Professional-offer")
+            fondo.style.top = "-100vh"
+            
+            Swal.fire({
+                icon: 'success',
+                title: 'Publicacion creada!',
+                showConfirmButton: false,
+                // timer: 1500,
+                showCloseButton: true
+            });
+            stateReset();
+            navigate('/');
 
         } catch (error) {
             console.error("message: ", error)

@@ -64,6 +64,7 @@ export default function NavBar() {
         dispatch(showFormProfessionalOffer("show"))
     }
 
+
     return (
         <div className={s.navbar}>
 
@@ -92,23 +93,14 @@ export default function NavBar() {
 
                     {/* CREAR PUBLICACIÓN */}
 
-                    <div onClick={showModalFormCLient} className={s.show__presentation}>
+                    <div 
+                        className={s.show__presentation}
+                        onClick={showModalFormCLient} 
+                    >
                         <CgOptions />
                         <span>Crear publicacion</span>
                     </div>
                 </div>
-
-
-
-                {/* { login? 
-
-                <>
-
-                    <div className={s.session}>
-                        <NavLink to={`/clients/${login.cookies.userId}`}>
-                            <MdAccountCircle className={s.iconLogin} />
-                            <span className={ s.session_name }>{stateTotalRedux.account[0]?.first_name + ' '} </span>
-                        </NavLink> */}
 
 
                 {login ?
@@ -121,10 +113,7 @@ export default function NavBar() {
 
                             {login && !login.professional ?
 
-                                // ------------------------------Opciones Perfil cliente-------------------------------
-
-
-
+    // ------------------------------Opciones Perfil cliente-------------------------------
 
                                 <div className='dropdown'>
                                     <button
@@ -132,36 +121,77 @@ export default function NavBar() {
                                         id="dropdownMenuButton1"
                                         data-bs-toggle="dropdown"
                                         type="button"
-                                        aria-expanded="false"
-                                    ></button>
+                                        aria-expanded="false">
+                                    </button>
+                                    
                                     <ul
                                         className="dropdown-menu"
                                         aria-labelledby="dropdownMenuButton1"
                                     >
 
-                                        <li><span className={s.dropdown_item + " dropdown-item"} >Perfil Cliente</span></li>
+                                        <li>
+                                            <span className={s.dropdown_item + " dropdown-item"} >
+                                                Perfil Cliente
+                                            </span>
+                                        </li>
+                                        
                                         <NavLink to={`/clients/${login?.id}`}>
-                                            <li><span
-                                                className={s.dropdown_item + " dropdown-item"}
-                                            >Ver mi Perfil</span></li>
+                                            <li>
+                                                <span className={s.dropdown_item + " dropdown-item"}>
+                                                        Ver mi Perfil
+                                                </span>
+                                            </li>
                                         </NavLink>
-                                        <li><NavLink to='editUser'><span className={s.dropdown_item + " dropdown-item"} >Editar Perfil</span></NavLink></li>
-                                        <li><span className={s.dropdown_item + " dropdown-item"} >Servicios Solicitados</span></li>
-                                        <li><span
+
+                                        <li>
+                                            <NavLink to='editUser'>
+                                                <span className={s.dropdown_item + " dropdown-item"} >
+                                                    Editar Perfil
+                                                </span>
+                                            </NavLink>
+                                        </li>
+                                        
+                                        <li>
+                                            <span className={s.dropdown_item + " dropdown-item"} >
+                                                Servicios Solicitados
+                                            </span>
+                                        </li>
+                                        
+                                        <li>
+                                            <span
                                             className={s.dropdown_item + " dropdown-item"}
-                                            onClick={showFormProfessionalOffer5}
-                                        >Crear Publicacion</span></li>
-                                        <li><span className={s.dropdown_item + " dropdown-item"} >Notificaciones</span></li>
-                                        <li><span className={s.dropdown_item + " dropdown-item"} >Carrito</span></li>
-                                        <li><span className={s.dropdown_item} >Registrarse Como Tecnico</span></li>
+                                            onClick={showFormProfessionalOffer5}>
+                                                Crear Publicacion
+                                            </span>
+                                        </li>
+
+                                        <li>
+                                            <span className={s.dropdown_item + " dropdown-item"} >
+                                                Notificaciones
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span className={s.dropdown_item + " dropdown-item"} >
+                                                Carrito
+                                            </span>
+                                        </li>
+                                        
+                                        <li>
+                                            <span className={s.dropdown_item} >
+                                                Registrarse Como Tecnico
+                                            </span>
+                                        </li>
+                                        
                                         <li><span
                                             className={s.dropdown_item + " dropdown-item"}
                                             onClick={logout}
-                                        >Cerrar sesion</span></li>
+                                            >
+                                            Cerrar sesion</span>
+                                        </li>
                                     </ul>
                                 </div>
                                 :
-                                // ------------------------------Opciones Perfil Tecnico---------------------------------
+// ------------------------------Opciones Perfil Tecnico---------------------------------
 
                                 <div className='dropdown'>
                                     <button
@@ -169,37 +199,92 @@ export default function NavBar() {
                                         id="dropdownMenuButton1"
                                         data-bs-toggle="dropdown"
                                         type="button"
-
                                         aria-expanded="false"
-                                    ></button>
+                                    >
+                                    </button>
 
                                     <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
-                                        <li><span className={s.dropdown_item + " dropdown-item"} >Perfil Profesional</span></li>
-                                        <li><NavLink to='editUser'><span className={s.dropdown_item + " dropdown-item"} >Editar Perfil</span></NavLink></li>
-                                        <li><span className={s.dropdown_item + " dropdown-item"} >Ofrecer Servicios Profesionales</span></li>
-                                        <li><span className={s.dropdown_item + " dropdown-item"} >Ver Trabajos Pendientes</span></li>
-                                        <li><span className={s.dropdown_item + " dropdown-item"} >Notificaciones</span></li>
-                                        <li><span className={s.dropdown_item + " dropdown-item"} >Carrito</span></li>
-                                        <li><span className={s.dropdown_item + " dropdown-item"} >------------</span></li>
-                                        <li><span className={s.dropdown_item + " dropdown-item"} >Ver perfil Cliente</span></li>
-                                        <li><span
+                                        
+                                        <li>
+                                            <span className={s.dropdown_item + " dropdown-item"} >
+                                                Perfil Profesional
+                                            </span>
+                                        </li>
+                                        
+                                        <li>
+                                            <NavLink to='editUser'>
+                                                <span className={s.dropdown_item + " dropdown-item"} >Editar Perfil
+                                                </span>
+                                            </NavLink>
+                                        </li>
+                                        
+                                        <li>
+                                            <NavLink to='ProfessionalServiceOffer' >
+                                                <span className={s.dropdown_item + " dropdown-item"} 
+                                                    >Agregá tu Servicio Profesional
+                                                </span>
+                                            </NavLink>
+                                        </li>
+                                        
+                                        <li>
+                                            <span className={s.dropdown_item + " dropdown-item"} 
+                                                >Ver Trabajos Pendientes
+                                            </span>
+                                        </li>
+                                        
+                                        <li>
+                                            <span className={s.dropdown_item + " dropdown-item"} >Notificaciones
+                                            </span>
+                                        </li>
+                                        
+                                        <li>
+                                            <span className={s.dropdown_item + " dropdown-item"} 
+                                                >Carrito
+                                            </span>
+                                        </li>
+                                        
+                                        <li>
+                                            <span className={s.dropdown_item + " dropdown-item"} >------------
+                                            </span>
+                                        </li>
+                                        
+                                        <li>
+                                            <span className={s.dropdown_item + " dropdown-item"} 
+                                                >Ver perfil Cliente
+                                            </span>
+                                        </li>
+                                        
+                                        <li>
+                                            <span
                                             className={s.dropdown_item + " dropdown-item"}
                                             onClick={showFormProfessionalOffer5}
-                                        >Crear Publicacion</span></li>
-                                        {/* <li><span className={s.dropdown_item + " dropdown-item"} >Crear Publicacion</span></li> */}
-                                        <li><span className={s.dropdown_item + " dropdown-item"} >Servicios Solicitados</span></li>
-                                        <li><span className={s.dropdown_item + " dropdown-item"} onClick={logout}>Cerrar sesion</span></li>
+                                                >Crear Publicacion
+                                            </span>
+                                        </li>
+
+                                        <li>
+                                            <span className={s.dropdown_item + " dropdown-item"} 
+                                                >Servicios Solicitados
+                                            </span>
+                                        </li>
+                                        
+                                        <li>
+                                            <span 
+                                                className={s.dropdown_item + " dropdown-item"} 
+                                                onClick={logout}
+                                                    >Cerrar sesion
+                                            </span>
+                                        </li>
+
                                     </ul>
                                 </div>
-
                             }
                         </div>
                     </>
-                    : <></>
-
+                    : 
+                    <></>
                 }
             </div>
         </div>
-
     )
 };
