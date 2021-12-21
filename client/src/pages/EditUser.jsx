@@ -4,6 +4,8 @@ import {useGlobalStorage} from '../hooks/useGlobalStorage';
 import { useDispatch, useSelector } from "react-redux";
 import { getByUserId, filterProfessions } from '../redux/actions';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import {useNavigate } from "react-router-dom";
 
 export default function EditCliente() {
 
@@ -14,6 +16,7 @@ export default function EditCliente() {
     const [buttonSubmit, setbuttonSubmit] = useState(false)
     const oficio = useSelector((state) => state.professionsName)
     const [profession, setProfession] = useState([])
+    const navigate = useNavigate()
 
     const [details, setDetails] = useState({
         firstName: globalUser.first_name,
@@ -31,26 +34,67 @@ export default function EditCliente() {
     },[])
     
     
-    function validate(valores){
-        let errores = {};
-        
+    useEffect(() => {
+        let errores = {}
         //validacion nombre
-        console.log('error: ',valores)
-        if(!valores.firstName) {
+        if(!details.firstName) {
             errores.firstName = 'Por favor ingresa tu nombre'
-        }else if(!/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(valores.firstName)){
+        }else if(!/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(details.firstName)){
             errores.firstName= 'El nombre solo puede contener letras y espacios'
+        } else {
+            errores.firstName= false;
         }
-
-        return errores;
-    }
+        
+        //validar apellido
+        if(!details.lastName) {
+            errores.lastName = 'Por favor ingresa tu apellido'
+        }else if(!/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(details.lastName)){
+            errores.lastName= 'El apellido solo puede contener letras y espacios'
+        } else {
+            errores.lastName = false;
+        }
+        
+        //validacion correo
+        if(!details.email) {
+            errores.email = 'Por favor ingresa tu correo electronico'
+        }else if(! /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(details.email)){
+            errores.email= 'El correo solo puede contener letras,numeros, puntos, guiones y guion bajo'
+        } else {
+            errores.email = false;
+        }
+        
+        //validacion DNI  /^[0-9]+$/  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
+        if(!details.dni) {
+            errores.dni = 'Por favor ingresa un DNI'
+        }else if(!/^[0-9]+$/.test(details.dni)){
+            errores.dni = 'El DNI solo puede contener numeros'
+        } else {
+            errores.dni = false;
+        }
+        
+        //validacion password
+        if(!details.password) {
+            errores.password = 'Por favor ingresa un password'
+        }else if(! /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(details.password)){
+            errores.password= 'El password debe tener mínimo ocho caracteres, al menos una letra y un número'
+        } else {
+            errores.password = false;
+        }
+        
+        //validacion Repeat-password
+        if(details.password === details.repeatPassword) {
+            errores.repeatPassword = false;
+        } else {
+            errores.repeatPassword = 'Las passwords no coinciden'
+        }
+        setErrors({
+            ...errors,
+            ...errores
+        })
+    }, [details.dni, details.email, details.firstName, details.lastName, details.password, details.repeatPassword])
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
-
-        const err = validate(details)
-
-        setErrors(err)
 
         try{
             let prof= profession.toString()
@@ -75,6 +119,14 @@ export default function EditCliente() {
                 rofessional: details.professional,
                 
             })
+            Swal.fire({
+                title: 'Los cambios fueron aceptados',
+                text: 'En la brevedad los cambios se ejecutaran',
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+
+            });
+            navigate('/')
         }catch(e){
             console.log(e)
         }
@@ -86,9 +138,6 @@ export default function EditCliente() {
             [e.target.name] : e.target.value
             
         })
-        setErrors(
-            validate(errors)
-        )
         
     }
 
@@ -140,14 +189,14 @@ export default function EditCliente() {
                 </div>
             <form className={s.container_edilt_form} onSubmit={(e) => handleSubmit(e)}>
                 <div className={s.container_edilt_form_input}>
-                    <label >Nombre: </label>
-                    <input 
+                    <label>Nombre: </label>
+                    <input
                         type="text"  
                         name="firstName"
                         value={details.firstName}
                         onChange={(e) => handleChange(e)}
                     />
-                    {!errors.name && (
+                    {errors.firstName && (
                         <p>{errors.firstName}</p>
                     )}
                 </div>
@@ -159,9 +208,9 @@ export default function EditCliente() {
                         value={globalUser.last_name}
                         onChange={(e) => handleChange(e)}
                     />
-                    {/* {!errors.name && (
+                    {errors.name && (
                         <p >{errors.lastName}</p>
-                    )} */}
+                    )}
                 </div>
                 <div className={s.container_edilt_form_input}>
                     <label >Correo: </label>
@@ -171,9 +220,9 @@ export default function EditCliente() {
                         value={globalUser.email}
                         onChange={(e) => handleChange(e)}
                     />
-                    {/* {errors.email && (
+                    {errors.email && (
                         <p>{errors.email}</p>
-                    )} */}
+                    )}
                 </div>
                 <div className={s.container_edilt_form_input}>
                     <label>DNI:</label>
@@ -190,9 +239,9 @@ export default function EditCliente() {
                         name='password'
                         // onChange={(e) => handleChange(e)}
                     />
-                    {/* {errors.password && (
+                    {errors.password && (
                         <p>{errors.password}</p>
-                    )} */}
+                    )}
                 </div>
                 <div className={s.container_edilt_form_input}>
                     <label>Repeat Password:</label>
@@ -201,9 +250,9 @@ export default function EditCliente() {
                         name='repeatPassword'
                         // onChange={(e) => handleChange(e)}
                     />
-                    {/* {errors.repeatPassword && (
+                    {errors.repeatPassword && (
                         <p>{errors.repeatPassword}</p>
-                    )} */}
+                    )}
                 </div>
                 <div className={s.container_edilt_form_input}>
                     <label >Teléfono: </label>
@@ -281,7 +330,7 @@ export default function EditCliente() {
 
 //////--------------------- edit de cliente -------------------------------
 
-                    <div className={s.container_edilt_form_pofcional}>
+                    <div className={s.container_edilt_form_pofesional}>
                         <label>Dar de alta como profecional:<input
                                 type='checkbox'
                                 value={globalUser.professional}
@@ -289,36 +338,42 @@ export default function EditCliente() {
                                 onChange={(e) => handleCheck(e)}
                         /></label>
                         <div className={s.subDiv}>
-                            <label for="countries">Seleccona tu Oficio:</label>
-                            <div>
-                                <select 
-                                className={s.inputClass3}
-                                onChange={changeCountry}
-                                value={details.profession}
-                                >
-                                <option >Elige tu profesión</option>
-                                {oficio.map(e => {
-                                    return (<option >{e}</option>)
-                                })
-                                }
-                                </select>
-                                <input 
-                                onClick={onClick} 
-                                className={s.btnAdd} 
-                                type="button" 
-                                value="+" 
-                                />
-                            </div>
-                            <div className={s.countriesDiv}>
+                        {
+                            details.professionalCase ? (
+                                <>
+                                    <label for="countries">Seleccona tu Oficio:</label>
+                                    <div>
+                                        <select 
+                                        className={s.inputClass3}
+                                        onChange={changeCountry}
+                                        value={details.profession}
+                                        >
+                                        <option >Elige tu profesión</option>
+                                        {oficio.map(e => {
+                                            return (<option >{e}</option>)
+                                        })
+                                        }
+                                        </select>
+                                        <input 
+                                        onClick={onClick} 
+                                        className={s.btnAdd} 
+                                        type="button" 
+                                        value="+" 
+                                        />
+                                    </div>
+                                    <div className={s.countriesDiv}>
 
-                                {
-                                profession.map(e => {
-                                    return(
-                                    <input type="button" value={e} className={s.countryBtn}  onClick={onClose} />
-                                    )
-                                    
-                                    })}
-                            </div>
+                                        {
+                                        profession.map(e => {
+                                            return(
+                                            <input type="button" value={e} className={s.countryBtn}  onClick={onClose} />
+                                            )
+                                            
+                                            })}
+                                    </div>
+                                </>
+                            ) : (<></>)
+                        }
                         </div>
                         
                     
