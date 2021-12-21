@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { FiSearch } from 'react-icons/fi'
 import s from './styles/Search.modules.css'
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {searchByName, getAllProfessionals, } from '../redux/actions'
 
 
