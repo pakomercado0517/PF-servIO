@@ -27,7 +27,7 @@ export default function EditCliente() {
         profession:profession.toString(),
     })
 
-    console.log('profecional: ', globalUser.professional)
+    console.log('profesional: ', globalUser.professional)
     useEffect(() => {
         dispatch(getByUserId(login?.id))  
         dispatch(filterProfessions (oficio))      
@@ -116,7 +116,7 @@ export default function EditCliente() {
                 email: details.email,
                 dni:details.dni,
                 password:details.password,
-                rofessional: details.professional,
+                professional: details.professional,
                 
             })
             Swal.fire({
@@ -331,7 +331,7 @@ export default function EditCliente() {
 //////--------------------- edit de cliente -------------------------------
 
                     <div className={s.container_edilt_form_pofesional}>
-                        <label>Dar de alta como profecional:<input
+                        <label>Dar de alta como profesional:<input
                                 type='checkbox'
                                 value={globalUser.professional}
                                 checked={details.professionalCase}
