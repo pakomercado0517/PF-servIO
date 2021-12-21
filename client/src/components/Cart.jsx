@@ -11,10 +11,9 @@ import axios from 'axios'
 // import { useMercadoPago } from '../hooks/useMercadoPago'
 
 // require('dotenv').config();
-// const { ACCESS_PUBLIC } = process.env.local;
+const { REACT_APP_ACCESS_PUBLIC } = process.env;
 
 export default function Cart() {
-    console.log(process.env.ACCESS_PUBLIC)
     let mp;
     const { MercadoPago } = useScript(
         "https://sdk.mercadopago.com/js/v2",
@@ -23,7 +22,7 @@ export default function Cart() {
     
     useEffect(() => {
         if(MercadoPago){
-            mp = new MercadoPago( "ACCESS_PUBLIC" ,{
+            mp = new MercadoPago( REACT_APP_ACCESS_PUBLIC ,{
                 locale: 'es-AR'
             });
         }
@@ -43,14 +42,24 @@ export default function Cart() {
     }
 
     async function axiosMP(){
-        await axios.post("http://localhost:3001/create_preference",{
-            items: [
-                {
-                title: 'Compra de servicios',
-                unit_price: total,
-                quantity: 1,
+        let request;
+        if(cart[0]){
+            request = cart.map(el =>{
+                return {
+                    title: el.name,
+                    unit_price: el.price,
+                    quantity: el.count
                 }
-            ]
+            })
+        } else {
+            request = [{
+                title: "",
+                unit_price: 0,
+                quantity: 0,
+            }]
+        }
+        await axios.post("http://localhost:3001/create_preference",{
+            items: request
         })
         .then(function(response) {
             console.log("Pasee primer then", response.data)
@@ -69,7 +78,7 @@ export default function Cart() {
         })
         .catch(function() {
             alert("Unexpected error");
-            document.getElementById("cho-container").disable = true
+            document.getElementById("cho-container").disabled = true
         });
     }
     const [cart, setCart] = useGlobalStorage("cart", [])
@@ -106,7 +115,7 @@ export default function Cart() {
             </div>
             <div className={s.container_buttons}>
                 <span>Total: { total }</span>
-                <button id='checkout_button' disabled="true" className={ 'btn btn-success' } onClick={ axiosMP }> Continuar Compra</button>
+                <button id='checkout_button' className={ 'btn btn-success' } onClick={ axiosMP }> Continuar Compra</button>
                 <div id='cho-container'></div>
             </div>
             <div className='shopping-cart'></div>

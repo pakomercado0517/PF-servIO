@@ -16,11 +16,11 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
   const [ login ] = useGlobalStorage("globalUser", "")
 
   useEffect(() => {
-      if (!login) {
-        setSwitcheo("professional")
-      } else if(login.professional){
-        setSwitcheo("user")
-      }
+      // if (!login) {
+      //   setSwitcheo("professional")
+      // } else if(login.professional){
+      //   setSwitcheo("user")
+      // }
     }, [])
 
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {

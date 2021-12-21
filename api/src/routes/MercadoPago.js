@@ -2,28 +2,26 @@ const { Router } = require("express");
 const router = Router();
 const mercadopago = require('mercadopago')
 
-// require('dotenv').config();
 const { ACCESS_TOKEN } = process.env;
 mercadopago.configure({
 	access_token: ACCESS_TOKEN,
 });
 
 router.post('/', (req, res, next) =>{
-  console.log(req.body)
+  console.log(req.body.items)
   console.log("aqui")
     let preference = {
-        items: [
-          {
-            title: req.body.items[0].title,
-            unit_price: req.body.items[0].unit_price,
-            quantity: 1,
-          }
-        ]
+        items: req.body.items,
+        // notification_url: "http://localhost:3001/create_preference/data_payments",
+        back_urls: {
+          success: "http://localhost:3000/",
+          failure: "http://localhost:3000/",
+          pending: "http://localhost:3000/"
+      },
       };
       
       mercadopago.preferences.create(preference)
       .then(function(response){
-        console.log("thenn")
       // Este valor reemplazará el string "<%= global.id %>" en tu HTML
         // global.id = response.body.id;
         res.json({
@@ -36,6 +34,16 @@ router.post('/', (req, res, next) =>{
 
 router.get('/', (req, res) =>{
   res.send({message: "si entra"})
+})
+
+router.post('/data_payments', (req, res) =>{
+  console.log(req.query)
+  res.send({message: "OK"})
+})
+
+router.get('/data_payments', (req, res) =>{
+  console.log(req.query)
+  res.send({message: "OK"})
 })
 
 module.exports= router;
