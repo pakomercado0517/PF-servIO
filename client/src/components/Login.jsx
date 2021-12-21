@@ -26,6 +26,7 @@ export default function Login() {
     const [errors, setErrors] = useState({});
     const [globalUser, setGlobalUser] = useGlobalStorage("globalUser", "");
     const [localUser, setLocalUser] = useLocalStorage("localUser", "");
+    const [ switcheo, setSwitcheo] = useGlobalStorage("switcheo", "")
     const validate = (input) => {
         let errors = {};
         if (!input.email) {
@@ -70,6 +71,11 @@ export default function Login() {
             // console.log('post login data',post.data.id)
 
             if( post.statusText === 'OK') {
+                if(post.data.data.professional) {
+                    setSwitcheo("user")
+                } else {
+                    setSwitcheo('professional')
+                }
                 Swal.fire({
                     icon: 'success',
                     title: 'Logged in',

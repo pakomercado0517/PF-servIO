@@ -17,12 +17,14 @@ import { ProfessionalOfferToClientNeed } from '../components/ProfessionalOfferTo
 
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
+import { useParams } from 'react-router-dom';
 
 export default function Home(){
     
     const dispatch = useDispatch();
     const professionals = useSelector(state => state.professionals);
-    
+    const {params} = useParams()
+    console.log("PARAMS: --->",params)
     const clientNeeds = useSelector(state => state.clientNeeds);
     const switcheo = useSelector(state => state.switch)
     const stateRedux = useSelector(state => state)
