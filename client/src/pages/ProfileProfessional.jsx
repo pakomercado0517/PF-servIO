@@ -26,7 +26,7 @@ export default function ProfileProfessional(){
     const specificActivities = useSelector((state) => state.specificActivitiesById)
     console.log('specifiiiic',specificActivities);
     
-    const idSpecificActivities = specificActivities.map((item) => item.id)
+    const idSpecificActivities = specificActivities !== "There are not specifical Activities" && specificActivities.map((item) => item.id)
     console.log(idSpecificActivities);
 
 
@@ -97,7 +97,7 @@ export default function ProfileProfessional(){
                     {
                         specificActivities && specificActivities !== 'There are not specifical Activities' && specificActivities.map((el, index) => 
                             (
-                                <NavLink to={"/"}>
+                                <NavLink to={"/ProfessionalSpecificActivity/" + el.id}>
                                     <CardParticularService
                                         name= { el.name }
                                         description= { el.description }
