@@ -307,9 +307,9 @@ module.exports = {
   },
 
   newTechnicalActivity: async (req, res) => {
-    const { name, price, photo, materials, decription, guarantee_time } =
+    const { name, price, photo, materials, decription, guarantee_time, id } =
       req.body;
-    const id = req.session.passport.user
+
 
     if (!id) {
       res.send("Please login");
