@@ -5,6 +5,7 @@ import { setToGlobalStorage } from '../redux/actions'
 import { useSelector, useDispatch } from "react-redux";
 
 function getStorageValue(key, defaultValue) {
+    
   // getting stored value
   const saved = localStorage.getItem(key);
   const initial = JSON.parse(saved);
@@ -12,25 +13,28 @@ function getStorageValue(key, defaultValue) {
 }
 
 export const useGlobalStorage = (key, defaultValue) => {
-    const actualValue = getStorageValue(key + "GlobalStorage", defaultValue);
+    const keyGlobal = key + "GlobalStorage"
+    const actualValue = getStorageValue(keyGlobal, defaultValue);
     const state = useSelector( state => state )
     const dispatch=useDispatch()
 
-    if(actualValue===defaultValue) localStorage.setItem(key + "GlobalStorage", JSON.stringify(actualValue))
+    // If value doesn't exist on localStorage, save value
+    if(actualValue===defaultValue) localStorage.setItem(keyGlobal, JSON.stringify(actualValue))
+
     // If value doesn't exist on store, dispatch value
-    if (!state.hasOwnProperty(key + "GlobalStorage")) {
-        dispatch(setToGlobalStorage({[key + "GlobalStorage"]: actualValue}))
+    if (!state.hasOwnProperty(keyGlobal)) {
+        dispatch(setToGlobalStorage({[keyGlobal]: actualValue}))
     }
   
     useEffect(() => {
-        if (state[key + "GlobalStorage"]) {
-            localStorage.setItem(key + "GlobalStorage", JSON.stringify(state[key + "GlobalStorage"]));
+        if (state[keyGlobal]) {
+            localStorage.setItem(keyGlobal, JSON.stringify(state[keyGlobal]));
         }
     }, [key, state]);
   
     const setValue = (value) => {
-    return dispatch(setToGlobalStorage({[key + "GlobalStorage"]: value}))
+    return dispatch(setToGlobalStorage({[keyGlobal]: value}))
     }
-    if (state[key + "GlobalStorage"] && state[key + "GlobalStorage"][0]) return [state[key + "GlobalStorage"], setValue]
+    if (state[keyGlobal] && state[keyGlobal][0]) return [state[keyGlobal], setValue]
     return [actualValue, setValue];
 };
