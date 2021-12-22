@@ -7,13 +7,15 @@ import {
     GET_BY_USER_ID, 
     GET_BY_ACCOUNT_ID,
     GET_SPECIFIC_ACTIVITIES_BYID,
+    GET_PROFESSIONAL_ACTIVITY_BY_ID,
     GLOBAL_LOCAL_STORAGE,
     ORDER_DATA, 
     FILTER_PROFESSIONS,
     SHOW_FORM_CLIENT_NEED,
     SHOW_FORM_PROFESSIONAL_OFFER,
     SWITCH_RENDER,
-    SEARCH_PROFESSIONAL_BY_NAME, 
+    SEARCH_PROFESSIONAL_BY_NAME,
+
 } from '../actions'
 
 
@@ -30,7 +32,8 @@ const initialState = {
     professionsName:[],
     switch: true,
     account: [],
-    specificActivitiesById: []
+    specificActivitiesById: [],
+    professionalActivityById: [],
 
 };
 
@@ -45,6 +48,11 @@ function rootReducer( state = initialState, { type, payload } ) {
             return {
                 ...state,
                 specificActivitiesById: payload,
+            };
+        case GET_PROFESSIONAL_ACTIVITY_BY_ID:
+            return {
+                ...state,
+                professionalActivityById: payload,
             };
         case GLOBAL_LOCAL_STORAGE:
             return {
