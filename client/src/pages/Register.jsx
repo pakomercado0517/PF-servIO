@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {useNavigate } from "react-router-dom";
+
 import Swal from 'sweetalert2'
 import axios from 'axios'
-import {useNavigate } from "react-router-dom";
 import s from './styles/Register.module.css'
-// import { useNavigate } from "react-router-dom";
 import { CgOptions } from 'react-icons/cg';
 
-// import { useDispatch } from 'react-redux';
-// import { getByAccountId } from '../redux/actions';
+import { filterProfessions } from '../redux/actions';
 
 export default function Crear() {
+
+    useEffect(() => {
+        dispatch(filterProfessions())      
+    }, [])
     
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const[oficio, setOficio] = useState([])
+    const { professionsName } = useSelector(state => state)
     const[errors, setErrors] = useState({
         firstName:"",
         lastName: "",
@@ -22,25 +29,11 @@ export default function Crear() {
     });
     const [buttonSubmit, setbuttonSubmit] = useState(false)
 
-    // const dispatch = useDispatch()
-    
-    // const history = useNavigate() //redirige a '/....'
-    // const oficio = useSelector((state) => state.professionsName)
-    const oficio = [
-        "pintor",
-        "carpintero",
-        "albañil",
-        "electricista",
-        "plomero",
-        "herrero",
-        "cerrajero",
-        "tapicero",
-        "gasista",
-        "sastre",
-        "soldador",
-        "niñera",
-        "cuidadosMayores",
-    ]
+    useEffect(() => {
+        if (professionsName){
+            setOficio(professionsName)
+        }
+    }, [professionsName])
     
     const [details, setDetails] = useState({
         firstName:'',
@@ -54,8 +47,7 @@ export default function Crear() {
         city:'',
         profession:[],
     })
-    useEffect(() => {
-    }, [])
+    
     
     useEffect(() => {
         if (!buttonSubmit) {
