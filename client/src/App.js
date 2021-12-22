@@ -49,7 +49,7 @@ function App() {
           path="/ProfessionalSpecificActivity/:id"
           element={<ProfessionalSpecificActivity />}
         />
-         <Route
+        <Route
           exact
           path="/detailsClientNeeds/:id"
           element={<DetailsClientNeed />}

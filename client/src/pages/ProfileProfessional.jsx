@@ -8,11 +8,12 @@ import star from '../img/star.svg'
 import s from './styles/ProfileProfessional.module.css'
 import { useSelector, useDispatch } from 'react-redux';
 import { getByUserId, getSpecificActivitiesById } from '../redux/actions';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 
 export default function ProfileProfessional(){
 
+    const { id } = useParams()
     const dispatch= useDispatch();
     const [state, setstate] = useState({
         login: false,
@@ -21,11 +22,13 @@ export default function ProfileProfessional(){
     })
     
     const professionals = useSelector((state) => state.user)
-    const specificActivities = useSelector((state) => state.specificActivitiesById)
-    const { id } = useParams()
 
-    useEffect(() => {
-    }, [])
+    const specificActivities = useSelector((state) => state.specificActivitiesById)
+    console.log('specifiiiic',specificActivities);
+    
+    const idSpecificActivities = specificActivities.map((item) => item.id)
+    console.log(idSpecificActivities);
+
 
     useEffect(()=>{
         dispatch(getByUserId(id))
@@ -46,7 +49,7 @@ export default function ProfileProfessional(){
     }
 
     return (
-         <div className={ s.container }>
+        <div className={ s.container }>
 
             <div className={s.container_details}>
                 <div className={ s.container_details_photo }>
@@ -69,10 +72,6 @@ export default function ProfileProfessional(){
                         </div>
                     </div>
                 </div>
-                {/* <Link className={s.container_details_linkEdit} to="/">
-                    <FaRegEdit size="40px" className={s.logoEdit}>
-                    </FaRegEdit>
-                </Link> */}
                 {
                     state.login ? (
                         <NavLink to='/necesidades'>
@@ -95,11 +94,15 @@ export default function ProfileProfessional(){
                     }
                     {
                         specificActivities && specificActivities !== 'There are not specifical Activities' && specificActivities.map((el, index) => {
-                            return (<CardParticularService
-                            name= { el.name }
-                            description= { el.description }
-                            price= { el.price }
-                            />)
+                            return (
+                                <Link to={`ProfessionalSpecificActivity/${specificActivities.id}`}>
+                                    <CardParticularService
+                                        name= { el.name }
+                                        description= { el.description }
+                                        price= { el.price }
+                                    />
+                                </Link>
+                                )
                         })
                     }
                 </div>
