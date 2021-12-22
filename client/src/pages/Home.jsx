@@ -18,7 +18,8 @@ import { ProfessionalOfferToClientNeed } from '../components/ProfessionalOfferTo
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
 import { NavLink, useParams } from 'react-router-dom';
-import Footer from '../components/Footer'
+import Footer from '../components/Footer';
+import img from '../img/undraw_welcome_cats_thqn.svg';
 
 export default function Home(){
     
@@ -42,7 +43,7 @@ export default function Home(){
     let indexOfFirstPost = indexOfLastPost - postsPerPage;
     let currentPosts = switcheo2 === "professional" ? professionals?.slice(indexOfFirstPost, indexOfLastPost) : clientNeeds?.slice(indexOfFirstPost, indexOfLastPost)
     const [currentPosts2, setCurrentPosts2] = useLocalStorage("currentPosts", currentPosts)
-
+    const [globalUser, setGlobalUser] = useGlobalStorage("globalUser", "");
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     const [input, setInput] = useState({
@@ -53,6 +54,12 @@ export default function Home(){
 
     // VISIBILIDAD DEL LANDING DE PRESENTACIÓN //
     const [landing, setLanding] = useLocalStorage("landing", "visible")
+
+    //dependiendo si son cliente o profecional (welcome)
+    const [details, setDetails] = useState({
+        professional: globalUser.professional,
+        
+    })
     
     function landingView(){
         if (landing==="visible") setLanding("NoVisible")
@@ -105,6 +112,23 @@ export default function Home(){
                     </ul>
                 </div>
             </div>
+
+        {/* {WELCOME CARD} */}
+            {
+                globalUser.professional === false ? 
+                <div className={s.card_gat}>
+                    <div className={s.card_gat_text}>
+                        <p>Aprobecha y volvete un prodecionañ en nuestra seccion "Volvese profecional"
+                            en la barra desplegable de un perdil
+                        </p>
+                    </div>
+                    <div className={s.card_gat_img}>
+                        <img src={img}/>
+                    </div>
+                    
+                </div> : 
+                <></>
+            }
             
             {/* COMPONENTE LANDING DE PRESENTACIÓN */}
 
