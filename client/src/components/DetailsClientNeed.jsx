@@ -14,13 +14,13 @@ export default function DetailsClientNeed() {
   let ranked= 2.6
   useEffect(()=> {
     dispatch(getDetailsClientNeed(id))
-  }, [])
+  }, [ dispatch, id ])
   useEffect(()=> {
     dispatch(getByUserId(detailsClientNeed.UserId))
-  }, [detailsClientNeed])
-  useEffect(() => {
-      console.log(detailsClientNeed)
-  }, [user])
+  }, [ dispatch, detailsClientNeed ])
+  // useEffect(() => {
+  //     console.log(detailsClientNeed)
+  // }, [user])
   return (
     <div>
       <div className={s.container_ativity}>
@@ -30,7 +30,7 @@ export default function DetailsClientNeed() {
           {/* |---------------------------Profile Photo...----------------------------------------| */}
 
           <div className={s.professional_img}>
-            <img src={ user[0]?.photo } className={s.p_image} />
+            <img src={ user[0]?.photo } alt= 'img' className={s.p_image} />
           </div>
 
           {/* |---------------------------Float card...----------------------------------------| */}
