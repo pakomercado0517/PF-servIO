@@ -93,17 +93,17 @@ export default function ProfileProfessional(){
                         )
                     }
                     {
-                        specificActivities && specificActivities !== 'There are not specifical Activities' && specificActivities.map((el, index) => {
-                            return (
-                                <Link to={`ProfessionalSpecificActivity/${specificActivities.id}`}>
+                        specificActivities && specificActivities !== 'There are not specifical Activities' && specificActivities.map((el, index) => 
+                            (
+                                <NavLink to={"/"}>
                                     <CardParticularService
                                         name= { el.name }
                                         description= { el.description }
                                         price= { el.price }
                                     />
-                                </Link>
-                                )
-                        })
+                                </NavLink>
+                            )
+                        )
                     }
                 </div>
                 <div className={ state.seeAllServices?s.container_cards_second:s.container_cards_second_all }>
