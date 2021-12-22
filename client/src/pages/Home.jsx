@@ -17,7 +17,7 @@ import { ProfessionalOfferToClientNeed } from '../components/ProfessionalOfferTo
 
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 
 export default function Home(){
     
@@ -137,13 +137,16 @@ export default function Home(){
                 <div>
                     {
                         currentPosts2?.length > 0 ? currentPosts?.map((user)=>(
-                            <CardClientNeed key={user.id}
+                            <NavLink className={s.card_client_need} to={"/detailsClientNeeds/"+user.id}>
+                                <CardClientNeed key={user.id}
                                 name={ user.name }
                                 description={ user.description }
                                 date={ user.date }
                                 userId={ user.userId }
                                 location={ user.location }
                                 />
+                            </NavLink>
+                            
                         )): <h1>No hay mas resultados</h1>
                     }
                 </div>

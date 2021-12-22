@@ -97,3 +97,8 @@
   justify-items: center;
 }
 
+.card_client_need {
+  text-decoration: none;
+  color: black;
+}
+
