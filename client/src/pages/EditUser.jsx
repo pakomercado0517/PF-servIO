@@ -10,13 +10,13 @@ import {useNavigate } from "react-router-dom";
 export default function EditCliente() {
 
     const [globalUser, setGlobalUser] = useGlobalStorage("globalUser", "");
-    const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
-    const dispatch = useDispatch();
+
     const[errors, setErrors] = useState({});
-    const [buttonSubmit, setbuttonSubmit] = useState(false)
-    const oficio = useSelector((state) => state.professionsName)
     const [profession, setProfession] = useState([])
+    const oficio = useSelector((state) => state.professionsName)
+
     const navigate = useNavigate()
+    const dispatch = useDispatch();
 
     const [details, setDetails] = useState({
         firstName: globalUser.first_name,
@@ -29,8 +29,7 @@ export default function EditCliente() {
 
     console.log('profesional: ', globalUser.professional)
     useEffect(() => {
-        dispatch(getByUserId(login?.id))  
-        dispatch(filterProfessions (oficio))      
+        dispatch(filterProfessions())      
     },[])
     
     
@@ -109,7 +108,7 @@ export default function EditCliente() {
 
             }
             await axios.put(`http://localhost:3001/user/updateUser/101`, newData)
-            setGlobalUser({
+            const obj = {
                 ...globalUser,
                 first_name:details.firstName,
                 last_name: details.lastName,
@@ -117,8 +116,8 @@ export default function EditCliente() {
                 dni:details.dni,
                 password:details.password,
                 professional: details.professional,
-                
-            })
+            }
+            setGlobalUser(obj)
             Swal.fire({
                 title: 'Los cambios fueron aceptados',
                 text: 'En la brevedad los cambios se ejecutaran',
@@ -140,22 +139,27 @@ export default function EditCliente() {
         })
         
     }
+    useEffect(() => {
+        
+    }, [details])
 
     function handleCheck(e){
         console.log(details.professionalCase)
-        if (e.target.id === 'checkboxClient') {
-            setDetails({
+        if (e.target.id === 'checkboxClient' && details.professionalCase) {
+            const obj = {
                 ...details,
                 professionalCase:false,
                 professional:"false",
                 profession: []
-            })
+            }
+            setDetails(obj)
         } else {
-            setDetails({
+            const obj = {
                 ...details,
                 professionalCase:true,
-                professional:"true",
-            })
+                professional:"true"
+            }
+            setDetails(obj)
         }
     } 
 
@@ -229,7 +233,7 @@ export default function EditCliente() {
                     <input 
                         type='text'
                         name='dni'
-                        readonly
+                        readOnly
                         />
                 </div>
                 <div className={s.container_edilt_form_input}>
@@ -293,8 +297,8 @@ export default function EditCliente() {
                             value={details.profession}
                             >
                             <option >{details.profession}</option>
-                            {oficio.map(e => {
-                                return (<option >{e}</option>)
+                            {oficio.map((e, index) => {
+                                return (<option key={ "options" + index}>{e}</option>)
                             })
                             }
                             </select>
@@ -319,7 +323,7 @@ export default function EditCliente() {
                             <label>Dar de baja como profesional:<input
                             type='checkbox'
                             id="checkboxClient"
-                            checked={!details.professionalCase}
+                            defaultChecked={details.professionalCase}
                             value='cliente'
                             onChange={(e) => handleCheck(e)}
                         /></label>    
