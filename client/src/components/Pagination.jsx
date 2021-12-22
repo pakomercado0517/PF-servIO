@@ -1,27 +1,18 @@
-import React, {useState, useEffect} from "react";
-import './styles/pagination.css'
-// import s from './styles/pa'
+import React, {useState} from "react";
 import {changeSwitch} from '../redux/actions'
 import {useDispatch} from 'react-redux'
-
 import { useGlobalStorage } from "../hooks/useGlobalStorage";
+
+import './styles/pagination.css'
+// import s from './styles/pa'
 
 const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
 
-  const pageNumbers = [];
-  const [state, setstate] = useState("professional")
-  const [switcheo, setSwitcheo] = useGlobalStorage("switcheo", "professional")
+  const [ , setstate] = useState("professional")
   const dispatch = useDispatch()
-
+  const [switcheo, setSwitcheo] = useGlobalStorage("switcheo", "professional")
   const [ login ] = useGlobalStorage("globalUser", "")
-
-  useEffect(() => {
-      // if (!login) {
-      //   setSwitcheo("professional")
-      // } else if(login.professional){
-      //   setSwitcheo("user")
-      // }
-    }, [])
+  const pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
     pageNumbers.push(i);
@@ -45,12 +36,44 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
       {
         (login && login.professional) ? (
           <>
-            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-              <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" onClick={(e) => moodRender(e.target.id)} checked={switcheo === 'professional'} />
-              <label class="btn btn-outline-info" for="btnradio2">Profesionales</label>
+            <div 
+              class="btn-group" 
+              role="group" 
+              aria-label="Basic radio toggle button group"
+            >
+              <input 
+                type="radio" 
+                className="btn-check" 
+                name="btnradio" 
+                id="btnradio2" 
+                autoComplete="off" 
+                onClick={(e) => moodRender(e.target.id)} 
+                defaultChecked={switcheo === 'professional'} />
+              
+              <label 
+                className="btn btn-outline-info" 
+                htmlFor="btnradio2"
+              >
+                Profesionales
+              </label>
 
-              <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" onClick={(e) => moodRender(e.target.id)} checked={switcheo === 'user'} />
-              <label class="btn btn-outline-info" for="btnradio1">Usuarios</label>
+              <input 
+                type="radio" 
+                className="btn-check" 
+                name="btnradio" 
+                id="btnradio1" 
+                autoComplete="off" 
+                onClick={(e) => moodRender(e.target.id)} 
+                defaultChecked={switcheo === 'user'} 
+              />
+              
+              <label 
+                className="btn btn-outline-info" 
+                htmlFor="btnradio1"
+              >
+                Usuarios
+              </label>
+            
             </div>
           </>
         ):<></>
