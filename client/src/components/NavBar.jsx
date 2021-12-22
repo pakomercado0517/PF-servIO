@@ -36,14 +36,6 @@ export default function NavBar() {
         // }
     },[])
 
-    // useEffect(()=>{
-    // },[login])
-
-
-    // function showMyProfile(){
-
-        {/* http://localhost:3000/clients/${id} */}
-    // }
 
     function showModalFormCLient(){
         dispatch(showFormClientNeed("show"))
@@ -206,9 +198,11 @@ export default function NavBar() {
                                     <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
                                         
                                         <li>
+                                            <NavLink to={`/professional/${stateTotalRedux.globalUserGlobalStorage.id}`}>
                                             <span className={s.dropdown_item + " dropdown-item"} >
                                                 Perfil Profesional
                                             </span>
+                                            </NavLink>
                                         </li>
                                         
                                         <li>

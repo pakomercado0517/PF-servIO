@@ -17,6 +17,9 @@ function ProfessionalSpecificActivity() {
   const professionalActivities = useSelector(state => state.professionalActivities)
   console.log('profesional activities',professionalActivities)
   
+  const specificActivities = useSelector((state) => state.specificActivitiesById)
+
+
   useEffect( ()=> {
   dispatch(getByAccountId(id))
   dispatch(getProfessionalActivityById(id))
