@@ -97,7 +97,7 @@ export default function ProfileProfessional(){
                     {
                         specificActivities && specificActivities !== 'There are not specifical Activities' && specificActivities.map((el, index) => 
                             (
-                                <NavLink to={"/"}>
+                                <NavLink to={"/ProfessionalSpecificActivity/" + el.id}>
                                     <CardParticularService
                                         name= { el.name }
                                         description= { el.description }
