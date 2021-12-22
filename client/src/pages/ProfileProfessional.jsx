@@ -58,7 +58,9 @@ export default function ProfileProfessional(){
                     <h1>
                         {professionals[0]?.first_name + ' ' + professionals[0]?.last_name}
                     </h1>
-                    <h2>Mecánica automotriz.</h2>
+                    <h2>
+                        {professionals[0]?.Professional.Professions[0].name}
+                    </h2>
                     <h5>
                         {professionals[0]?.state + ' ' + professionals[0]?.city}
                     </h5>
