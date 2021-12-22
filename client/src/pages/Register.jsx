@@ -27,10 +27,19 @@ export default function Crear() {
     // const history = useNavigate() //redirige a '/....'
     // const oficio = useSelector((state) => state.professionsName)
     const oficio = [
+        "pintor",
         "carpintero",
-        "herrero",
+        "albañil",
         "electricista",
-        "albañil"
+        "plomero",
+        "herrero",
+        "cerrajero",
+        "tapicero",
+        "gasista",
+        "sastre",
+        "soldador",
+        "niñera",
+        "cuidadosMayores",
     ]
     
     const [details, setDetails] = useState({
