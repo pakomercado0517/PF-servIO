@@ -307,32 +307,30 @@ module.exports = {
   },
 
   newTechnicalActivity: async (req, res) => {
-    const { name, price, photo, materials, decription, guarantee_time, id } =
-      req.body;
 
-
-    if (!id) {
-      res.send("Please login");
-    } else {
+    const { name, price, photo, materials, description, guarantee, guarantee_time, job_time, userId} = req.body;
+    
       try {
         let activityFromProfession = await SpecificTechnicalActivity.create({
           name,
           price,
           photo,
           materials,
-          decription,
+          description,
+          guarantee,
           guarantee_time,
+          job_time
         });
 
         let professional = await Professional.findAll({
-          where: { UserId: id },
+          where: { UserId: userId},
         });
         await activityFromProfession.setProfessional(professional[0]);
         res.status(200).send(activityFromProfession);
       } catch (error) {
         res.status(400).send(error.message);
       }
-    }    
+    // }
   },
   //COMENTAR QUE SE REQUIERE INPUT DIRECTO DE IDS DE USUARIOS
   newTransaction: async (req, res) => {

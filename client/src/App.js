@@ -45,7 +45,7 @@ function App() {
         />
         <Route
           exact
-          path="/ProfessionalSpecificActivity"
+          path="/ProfessionalSpecificActivity/:id"
           element={<ProfessionalSpecificActivity />}
         />
 
