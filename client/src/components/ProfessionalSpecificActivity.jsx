@@ -1,22 +1,36 @@
 import React, {useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {NavLink, useParams} from 'react-router-dom'
-import {getProfessionalActivityById, getByUserId} from '../redux/actions/index'
+import {getProfessionalActivityById, getByAccountId} from '../redux/actions/index'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPhoneAlt} from '@fortawesome/free-solid-svg-icons'
 import {StarRating} from './StarRating'
 import './styles/ProfessionalSpecificActivity.css'
 
 function ProfessionalSpecificActivity() {
+  
   const {id}= useParams()
+  console.log('id', id)
   const dispatch= useDispatch()
-  const professionalActivities = useSelector(state => state.professionalActivities)
   const user = useSelector(state => state.user)
+  
+  const professionalActivities = useSelector(state => state.professionalActivities)
+  console.log('profesional activities',professionalActivities)
+  
+  useEffect( ()=> {
+  dispatch(getByAccountId(id))
+  dispatch(getProfessionalActivityById(id))
+  }, [dispatch, id])
+  
+  console.log('user',user)
+  
+  
+  const activities = useSelector(state => state.professionalActivityById)
+  console.log('activities',activities)
+    
+  
   let ranked= 2.6
-  useEffect(async ()=> {
-    await dispatch(getByUserId(id))
-    await dispatch(getProfessionalActivityById(id))
-  }, [getProfessionalActivityById, getByUserId])
+  
   console.log('activities......', professionalActivities)
   // console.log('user....', user[0].Professional.Professions[0])
   return (
@@ -49,29 +63,29 @@ function ProfessionalSpecificActivity() {
           <div className='professional-showProfessions' >
             <div><h3 className='professions-title'>Professiones:</h3></div>
             <div className='professions-container'>
-              {
+              {/* {
               user[0]?.Professional.Professions.map(el=> {
                 return(
                   <div className='profession'>{el.name.toUpperCase()}</div>
                 )
                 })
-              }
+              } */}
             </div>
           </div>
         </div>
         {/* |-------------------------------body--------------------------------------| */}
 
         <div className='activity-body'>
-            <h2 className='body-title'>{professionalActivities[0]?.name}</h2>
+            {/* <h2 className='body-title'>{professionalActivities[0]?.name}</h2> */}
             <div className='description-card'>
               <h3>Descripción</h3>
               <div className='description-text'>
-                <p>{professionalActivities[0]?.description}</p>
+                {/* <p>{professionalActivities[0]?.description}</p> */}
               </div>
             </div>
         </div>
 
-        <div className='details'>
+        {/* <div className='details'>
           <h3>Detalles   <hr className='line'/></h3>
         </div>
         <div className='details-components'>
@@ -81,7 +95,7 @@ function ProfessionalSpecificActivity() {
           <div className='price'>
             <h4>Precio:</h4><span>{professionalActivities[0]?.price}</span>
           </div>
-        </div>
+        </div> */}
 
         {/* |-----------------------------buttons-----------------------| */}
 

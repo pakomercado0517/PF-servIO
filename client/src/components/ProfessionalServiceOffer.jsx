@@ -17,14 +17,14 @@ export const ProfessionalServiceOffer = () => {
     // const user = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
 
     const [form, setForm] = useState({
-        name: "",
-        description: "", // no esta en la base de datos
-        photo: "",
-        materials: "", // boolean
-        price: "",
-        guarantee: "",  // no esta en la base de datos
-        guarantee_time: "", // no esta en la base de datos
-        job_time: "",  // días
+        name: "", //ok en db
+        description: "", // ok en db
+        photo: "", //ok en db
+        materials: "", // boolean ok en db
+        price: "", // ok en db
+        guarantee: "",  // ok en db
+        guarantee_time: "", // ok en db
+        job_time: "",  // ok en db
         // professionalId: "",
         userId: user?.id,
     })
@@ -54,7 +54,6 @@ export const ProfessionalServiceOffer = () => {
         e.preventDefault()
         try {
 
-            
             const post = await axios.post('http://localhost:3001/TecnicalsActivities', form);
             console.log('post 58',post)
 

@@ -18,6 +18,7 @@ import { ProfessionalOfferToClientNeed } from '../components/ProfessionalOfferTo
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
 import { NavLink, useParams } from 'react-router-dom';
+import Footer from '../components/Footer'
 
 export default function Home(){
     
@@ -154,6 +155,8 @@ export default function Home(){
 
             {/* DIV MUESTRA LOS TESTIMONIOS (FEEBACK DE LOS USUARIOS) */}
             { !(login && (login.message === "Logged")) ? <TestimoniosHome></TestimoniosHome>:<></>}
+            
+            <Footer/>
         </div>    
     )
 }

@@ -307,30 +307,30 @@ module.exports = {
   },
 
   newTechnicalActivity: async (req, res) => {
-    const { name, price, photo, materials, decription, guarantee_time } =
-      req.body;
-    if (!req.session.userId) {
-      res.send("Please login");
-    } else {
+
+    const { name, price, photo, materials, description, guarantee, guarantee_time, job_time, userId} = req.body;
+    
       try {
         let activityFromProfession = await SpecificTechnicalActivity.create({
           name,
           price,
           photo,
           materials,
-          decription,
+          description,
+          guarantee,
           guarantee_time,
+          job_time
         });
 
         let professional = await Professional.findAll({
-          where: { UserId: req.session.userId },
+          where: { UserId: userId},
         });
         await activityFromProfession.setProfessional(professional[0]);
-        res.status(200).send(professional);
+        res.status(200).send(activityFromProfession);
       } catch (error) {
         res.status(400).send(error.message);
       }
-    }
+    // }
   },
   //COMENTAR QUE SE REQUIERE INPUT DIRECTO DE IDS DE USUARIOS
   newTransaction: async (req, res) => {
@@ -685,6 +685,19 @@ module.exports = {
       res.status(400).send(error.message);
     }
   },
+  getById: async (req, res) =>{
+    const id = req.params.id;
+    if(id) {
+      const need = await ClientNeed.findOne({
+        where:{
+          id
+        }
+      })
+      res.status(200).send(need)
+    }else{
+      res.status(400).send('Please insert an id') 
+    }
+  }
   // newSpecificalNeed: async (req, res) =>{
   //     const {name, description, location} = req.body
   //     const newNeed = await ClientNeed.create({

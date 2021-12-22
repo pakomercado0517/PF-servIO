@@ -7,6 +7,7 @@ import {
     GET_BY_USER_ID, 
     GET_BY_ACCOUNT_ID,
     GET_SPECIFIC_ACTIVITIES_BYID,
+    GET_PROFESSIONAL_ACTIVITY_BY_ID,
     GLOBAL_LOCAL_STORAGE,
     ORDER_DATA, 
     FILTER_PROFESSIONS,
@@ -32,7 +33,8 @@ const initialState = {
     professionsName:[],
     switch: true,
     account: [],
-    specificActivitiesById: []
+    specificActivitiesById: [],
+    professionalActivityById: [],
 
 };
 
@@ -52,6 +54,11 @@ function rootReducer( state = initialState, { type, payload } ) {
             return {
                 ...state,
                 specificActivitiesById: payload,
+            };
+        case GET_PROFESSIONAL_ACTIVITY_BY_ID:
+            return {
+                ...state,
+                professionalActivityById: payload,
             };
         case GLOBAL_LOCAL_STORAGE:
             return {

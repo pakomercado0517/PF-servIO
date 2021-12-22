@@ -267,7 +267,7 @@ export default function EditCliente() {
                 </div>
 
                 <div className={s.container_edilt_form_input_img} >
-                    <label for="imageFile">Selecciona alguna imágen (png):</label><br/>
+                    <label htmlFor="imageFile">Selecciona alguna imágen (png):</label><br/>
                     <div className={s.div_file}>
                         <p className={s.text}>Elegir archivo</p>
                         <input className={s.btn_enviar} 
@@ -285,7 +285,7 @@ export default function EditCliente() {
 ////////----------------------- edit Profesional -------------------- 
 
                     <div className={s.subDiv}>
-                        <label for="countries">Seleccona tu Oficio:</label>
+                        <label htmlFor="countries">Seleccona tu Oficio:</label>
                         <div>
                             <select 
                             className={s.inputClass3}
@@ -341,7 +341,7 @@ export default function EditCliente() {
                         {
                             details.professionalCase ? (
                                 <>
-                                    <label for="countries">Seleccona tu Oficio:</label>
+                                    <label htmlFor="countries">Seleccona tu Oficio:</label>
                                     <div>
                                         <select 
                                         className={s.inputClass3}
@@ -382,8 +382,7 @@ export default function EditCliente() {
                 }
 
                 <div >
-                    <p>Reguerdas que los campos que no edites nada no se  van a cambian, lo unico que no se 
-                    va a poder editar es el DNI.</p>  
+                    <p>Recuerda que los campos que no edites no cambiarán, lo unico que no podrás editar es el DNI.</p>  
                 </div>
                 
                 <button type='submit'id='buttonSubmit' className={"btn btn-success " + s.buttonSubmit} >Cambiar Perfil</button>
