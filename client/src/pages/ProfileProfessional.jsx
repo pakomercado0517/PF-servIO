@@ -8,7 +8,7 @@ import star from '../img/star.svg'
 import s from './styles/ProfileProfessional.module.css'
 import { useSelector, useDispatch } from 'react-redux';
 import { getByUserId, getSpecificActivitiesById } from '../redux/actions';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 
 export default function ProfileProfessional(){
