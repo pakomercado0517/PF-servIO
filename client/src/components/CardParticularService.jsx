@@ -1,16 +1,11 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
 import { useGlobalStorage } from '../hooks/useGlobalStorage'
-
 import s from './styles/CardParticularService.module.css'
 
 
 export default function CardParticularService(props) {
 
-    // const specificActivities = useSelector((state) => state.specificActivitiesById)
     const [cart, setCart] = useGlobalStorage("cart", [])
-    
-    // console.log('specificActivities', specificActivities)
 
     function addToCart(){
         const exist = cart.filter(el => el.name === props.name )
