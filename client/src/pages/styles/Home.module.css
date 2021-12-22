@@ -102,3 +102,30 @@
   color: black;
 }
 
+.card_gat{
+  display: flex;
+  align-items: flex-end;
+  background-color: #7879F1;
+  border-radius: 2rem;
+  margin: 3rem 6rem;
+  height: 200px;
+  
+
+}
+
+.card_gat_text{
+  height: 50%;
+  width: 50%;
+  margin-left: 2rem;
+}
+
+.card_gat_text p{
+  color: #fff;
+  text-align:justify;
+  
+}
+
+
+.card_gat_img img{
+  height: 250px;
+}
