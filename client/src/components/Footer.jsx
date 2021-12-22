@@ -7,7 +7,7 @@ export default function footer() {
     return (
         <div>
             <div className={s.titulo}>
-                <img src={img} ></img>
+                <img src={img} alt='img'></img>
             </div>
             <div className={s.sutTitulo}>
                 <p>CONTACTANOS EN LINKEDIN</p>
