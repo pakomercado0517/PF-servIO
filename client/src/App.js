@@ -12,6 +12,7 @@ import Nosotros from './pages/Nosotros.jsx';
 import HomeProfessional from './components/HomeProfessional';
 import { ProfessionalOfferToClientNeed } from './components/ProfessionalOfferToClientNeed';
 import { ProfessionalServiceOffer } from './components/ProfessionalServiceOffer';
+import DetailsClientNeed from './components/DetailsClientNeed';
 import Cart from './components/Cart';
 import EditUser from './pages/EditUser';
 
@@ -48,10 +49,11 @@ function App() {
           path="/ProfessionalSpecificActivity/:id"
           element={<ProfessionalSpecificActivity />}
         />
-
-        
-        
-
+         <Route
+          exact
+          path="/detailsClientNeeds/:id"
+          element={<DetailsClientNeed />}
+        />
       </Routes>
     </>
   );
