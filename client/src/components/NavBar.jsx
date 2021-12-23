@@ -169,16 +169,21 @@ export default function NavBar() {
                                         </li>
                                         
                                         <li>
-                                            <span className={s.dropdown_item} >
-                                                Registrarse Como Tecnico
-                                            </span>
+                                            <NavLink to='editUser'>
+                                                <span 
+                                                    className={s.dropdown_item + " dropdown-item"} 
+                                                    >
+                                                    Registrate como profesional
+                                                    </span>
+                                            </NavLink>
                                         </li>
                                         
-                                        <li><span
-                                            className={s.dropdown_item + " dropdown-item"}
-                                            onClick={logout}
-                                            >
-                                            Cerrar sesion</span>
+                                        <li>
+                                            <span
+                                                className={s.dropdown_item + " dropdown-item"}
+                                                onClick={logout}
+                                                >
+                                                Cerrar sesión</span>
                                         </li>
                                     </ul>
                                 </div>
