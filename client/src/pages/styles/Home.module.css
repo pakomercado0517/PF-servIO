@@ -117,6 +117,10 @@
   height: 50%;
   width: 50%;
   margin-left: 2rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
 }
 
 .card_gat_text p{

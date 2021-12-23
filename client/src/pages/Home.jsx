@@ -118,8 +118,13 @@ export default function Home(){
                 globalUser.professional === false ? 
                 <div className={s.card_gat}>
                     <div className={s.card_gat_text}>
-                        <p>Aprobecha y volvete un prodecionañ en nuestra seccion "Volvese profecional"
+                        {/* <p>Aprobecha y volvete un prodecionañ en nuestra seccion "Volvese profecional"
                             en la barra desplegable de un perdil
+                        </p> */}
+                        <p>
+                            Aprovechá y registrate como profesional en 
+                            nuestra seccion "Registrate como profesional"
+                            en la barra desplegable de tu perfil
                         </p>
                     </div>
                     <div className={s.card_gat_img}>
