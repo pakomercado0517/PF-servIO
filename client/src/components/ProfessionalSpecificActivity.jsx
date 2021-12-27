@@ -5,7 +5,8 @@ import {getProfessionalActivityById, getByAccountId} from '../redux/actions/inde
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPhoneAlt} from '@fortawesome/free-solid-svg-icons'
 import {StarRating} from './StarRating'
-import './styles/ProfessionalSpecificActivity.css'
+import s from './styles/ProfessionalSpecificActivity.module.css'
+
 
 function ProfessionalSpecificActivity() {
   
@@ -38,34 +39,34 @@ function ProfessionalSpecificActivity() {
   // console.log('user....', user[0].Professional.Professions[0])
   return (
     <div>
-      <div className='container-ativity'>
+      <div className={s.container_ativity}>
 
         {/* |---------------------------Banner...----------------------------------------| */}
-        <div className='activity-banner'>
+        <div className={s.activity_banner}>
           {/* |---------------------------Profile Photo...----------------------------------------| */}
 
-          <div className='professional-img'>
-            <img src={user[0]?.photo} className='p-image' />
+          <div className={s.professional_img}>
+            <img src={user[0]?.photo} className={s.p_image}/>
           </div>
 
           {/* |---------------------------Float card...----------------------------------------| */}
 
-          <div className='professional-floatCard'>
-              <div className='floatCard-title'>
+          <div className={s.professional_floatCard}>
+              <div className={s.floatCard_title}>
                 <h3>{`${user[0]?.first_name} ${user[0]?.last_name}`}</h3>
               </div>
-              <div className='floatCard-body'>
-                <p className='floatCard-p'>{`@${user[0]?.user_name}`}</p>
-                <p className='floatCard-p'><StarRating stars={ranked}/> <span className='floatCard-span'>{`${ranked}`}</span></p>
-                <p className='floatCard-p'><FontAwesomeIcon icon={faPhoneAlt}/><strong>Teléfono: </strong><span className='floatCard-span'>{user[0]?.phone}</span></p>
+              <div className={s.floatCard_body}>
+                <p className={s.floatCard_p}>{`@${user[0]?.user_name}`}</p>
+                <p className={s.floatCard_p}><StarRating stars={ranked}/> <span className={s.floatCard_span}>{`${ranked}`}</span></p>
+                <p className={s.floatCard_p}><FontAwesomeIcon icon={faPhoneAlt}/><strong>Teléfono: </strong><span className={s.floatCard_span}>{user[0]?.phone}</span></p>
               </div>
           </div>
 
           {/* |---------------------------Show Professions...----------------------------------------| */}
 
-          <div className='professional-showProfessions' >
-            <div><h3 className='professions-title'>Professiones:</h3></div>
-            <div className='professions-container'>
+          <div className={s.professional_showProfessions} >
+            <div><h3 className={s.professions_title}>Professiones:</h3></div>
+            <div className={s.professions_container}>
               {/* {
               user[0]?.Professional.Professions.map(el=> {
                 return(
@@ -78,11 +79,11 @@ function ProfessionalSpecificActivity() {
         </div>
         {/* |-------------------------------body--------------------------------------| */}
 
-        <div className='activity-body'>
+        <div className={s.activity_body}>
             {/* <h2 className='body-title'>{professionalActivities[0]?.name}</h2> */}
-            <div className='description-card'>
+            <div className={s.description_card}>
               <h3>Descripción</h3>
-              <div className='description-text'>
+              <div className={s.description_text}>
                 {/* <p>{professionalActivities[0]?.description}</p> */}
               </div>
             </div>
@@ -102,18 +103,18 @@ function ProfessionalSpecificActivity() {
 
         {/* |-----------------------------buttons-----------------------| */}
 
-        <div className='buttons-list'>
-          <div className='a-button'>
-            <NavLink to='#' className='link-button'>Volver</NavLink>
+        <div className={s.buttons_list}>
+          <div className={s.a_button}>
+            <NavLink to='#' className={s.link_button}>Volver</NavLink>
           </div>
           <div className='a-button'>
-            <NavLink to='#' className='link-button'>Descartar</NavLink>
+            <NavLink to='#' className={s.link_button}>Descartar</NavLink>
           </div>
           <div className='a-button'>
-            <NavLink to='#' className='link-button'>Carrito</NavLink>
+            <NavLink to='#' className={s.link_button}>Carrito</NavLink>
           </div>
           <div className='a-button'>
-            <NavLink to='#' className='link-button'>Contratar</NavLink>
+            <NavLink to='#' className={s.link_button}>Contratar</NavLink>
           </div>
         </div>
         
