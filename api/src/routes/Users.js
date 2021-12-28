@@ -2,6 +2,9 @@ const { Router } = require("express");
 const router = Router();
 const userFunctions = require("../controllers/index.js");
 const passport = require("passport");
+const { User } = require("../db");
+
+require("../config/googleConfig");
 
 // router.post("/", userFunctions.newUser);
 router.post(
@@ -11,9 +14,10 @@ router.post(
     failureFlash: true,
   }),
   (req, res, next) => {
-    
     // res.redirect(`/user/${req.user.id}`);
-    res.status(200).json({ "message": "Register completed!" , "result": req.user?.id});
+    res
+      .status(200)
+      .json({ message: "Register completed!", result: req.user?.id });
     next();
     (req, res) => {
       res.redirect(`/user/${req.user.id}`);
@@ -27,8 +31,25 @@ router.post(
     failureFlash: true,
   }),
   (req, res, next) => {
-    res.send({ message: "Logged", cookies: req.session, userType: req.user.professional? 'Professional': 'Normal User', data : req.user });
+    res.send({
+      message: "Logged",
+      cookies: req.session,
+      userType: req.user.professional ? "Professional" : "Normal User",
+      data: req.user,
+    });
   }
+);
+router.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
+);
+
+router.get(
+  "/googleAuth",
+  passport.authenticate("google", {
+    failureRedirect: "http://localhost:3000/login",
+  }),
+  userFunctions.googleSignin
 );
 router.post("/logout", userFunctions.logOut);
 
