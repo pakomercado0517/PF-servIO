@@ -9,8 +9,8 @@ import { getByUserId, getDetailsClientNeed } from '../redux/actions'
 
 export default function DetailsClientNeed() {
   const { detailsClientNeed, user } = useSelector(state => state)
-  console.log(detailsClientNeed);
-  console.log(user);
+  console.log('detailsclientneed',detailsClientNeed);
+  console.log('user en detailsclient need',user);
   const { id } = useParams()
   const dispatch = useDispatch()
   let ranked= 2.6
