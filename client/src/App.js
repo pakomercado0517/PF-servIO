@@ -16,6 +16,7 @@ import DetailsClientNeed from './components/DetailsClientNeed';
 import Cart from './components/Cart';
 import EditUser from './pages/EditUser';
 import { OffersToSpecificClientsNeeds } from './pages/OffersToSpecificClientsNeeds';
+import ServiceHistory from './pages/ServiceHistory';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
         <Route exact path="/cart/" element={<Cart />} />
         <Route exact path="/homeprofessional" element={<HomeProfessional />} />
         <Route exact path="/editUser" element={<EditUser />} />
+        <Route exact path="/service-history" element={<ServiceHistory />} />
 
         {/* tests */}
         <Route

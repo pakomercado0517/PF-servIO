@@ -55,6 +55,9 @@ export default function ProfileClient(){
 
                 <div className={ s.reviews }>
                     <h4>Últimas Solicitudes</h4>
+                    <Link to="/service-history">
+                        <button>Ver todas</button>
+                    </Link>
                     <div className={ s.reviews_container }>
                         { clientNeeds.map( clientNeed => {
                             return (
