@@ -15,7 +15,8 @@ import {
     SHOW_FORM_PROFESSIONAL_OFFER,
     SWITCH_RENDER,
     SEARCH_PROFESSIONAL_BY_NAME,
-    GET_DETAILS_CLIENT_NEED_BYID, 
+    GET_DETAILS_CLIENT_NEED_BYID,
+    GET_ALL_PROFESSIONAL_OFFERS
 } from '../actions'
 
 
@@ -35,6 +36,7 @@ const initialState = {
     account: [],
     specificActivitiesById: [],
     professionalActivityById: [],
+    allProfessionalsOffers: [],
 
 };
 
@@ -84,6 +86,11 @@ function rootReducer( state = initialState, { type, payload } ) {
             return {
                 ...state,
                 clientNeedById: payload,
+            };
+        case GET_ALL_PROFESSIONAL_OFFERS:
+            return {
+                ...state,
+                allProfessionalsOffers: payload,
             };
         case NEW_USER:
             return {

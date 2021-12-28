@@ -27,6 +27,8 @@ export const GLOBAL_LOCAL_STORAGE = 'GLOBAL_LOCAL_STORAGE';
 export const GET_SPECIFIC_ACTIVITIES_BYID = 'GET_SPECIFIC_ACTIVITIES_BYID';
 export const GET_PROFESSIONAL_ACTIVITY_BY_ID = 'GET_PROFESSIONAL_ACTIVITY_BY_ID';
 export const GET_DETAILS_CLIENT_NEED_BYID = 'GET_DETAILS_CLIENT_NEED_BYID';
+export const GET_DETAILS_PROFESSIONAL_OFFER_BYID = 'GET_DETAILS_PROFESSIONAL_OFFER_BYID'; //
+export const GET_ALL_PROFESSIONAL_OFFERS = 'GET_ALL_PROFESSIONAL_OFFERS';
 
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers () {
@@ -345,6 +347,18 @@ export const getProfessionalActivityById = (id) => {
     });
   };
 };
+
+export const getAllProfessionalOffers = () => {
+  return async (dispatch) => {
+    const response = await axios.get(
+      `${constants.localhost}/professsionalOffer/all`
+    );
+    dispatch({
+      type: GET_ALL_PROFESSIONAL_OFFERS,
+      payload: response.data,
+    });
+  }
+}
 
 export function changeSwitch(boolean) {
   return {

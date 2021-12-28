@@ -15,6 +15,7 @@ import { ProfessionalServiceOffer } from './components/ProfessionalServiceOffer'
 import DetailsClientNeed from './components/DetailsClientNeed';
 import Cart from './components/Cart';
 import EditUser from './pages/EditUser';
+import { OffersToSpecificClientsNeeds } from './pages/OffersToSpecificClientsNeeds';
 
 
 function App() {
@@ -34,26 +35,27 @@ function App() {
 
         {/* tests */}
         <Route
-          exact
-          path="/ProfessionalServiceOffer"
+          exact path="/ProfessionalServiceOffer"
           element={<ProfessionalServiceOffer />}
         />
         
         <Route
-          exact
-          path="/ProfessionalOfferToClientNeed"
+          exact path="/ProfessionalOfferToClientNeed"
           element={<ProfessionalOfferToClientNeed />}
         />
         <Route
-          exact
-          path="/ProfessionalSpecificActivity/:id"
+          exact path="/ProfessionalSpecificActivity/:id"
           element={<ProfessionalSpecificActivity />}
         />
         <Route
-          exact
-          path="/detailsClientNeeds/:id"
+          exact path="/client/need/:id"
           element={<DetailsClientNeed />}
         />
+        <Route
+          exact path="/client/offerToNeed/:id"
+          element={<OffersToSpecificClientsNeeds />}
+        />
+        
       </Routes>
     </>
   );
