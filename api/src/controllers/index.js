@@ -3,9 +3,9 @@ const { Op } = require("sequelize");
 const Sequelize = require("sequelize");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
-const enviarEmail = require('../handlers/email')
-const crypto = require('crypto');
-var juice = require('juice');
+const enviarEmail = require("../handlers/email");
+const crypto = require("crypto");
+var juice = require("juice");
 // @ts-ignore
 const {
   User,
@@ -367,9 +367,9 @@ module.exports = {
       materials,
       guarantee_time,
       ClientNeedId,
-      UserId
+      UserId,
     } = req.body;
-    const user = await User.findOne({where:{ id:UserId}})
+    const user = await User.findOne({ where: { id: UserId } });
     try {
       if (user.professional === false) {
         res.status(400).send("Only Professionals can make an offer");
@@ -447,9 +447,9 @@ module.exports = {
           include: [{ model: Professional, include: [{ model: Profession }] }],
         });
         res.status(200).send(user);
-      }else{
-        res.status(200).send('El usuario no existe.');
-      }     
+      } else {
+        res.status(200).send("El usuario no existe.");
+      }
     } catch (error) {
       res.status(400).send(error.message);
     }
@@ -548,40 +548,39 @@ module.exports = {
       res.status(400).send(err.message);
     }
   },
-//MODIFICAR!!!!!!!!
+  //MODIFICAR!!!!!!!!
   getUserReceivedOffers: async (req, res) => {
-    const UserId = req.params.id
-    
+    const UserId = req.params.id;
+
     userNeeds = await ClientNeed.findAll({
       where: { UserId },
     });
 
-    if(userNeeds.length > 0) {
+    if (userNeeds.length > 0) {
       const needsId = await userNeeds.map((e) => e.id);
-    let receivedOffers = [];
-    for (let i = 0; i < needsId.length; i++) {
-      receivedOffers.push({
-        offer: await ProfessionalOffer.findAll({
-          where: { id: needsId[i] },
-        }),
-        needId:needsId[i]
-      });
-    }
-    res.send(receivedOffers);
-    }else{
-      res.send('Sin Ofertas')
+      let receivedOffers = [];
+      for (let i = 0; i < needsId.length; i++) {
+        receivedOffers.push({
+          offer: await ProfessionalOffer.findAll({
+            where: { id: needsId[i] },
+          }),
+          needId: needsId[i],
+        });
+      }
+      res.send(receivedOffers);
+    } else {
+      res.send("Sin Ofertas");
     }
   },
   getNeedReceivedOffers: async (req, res) => {
-    const ClientNeedId = req.params.id
-    const offers = await ProfessionalOffer.findAll({where:{ ClientNeedId }})
+    const ClientNeedId = req.params.id;
+    const offers = await ProfessionalOffer.findAll({ where: { ClientNeedId } });
 
-    if(offers.length > 0) {
-      res.send(offers)
-    }else{
-      res.send('No offers found')
+    if (offers.length > 0) {
+      res.send(offers);
+    } else {
+      res.send("No offers found");
     }
-
   },
   getAllProfessionsName: async (req, res) => {
     try {
@@ -752,97 +751,102 @@ module.exports = {
   //             }],
   //         })
 
-  getById: async (req, res) =>{
-      const id = req.params.id;
-      if(id) {
-        const need = await ClientNeed.findOne({
-          where:{
-            id
-          }
-        })
-        res.status(200).send(need)
-      }else{
-        res.status(400).send('Please insert an id') 
-      }
-    },
-  enviarToken : async(req, res) => {
-      const { email } = req.body
-      const usuario = await User.findOne({where: {email}})
-      if(!usuario) {
-          res.send('No existe esa cuenta');
-      }else{
-        usuario.token = crypto.randomBytes(20).toString('hex');
+  getById: async (req, res) => {
+    const id = req.params.id;
+    if (id) {
+      const need = await ClientNeed.findOne({
+        where: {
+          id,
+        },
+      });
+      res.status(200).send(need);
+    } else {
+      res.status(400).send("Please insert an id");
+    }
+  },
+  enviarToken: async (req, res) => {
+    const { email } = req.body;
+    const usuario = await User.findOne({ where: { email } });
+    if (!usuario) {
+      res.send("No existe esa cuenta");
+    } else {
+      usuario.token = crypto.randomBytes(20).toString("hex");
       usuario.expiracion = Date.now() + 3600000;
 
       //guardarlos en la base de datos
-      await usuario.save()
+      await usuario.save();
 
       //url de reset
-      const resetUrl = `http://${req.headers.host}/user/reestablecer/${usuario.token}`
+      const resetUrl = `http://${req.headers.host}/user/reestablecer/${usuario.token}`;
 
       //Enviar correo con el token
 
       // console.log(resetUrl)
 
       await enviarEmail.enviar({
-          usuario,
-          subject: 'Password Reset',
-          resetUrl,
-          archivo: `<h2>Restablecer Password</h2><p>Hola, has solicitado reestablecer tu password, haz click en el siguiente enlace para reestablecerlo, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${resetUrl} >Resetea tu password</a><p>Si no puedes acceder a este enlace, visita ${resetUrl}</p><div/>`
-      })
+        usuario,
+        subject: "Password Reset",
+        resetUrl,
+        archivo: `<h2>Restablecer Password</h2><p>Hola, has solicitado reestablecer tu password, haz click en el siguiente enlace para reestablecerlo, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${resetUrl} >Resetea tu password</a><p>Si no puedes acceder a este enlace, visita ${resetUrl}</p><div/>`,
+      });
       // res.redirect('/iniciar-sesion'/)
-      res.send('Se envio un mensaje a tu correo')
-      }  
-  },
-
-  validarToken : async (req, res) => {
-    const usuario = await User.findOne({
-        where: {
-            token: req.params.token
-        }
-    })
-
-    if(!usuario) {
-        res.send('Token invalido')
+      res.send("Se envio un mensaje a tu correo");
     }
-    res.send({estado:'valido', token:req.params.token})
   },
 
-
-
-  actualizarPassword : async(req, res) => {
+  validarToken: async (req, res) => {
     const usuario = await User.findOne({
-        where: {
-            token: req.params.token,
-            expiracion : {
-                [Op.gte] : Date.now()
-            }
-        }
-    })
+      where: {
+        token: req.params.token,
+      },
+    });
 
-    if(!usuario){
-        req.flash('error', 'No valido'),
-        res.redirect('/reestablecer/')
+    if (!usuario) {
+      res.send("Token invalido");
+    }
+    res.send({ estado: "valido", token: req.params.token });
+  },
+
+  actualizarPassword: async (req, res) => {
+    const usuario = await User.findOne({
+      where: {
+        token: req.params.token,
+        expiracion: {
+          [Op.gte]: Date.now(),
+        },
+      },
+    });
+
+    if (!usuario) {
+      req.flash("error", "No valido"), res.redirect("/reestablecer/");
     }
 
     //haashear el nuevo password para
-    usuario.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
+    usuario.password = bcrypt.hashSync(
+      req.body.password,
+      bcrypt.genSaltSync(10)
+    );
     usuario.token = null;
     usuario.expiracion = null;
 
     //guardar nuevo password
     await usuario.save();
-    res.send('Tu password se ha modificado correctamente')
+    res.send("Tu password se ha modificado correctamente");
   },
 
-  deleteByUserId : async (req, res) =>{
-    const id  = req.params.id
-
+  deleteByUserId: async (req, res) => {
+    const id = req.params.id;
+    const user = await User.findOne({ where: { id } });
+    user.destroy();
+    res.send(
+      `El usuario ${user.first_name + " " + user.last_name}  ha sido eliminado.`
+    );
+  },
 
   //     } catch (error) {
   //         // res.status(400).send(error.message)
   //     }
-  },
+  // },
   googleSignin: async (req, res, next) => {
     const profile = await req.user._json;
     console.log("user", profile);
@@ -875,31 +879,33 @@ module.exports = {
     next();
   },
 
-    const user = await User.findOne({ where:{id}})
-    user.destroy()
-    res.send(`El usuario ${user.first_name +' '+ user.last_name}  ha sido eliminado.`)
-  },
-
   updateNeed: async (req, res) => {
-    const {name, description, location, status,//   price,//   duration,//   guarantee_time
+    const {
+      name,
+      description,
+      location,
+      status, //   price,//   duration,//   guarantee_time
     } = req.body;
-    const id =req.params.id;
+    const id = req.params.id;
     try {
-      
-        const need = await ClientNeed.findOne({
-          where: {id}    
-        });
+      const need = await ClientNeed.findOne({
+        where: { id },
+      });
 
       if (need) {
-        need.name = name? name : need.name;
+        need.name = name ? name : need.name;
         need.description = description ? description : need.description;
-        need.location = location? location : need.location;
-        if(status === "done" || status === "in progress" || status === "in offer"){
+        need.location = location ? location : need.location;
+        if (
+          status === "done" ||
+          status === "in progress" ||
+          status === "in offer"
+        ) {
           need.status = status;
-        }else{
+        } else {
           need.status = need.status;
         }
-        
+
         await need.save();
 
         res.status(200).send(need);
@@ -912,22 +918,33 @@ module.exports = {
   },
 
   updateActivity: async (req, res) => {
-    const { name, price, photo, materials, description, guarantee, guarantee_time, job_time} = req.body;
-    const id =req.params.id;
-    try {      
-        const activity = await SpecificTechnicalActivity.findOne({
-          where: {id}    
-        });
+    const {
+      name,
+      price,
+      photo,
+      materials,
+      description,
+      guarantee,
+      guarantee_time,
+      job_time,
+    } = req.body;
+    const id = req.params.id;
+    try {
+      const activity = await SpecificTechnicalActivity.findOne({
+        where: { id },
+      });
 
       if (activity) {
-        activity.name = name? name : activity.name;
+        activity.name = name ? name : activity.name;
         activity.price = price ? price : activity.price;
-        activity.photo = photo? photo : activity.photo;
+        activity.photo = photo ? photo : activity.photo;
         activity.materials = materials ? materials : activity.materials;
-        activity.description = description? description : activity.description;
+        activity.description = description ? description : activity.description;
         activity.guarantee = guarantee ? guarantee : activity.guarantee;
-        activity.guarantee_time = guarantee_time ? guarantee_time : activity.guarantee_time;
-        activity.job_time = job_time ? job_time : activity.job_time;    
+        activity.guarantee_time = guarantee_time
+          ? guarantee_time
+          : activity.guarantee_time;
+        activity.job_time = job_time ? job_time : activity.job_time;
         await activity.save();
 
         res.status(200).send(activity);
@@ -937,6 +954,5 @@ module.exports = {
     } catch (error) {
       res.status(400).send(error.message);
     }
-
-  }
+  },
 };
