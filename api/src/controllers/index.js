@@ -3,6 +3,8 @@ const { Op } = require("sequelize");
 const Sequelize = require("sequelize");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
+const enviarEmail = require('../handlers/email')
+const crypto = require('crypto');
 // @ts-ignore
 const {
   User,
@@ -533,7 +535,7 @@ module.exports = {
       res.status(400).send(err.message);
     }
   },
-
+//MODIFICAR!!!!!!!!
   getUserReceivedOffers: async (req, res) => {
     userNeeds = await ClientNeed.findAll({
       where: { UserId: req.session.userId },
@@ -697,7 +699,37 @@ module.exports = {
     }else{
       res.status(400).send('Please insert an id') 
     }
-  }
+  },
+  enviarToken : async(req, res) => {
+    const { email } = req.body
+    const usuario = await User.findOne({where: {email}})
+    console.log(usuario)
+    if(!usuario) {
+        res.send('No existe esa cuenta');
+    }else{
+      usuario.token = crypto.randomBytes(20).toString('hex');
+    usuario.expiracion = Date.now() + 3600000;
+
+    //guardarlos en la base de datos
+    await usuario.save()
+
+    //url de reset
+    const resetUrl = `http://${req.headers.host}/reestablecer/${usuario.token}`
+
+    //Enviar correo con el token
+
+    // console.log(resetUrl)
+
+    await enviarEmail.enviar({
+        usuario,
+        subject: 'Password Reset',
+        resetUrl,
+        archivo: 'reestablecer-password'
+    })
+    // res.redirect('/iniciar-sesion'/)
+    res.send('Se envio un mensaje a tu correo')
+    }  
+}
   // newSpecificalNeed: async (req, res) =>{
   //     const {name, description, location} = req.body
   //     const newNeed = await ClientNeed.create({
