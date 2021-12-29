@@ -359,10 +359,12 @@ module.exports = {
       materials,
       guarantee_time,
       ClientNeedId,
+      UserId
     } = req.body;
+    const user = await User.findOne({where:{ id:UserId}})
     try {
-      if (!req.session.userId) {
-        res.status(400).send("Please Login");
+      if (user.professional === false) {
+        res.status(400).send("Only Professionals can make an offer");
       } else {
         const newOffert = await ProfessionalOffer.create({
           description,
@@ -375,7 +377,7 @@ module.exports = {
           where: { id: ClientNeedId },
         });
         let offert = await Professional.findAll({
-          where: { UserId: req.session.userId },
+          where: { UserId },
         });
         await newOffert.setProfessional(offert[0]);
         await newOffert.setClientNeed(clientNeeds[0]);
@@ -431,13 +433,15 @@ module.exports = {
       let user = await User.findAll({
         where: { id: { [Op.eq]: id } },
       });
-      if (user[0].dataValues.professional === true) {
+      if (user[0]) {
         user = await User.findAll({
           where: { id: { [Op.eq]: id } },
           include: [{ model: Professional, include: [{ model: Profession }] }],
         });
-      }
-      res.status(200).send(user);
+        res.status(200).send(user);
+      }else{
+        res.status(200).send('El usuario no existe.');
+      }     
     } catch (error) {
       res.status(400).send(error.message);
     }
@@ -538,21 +542,39 @@ module.exports = {
   },
 //MODIFICAR!!!!!!!!
   getUserReceivedOffers: async (req, res) => {
+    const UserId = req.params.id
+    
     userNeeds = await ClientNeed.findAll({
-      where: { UserId: req.session.userId },
+      where: { UserId },
     });
-    const needsId = await userNeeds.map((e) => e.id);
+
+    if(userNeeds.length > 0) {
+      const needsId = await userNeeds.map((e) => e.id);
     let receivedOffers = [];
     for (let i = 0; i < needsId.length; i++) {
-      receivedOffers.push(
-        await ProfessionalOffer.findAll({
+      receivedOffers.push({
+        offer: await ProfessionalOffer.findAll({
           where: { id: needsId[i] },
-        })
-      );
+        }),
+        needId:needsId[i]
+      });
     }
     res.send(receivedOffers);
+    }else{
+      res.send('Sin Ofertas')
+    }
   },
+  getNeedReceivedOffers: async (req, res) => {
+    const ClientNeedId = req.params.id
+    const offers = await ProfessionalOffer.findAll({where:{ ClientNeedId }})
 
+    if(offers.length > 0) {
+      res.send(offers)
+    }else{
+      res.send('No offers found')
+    }
+
+  },
   getAllProfessionsName: async (req, res) => {
     try {
       let professions = await Profession.findAll({});
@@ -689,130 +711,152 @@ module.exports = {
     }
   },
   getById: async (req, res) =>{
-    const id = req.params.id;
-    if(id) {
-      const need = await ClientNeed.findOne({
-        where:{
-          id
-        }
+      const id = req.params.id;
+      if(id) {
+        const need = await ClientNeed.findOne({
+          where:{
+            id
+          }
+        })
+        res.status(200).send(need)
+      }else{
+        res.status(400).send('Please insert an id') 
+      }
+    },
+  enviarToken : async(req, res) => {
+      const { email } = req.body
+      const usuario = await User.findOne({where: {email}})
+      if(!usuario) {
+          res.send('No existe esa cuenta');
+      }else{
+        usuario.token = crypto.randomBytes(20).toString('hex');
+      usuario.expiracion = Date.now() + 3600000;
+
+      //guardarlos en la base de datos
+      await usuario.save()
+
+      //url de reset
+      const resetUrl = `http://${req.headers.host}/user/reestablecer/${usuario.token}`
+
+      //Enviar correo con el token
+
+      // console.log(resetUrl)
+
+      await enviarEmail.enviar({
+          usuario,
+          subject: 'Password Reset',
+          resetUrl,
+          archivo: `<h2>Restablecer Password</h2><p>Hola, has solicitado reestablecer tu password, haz click en el siguiente enlace para reestablecerlo, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${resetUrl} >Resetea tu password</a><p>Si no puedes acceder a este enlace, visita ${resetUrl}</p><div/>`
       })
-      res.status(200).send(need)
-    }else{
-      res.status(400).send('Please insert an id') 
+      // res.redirect('/iniciar-sesion'/)
+      res.send('Se envio un mensaje a tu correo')
+      }  
+  },
+
+  validarToken : async (req, res) => {
+    const usuario = await User.findOne({
+        where: {
+            token: req.params.token
+        }
+    })
+
+    if(!usuario) {
+        res.send('Token invalido')
+    }
+    res.send({estado:'valido', token:req.params.token})
+  },
+
+
+  actualizarPassword : async(req, res) => {
+    const usuario = await User.findOne({
+        where: {
+            token: req.params.token,
+            expiracion : {
+                [Op.gte] : Date.now()
+            }
+        }
+    })
+
+    if(!usuario){
+        req.flash('error', 'No valido'),
+        res.redirect('/reestablecer/')
+    }
+
+    //haashear el nuevo password para
+    usuario.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
+    usuario.token = null;
+    usuario.expiracion = null;
+
+    //guardar nuevo password
+    await usuario.save();
+    res.send('Tu password se ha modificado correctamente')
+  },
+
+  deleteByUserId : async (req, res) =>{
+    const id  = req.params.id
+
+    const user = await User.findOne({ where:{id}})
+    user.destroy()
+    res.send(`El usuario ${user.first_name +' '+ user.last_name}  ha sido eliminado.`)
+  },
+
+  updateNeed: async (req, res) => {
+    const {name, description, location, status,//   price,//   duration,//   guarantee_time
+    } = req.body;
+    const id =req.params.id;
+    try {
+      
+        const need = await ClientNeed.findOne({
+          where: {id}    
+        });
+
+      if (need) {
+        need.name = name? name : need.name;
+        need.description = description ? description : need.description;
+        need.location = location? location : need.location;
+        if(status === "done" || status === "in progress" || status === "in offer"){
+          need.status = status;
+        }else{
+          need.status = need.status;
+        }
+        
+        await need.save();
+
+        res.status(200).send(need);
+      } else {
+        res.status(400).send("Inserta Id de necesidad existente");
+      }
+    } catch (error) {
+      res.status(400).send(error.message);
     }
   },
-  enviarToken : async(req, res) => {
-    const { email } = req.body
-    const usuario = await User.findOne({where: {email}})
-    if(!usuario) {
-        res.send('No existe esa cuenta');
-    }else{
-      usuario.token = crypto.randomBytes(20).toString('hex');
-    usuario.expiracion = Date.now() + 3600000;
 
-    //guardarlos en la base de datos
-    await usuario.save()
+  updateActivity: async (req, res) => {
+    const { name, price, photo, materials, description, guarantee, guarantee_time, job_time} = req.body;
+    const id =req.params.id;
+    try {      
+        const activity = await SpecificTechnicalActivity.findOne({
+          where: {id}    
+        });
 
-    //url de reset
-    const resetUrl = `http://${req.headers.host}/user/reestablecer/${usuario.token}`
+      if (activity) {
+        activity.name = name? name : activity.name;
+        activity.price = price ? price : activity.price;
+        activity.photo = photo? photo : activity.photo;
+        activity.materials = materials ? materials : activity.materials;
+        activity.description = description? description : activity.description;
+        activity.guarantee = guarantee ? guarantee : activity.guarantee;
+        activity.guarantee_time = guarantee_time ? guarantee_time : activity.guarantee_time;
+        activity.job_time = job_time ? job_time : activity.job_time;    
+        await activity.save();
 
-    //Enviar correo con el token
-
-    // console.log(resetUrl)
-
-    await enviarEmail.enviar({
-        usuario,
-        subject: 'Password Reset',
-        resetUrl,
-        archivo: `<h2>Restablecer Password</h2><p>Hola, has solicitado reestablecer tu password, haz click en el siguiente enlace para reestablecerlo, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${resetUrl} >Resetea tu password</a><p>Si no puedes acceder a este enlace, visita ${resetUrl}</p><div/>`
-    })
-    // res.redirect('/iniciar-sesion'/)
-    res.send('Se envio un mensaje a tu correo')
-    }  
-},
-
-validarToken : async (req, res) => {
-  const usuario = await User.findOne({
-      where: {
-          token: req.params.token
+        res.status(200).send(activity);
+      } else {
+        res.status(400).send("Inserta Id de actividad existente");
       }
-  })
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
 
-  if(!usuario) {
-      res.send('Token invalido')
   }
-  res.send({estado:'valido', token:req.params.token})
-},
-
-//verifica token valido y fecha de expiracion
-actualizarPassword : async(req, res) => {
-  const usuario = await User.findOne({
-      where: {
-          token: req.params.token,
-          expiracion : {
-              [Op.gte] : Date.now()
-          }
-      }
-  })
-
-  if(!usuario){
-      req.flash('error', 'No valido'),
-      res.redirect('/reestablecer/')
-  }
-
-  //haashear el nuevo password para
-  usuario.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
-  usuario.token = null;
-  usuario.expiracion = null;
-
-  //guardar nuevo password
-  await usuario.save();
-  res.send('Tu password se ha modificado correctamente')
-}
-  // newSpecificalNeed: async (req, res) =>{
-  //     const {name, description, location} = req.body
-  //     const newNeed = await ClientNeed.create({
-  //         name,
-  //         description,
-  //         location,
-  //         status: 'in offer'
-  //     })
-  //     res.send(newNeed)
-  // },
-  // getByProfessionName: async (req, res) =>{
-  //     const {profession} = req.body
-  //     const professionalArr = profession.split(',')
-  //     try {
-  //         const professionals = await Professional.findAll({
-  //             include:[{
-  //                 model: Profession
-  //             }],
-  //         })
-
-  //         const usersId = professionals.map(e => {
-
-  // if(professionalArr.length > 1){
-  //     for(let i=0; i<professionalArr.length; i++){
-
-  //         if(professionalArr[i].toLowerCase() === e.toLowerCase()){
-  //             return e
-  //         }
-  //     }
-  // }
-  // else{
-
-  //     if(professionalArr[0].toLowerCase() === e){
-  //         return e
-  //     }
-  // }
-  //             let obj = {professions : e.Professions, userId: e.id}
-  //             return obj
-  //         })
-
-  //         res.status(200).send(usersId)
-
-  //     } catch (error) {
-  //         // res.status(400).send(error.message)
-  //     }
-  // },
 };
