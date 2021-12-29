@@ -178,13 +178,13 @@ export default function Login() {
 
                     <div className="text-center row mb-1">
                         <p>¿Aún no te registras? <a href="/register">Registrate!</a></p>
-                        {/* <p>O regístrate con:</p> */}
+                        <p>O inicia con:</p>
 
-                        {/* <button 
+                        <a 
                             type="button" 
-                            className="btn btn-lg btn-google btn-block text-uppercase btn-outline" href="#">
+                            className="btn btn-lg btn-google btn-block text-uppercase btn-outline" href="http://localhost:3001/user/auth/google">
                             <img src="https://img.icons8.com/color/40/000000/google-logo.png" alt="google"/> 
-                        </button> */}
+                        </a>
                     </div>
 
                 </form>

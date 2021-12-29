@@ -2,6 +2,11 @@ const { Router } = require("express");
 const router = Router();
 const userFunctions = require("../controllers/index.js");
 const passport = require("passport");
+const { User } = require("../db");
+
+require("../config/googleConfig");
+
+let cacheUser = [];
 
 // router.post("/", userFunctions.newUser);
 router.post(
@@ -11,9 +16,10 @@ router.post(
     failureFlash: true,
   }),
   (req, res, next) => {
-    
     // res.redirect(`/user/${req.user.id}`);
-    res.status(200).json({ "message": "Register completed!" , "result": req.user?.id});
+    res
+      .status(200)
+      .json({ message: "Register completed!", result: req.user?.id });
     next();
     (req, res) => {
       res.redirect(`/user/${req.user.id}`);
@@ -27,9 +33,56 @@ router.post(
     failureFlash: true,
   }),
   (req, res, next) => {
-    res.send({ message: "Logged", cookies: req.session, userType: req.user.professional? 'Professional': 'Normal User', data : req.user });
+    res.send({
+      message: "Logged",
+      cookies: req.session,
+      userType: req.user.professional ? "Professional" : "Normal User",
+      data: req.user,
+    });
   }
 );
+
+router.post("/getGoogleUser", (req, res, next) => {
+  res.send(cacheUsergit);
+});
+
+router.get(
+  "/auth/google/signUp",
+  passport.authenticate("sign-in-google", {
+    scope: ["email", "profile"],
+  }),
+  (req, res) => {
+    if (req.user) {
+      res.cookie(req.session);
+      res.redirect("http://localhost:3000/login");
+    }
+  }
+);
+
+router.get(
+  "/auth/google/login",
+  passport.authenticate("sign-up-google", {
+    scope: ["email", "profile"],
+  }),
+  async (req, res) => {
+    cacheUser.pop();
+    // console.log("req.user", req.user._json);
+    const userResult = await User.findOne({
+      where: { email: req.user._json.email },
+    });
+    if (userResult) {
+      cacheUser.push(userResult);
+      console.log("cahche...", cacheUser);
+      res.redirect("http://localhost:3000");
+      // await res.json({
+      //   message: "Logged",
+      //   cookies: req.session,
+      //   data: req.user,
+      // });
+    }
+  }
+);
+
 router.post("/logout", userFunctions.logOut);
 
 // router.post("/", userFunctions.newUser);

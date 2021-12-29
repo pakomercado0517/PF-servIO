@@ -174,10 +174,9 @@ module.exports = {
       res.send(false);
     }
   },
-  logginData: async(req, res, next) => {
-    let professional = await User.findOne({ 
-    });
-    res.send(req.user?.id)
+  logginData: async (req, res, next) => {
+    let professional = await User.findOne({});
+    res.send(req.user?.id);
   },
   loginTestPassport: (req, res) => {
     if (req.isAuthenticated()) {
@@ -310,29 +309,38 @@ module.exports = {
   },
 
   newTechnicalActivity: async (req, res) => {
+    const {
+      name,
+      price,
+      photo,
+      materials,
+      description,
+      guarantee,
+      guarantee_time,
+      job_time,
+      userId,
+    } = req.body;
 
-    const { name, price, photo, materials, description, guarantee, guarantee_time, job_time, userId} = req.body;
-    
-      try {
-        let activityFromProfession = await SpecificTechnicalActivity.create({
-          name,
-          price,
-          photo,
-          materials,
-          description,
-          guarantee,
-          guarantee_time,
-          job_time
-        });
+    try {
+      let activityFromProfession = await SpecificTechnicalActivity.create({
+        name,
+        price,
+        photo,
+        materials,
+        description,
+        guarantee,
+        guarantee_time,
+        job_time,
+      });
 
-        let professional = await Professional.findAll({
-          where: { UserId: userId},
-        });
-        await activityFromProfession.setProfessional(professional[0]);
-        res.status(200).send(activityFromProfession);
-      } catch (error) {
-        res.status(400).send(error.message);
-      }
+      let professional = await Professional.findAll({
+        where: { UserId: userId },
+      });
+      await activityFromProfession.setProfessional(professional[0]);
+      res.status(200).send(activityFromProfession);
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
     // }
   },
   //COMENTAR QUE SE REQUIERE INPUT DIRECTO DE IDS DE USUARIOS
@@ -604,8 +612,8 @@ module.exports = {
       status,
       profession,
     } = req.body;
+    const id = req.params.id;
     try {
-      const id = req.params.id;
       await User.update(
         {
           first_name: firstName,
@@ -626,7 +634,7 @@ module.exports = {
           certification_img,
           status,
         },
-        { where: { UserId: id  } }
+        { where: { UserId: id } }
       );
 
       let prof = await Professional.findOne({
@@ -710,6 +718,40 @@ module.exports = {
       res.status(400).send(error.message);
     }
   },
+
+  getById: async (req, res) => {
+    const id = req.params.id;
+    if (id) {
+      const need = await ClientNeed.findOne({
+        where: {
+          id,
+        },
+      });
+      res.status(200).send(need);
+    } else {
+      res.status(400).send("Please insert an id");
+    }
+  },
+  // newSpecificalNeed: async (req, res) =>{
+  //     const {name, description, location} = req.body
+  //     const newNeed = await ClientNeed.create({
+  //         name,
+  //         description,
+  //         location,
+  //         status: 'in offer'
+  //     })
+  //     res.send(newNeed)
+  // },
+  // getByProfessionName: async (req, res) =>{
+  //     const {profession} = req.body
+  //     const professionalArr = profession.split(',')
+  //     try {
+  //         const professionals = await Professional.findAll({
+  //             include:[{
+  //                 model: Profession
+  //             }],
+  //         })
+
   getById: async (req, res) =>{
       const id = req.params.id;
       if(id) {
@@ -767,6 +809,7 @@ module.exports = {
   },
 
 
+
   actualizarPassword : async(req, res) => {
     const usuario = await User.findOne({
         where: {
@@ -794,6 +837,43 @@ module.exports = {
 
   deleteByUserId : async (req, res) =>{
     const id  = req.params.id
+
+
+  //     } catch (error) {
+  //         // res.status(400).send(error.message)
+  //     }
+  },
+  googleSignin: async (req, res, next) => {
+    const profile = await req.user._json;
+    console.log("user", profile);
+    const user = await User.findOne({ where: { email: profile.email } });
+    if (user) {
+      res.status(200).send({
+        message: "Logged",
+        cookies: req.session,
+        userType: user.professional ? "Professional" : "Normal User",
+        data: user,
+      });
+    }
+    if (!user) {
+      let registerUser = await User.create({
+        first_name: profile.given_name,
+        last_name: profile.family_name,
+        photo: profile.picture,
+        email: profile.email,
+        verified: profile.email_verified,
+        professional: false,
+      });
+      console.log("Se inició con exito, esta es la información", req.session);
+      res.status(200).send({
+        message: `Registered with id: ${registerUser.id}`,
+        cookies: req.session,
+        userType: "Normal User",
+        data: registerUser,
+      });
+    }
+    next();
+  },
 
     const user = await User.findOne({ where:{id}})
     user.destroy()

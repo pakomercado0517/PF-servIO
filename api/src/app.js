@@ -8,6 +8,7 @@ const cors = require("cors");
 const Strategy = require("passport-local").Strategy;
 
 require("./config/passport")(passport);
+require("./config/googleConfig");
 require("./db.js");
 const server = express();
 
