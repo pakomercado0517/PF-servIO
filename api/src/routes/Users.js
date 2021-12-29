@@ -44,5 +44,7 @@ router.get("/all", userFunctions.getAllUsers);
 router.get("/common", userFunctions.getAllCommonUsers);
 router.get("/professionals", userFunctions.getAllProfessionals);
 router.get("/:id", userFunctions.getByUserId);
-
+router.post('/reestablecer', userFunctions.enviarToken);
+router.get('/reestablecer/:token', userFunctions.validarToken);
+router.post('/reestablecer/:token', userFunctions.actualizarPassword);
 module.exports = router;
