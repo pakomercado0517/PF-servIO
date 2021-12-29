@@ -761,7 +761,7 @@ module.exports = {
         message: "Logged",
         cookies: req.session,
         userType: user.professional ? "Professional" : "Normal User",
-        data: req.user,
+        data: user,
       });
     }
     if (!user) {
@@ -778,10 +778,9 @@ module.exports = {
         message: `Registered with id: ${registerUser.id}`,
         cookies: req.session,
         userType: "Normal User",
-        data: req.user,
+        data: registerUser,
       });
-    } else {
-      return res.redirect("http://localhost:3000");
     }
+    next();
   },
 };

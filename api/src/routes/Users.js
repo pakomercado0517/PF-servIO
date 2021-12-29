@@ -6,6 +6,8 @@ const { User } = require("../db");
 
 require("../config/googleConfig");
 
+let cacheUser = [];
+
 // router.post("/", userFunctions.newUser);
 router.post(
   "/",
@@ -39,19 +41,48 @@ router.post(
     });
   }
 );
+
+router.post("/getGoogleUser", (req, res, next) => {
+  res.send(cacheUsergit);
+});
+
 router.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["email", "profile"] })
-  // userFunctions.googleSignin
+  "/auth/google/signUp",
+  passport.authenticate("sign-in-google", {
+    scope: ["email", "profile"],
+  }),
+  (req, res) => {
+    if (req.user) {
+      res.cookie(req.session);
+      res.redirect("http://localhost:3000/login");
+    }
+  }
 );
 
 router.get(
-  "http://localhost:3000",
-  passport.authenticate("google", {
-    failureRedirect: "http://localhost:3000/login",
+  "/auth/google/login",
+  passport.authenticate("sign-up-google", {
+    scope: ["email", "profile"],
   }),
-  userFunctions.googleSignin
+  async (req, res) => {
+    cacheUser.pop();
+    // console.log("req.user", req.user._json);
+    const userResult = await User.findOne({
+      where: { email: req.user._json.email },
+    });
+    if (userResult) {
+      cacheUser.push(userResult);
+      console.log("cahche...", cacheUser);
+      res.redirect("http://localhost:3000");
+      // await res.json({
+      //   message: "Logged",
+      //   cookies: req.session,
+      //   data: req.user,
+      // });
+    }
+  }
 );
+
 router.post("/logout", userFunctions.logOut);
 
 // router.post("/", userFunctions.newUser);
