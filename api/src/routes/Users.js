@@ -50,7 +50,7 @@ router.post(
   }
 );
 
-router.post("/getGoogleUser", async (req, res, next) => {
+router.get("/getGoogleUser", async (req, res, next) => {
   // res.send(cacheUser);
   if (req.isAuthenticated()) {
     const userResult = await User.findOne({
