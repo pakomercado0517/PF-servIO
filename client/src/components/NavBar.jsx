@@ -18,24 +18,13 @@ import { useGlobalStorage } from '../hooks/useGlobalStorage';
 // import { useLocalStorage } from '../hooks/useLocalStorage';
 
 
-
-
 export default function NavBar() {
 
     const dispatch = useDispatch()
     const [login] = useGlobalStorage("globalUser", "")
     const [cart] = useGlobalStorage("cart", "")
-    const [switcheo, setSwitcheo] = useGlobalStorage("switcheo", null)
-    // const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
-
+    const [ , setSwitcheo] = useGlobalStorage("switcheo", null)
     const stateTotalRedux = useSelector(state => state)
-
-    useEffect(()=>{
-        // if (localStorage.getItem('user')) {
-        //     dispatch(getByAccountId(login[0] ? login[0].cookies.userId:""))
-        // }
-    },[])
-
 
     function showModalFormCLient(){
         dispatch(showFormClientNeed("show"))

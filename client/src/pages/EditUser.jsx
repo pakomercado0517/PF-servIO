@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import s from './styles/EditUser.module.css';
 import {useGlobalStorage} from '../hooks/useGlobalStorage';
 import { useDispatch, useSelector } from "react-redux";
-import { getByUserId, filterProfessions } from '../redux/actions';
+import { filterProfessions } from '../redux/actions';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import {useNavigate } from "react-router-dom";

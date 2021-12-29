@@ -167,7 +167,7 @@ export default function Home(){
                 <div>
                     {
                         currentPosts2?.length > 0 ? currentPosts?.map((user)=>(
-                            <NavLink className={s.card_client_need} to={"/detailsClientNeeds/"+user.id}>
+                            <NavLink className={s.card_client_need} to={"/client/need/"+user.id}>
                                 <CardClientNeed key={user.id}
                                 name={ user.name }
                                 description={ user.description }
