@@ -9,8 +9,6 @@ import { getByUserId, getDetailsClientNeed } from '../redux/actions'
 
 export default function DetailsClientNeed() {
   const { detailsClientNeed, user } = useSelector(state => state)
-  console.log('detailsclientneed',detailsClientNeed);
-  console.log('user en detailsclient need',user);
   const { id } = useParams()
   const dispatch = useDispatch()
   let ranked= 2.6
@@ -20,10 +18,6 @@ export default function DetailsClientNeed() {
   useEffect(()=> {
     dispatch(getByUserId(detailsClientNeed.UserId))
   }, [ dispatch, detailsClientNeed ])
-  // useEffect(() => {
-  //     console.log(detailsClientNeed)
-  // }, [user])
-// console.log(user[0].professional)
   return (
     <div>
       <div className={s.container_ativity}>
@@ -51,9 +45,9 @@ export default function DetailsClientNeed() {
 
           {/* |---------------------------Show Professions...----------------------------------------| */}
 
-          <div className={s.professional_showProfessions} >
+          {/* <div className={s.professional_showProfessions} >
             <div><h3 className={s.professions_title}>Profesiones:</h3></div>
-            <div className={s.professions_container}>
+            <div className={s.professions_container}> */}
               {
               // user[0]?.Professional.Professions.map(el=> {
               //   return(
@@ -61,8 +55,8 @@ export default function DetailsClientNeed() {
               //   )
               //   })
               }
-            </div>
-          </div>
+            {/* </div> */}
+          {/* </div> */}
         </div>
         {/* |-------------------------------body--------------------------------------| */}
 
@@ -91,18 +85,28 @@ export default function DetailsClientNeed() {
             <NavLink className={s.link_button} to={`/clients/${user[0]?.id}`}>Volver</NavLink>
           </div>
 
- {/* |--------si es cliente renderiza boton "ver ofertas" disponibles.-----------------------| */}
- {/* |--------si es profesional renderiza boton "enviar ofertas"-----------------------| */}
+ {/* --si es cliente renderiza boton "editar publicacion" y "ver ofertas" ------| */}
+ {/* |--------si es profesional renderiza boton "enviar ofertas"--------------- | */}
 
           {
             user[0]?.professional === false ?
+          <>
+            <div className={s.a_button}>
+              <NavLink className={s.link_button} to={`/client/${user[0]?.id}/edit/${detailsClientNeed?.id}`}>Editar</NavLink> 
+                {/* className={s.link_button} 
+                onClick={showModalFormCLient}  */}
+              
+              
+              
+            </div>
 
-          <div className={s.a_button}>
+            <div className={s.a_button}>
             <NavLink className={s.link_button} to={`/client/offerToNeed/${detailsClientNeed?.id}`}>Ver Ofertas</NavLink>
-          </div>
+            </div>
+          </>
           :
           <div className={s.a_button}>
-            <NavLink to='/ProfessionalServiceOffer' className={s.link_button}>Enviar Oferta</NavLink>
+            <NavLink to='/ProfessionalServiceOffer' className={s.link_button}>Ofertar</NavLink>
           </div>
 
           }

@@ -247,3 +247,16 @@
     background-position-y: -380px;
 }
 
+.show__presentation{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 5%;
+  color: white;
+  background-color: #396EB0;
+  border-radius: 5px;
+  padding: 5px;
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+} 
