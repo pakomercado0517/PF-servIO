@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const enviarEmail = require('../handlers/email')
 const crypto = require('crypto');
+var juice = require('juice');
 // @ts-ignore
 const {
   User,
@@ -703,7 +704,6 @@ module.exports = {
   enviarToken : async(req, res) => {
     const { email } = req.body
     const usuario = await User.findOne({where: {email}})
-    console.log(usuario)
     if(!usuario) {
         res.send('No existe esa cuenta');
     }else{
@@ -714,7 +714,7 @@ module.exports = {
     await usuario.save()
 
     //url de reset
-    const resetUrl = `http://${req.headers.host}/reestablecer/${usuario.token}`
+    const resetUrl = `http://${req.headers.host}/user/reestablecer/${usuario.token}`
 
     //Enviar correo con el token
 
@@ -724,11 +724,50 @@ module.exports = {
         usuario,
         subject: 'Password Reset',
         resetUrl,
-        archivo: 'reestablecer-password'
+        archivo: `<h2>Restablecer Password</h2><p>Hola, has solicitado reestablecer tu password, haz click en el siguiente enlace para reestablecerlo, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${resetUrl} >Resetea tu password</a><p>Si no puedes acceder a este enlace, visita ${resetUrl}</p><div/>`
     })
     // res.redirect('/iniciar-sesion'/)
     res.send('Se envio un mensaje a tu correo')
     }  
+},
+
+validarToken : async (req, res) => {
+  const usuario = await User.findOne({
+      where: {
+          token: req.params.token
+      }
+  })
+
+  if(!usuario) {
+      res.send('Token invalido')
+  }
+  res.send({estado:'valido', token:req.params.token})
+},
+
+//verifica token valido y fecha de expiracion
+actualizarPassword : async(req, res) => {
+  const usuario = await User.findOne({
+      where: {
+          token: req.params.token,
+          expiracion : {
+              [Op.gte] : Date.now()
+          }
+      }
+  })
+
+  if(!usuario){
+      req.flash('error', 'No valido'),
+      res.redirect('/reestablecer/')
+  }
+
+  //haashear el nuevo password para
+  usuario.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
+  usuario.token = null;
+  usuario.expiracion = null;
+
+  //guardar nuevo password
+  await usuario.save();
+  res.send('Tu password se ha modificado correctamente')
 }
   // newSpecificalNeed: async (req, res) =>{
   //     const {name, description, location} = req.body
