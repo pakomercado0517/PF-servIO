@@ -4,5 +4,6 @@ const offerFunctions = require('../controllers/index.js')
 
 router.post('/', offerFunctions.newProfessionalOffer)
 router.get('/all', offerFunctions.getAllPorfessionalOffers)//pendientes de ejecutar
-router.get('/receivedOffers', offerFunctions.getUserReceivedOffers )
+router.get('/:id', offerFunctions.getUserReceivedOffers )
+router.get('/need/:id', offerFunctions.getNeedReceivedOffers )
 module.exports= router;

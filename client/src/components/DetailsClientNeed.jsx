@@ -9,6 +9,8 @@ import { getByUserId, getDetailsClientNeed } from '../redux/actions'
 
 export default function DetailsClientNeed() {
   const { detailsClientNeed, user } = useSelector(state => state)
+  console.log('detailsclientneed',detailsClientNeed);
+  console.log('user en detailsclient need',user);
   const { id } = useParams()
   const dispatch = useDispatch()
   let ranked= 2.6
@@ -52,11 +54,11 @@ export default function DetailsClientNeed() {
             <div><h3 className={s.professions_title}>Profesiones:</h3></div>
             <div className={s.professions_container}>
               {
-            //   user[0]?.Professional.Professions.map(el=> {
-            //     return(
-            //       <div className={s.profession}>{"Hola"}</div>
-            //     )
-            //     })
+              // user[0]?.Professional.Professions.map(el=> {
+              //   return(
+              //     <div className={s.profession}>{"Hola"}</div>
+              //   )
+              //   })
               }
             </div>
           </div>
@@ -85,7 +87,10 @@ export default function DetailsClientNeed() {
 
         <div className={s.buttons_list}>
           <div className={s.a_button}>
-            <NavLink to='/' className={s.link_button}>Volver</NavLink>
+            <NavLink className={s.link_button} to='/'>Volver</NavLink>
+          </div>
+          <div className={s.a_button}>
+            <NavLink className={s.link_button} to={`/client/offerToNeed/${detailsClientNeed?.id}`}>Ver Ofertas</NavLink>
           </div>
           <div className={s.a_button}>
             <NavLink to='/ProfessionalServiceOffer' className={s.link_button}>Enviar Oferta</NavLink>

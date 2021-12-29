@@ -97,5 +97,8 @@ router.get("/all", userFunctions.getAllUsers);
 router.get("/common", userFunctions.getAllCommonUsers);
 router.get("/professionals", userFunctions.getAllProfessionals);
 router.get("/:id", userFunctions.getByUserId);
-
+router.delete("/:id", userFunctions.deleteByUserId);
+router.post('/reestablecer', userFunctions.enviarToken);
+router.get('/reestablecer/:token', userFunctions.validarToken);
+router.put('/reestablecer/:token', userFunctions.actualizarPassword);
 module.exports = router;

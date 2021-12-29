@@ -1,5 +1,5 @@
 import React from 'react'
-import './styles/StarRating.css'
+import s from './styles/Search.modules.css'
 
 export function StarRating({stars}) {
   const maxStars= 5
@@ -13,8 +13,8 @@ export function StarRating({stars}) {
   }
   
   return (
-    <div className='stars-gray'>
-      <div className='stars-yellow' style={StarStyles()}></div>
+    <div className={s.stars_gray}>
+      <div className={s.stars_yellow} style={StarStyles()}></div>
     </div>
   )
 }
