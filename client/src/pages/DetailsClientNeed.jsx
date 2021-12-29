@@ -23,6 +23,7 @@ export default function DetailsClientNeed() {
   // useEffect(() => {
   //     console.log(detailsClientNeed)
   // }, [user])
+// console.log(user[0].professional)
   return (
     <div>
       <div className={s.container_ativity}>
@@ -87,14 +88,24 @@ export default function DetailsClientNeed() {
 
         <div className={s.buttons_list}>
           <div className={s.a_button}>
-            <NavLink className={s.link_button} to='/'>Volver</NavLink>
+            <NavLink className={s.link_button} to={`/clients/${user[0]?.id}`}>Volver</NavLink>
           </div>
+
+ {/* |--------si es cliente renderiza boton "ver ofertas" disponibles.-----------------------| */}
+ {/* |--------si es profesional renderiza boton "enviar ofertas"-----------------------| */}
+
+          {
+            user[0]?.professional === false ?
+
           <div className={s.a_button}>
             <NavLink className={s.link_button} to={`/client/offerToNeed/${detailsClientNeed?.id}`}>Ver Ofertas</NavLink>
           </div>
+          :
           <div className={s.a_button}>
             <NavLink to='/ProfessionalServiceOffer' className={s.link_button}>Enviar Oferta</NavLink>
           </div>
+
+          }
         </div>
         
       </div>
