@@ -7,7 +7,7 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3001/user/googleAuth",
+      callbackURL: "http://localhost:3000",
     },
     function (accessToken, refreshToken, profile, cb, req, res) {
       // console.log("profile", profile);

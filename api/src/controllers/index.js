@@ -763,7 +763,8 @@ module.exports = {
         userType: user.professional ? "Professional" : "Normal User",
         data: req.user,
       });
-    } else {
+    }
+    if (!user) {
       let registerUser = await User.create({
         first_name: profile.given_name,
         last_name: profile.family_name,
@@ -779,12 +780,8 @@ module.exports = {
         userType: "Normal User",
         data: req.user,
       });
-    }
-    req.login(user, (err) => {
-      if (err) {
-        return err;
-      }
+    } else {
       return res.redirect("http://localhost:3000");
-    });
+    }
   },
 };

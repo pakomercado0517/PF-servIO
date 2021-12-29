@@ -42,10 +42,11 @@ router.post(
 router.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["email", "profile"] })
+  // userFunctions.googleSignin
 );
 
 router.get(
-  "/googleAuth",
+  "http://localhost:3000",
   passport.authenticate("google", {
     failureRedirect: "http://localhost:3000/login",
   }),
