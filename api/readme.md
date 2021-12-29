@@ -68,6 +68,24 @@ __Path '/:id'__
 - Output : Array con todos los usuarios de tipo professional.
 - Ruta: http://localhost:3001/user/:id
 
+__Path '/auth/google/signUp'__
+- Funcionalidad: Registra un usuario por medio de Google Auth.
+- Tipo : GET
+- Output : Redirecciona a http://localhost:3000/login
+- Ruta : http://localhost:3001/user/auth/google/signUp
+
+__Path '/auth/google/login'__
+- Funcionalidad : Inicia sesión a usuario registrado con Goggle Auth
+- Tipo : GET
+- Output : Redirecciona a http://localhost:3000
+- Ruta : http://localhost:3001/user/auth/google/login
+
+__Path '/getGoogleUser'__
+- Funcionalidad : Devuelve los datos de usuario logueado con Google Auth.
+- Tipo : POST
+- Output : Array con los datos del usuario.
+- Ruta : http://localhost:3001/user/getGoogleUser
+
 ## /clientNeeds:
 
 __Path '/'__  
