@@ -21,8 +21,8 @@ export default function ProfileProfessional(){
         seeAllServices: true,
     })
     
-    const professionals = useSelector((state) => state.user)
-
+    const professionals = useSelector((state) => state.user[0])
+    console.log('profesionalesssssssss',professionals)
     const specificActivities = useSelector((state) => state.specificActivitiesById)
     console.log('specifiiiic',specificActivities);
     
@@ -56,7 +56,7 @@ export default function ProfileProfessional(){
                 </div>
                 <div className={ s.container_details_text }>
                     <h1>
-                        {professionals[0]?.first_name + ' ' + professionals[0]?.last_name}
+                        {professionals?.first_name + ' ' + professionals?.last_name}
                     </h1>
                     <h2>
                         {professionals[0]?.Professional.Professions[0].name}

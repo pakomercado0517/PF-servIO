@@ -8,7 +8,8 @@ import s from './styles/DetailsClientNeed.module.css'
 import { getByUserId, getDetailsClientNeed } from '../redux/actions'
 
 export default function DetailsClientNeed() {
-  const { detailsClientNeed, user } = useSelector(state => state)
+  const { detailsClientNeed, user, globalUserGlobalStorage } = useSelector(state => state)
+  console.log('global',globalUserGlobalStorage)
   const { id } = useParams()
   const dispatch = useDispatch()
   let ranked= 2.6
@@ -89,7 +90,7 @@ export default function DetailsClientNeed() {
  {/* |--------si es profesional renderiza boton "enviar ofertas"--------------- | */}
 
           {
-            user[0]?.professional === false ?
+            globalUserGlobalStorage?.professional === false ?
           <>
             <div className={s.a_button}>
               <NavLink className={s.link_button} to={`/client/${user[0]?.id}/edit/${detailsClientNeed?.id}`}>Editar</NavLink> 
@@ -106,7 +107,7 @@ export default function DetailsClientNeed() {
           </>
           :
           <div className={s.a_button}>
-            <NavLink to='/ProfessionalServiceOffer' className={s.link_button}>Ofertar</NavLink>
+            <NavLink to='/ProfessionalOfferToClientNeed' className={s.link_button}>Ofertar</NavLink>
           </div>
 
           }
