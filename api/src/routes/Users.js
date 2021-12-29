@@ -8,6 +8,14 @@ require("../config/googleConfig");
 
 let cacheUser = [];
 
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+    next();
+  } else {
+    res.send("Inicia sesion");
+  }
+}
+
 // router.post("/", userFunctions.newUser);
 router.post(
   "/",
@@ -42,8 +50,20 @@ router.post(
   }
 );
 
-router.post("/getGoogleUser", (req, res, next) => {
-  res.send(cacheUsergit);
+router.get("/getGoogleUser", async (req, res, next) => {
+  // res.send(cacheUser);
+  if (req.isAuthenticated()) {
+    const userResult = await User.findOne({
+      where: { email: req.user._json.email },
+    });
+    res.send({
+      message: "Logged",
+      cookies: req.session,
+      data: userResult,
+    });
+  } else {
+    res.send("Inicia Sesión");
+  }
 });
 
 router.get(
@@ -71,9 +91,12 @@ router.get(
       where: { email: req.user._json.email },
     });
     if (userResult) {
-      cacheUser.push(userResult);
-      console.log("cahche...", cacheUser);
-      res.redirect("http://localhost:3000");
+      cacheUser.push({
+        message: "Logged",
+        cookies: req.session,
+        data: userResult,
+      });
+      res.redirect("http://localhost:3000/login");
       // await res.json({
       //   message: "Logged",
       //   cookies: req.session,
@@ -98,7 +121,7 @@ router.get("/common", userFunctions.getAllCommonUsers);
 router.get("/professionals", userFunctions.getAllProfessionals);
 router.get("/:id", userFunctions.getByUserId);
 router.delete("/:id", userFunctions.deleteByUserId);
-router.post('/reestablecer', userFunctions.enviarToken);
-router.get('/reestablecer/:token', userFunctions.validarToken);
-router.put('/reestablecer/:token', userFunctions.actualizarPassword);
+router.post("/reestablecer", userFunctions.enviarToken);
+router.get("/reestablecer/:token", userFunctions.validarToken);
+router.put("/reestablecer/:token", userFunctions.actualizarPassword);
 module.exports = router;
