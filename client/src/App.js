@@ -12,7 +12,7 @@ import Nosotros from './pages/Nosotros.jsx';
 import HomeProfessional from './components/HomeProfessional';
 import { ProfessionalOfferToClientNeed } from './components/ProfessionalOfferToClientNeed';
 import { ProfessionalServiceOffer } from './components/ProfessionalServiceOffer';
-import DetailsClientNeed from './components/DetailsClientNeed';
+import DetailsClientNeed from './pages/DetailsClientNeed';
 import Cart from './components/Cart';
 import EditUser from './pages/EditUser';
 import { OffersToSpecificClientsNeeds } from './pages/OffersToSpecificClientsNeeds';

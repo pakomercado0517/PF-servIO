@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import {NavLink, useParams} from 'react-router-dom'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPhoneAlt} from '@fortawesome/free-solid-svg-icons'
-import {StarRating} from './StarRating'
+import {StarRating} from '../components/StarRating'
 import s from './styles/DetailsClientNeed.module.css'
 import { getByUserId, getDetailsClientNeed } from '../redux/actions'
 
