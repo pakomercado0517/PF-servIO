@@ -61,6 +61,32 @@ export const OffersToSpecificClientsNeeds = () => {
                 <p>precio:${offers?.price}</p>
             </div>
             </div>
+            <div className={styles.list_item_grouper}>
+            <div className={styles.list_item_grouper_header}>
+                <p>fecha de creacion de oferta:{offers?.createdAt}</p>
+            </div>
+            <div className={styles.list_item}>
+                <img src={professional?.photo} alt="img" className={styles.avatar_img}/>
+                <p>descripcion:{offers?.description}</p>
+                <p>finalizado en {offers?.duration} días</p>
+                <p>duracion de la garantia:{offers?.guarantee_time} días</p>
+                <p>incluye materiales?{offers?.materials === true ? 'si' : 'no'}</p>
+                <p>precio:${offers?.price}</p>
+            </div>
+            </div>
+            <div className={styles.list_item_grouper}>
+            <div className={styles.list_item_grouper_header}>
+                <p>fecha de creacion de oferta:{offers?.createdAt}</p>
+            </div>
+            <div className={styles.list_item}>
+                <img src={professional?.photo} alt="img" className={styles.avatar_img}/>
+                <p>descripcion:{offers?.description}</p>
+                <p>finalizado en {offers?.duration} días</p>
+                <p>duracion de la garantia:{offers?.guarantee_time} días</p>
+                <p>incluye materiales?{offers?.materials === true ? 'si' : 'no'}</p>
+                <p>precio:${offers?.price}</p>
+            </div>
+            </div>
 
         </div>
     )
