@@ -425,7 +425,6 @@ module.exports = {
           professional: true,
         },
         include: [{ model: Professional, include: [{ model: Profession },{model: ClientReview}, {model: SpecificTechnicalActivity}] }],
-        prueba:'ala'
       });
       const rate = professionals.filter(r => {
         return r
@@ -460,7 +459,8 @@ module.exports = {
       if (user[0]) {
         user = await User.findAll({
           where: { id: { [Op.eq]: id } },
-          include: [{ model: Professional, include: [{ model: Profession }] }],
+          //include: [{ model: Professional, include: [{ model: Profession },{model: ClientReview}, {model: SpecificTechnicalActivity}] }],
+          include: [{ model: Professional, include: [{ model: Profession },{model: ClientReview}, {model: SpecificTechnicalActivity}] }],
         });
         res.status(200).send(user);
       } else {
