@@ -3,14 +3,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import {NavLink, useParams} from 'react-router-dom'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPhoneAlt} from '@fortawesome/free-solid-svg-icons'
-import {StarRating} from './StarRating'
+import {StarRating} from '../components/StarRating'
 import s from './styles/DetailsClientNeed.module.css'
 import { getByUserId, getDetailsClientNeed } from '../redux/actions'
 
 export default function DetailsClientNeed() {
-  const { detailsClientNeed, user } = useSelector(state => state)
-  console.log('detailsclientneed',detailsClientNeed);
-  console.log('user en detailsclient need',user);
+  const { detailsClientNeed, user, globalUserGlobalStorage } = useSelector(state => state)
+  console.log('global',globalUserGlobalStorage)
   const { id } = useParams()
   const dispatch = useDispatch()
   let ranked= 2.6
@@ -20,9 +19,6 @@ export default function DetailsClientNeed() {
   useEffect(()=> {
     dispatch(getByUserId(detailsClientNeed.UserId))
   }, [ dispatch, detailsClientNeed ])
-  // useEffect(() => {
-  //     console.log(detailsClientNeed)
-  // }, [user])
   return (
     <div>
       <div className={s.container_ativity}>
@@ -50,9 +46,9 @@ export default function DetailsClientNeed() {
 
           {/* |---------------------------Show Professions...----------------------------------------| */}
 
-          <div className={s.professional_showProfessions} >
+          {/* <div className={s.professional_showProfessions} >
             <div><h3 className={s.professions_title}>Profesiones:</h3></div>
-            <div className={s.professions_container}>
+            <div className={s.professions_container}> */}
               {
               // user[0]?.Professional.Professions.map(el=> {
               //   return(
@@ -60,8 +56,8 @@ export default function DetailsClientNeed() {
               //   )
               //   })
               }
-            </div>
-          </div>
+            {/* </div> */}
+          {/* </div> */}
         </div>
         {/* |-------------------------------body--------------------------------------| */}
 
@@ -87,14 +83,34 @@ export default function DetailsClientNeed() {
 
         <div className={s.buttons_list}>
           <div className={s.a_button}>
-            <NavLink className={s.link_button} to='/'>Volver</NavLink>
+            <NavLink className={s.link_button} to={`/clients/${user[0]?.id}`}>Volver</NavLink>
           </div>
-          <div className={s.a_button}>
+
+ {/* --si es cliente renderiza boton "editar publicacion" y "ver ofertas" ------| */}
+ {/* |--------si es profesional renderiza boton "enviar ofertas"--------------- | */}
+
+          {
+            globalUserGlobalStorage?.professional === false ?
+          <>
+            <div className={s.a_button}>
+              <NavLink className={s.link_button} to={`/client/${user[0]?.id}/edit/${detailsClientNeed?.id}`}>Editar</NavLink> 
+                {/* className={s.link_button} 
+                onClick={showModalFormCLient}  */}
+              
+              
+              
+            </div>
+
+            <div className={s.a_button}>
             <NavLink className={s.link_button} to={`/client/offerToNeed/${detailsClientNeed?.id}`}>Ver Ofertas</NavLink>
-          </div>
+            </div>
+          </>
+          :
           <div className={s.a_button}>
-            <NavLink to='/ProfessionalServiceOffer' className={s.link_button}>Enviar Oferta</NavLink>
+            <NavLink to='/ProfessionalOfferToClientNeed' className={s.link_button}>Ofertar</NavLink>
           </div>
+
+          }
         </div>
         
       </div>
