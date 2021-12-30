@@ -89,6 +89,8 @@
     z-index: -1;
     width: 100vw;
     height: 50vh;
+    background-image: url("https://cdn.pixabay.com/photo/2018/04/28/22/03/tree-3358468_1280.jpg");
+
 }
 
 .container_details_photo {
@@ -99,6 +101,10 @@
     border-radius: 150px;
     background-color: grey;
     margin: 0px 50px;
+    /* width: 140px; */
+    /* height: 140px; */
+    border-radius: 100%;
+    position: relative;
 }
 
 .container_details_text {
