@@ -164,18 +164,14 @@ export default function EditCliente() {
         }
     } 
 
-    function onClick(e){
+    function onClick(){
         if(profession.indexOf(details.profession) === -1 && details.profession !== ''){
-        setProfession([...profession, details.profession])
+          setProfession([...profession, details.profession])
         }
     }
     function changeCountry(event){
         // setDetails({...details, profession: event.target.value})
-        setDetails(() =>({ 
-            ...details, 
-            profession: [...details.profession, event.target.value] 
-            })
-        );
+        setDetails(() =>({...details, profession:event.target.value}));
 
     }  
     function onClose(e){
@@ -296,14 +292,14 @@ export default function EditCliente() {
 ////////----------------------- edit Profesional -------------------- 
 
                     <div className={s.subDiv}>
-                        <label htmlFor="countries">Seleccona tu Oficio:</label>
+                        <label htmlFor="professions">Seleccona tu Oficio:</label>
                         <div>
                             <select 
                             className={s.inputClass3}
                             onChange={changeCountry}
                             value={details.profession}
                             >
-                            <option >{details.profession}</option>
+                            <option >Seleccona tu Oficio:</option>
                             {oficio.map((e, index) => {
                                 return (<option key={ "options" + index}>{e}</option>)
                             })
