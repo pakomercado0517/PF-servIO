@@ -7,7 +7,7 @@ import { MdAccountCircle } from 'react-icons/md';
 import logo from '../img/ServIO.svg';
 import { BsCart2 } from 'react-icons/bs'
 //Componentes
-import { Search } from './Search';
+import Search from './Search';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { showFormClientNeed, showFormProfessionalOffer } from '../redux/actions'
