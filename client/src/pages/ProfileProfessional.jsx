@@ -13,7 +13,7 @@ import { NavLink } from 'react-router-dom';
 
 export default function ProfileProfessional(){
 
-    const { id } = useParams()
+    const { idProfessional } = useParams()
     const dispatch= useDispatch();
     const [state, setstate] = useState({
         login: false,
@@ -21,18 +21,18 @@ export default function ProfileProfessional(){
         seeAllServices: true,
     })
     
-    const professional = useSelector((state) => state?.globalUserGlobalStorage)
+    const professional = useSelector((state) => state?.user[0])
     console.log('profesionalesssssssss',professional)
     const specificActivities = useSelector((state) => state.specificActivitiesById)
 
     
-    const idSpecificActivities = specificActivities !== "There are not specifical Activities" && specificActivities.map((item) => item.id)
+    const idSpecificActivities = specificActivities !== "There are not specifical Activities" && specificActivities.map((item) => item.idProfessional)
 
 
     useEffect(()=>{
-        dispatch(getByUserId(id))
-        dispatch(getSpecificActivitiesById(id))
-    },[dispatch, id])
+        dispatch(getByUserId(idProfessional))
+        dispatch(getSpecificActivitiesById(idProfessional))
+    },[dispatch, idProfessional])
 
     function newStateReview(){
         setstate({
