@@ -97,7 +97,10 @@ export default function Login() {
     }
 
 
-
+    useEffect( async () => {
+        const result= await axios.get('http://localhost:3001/user/getGoogleUser')
+        console.log('result:', result)
+    })
 
 
     useEffect(() => {
@@ -182,7 +185,7 @@ export default function Login() {
 
                         <a 
                             type="button" 
-                            className="btn btn-lg btn-google btn-block text-uppercase btn-outline" href="http://localhost:3001/user/auth/google">
+                            className="btn btn-lg btn-google btn-block text-uppercase btn-outline" href="http://localhost:3001/user/auth/google/login">
                             <img src="https://img.icons8.com/color/40/000000/google-logo.png" alt="google"/> 
                         </a>
                     </div>
