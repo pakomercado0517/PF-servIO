@@ -13,7 +13,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
   const [switcheo, setSwitcheo] = useGlobalStorage("switcheo", "professional")
   const [ login ] = useGlobalStorage("globalUser", "")
   const pageNumbers = [];
-
+console.log(login.professional)
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
     pageNumbers.push(i);
   }
@@ -46,7 +46,8 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
                 id="btnradio2" 
                 autoComplete="off" 
                 onClick={(e) => moodRender(e.target.id)} 
-                defaultChecked={switcheo === 'professional'} />
+                defaultChecked={switcheo === 'professional'} 
+              />
               
               <label 
                 className="btn btn-outline-info" 
@@ -64,9 +65,9 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
                 onClick={(e) => moodRender(e.target.id)} 
                 defaultChecked={switcheo === 'user'} 
               />
-              
+              {/* validar estado */}
               <label 
-                className="btn btn-outline-info" 
+                className={login.professional ? "btn btn-outline-info" : 'hide' }
                 htmlFor="btnradio1"
               >
                 Usuarios
