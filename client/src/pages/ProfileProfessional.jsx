@@ -21,13 +21,12 @@ export default function ProfileProfessional(){
         seeAllServices: true,
     })
     
-    const professionals = useSelector((state) => state.user)
-
+    const professional = useSelector((state) => state?.globalUserGlobalStorage)
+    console.log('profesionalesssssssss',professional)
     const specificActivities = useSelector((state) => state.specificActivitiesById)
-    console.log('specifiiiic',specificActivities);
+
     
     const idSpecificActivities = specificActivities !== "There are not specifical Activities" && specificActivities.map((item) => item.id)
-    console.log(idSpecificActivities);
 
 
     useEffect(()=>{
@@ -56,13 +55,13 @@ export default function ProfileProfessional(){
                 </div>
                 <div className={ s.container_details_text }>
                     <h1>
-                        {professionals[0]?.first_name + ' ' + professionals[0]?.last_name}
+                        {professional?.first_name + ' ' + professional?.last_name}
                     </h1>
                     <h2>
-                        {professionals[0]?.Professional.Professions[0].name}
+                        {professional?.profession}
                     </h2>
                     <h5>
-                        {professionals[0]?.state + ' ' + professionals[0]?.city}
+                        {professional?.state + ' ' + professional?.city}
                     </h5>
                     <div>
                         <div>

@@ -24,10 +24,7 @@ function ProfessionalSpecificActivity() {
   useEffect( ()=> {
   dispatch(getByAccountId(id))
   dispatch(getProfessionalActivityById(id))
-  }, [dispatch, id])
-  
-  console.log('user',user)
-  
+  }, [dispatch, id])  
   
   const activities = useSelector(state => state.professionalActivityById)
   console.log('activities',activities)
@@ -36,7 +33,7 @@ function ProfessionalSpecificActivity() {
   let ranked= 2.6
   
   console.log('activities......', professionalActivities)
-  // console.log('user....', user[0].Professional.Professions[0])
+
   return (
     <div>
       <div className={s.container_ativity}>

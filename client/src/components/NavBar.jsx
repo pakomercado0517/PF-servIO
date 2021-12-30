@@ -7,7 +7,7 @@ import { MdAccountCircle } from 'react-icons/md';
 import logo from '../img/ServIO.svg';
 import { BsCart2 } from 'react-icons/bs'
 //Componentes
-import { Search } from './Search';
+import Search from './Search';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { showFormClientNeed, showFormProfessionalOffer } from '../redux/actions'
@@ -18,24 +18,13 @@ import { useGlobalStorage } from '../hooks/useGlobalStorage';
 // import { useLocalStorage } from '../hooks/useLocalStorage';
 
 
-
-
 export default function NavBar() {
 
     const dispatch = useDispatch()
     const [login] = useGlobalStorage("globalUser", "")
     const [cart] = useGlobalStorage("cart", "")
-    const [switcheo, setSwitcheo] = useGlobalStorage("switcheo", null)
-    // const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
-
+    const [ , setSwitcheo] = useGlobalStorage("switcheo", null)
     const stateTotalRedux = useSelector(state => state)
-
-    useEffect(()=>{
-        // if (localStorage.getItem('user')) {
-        //     dispatch(getByAccountId(login[0] ? login[0].cookies.userId:""))
-        // }
-    },[])
-
 
     function showModalFormCLient(){
         dispatch(showFormClientNeed("show"))
@@ -52,9 +41,9 @@ export default function NavBar() {
         })
         
     }
-    function showFormProfessionalOffer5() {
-        dispatch(showFormProfessionalOffer("show"))
-    }
+    // function showFormProfessionalOffer5() {
+    //     dispatch(showFormProfessionalOffer("show"))
+    // }
 
 
     return (
@@ -149,13 +138,13 @@ export default function NavBar() {
                                             </span>
                                         </li>
                                         
-                                        <li>
+                                        {/* <li>
                                             <span
                                             className={s.dropdown_item + " dropdown-item"}
                                             onClick={showFormProfessionalOffer5}>
                                                 Crear Publicacion
                                             </span>
-                                        </li>
+                                        </li> */}
 
                                         <li>
                                             <span className={s.dropdown_item + " dropdown-item"} >
@@ -253,13 +242,13 @@ export default function NavBar() {
                                             </span>
                                         </li>
                                         
-                                        <li>
+                                        {/* <li>
                                             <span
                                             className={s.dropdown_item + " dropdown-item"}
                                             onClick={showFormProfessionalOffer5}
                                                 >Crear Publicacion
                                             </span>
-                                        </li>
+                                        </li> */}
 
                                         <li>
                                             <span className={s.dropdown_item + " dropdown-item"} 

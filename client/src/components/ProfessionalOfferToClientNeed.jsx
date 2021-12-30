@@ -1,112 +1,80 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
-import { showFormProfessionalOffer } from '../redux/actions'
 import Swal from 'sweetalert2'
 import s from './styles/ProfessionalOfferToClientNeed.module.css'
+import { useNavigate } from 'react-router-dom'
 
 export const ProfessionalOfferToClientNeed = () => {
     
+    const navigate = useNavigate()
+    const clientNeed = useSelector((state) => state.detailsClientNeed)
+    console.log('clientNeed', clientNeed)
 
-    const dispatch = useDispatch()
-    const { modalProfessionalsOffer } = useSelector(state => state)
-    
-    const user = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
+    const professional = useSelector((state) => state.globalUserGlobalStorage)
+    console.log('professional', professional)
+
 
     const [form, setform] = useState({
-        name: "",   // campo no seteado en el modelo de DB
         description: "",
-        duration: "",
         price: "",
-        materials:"",   // BUG ==> input no marca opcion al 1° click sino al 2°
+        duration: "",
+        materials:"",
         guarantee_time: "",
-        // ProfessionalId: user?.cookies.userId,
-        ClientNeedId: "",
+        ClientNeedId: clientNeed.id,
+        // UserId: professional.id,
+        UserId: 30,
     })
+    console.log('form', form)
 
     function onChangeForm(e) {
         setform({
             ...form,
             [e.target.name]: e.target.value
         })
-        console.log('form',form)
-        console.log('tarjet name',e.target.name)
-        console.log('tarjet value',e.target.name)
-    }
+    };
 
     const postNeed = async (e) =>{
         e.preventDefault()
         try {
-            var obj = {
-                ...form,
-                location:"sadsadsa",
-                price:1200,
-                duration:12321,
-                guarantee_time:123213,
-                userId: user.cookies.userId
+            const offer = {
+                description: form.description,
+                price: form.price,
+                duration: form.duration,
+                materials: form.materials,
+                guarantee_time: form.guarantee_time,
+                ClientNeedId: form.ClientNeedId,
+                UserId: 101,
             }
-            const post = await axios.post('http://localhost:3001/clientNeeds', obj)
-            .then(() => {
-            
-            // const post = await axios.post('http://localhost:3001/clientNeeds', form)
-            // .then(() => {
-                const fondo = document.getElementById("fondo-form-Professional-offer")
-                fondo.style.top = "-100vh"
-                
+
+            const post = await axios.post('http://localhost:3001/professsionalOffer', offer)
+                            
                 Swal.fire({
                     icon: 'success',
                     title: 'Oferta enviada!',
                     showConfirmButton: false,
                     timer: 1500
                 })
-            })
-            // })
-            // console.log('post',post)
 
+            console.log('offer', offer)
+            console.log('post',post)
+            
+            navigate('/')
+            
         } catch (error) {
-            console.error("message: ", error)
+            console.error(error)
         }
-    }
-
-
-    useEffect(() => {
-        if (modalProfessionalsOffer === "show") {
-            const fondo = document.getElementById("fondo-form-Professional-offer")
-            fondo.style.top = "0vh"
-        } else if(modalProfessionalsOffer === "notshow") {
-            const fondo = document.getElementById("fondo-form-Professional-offer")
-            fondo.style.top = "-100vh"
-        }
-    }, [modalProfessionalsOffer])
-
-    function hideFormProfessionalOfferToClientNeed(){
-        dispatch(showFormProfessionalOffer("notshow"))
     };
     
     return (
         <>
-            <div id='fondo-form-Professional-offer' className={ s.container }>
-                <div 
-                    className={s.container_background} 
-                    onClick={hideFormProfessionalOfferToClientNeed}>
-                </div>
-                
+            <div className={ s.container }>
+
                 <div className={s.container_form}>
                     <form onSubmit={postNeed} action="">
                         <div className="row">
                             <div className={"col-12" && s.container_filter}>
                                 <h1>Realizá tu oferta!</h1>
-                                {/* <div className="input-group mb-1">
-                                    <input
-                                        type="text"
-                                        name='name'
-                                        value={ form.name }
-                                        onChange={ onChangeForm }
-                                        className="form-control"
-                                        aria-label="Default" aria-describedby="inputGroup-sizing-default"
-                                        placeholder="Escribe aqui el titulo del trabajo..."
-                                    />
-                                </div> */}
 
                                 <div className="form-group mb-2">
                                     <label
@@ -185,10 +153,7 @@ export const ProfessionalOfferToClientNeed = () => {
                         </div>
                     </form>
                 </div>
-
             </div>
-
         </>
-            
     )
 }

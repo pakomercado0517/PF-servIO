@@ -33,9 +33,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
 
   return (
     <div className='pagination'>
-      {
-        (login && login.professional) ? (
-          <>
+
             <div 
               class="btn-group" 
               role="group" 
@@ -75,9 +73,6 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
               </label>
             
             </div>
-          </>
-        ):<></>
-      }
       
       <nav>
         <ul className="pagination">
