@@ -68,7 +68,7 @@ export const ProfessionalServiceOffer = () => {
                 showCloseButton: true
             });
             stateReset();
-            navigate('/');
+            navigate(`/professional/${user.id}`);
 
         } catch (error) {
             console.error("message: ", error)
