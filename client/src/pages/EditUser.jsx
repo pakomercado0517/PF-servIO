@@ -149,7 +149,10 @@ export default function EditCliente() {
 
     function handleCheck(e){
         console.log(details.professionalCase)
-        if (e.target.id === 'checkboxClient' && details.professionalCase) {
+        console.log(globalUser.professional)
+        // como estaba antes
+        // if (e.target.id === 'checkboxClient' && details.professionalCase)
+        if (e.target.id === 'checkboxClient' && globalUser.professional) {
             const obj = {
                 ...details,
                 professionalCase:false,
@@ -161,20 +164,24 @@ export default function EditCliente() {
             const obj = {
                 ...details,
                 professionalCase:true,
-                professional:"true"
+                professional:"true",
             }
             setDetails(obj)
         }
     } 
 
-    function onClick(){
+    function onClick(e){
         if(profession.indexOf(details.profession) === -1 && details.profession !== ''){
-          setProfession([...profession, details.profession])
+        setProfession([...profession, details.profession])
         }
     }
     function changeCountry(event){
         // setDetails({...details, profession: event.target.value})
-        setDetails(() =>({...details, profession:event.target.value}));
+        setDetails(() =>({ 
+            ...details, 
+            profession: [...details.profession, event.target.value] 
+            })
+        );
 
     }  
     function onClose(e){
@@ -295,14 +302,14 @@ export default function EditCliente() {
 ////////----------------------- edit Profesional -------------------- 
 
                     <div className={s.subDiv}>
-                        <label htmlFor="professions">Seleccona tu Oficio:</label>
+                        <label htmlFor="countries">Seleccona tu Oficio:</label>
                         <div>
                             <select 
                             className={s.inputClass3}
                             onChange={changeCountry}
                             value={details.profession}
                             >
-                            <option >Seleccona tu Oficio:</option>
+                            <option >{details.profession}</option>
                             {oficio.map((e, index) => {
                                 return (<option key={ "options" + index}>{e}</option>)
                             })
