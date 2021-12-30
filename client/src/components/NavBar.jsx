@@ -94,7 +94,7 @@ export default function NavBar() {
 
                             {login && !login.professional ?
 
-    // ------------------------------Opciones Perfil cliente-------------------------------
+    // ------------------------------Opciones Perfil cliente------------------------------- //
 
                                 <div className='dropdown'>
                                     <button
@@ -133,9 +133,11 @@ export default function NavBar() {
                                         </li>
                                         
                                         <li>
-                                            <span className={s.dropdown_item + " dropdown-item"} >
-                                                Servicios Solicitados
-                                            </span>
+                                            <NavLink to="/service-history">
+                                                <span className={s.dropdown_item + " dropdown-item"} >
+                                                    Servicios Solicitados
+                                                </span>
+                                            </NavLink>
                                         </li>
                                         
                                         {/* <li>
@@ -251,9 +253,11 @@ export default function NavBar() {
                                         </li> */}
 
                                         <li>
-                                            <span className={s.dropdown_item + " dropdown-item"} 
-                                                >Servicios Solicitados
-                                            </span>
+                                            <NavLink to="/service-history">
+                                                <span className={s.dropdown_item + " dropdown-item"} >
+                                                    Servicios Solicitados
+                                                </span>
+                                            </NavLink>
                                         </li>
                                         
                                         <li>

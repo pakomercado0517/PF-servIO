@@ -98,14 +98,13 @@ export default function EditCliente() {
         try{
             let prof= profession.toString()
             let newData= {
-                firstName:details.firstName,
+                firstName: details.firstName,
                 lastName: details.lastName,
                 email: details.email,
                 dni:details.dni,
                 password:details.password,
                 professional:details.professional,
                 profession:prof,
-
             }
             await axios.put(`http://localhost:3001/user/updateUser/101`, newData)
             const obj = {
@@ -118,7 +117,11 @@ export default function EditCliente() {
                 professional: details.professional,
                 profession:prof
             }
+
+            // 
+
             setGlobalUser(obj)
+
             Swal.fire({
                 title: 'Los cambios fueron aceptados',
                 text: 'En la brevedad los cambios se ejecutaran',
