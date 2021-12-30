@@ -50,6 +50,7 @@
     display: flex;
     justify-content: space-around;
     width: 50%;
+    align-items: center;
     /* margin-right: 10%; */
 }
 
