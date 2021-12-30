@@ -41,9 +41,9 @@ export default function NavBar() {
         })
         
     }
-    function showFormProfessionalOffer5() {
-        dispatch(showFormProfessionalOffer("show"))
-    }
+    // function showFormProfessionalOffer5() {
+    //     dispatch(showFormProfessionalOffer("show"))
+    // }
 
 
     return (
@@ -138,13 +138,13 @@ export default function NavBar() {
                                             </span>
                                         </li>
                                         
-                                        <li>
+                                        {/* <li>
                                             <span
                                             className={s.dropdown_item + " dropdown-item"}
                                             onClick={showFormProfessionalOffer5}>
                                                 Crear Publicacion
                                             </span>
-                                        </li>
+                                        </li> */}
 
                                         <li>
                                             <span className={s.dropdown_item + " dropdown-item"} >
@@ -242,13 +242,13 @@ export default function NavBar() {
                                             </span>
                                         </li>
                                         
-                                        <li>
+                                        {/* <li>
                                             <span
                                             className={s.dropdown_item + " dropdown-item"}
                                             onClick={showFormProfessionalOffer5}
                                                 >Crear Publicacion
                                             </span>
-                                        </li>
+                                        </li> */}
 
                                         <li>
                                             <span className={s.dropdown_item + " dropdown-item"} 

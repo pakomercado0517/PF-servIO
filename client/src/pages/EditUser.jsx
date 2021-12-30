@@ -103,7 +103,7 @@ export default function EditCliente() {
                 email: details.email,
                 dni:details.dni,
                 password:details.password,
-                professional: details.professional,
+                professional:details.professional,
                 profession:prof,
 
             }
@@ -116,6 +116,7 @@ export default function EditCliente() {
                 dni:details.dni,
                 password:details.password,
                 professional: details.professional,
+                profession:prof
             }
             setGlobalUser(obj)
             Swal.fire({
@@ -169,7 +170,13 @@ export default function EditCliente() {
         }
     }
     function changeCountry(event){
-        setDetails({...details, profession: event.target.value})
+        // setDetails({...details, profession: event.target.value})
+        setDetails(() =>({ 
+            ...details, 
+            profession: [...details.profession, event.target.value] 
+            })
+        );
+
     }  
     function onClose(e){
         let index = profession.indexOf(e.target.value)

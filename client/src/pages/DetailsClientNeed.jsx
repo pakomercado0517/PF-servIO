@@ -8,6 +8,8 @@ import s from './styles/DetailsClientNeed.module.css'
 import { getByUserId, getDetailsClientNeed } from '../redux/actions'
 
 export default function DetailsClientNeed() {
+
+  const clientNeed = useSelector((state) => state.detailsClientNeed)
   const { detailsClientNeed, user, globalUserGlobalStorage } = useSelector(state => state)
   console.log('global',globalUserGlobalStorage)
   const { id } = useParams()
@@ -107,7 +109,7 @@ export default function DetailsClientNeed() {
           </>
           :
           <div className={s.a_button}>
-            <NavLink to='/ProfessionalOfferToClientNeed' className={s.link_button}>Ofertar</NavLink>
+            <NavLink to={`/ProfessionalOfferToClientNeed/${clientNeed.id}`} className={s.link_button}>Ofertar</NavLink>
           </div>
 
           }
