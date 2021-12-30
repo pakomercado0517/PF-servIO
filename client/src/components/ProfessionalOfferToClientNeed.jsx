@@ -1,32 +1,32 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch, connect } from 'react-redux'
 import Swal from 'sweetalert2'
 import s from './styles/ProfessionalOfferToClientNeed.module.css'
 import { useNavigate } from 'react-router-dom'
-
-export const ProfessionalOfferToClientNeed = () => {
-    
+import { newProfessionalOffer, getDetailsClientNeed } from '../redux/actions/index'
+export const ProfessionalOfferToClientNeed = (props) => {
+    // console.log(mapStateToProps)
     const navigate = useNavigate()
-    const clientNeed = useSelector((state) => state.detailsClientNeed)
-    console.log('clientNeed', clientNeed)
+    // const clientNeed = useSelector((state) => state.detailsClientNeed)
+    // console.log('clientNeed', clientNeed)
 
     const professional = useSelector((state) => state.globalUserGlobalStorage)
-    console.log('professional', professional)
+    // console.log('professional', professional)
 
-
+    let actualId = parseInt(window.location.pathname.slice(31))
+    // console.log('id', actualId)
     const [form, setform] = useState({
-        description: "",
-        price: "",
-        duration: "",
-        materials:"",
-        guarantee_time: "",
-        ClientNeedId: clientNeed.id,
-        // UserId: professional.id,
-        UserId: 30,
+        description: "kjhklhjkjh",
+        price: 0,
+        duration: 0,
+        materials:true,
+        guarantee_time: 0,
+        ClientNeedId: actualId,
+        UserId: professional.id,
+        // UserId: 30,
     })
-    console.log('form', form)
-
+    console.log(form)
     function onChangeForm(e) {
         setform({
             ...form,
@@ -34,21 +34,21 @@ export const ProfessionalOfferToClientNeed = () => {
         })
     };
 
-    const postNeed = async (e) =>{
+    const postNeed =  (e) =>{
+      console.log('aiudaaa')
         e.preventDefault()
         try {
-            const offer = {
-                description: form.description,
-                price: form.price,
-                duration: form.duration,
-                materials: form.materials,
-                guarantee_time: form.guarantee_time,
-                ClientNeedId: form.ClientNeedId,
-                UserId: 101,
-            }
 
-            const post = await axios.post('http://localhost:3001/professsionalOffer', offer)
-                            
+            const offer = {
+              description: form.description,
+              price: parseInt(form.price),
+              duration: parseInt(form.duration),
+              materials: form.materials,
+              guarantee_time: parseInt(form.guarantee_time),
+              ClientNeedId: form.ClientNeedId,
+              UserId: form.UserId,
+            }
+            newProfessionalOffer(offer)
                 Swal.fire({
                     icon: 'success',
                     title: 'Oferta enviada!',
@@ -56,8 +56,7 @@ export const ProfessionalOfferToClientNeed = () => {
                     timer: 1500
                 })
 
-            console.log('offer', offer)
-            console.log('post',post)
+            // console.log('offer', offer)
             
             navigate('/')
             
@@ -65,13 +64,45 @@ export const ProfessionalOfferToClientNeed = () => {
             console.error(error)
         }
     };
-    
+  //   function onReset(){
+  //     setform({
+  //       description: "",
+  //       price: "",
+  //       duration: "",
+  //       materials:"",
+  //       guarantee_time: "",
+  //       ClientNeedId: clientNeed.id,
+  //       // UserId: professional.id,
+  //       UserId: 30,
+  //     })
+      
+  // }
+  //   function onSubmit(){
+      
+  //     if(!stateFilled){
+  //         props.newProfessionalOffer(
+  //             {
+  //               description: form.description,
+  //               price: form.price,
+  //               duration: form.duration,
+  //               materials: form.materials,
+  //               guarantee_time: form.guarantee_time,
+  //               ClientNeedId: form.ClientNeedId,
+  //               UserId: form.UserId,
+  //           }
+  //         )
+  //     onReset()  
+  //     }else{
+  //         alert('Please fill all the fields')
+  //     }
+      
+  // }
     return (
         <>
             <div className={ s.container }>
 
                 <div className={s.container_form}>
-                    <form onSubmit={postNeed} action="">
+                    <form onSubmit={postNeed}  action="">
                         <div className="row">
                             <div className={"col-12" && s.container_filter}>
                                 <h1>Realizá tu oferta!</h1>
@@ -100,14 +131,14 @@ export const ProfessionalOfferToClientNeed = () => {
                                     <input
                                         className="input"
                                         type="radio" 
-                                        value="yes" 
+                                        value={true}
                                         name="materials"
                                         onChange={ e=> onChangeForm(e) }
                                     /> Si
                                     <input
                                         className="input"
                                         type="radio" 
-                                        value="no" 
+                                        value={false} 
                                         name="materials"
                                         onChange={ e=> onChangeForm(e) }
                                     /> No
@@ -145,6 +176,7 @@ export const ProfessionalOfferToClientNeed = () => {
                         </div>
                         <div className="row">
                         <button
+                            // onClick={postNeed} 
                             type="submit"
                             className={` "btn btn-primary btn-lg btn-block" s.container_filterButton`}
                         >
@@ -157,3 +189,11 @@ export const ProfessionalOfferToClientNeed = () => {
         </>
     )
 }
+
+// function mapStateToProps(state) {
+//   return{
+//       clientNeeds:state.detailsClientNeed,
+//   }
+// }
+
+// export default connect(mapStateToProps,null, {newProfessionalOffer, getDetailsClientNeed})(ProfessionalOfferToClientNeed)
