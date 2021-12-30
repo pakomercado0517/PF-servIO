@@ -95,6 +95,7 @@ export default function Home(){
                 </>: <></>
                 
                 }
+                {/* FILTROS */}
                 <div className='dropdown'>
                     <button class="border-0 btn btn-primary dropdown-toggle bg-info" id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false" ><CgOptions/>Ordenado</button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
@@ -139,24 +140,25 @@ export default function Home(){
                 totalPosts={switcheo === true ? professionals?.length: clientNeeds?.length}
                 />
 
-            { switcheo2 === "professional" ? <div className={s.professionalGrid}>
-                {
-                    currentPosts2?.length > 0 ? currentPosts.map((professional) => (
-                        <CardProfessional
-                            idTech={professional.id} 
-                            avatarTech={professional.photo} 
-                            titleTech={professional.first_name + ' ' + professional.last_name}
-                            workTech={ professional.Professional?.Professions[0]?.name }
-                            locationTech={professional.state + ', ' + professional.city}
-                            //* PENDIENTE DATA DEL CALIFICATION
-                            calificationTech={'calification: 5/5'}/>
-                    )) : <h1>No hay mas resultados</h1>
-                }
+            { switcheo2 === "professional" ? 
+              <div className={s.professionalGrid}>
+                  {
+                      currentPosts2?.length > 0 ? currentPosts.map((professional) => (
+                          <CardProfessional
+                              idTech={professional.id} 
+                              avatarTech={professional.photo} 
+                              titleTech={professional.first_name + ' ' + professional.last_name}
+                              workTech={ professional.Professional?.Professions[0]?.name }
+                              locationTech={professional.state + ', ' + professional.city}
+                              //* PENDIENTE DATA DEL CALIFICATION
+                              calificationTech={'calification: 5/5'}/>
+                      )) : <h1>No hay mas resultados</h1>
+                  }
 
-                {/* CARDS DE SOLICITUDES DE CLIENTES */}
+                  {/* CARDS DE SOLICITUDES DE CLIENTES */}
 
-            </div> : 
-                <div>
+              </div> : 
+              <div>
                     {
                         currentPosts2?.length > 0 ? currentPosts?.map((user)=>(
                             <NavLink className={s.card_client_need} to={"/client/need/"+user.id}>
@@ -171,7 +173,7 @@ export default function Home(){
                             
                         )): <h1>No hay mas resultados</h1>
                     }
-                </div>
+              </div>
             }
 
             {/* DIV MUESTRA LOS TESTIMONIOS (FEEBACK DE LOS USUARIOS) */}
