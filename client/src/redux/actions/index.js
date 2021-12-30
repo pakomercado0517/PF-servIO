@@ -242,21 +242,20 @@ export function newTechnicalActivity(data) {
 }
 
 // nueva oferta del profesional al necesidad especifica del cliente
-export function newProfessionalOffer(data) {
-  return async function (dispatch) {
-    try {
-      const response = await axios.post(
-        `${constants.localhost}/newProfessionalOffer`,
-        data
-      );
-      dispatch({
-        type: NEW_PROFESSIONAL_OFFER,
-        payload: response.data,
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+export async function newProfessionalOffer(data) {
+        const response = await axios.post(
+          `${constants.localhost}/professsionalOffer`,
+          data
+        );
+        console.log(response)
+        // dispatch({
+        //   type: NEW_PROFESSIONAL_OFFER,
+        //   payload: response.data,
+        // });
+
+        // alert('Please fill the camps')
+      
+
 }
 
 //busqueda de un profesional por su nombre {TEMPORAL PARA LA PRIMER DEMO}
