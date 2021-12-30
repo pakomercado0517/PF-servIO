@@ -417,7 +417,7 @@ module.exports = {
         where: {
           professional: true,
         },
-        include: [{ model: Professional, include: [{ model: Profession },{model: ClientReview}] }],
+        include: [{ model: Professional, include: [{ model: Profession },{model: ClientReview}, {model: SpecificTechnicalActivity}] }],
         prueba:'ala'
       });
       const rate = professionals.filter(r => {
