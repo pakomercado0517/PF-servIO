@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useGlobalStorage } from '../hooks/useGlobalStorage'
 import { getSpecificActivitiesById } from '../redux/actions';
 
@@ -12,6 +12,12 @@ export default function CardParticularService(props) {
     const [cart, setCart] = useGlobalStorage("cart", [])
     const { id } = useParams()
     const dispatch = useDispatch()
+
+    const specificActivities = useSelector((state) => state.specificActivitiesById)
+
+    const idSpecificActivities = specificActivities.map((item) => item.id)
+    console.log('idSpecificActivities',idSpecificActivities)
+
 
     useEffect(()=>{
         dispatch(getSpecificActivitiesById(id))
@@ -43,7 +49,8 @@ export default function CardParticularService(props) {
         <div className={s.container}>
             
             <Link 
-                to={"/ProfessionalSpecificActivity/" + id} 
+                to={`/professional/${id}/ProfessionalSpecificActivity/${idSpecificActivities}`}
+                // to={"/ProfessionalSpecificActivity/" + id} 
                 style={{ textDecoration: 'none' }}
             >
             
