@@ -16,6 +16,7 @@ const {
   SpecificTechnicalActivity,
   Transactions,
   Profession_Professional,
+  ClientReview
 } = require("../db.js");
 const e = require("express");
 
@@ -409,12 +410,20 @@ module.exports = {
 
   getAllProfessionals: async (req, res) => {
     try {
+      // const reviews = await ClientReview.findAll({
+
+      // })
       const professionals = await User.findAll({
         where: {
           professional: true,
         },
-        include: [{ model: Professional, include: [{ model: Profession }] }],
+        include: [{ model: Professional, include: [{ model: Profession },{model: ClientReview}] }],
+        prueba:'ala'
       });
+      const rate = professionals.filter(r => {
+        return r
+        
+      })
       res.status(200).send(professionals);
     } catch (error) {
       res.status(400).send(error.message);

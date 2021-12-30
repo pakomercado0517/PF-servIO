@@ -29,7 +29,7 @@ export const GET_PROFESSIONAL_ACTIVITY_BY_ID = 'GET_PROFESSIONAL_ACTIVITY_BY_ID'
 export const GET_DETAILS_CLIENT_NEED_BYID = 'GET_DETAILS_CLIENT_NEED_BYID';
 export const GET_DETAILS_PROFESSIONAL_OFFER_BYID = 'GET_DETAILS_PROFESSIONAL_OFFER_BYID'; //
 export const GET_ALL_PROFESSIONAL_OFFERS = 'GET_ALL_PROFESSIONAL_OFFERS';
-
+export const DATA_FILTERED = 'DATA_FILTERED';
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers () {
     
@@ -364,4 +364,23 @@ export function changeSwitch(boolean) {
     type: SWITCH_RENDER,
     payload: boolean,
   };
+}
+
+export const filter = (name, rate, location, professions, sortByName) => async  dispatch => {        
+  const url = (name.length > 0) ?  `${ constants.localhost }/professionals?name=${name}`:`${ constants.localhost }/user/professionals`
+  axios.get(url)
+  .then(response => {
+    const db = response.data
+
+    //*******************FILTER BY RATE***************//
+    let aux = db.filter(e =>{
+      if(rate === undefined || !rate[0]){
+        return e
+      }else{
+        for(let i=0; i<rate.length; i++){
+
+        }
+      }
+    })
+  })
 }
