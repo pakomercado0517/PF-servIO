@@ -1,7 +1,7 @@
 import './App.css';
 // Router-dom
 import { Route, Routes } from 'react-router-dom';
-import ProfessionalSpecificActivity from "./components/ProfessionalSpecificActivity";
+import ProfessionalSpecificActivity from "./pages/ProfessionalSpecificActivity";
 import Home from './pages/Home';
 import NavBar from './components/NavBar';
 import ProfileClient from './pages/ProfileClient';

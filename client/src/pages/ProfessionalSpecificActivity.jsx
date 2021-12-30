@@ -1,24 +1,26 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {NavLink, useParams} from 'react-router-dom'
-import {getProfessionalActivityById, getByAccountId} from '../redux/actions/index'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faPhoneAlt} from '@fortawesome/free-solid-svg-icons'
-import {StarRating} from './StarRating'
+import { NavLink, useParams } from 'react-router-dom'
+import { getProfessionalActivityById, getByAccountId } from '../redux/actions/index'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
+import { StarRating } from '../components/StarRating'
+
 import s from './styles/ProfessionalSpecificActivity.module.css'
 
 
 function ProfessionalSpecificActivity() {
   
   const {id}= useParams()
-  console.log('id', id)
   const dispatch= useDispatch()
+  
   const user = useSelector(state => state.user)
-  
   const professionalActivities = useSelector(state => state.professionalActivities)
-  console.log('profesional activities',professionalActivities)
   
-  const specificActivities = useSelector((state) => state.specificActivitiesById)
+  // console.log('id', id)
+  // console.log('profesional activities',professionalActivities)
+  
+  // const specificActivities = useSelector((state) => state.specificActivitiesById)
 
 
   useEffect( ()=> {
