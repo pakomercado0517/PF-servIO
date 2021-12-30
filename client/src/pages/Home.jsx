@@ -12,9 +12,6 @@ import Pagination from "../components/Pagination";
 import TestimoniosHome from '../components/TestimoniosHome';
 import { ClientSpecificNeed } from '../components/ClientSpecificNeed';
 import CardClientNeed from '../components/CardClientNeed';
-
-import { ProfessionalOfferToClientNeed } from '../components/ProfessionalOfferToClientNeed';
-
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
 import { NavLink, useParams } from 'react-router-dom';
@@ -87,12 +84,7 @@ export default function Home(){
     return (
         <div>
             <ClientSpecificNeed/>
-            <ProfessionalOfferToClientNeed></ProfessionalOfferToClientNeed>
-            {/* <NavBar/> */}
-                {/* <div onClick={showModalFormCLient} className={s.show__presentation}>
-                    <CgOptions/>
-                    <span>Crear publicacion</span>
-                </div> */}
+
             <div className={s.container__filter}>
                 { login && login.message === "Logged"?  
                 <>
