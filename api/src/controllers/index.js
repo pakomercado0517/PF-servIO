@@ -990,7 +990,7 @@ module.exports = {
   getOffersByUserId: async (req, res) => {
     const id = req.params.id
     try{
-      const user = await User.findOne({ where: {id}})
+      
       const professional = await Professional.findOne({where: {UserId: id}})
       const ProfessionalId = professional.id
 
