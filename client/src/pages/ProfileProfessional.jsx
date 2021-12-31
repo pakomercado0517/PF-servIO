@@ -15,20 +15,15 @@ export default function ProfileProfessional(){
 
     const { id } = useParams()
     const dispatch= useDispatch();
+    const professional = useSelector((state) => state?.user[0])
+    const specificActivities = useSelector((state) => state?.specificActivitiesById)
+    // console.log('specificActivities',specificActivities)
+    
     const [state, setstate] = useState({
         login: false,
         seeAllReview: true,
         seeAllServices: true,
     })
-    
-    const professional = useSelector((state) => state?.user[0])
-    console.log('profesionalesssssssss',professional)
-    const specificActivities = useSelector((state) => state.specificActivitiesById)
-
-    
-    const idSpecificActivities = specificActivities.map((item) => item.id)
-    console.log('idSpecificActivities',idSpecificActivities)
-
 
     useEffect(()=>{
         dispatch(getByUserId(id))
@@ -114,9 +109,11 @@ export default function ProfileProfessional(){
                         )
                     }
                     {
-                        specificActivities && specificActivities !== 'There are not specifical Activities' && specificActivities.map((el, index) => 
+                        specificActivities && specificActivities !== 'There are not specifical Activities' && specificActivities.map((el) => 
                             (
                                 <CardParticularService
+                                        id={el.id}
+                                        key={el.id}
                                         name= { el.name }
                                         description= { el.description }
                                         price= { el.price }

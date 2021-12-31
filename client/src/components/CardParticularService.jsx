@@ -12,23 +12,14 @@ export default function CardParticularService(props) {
     const [cart, setCart] = useGlobalStorage("cart", [])
     const { id } = useParams()
     const dispatch = useDispatch()
-
-    const specificActivities = useSelector((state) => state.specificActivitiesById)
-    console.log('specificActivities', specificActivities)
+    // console.log('id', id)
     
-    // const idSpecificActivities = specificActivities.map((item) => item.id)
-    // console.log('idSpecificActivities',idSpecificActivities)
-
-
-    const professional = useSelector((state) => state?.user[0])
-    // console.log('profesionalesssssssss',professional)
-
-
     useEffect(()=>{
         dispatch(getByUserId(id))
         dispatch(getSpecificActivitiesById(id)) // comentar
     },[dispatch, id])
-
+    
+    
     function addToCart(){
         const exist = cart.filter(el => el.name === props.name )
         const notExist = cart.filter(el => el.name !== props.name )
@@ -55,7 +46,7 @@ export default function CardParticularService(props) {
         <div className={s.container}>
             
             <Link 
-                to={`/professional/${id}/SpecificActivity/${id}`}
+                to={`/professional/${id}/SpecificActivity/${props.id}`}
                 style={{ textDecoration: 'none' }}
             >
             
