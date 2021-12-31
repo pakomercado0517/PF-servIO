@@ -5,12 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { filterProfessions } from '../redux/actions';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import {storage} from '../firebase/firebase'
+import {ref, uploadBytesResumable, getDownloadURL} from '@firebase/storage'
 import { useNavigate } from "react-router-dom";
+
 
 export default function EditCliente() {
 
+    const [progress, setProgress] = useState(0)
     const [globalUser, setGlobalUser] = useGlobalStorage("globalUser", "");
-
+    
     const[errors, setErrors] = useState({});
     const [profession, setProfession] = useState([])
     const oficio = useSelector((state) => state.professionsName)
@@ -25,6 +29,7 @@ export default function EditCliente() {
         professional: globalUser.professional,
         professionalCase:false,
         profession:profession.toString(),
+        photo: globalUser.photo,
     })
 
     console.log('profesional: ', globalUser.professional)
@@ -93,9 +98,36 @@ export default function EditCliente() {
         })
     }, [details.dni, details.email, details.firstName, details.lastName, details.password, details.repeatPassword])
 
+    const uploadFile= (file) => {
+        if(!file) return 
+        const storageRef= ref(storage, `/files/${file.name}`)
+        const uploadTask = uploadBytesResumable(storageRef, file)
+
+        uploadTask.on('state_changed', (snapshot) => {
+            const prog= Math.round((snapshot.bytesTransferred / snapshot.totalBytes) *100)
+            setProgress(prog)
+        }, (err)=> console.log(err),
+        ()=> {
+            getDownloadURL(uploadTask.snapshot.ref).then(url=> {
+                console.log('url', url);
+                setDetails({
+                    ...details,
+                    photo: url
+                });
+            })
+        }
+        )
+    }
+
+    const uploadImage= async (e) => {
+        const file= e.target.files[0]
+        // console.log('fileeeeeeeee', file)
+        await uploadFile(file)
+    }
+
     const handleSubmit = async (e) =>{
         e.preventDefault();
-
+        
         try{
             let prof= profession.toString()
             let newData= {
@@ -106,8 +138,9 @@ export default function EditCliente() {
                 password:details.password,
                 professional:details.professional,
                 profession:prof,
+                photo: details.photo
             }
-            await axios.put(`http://localhost:3001/user/updateUser/101`, newData)
+            await axios.put(`http://localhost:3001/user/updateUser/101`,  newData)
             const obj = {
                 ...globalUser,
                 first_name:details.firstName,
@@ -116,7 +149,8 @@ export default function EditCliente() {
                 dni:details.dni,
                 password:details.password,
                 professional: details.professional,
-                profession:prof
+                profession:prof,
+                photo: details.photo,
             }
 
             // 
@@ -190,7 +224,7 @@ export default function EditCliente() {
             profession: details.profession + e.target.id + ","
         })
     }
-    
+    console.log('detailssss', details)
     return (
         <div className={s.container}>
             <div className={ s.container_img}>
@@ -202,7 +236,7 @@ export default function EditCliente() {
                 <div className={s.container_edilt_titulo}>
                     <h2>Edita tu perfil</h2>
                 </div>
-            <form className={s.container_edilt_form} onSubmit={(e) => handleSubmit(e)}>
+            <form className={s.container_edilt_form} onSubmit={handleSubmit} encType='multipart/form-data'>
                 <div className={s.container_edilt_form_input}>
                     <label>Nombre: </label>
                     <input
@@ -282,16 +316,19 @@ export default function EditCliente() {
                 </div>
 
                 <div className={s.container_edilt_form_input_img} >
-                    <label htmlFor="imageFile">Selecciona alguna imágen (png):</label><br/>
+                    {/* <label htmlFor="imageFile">Selecciona alguna imágen (png):</label><br/> */}
+                    <label>Selecciona alguna imágen (png):</label><br/>
                     <div className={s.div_file}>
                         <p className={s.text}>Elegir archivo</p>
                         <input className={s.btn_enviar} 
                             type="file"  
-                            accept=".png" 
-                            multiple
-                            // onChange={(e) => handleChange(e)}
+                            // accept=".png" 
+                            name="photo"
+                            // multiple
+                            onChange={uploadImage}
                         /> 
                     </div>
+                    <span>Uploaded {progress} % </span>
                 </div>
 
                 {

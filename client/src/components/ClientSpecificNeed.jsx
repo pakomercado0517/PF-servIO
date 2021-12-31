@@ -4,12 +4,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import { showFormClientNeed } from '../redux/actions'
 import Swal from 'sweetalert2'
 import s from './styles/ClientSpecificNeed.module.css'
+import { useNavigate } from "react-router-dom";
 
 
 export const ClientSpecificNeed = () => {
     
     const modal = useSelector(state => state.modal)
     const user = useSelector(state => state.globalUserGlobalStorage)
+    const navigate = useNavigate()
 
     const [input, setInput] = useState({
         userId: user?.id,
@@ -39,6 +41,8 @@ export const ClientSpecificNeed = () => {
             fondo.style.top = "-100vh"
             
             stateReset()
+
+            navigate('/clients/'+ user.id)
             
         } catch ( error ) {
             console.log( error.message )
