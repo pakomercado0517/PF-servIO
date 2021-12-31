@@ -304,17 +304,54 @@ export function setToGlobalStorage(data) {
   };
 }
 
-export function orderProfessionals(data) {
-  return {
-    type: ORDER_DATA,
-    payload: data
-  };
-}
+export function filterProfessionals(type, data) {
+  let option =  [];
+      if(type === 'Z-A'){
+        option = data.sort((a,b) => {
+              if(a.first_name){
+                if (a.first_name > b.first_name) return -1;
+                if(a.first_name < b.first_name) return 1;
+                return 0;
+              }
+        })
+      }else{
+        option = data.sort((a,b) => {
+              if(a.first_name){
+                if (a.first_name > b.first_name) return 1;
+                if(a.first_name < b.first_name) return -1;
+                return 0;
+              }
+        })
+      }
+      return {
+        type: ORDER_DATA,
+        payload: option
+      };
 
-export function orderClientNeeds(data) {
+  };
+
+
+
+export function orderClientNeeds(type,data) {
+  let option =  [];
+  if(type === 'Z-A'){
+    option = data.sort((a,b) => {
+            if (a.name > b.name) return -1;
+            if(a.name < b.name) return 1;
+            return 0;
+          
+    })
+  }else{
+    option = data.sort((a,b) => {
+            if (a.name > b.name) return 1;
+            if(a.name < b.name) return -1;
+            return 0;
+          
+    })
+  }
   return {
     type: ORDER_DATA_CLIENT,
-    payload: data
+    payload: option
   };
 }
 
@@ -438,10 +475,9 @@ export const filterClients = (name, rate, location, professions, sortByName, fil
   })
 }
 
-export const filterProfessionals = (name, rate, location, professions, sortByName, filterWithActivity) => async  dispatch => {        
+export const orderProfessionals = (name) => async  dispatch => {        
 
-  let url = (name.length > 0) ?  `${ constants.localhost }/clientNeeds/need?name=${name}`:`${ constants.localhost }/clientNeeds/all`
-
+  let url = name ==! '' ?  `${ constants.localhost }/clientNeeds/need?name=${name}`:`${ constants.localhost }/clientNeeds/all`
   axios.get(url)
   .then(response => {
     let order = []
@@ -449,7 +485,7 @@ export const filterProfessionals = (name, rate, location, professions, sortByNam
     dispatch({
       type:PROFESSIONAL_FILTERED,
       payload: db
-  })
+    })
   })
 }
 

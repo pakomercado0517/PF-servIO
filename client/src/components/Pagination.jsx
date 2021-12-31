@@ -13,10 +13,10 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
   const [switcheo, setSwitcheo] = useGlobalStorage("switcheo", "professional")
   const [ login ] = useGlobalStorage("globalUser", "")
   const pageNumbers = [];
-console.log(login.professional)
+// console.log(login.professional)
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
     pageNumbers.push(i);
-    console.log(pageNumbers)
+    // console.log(pageNumbers)
   }
   const reset = () => paginate(1)
   function moodRender(e){

@@ -150,76 +150,14 @@ function rootReducer( state = initialState, { type, payload } ) {
                     searchbar: payload
                 };
         case ORDER_DATA:
-            let option = [];
-            switch (payload) {
-                case 'A-Z':
-                    option = state.professionalsFilter.sort((a,b) => {
-                      if(a.first_name){
-                        if (a.first_name > b.first_name) return 1;
-                        if(a.first_name < b.first_name) return -1;
-                        return 0;
-                      }else{
-                        if (a.name > b.name) return 1;
-                        if(a.name < b.name) return -1;
-                        return 0;
-                      }
-                    })
-                    break;
-                case 'Z-A':
-                    option = state.professionalsFilter.sort((a,b) => {
-                      if(a.first_name){
-                        if (a.first_name > b.first_name) return -1;
-                        if(a.first_name < b.first_name) return 1;
-                        return 0;
-                      }else{
-                        if (a.name > b.name) return -1;
-                        if(a.name < b.name) return 1;
-                        return 0;
-                      }
-                    })
-                    break
-                default:
-                    break;
-            };
             return {
                 ...state,
-                professionalsFilter: option
+                professionalsFilter: payload
             };
         case ORDER_DATA_CLIENT:
-              let option2 = [];
-              switch (payload) {
-                  case 'A-Z':
-                      option2 = state.clientsFilter.sort((a,b) => {
-                        if(a.first_name){
-                          if (a.first_name > b.first_name) return 1;
-                          if(a.first_name < b.first_name) return -1;
-                          return 0;
-                        }else{
-                          if (a.name > b.name) return 1;
-                          if(a.name < b.name) return -1;
-                          return 0;
-                        }
-                      })
-                      break;
-                  case 'Z-A':
-                      option2 = state.clientsFilter.sort((a,b) => {
-                        if(a.first_name){
-                          if (a.first_name > b.first_name) return -1;
-                          if(a.first_name < b.first_name) return 1;
-                          return 0;
-                        }else{
-                          if (a.name > b.name) return -1;
-                          if(a.name < b.name) return 1;
-                          return 0;
-                        }
-                      })
-                      break
-                  default:
-                      break;
-              };
               return {
                   ...state,
-                  clientsFilter: option2
+                  clientsFilter: payload
               };
           default:
               return state;
