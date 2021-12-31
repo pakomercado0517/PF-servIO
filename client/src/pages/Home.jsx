@@ -28,7 +28,7 @@ export default function Home(){
     const switcheo = useSelector(state => state.switch)
     const stateRedux = useSelector(state => state)
     const [switcheo2] = useGlobalStorage("switcheo", null)
-//     const [state, setstate] = useState("")
+    // const [state, setstate] = useState("")
     // const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
 
     const [login] = useLocalStorage("user", null)
