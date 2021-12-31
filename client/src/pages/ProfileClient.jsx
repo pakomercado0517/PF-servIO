@@ -61,7 +61,10 @@ export default function ProfileClient(){
                     <div className={ s.reviews_container }>
                         { clientNeeds.map( clientNeed => {
                             return (
-                                <Link to={`/client/need/${clientNeed.id}`} key={clientNeed.id}>
+                                <Link 
+                                    to={`/client/need/${clientNeed.id}`}
+                                    key={clientNeed.id}
+                                >
                                     <CardClientNeed
                                         name={ clientNeed.name }
                                         description={ clientNeed.description }
