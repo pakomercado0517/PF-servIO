@@ -12,7 +12,6 @@ export default function CardParticularService(props) {
     const [cart, setCart] = useGlobalStorage("cart", [])
     const { id } = useParams()
     const dispatch = useDispatch()
-    // console.log('id', id)
     
     useEffect(()=>{
         dispatch(getByUserId(id))
@@ -70,4 +69,4 @@ export default function CardParticularService(props) {
         
         </div>
     )
-}
+};
