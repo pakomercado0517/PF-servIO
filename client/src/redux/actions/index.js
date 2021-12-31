@@ -412,10 +412,11 @@ export const filter = (name, rate, location, professions, sortByName) => async  
 
     let order = aux2;
 
-
+    let a = order.sort(((a, b) => a.id - b.id))
+    
     dispatch({
       type:DATA_FILTERED,
-      payload: order
+      payload: a
   })
   })
 }
