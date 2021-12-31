@@ -971,4 +971,17 @@ module.exports = {
       res.status(400).send(error.message);
     }
   },
+  getNeedByName:  async (req, res) =>{
+    try {
+      const need = await ClientNeed.findAll({
+        include: [
+          {model: User,},
+        ],
+        where: { name: { [Sequelize.Op.iLike]: `%${ req.query.name}%` } },
+      });
+      res.status(200).send(need);
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
+  }
 };
