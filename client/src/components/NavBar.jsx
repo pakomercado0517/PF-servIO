@@ -133,7 +133,7 @@ export default function NavBar() {
                                         </li>
                                         
                                         <li>
-                                            <NavLink to="/service-history">
+                                            <NavLink to={"/service-history/" + login.id}>
                                                 <span className={s.dropdown_item + " dropdown-item"} >
                                                     Servicios Solicitados
                                                 </span>
@@ -253,7 +253,7 @@ export default function NavBar() {
                                         </li> */}
 
                                         <li>
-                                            <NavLink to="/service-history">
+                                            <NavLink to={"/service-history/" + login.id}>
                                                 <span className={s.dropdown_item + " dropdown-item"} >
                                                     Servicios Solicitados
                                                 </span>

@@ -34,7 +34,7 @@ function App() {
         <Route exact path="/cart/" element={<Cart />} />
         <Route exact path="/homeprofessional" element={<HomeProfessional />} />
         <Route exact path="/editUser" element={<EditUser />} />
-        <Route exact path="/service-history" element={<ServiceHistory />} />
+        <Route exact path="/service-history/:id" element={<ServiceHistory />} />
         <Route
           exact path="/ProfessionalServiceOffer"
           element={<ProfessionalServiceOffer />}
