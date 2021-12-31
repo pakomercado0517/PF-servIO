@@ -13,7 +13,8 @@ const CardProfessional = (props) => {
             <div>
                 <div className={s.subtitleTech}>
                     <MdBusinessCenter/>
-                    <span>{props.workTech}</span>
+                    <div className={s.subtitleTech_1}>{props.workTech?.map(e => <span>{e.name}</span>)}</div>
+                    {/* {props.workTech?.map(e => <span>{e.name}</span>)} */}
                 </div>
                 <div className={s.subtitleTech}>
                     <MdLocationOn/>
