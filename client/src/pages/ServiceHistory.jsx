@@ -62,7 +62,7 @@ export default function ServiceHistory() {
                     </div>
 
                     <div>
-                        {/* DATOS DE TRABAJOS REALIZADOS */}
+                        {/* DATOS DE TRABAJOS REALIZADOS http://localhost:3001/professsionalOffer/all/1 */}
                     </div>
 
                 </> : <></>
