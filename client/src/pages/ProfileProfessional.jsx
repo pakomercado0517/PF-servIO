@@ -83,7 +83,7 @@ export default function ProfileProfessional(){
             
             <div className={s.professions_container}>
                     {
-                    professional?.Professional.Professions.map(el=> {
+                    professional?.Professional.Professions?.map(el=> {
                         return(
                             <div className='profession'>{el.name}</div>
                         )

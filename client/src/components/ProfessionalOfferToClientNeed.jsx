@@ -5,26 +5,22 @@ import Swal from 'sweetalert2'
 import s from './styles/ProfessionalOfferToClientNeed.module.css'
 import { useNavigate } from 'react-router-dom'
 import { newProfessionalOffer, getDetailsClientNeed } from '../redux/actions/index'
+
+
 export const ProfessionalOfferToClientNeed = (props) => {
-    // console.log(mapStateToProps)
     const navigate = useNavigate()
-    // const clientNeed = useSelector((state) => state.detailsClientNeed)
-    // console.log('clientNeed', clientNeed)
 
     const professional = useSelector((state) => state.globalUserGlobalStorage)
-    // console.log('professional', professional)
 
     let actualId = parseInt(window.location.pathname.slice(31))
-    // console.log('id', actualId)
     const [form, setform] = useState({
-        description: "kjhklhjkjh",
+        description: "",
         price: 0,
         duration: 0,
         materials:true,
         guarantee_time: 0,
         ClientNeedId: actualId,
         UserId: professional.id,
-        // UserId: 30,
     })
     console.log(form)
     function onChangeForm(e) {
@@ -35,7 +31,6 @@ export const ProfessionalOfferToClientNeed = (props) => {
     };
 
     const postNeed =  (e) =>{
-      console.log('aiudaaa')
         e.preventDefault()
         try {
 
@@ -47,6 +42,7 @@ export const ProfessionalOfferToClientNeed = (props) => {
               guarantee_time: parseInt(form.guarantee_time),
               ClientNeedId: form.ClientNeedId,
               UserId: form.UserId,
+              name: props.name
             }
             newProfessionalOffer(offer)
                 Swal.fire({
