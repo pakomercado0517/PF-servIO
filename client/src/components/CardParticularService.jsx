@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useGlobalStorage } from '../hooks/useGlobalStorage'
-import { getSpecificActivitiesById } from '../redux/actions';
+import { getSpecificActivitiesById, getByUserId } from '../redux/actions';
 
 import s from './styles/CardParticularService.module.css'
 
@@ -13,8 +13,19 @@ export default function CardParticularService(props) {
     const { id } = useParams()
     const dispatch = useDispatch()
 
+    // const specificActivities = useSelector((state) => state.specificActivitiesById)
+
+    // const idSpecificActivities = specificActivities.map((item) => item.id)
+    // console.log('idSpecificActivities',idSpecificActivities)
+
+
+    const professional = useSelector((state) => state?.user[0])
+    // console.log('profesionalesssssssss',professional)
+
+
     useEffect(()=>{
-        dispatch(getSpecificActivitiesById(id))
+        dispatch(getByUserId(id))
+        dispatch(getSpecificActivitiesById(id)) // comentar
     },[dispatch, id])
 
     function addToCart(){
@@ -43,7 +54,8 @@ export default function CardParticularService(props) {
         <div className={s.container}>
             
             <Link 
-                to={"/ProfessionalSpecificActivity/" + id} 
+                to={`/professional/${id}/ProfessionalSpecificActivity/${id}`}
+                // to={"/ProfessionalSpecificActivity/" + id} 
                 style={{ textDecoration: 'none' }}
             >
             
