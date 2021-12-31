@@ -3,41 +3,44 @@ import { useState } from 'react'
 import { FiSearch } from 'react-icons/fi'
 import s from './styles/Search.module.css'
 import { useDispatch, useSelector } from 'react-redux';
-import {searchByName, getAllProfessionals, } from '../redux/actions'
+import {searchByName, getAllProfessionals, searchBar } from '../redux/actions'
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
+import { useGlobalStorage } from '../hooks/useGlobalStorage';
 
 const Search = () => {
-
+  const [switcheo2] = useGlobalStorage("switcheo", null)
     const display = useSelector(state => state.professionals)
     const dispatch = useDispatch()
-    const[input, setInput]= useState({
-        name:""
-    })
+    const[name, setName]= useState('')
+    console.log(name)
+    // useEffect(()=>{
+    //     if (input.name) {
+    //         dispatch(searchByName(input.name))
+    //     } else {
+    //         dispatch(getAllProfessionals())
+    //     }
+    // }, [dispatch, input])
 
-    useEffect(()=>{
-        if (input.name) {
-            dispatch(searchByName(input.name))
-        } else {
-            dispatch(getAllProfessionals())
-        }
-    }, [dispatch, input.name])
+    useEffect(() => {
+      dispatch(searchBar(name))
+    },[name])
 
-    //* BORRAR EL ESTADO CUANDO EL INPUT ESTA SIENDO BORRANDO
-    function handleName (e) {
-        setInput({...input, name:e.target.value})
-    }
+    // //* BORRAR EL ESTADO CUANDO EL INPUT ESTA SIENDO BORRANDO
+    // function handleName (e) {
+    //     setInput({...input, name:e.target.value})
+    // }
 
-    function clearInput () {
-        setInput("")
-    }
-    function selectedOption(item){
-        setInput({...input, name: item.first_name})
-    }
+    // function clearInput () {
+    //     setInput("")
+    // }
+    // function selectedOption(item){
+    //     setInput({...input, name: item.first_name})
+    // }
 
     return (
         <div>
             <div style={{width: 280}}>
-                    <ReactSearchAutocomplete
+                    {/* <ReactSearchAutocomplete
                         items={display}
                         // onSearch={handleName}
                         setSearchString={handleName}
@@ -65,7 +68,14 @@ const Search = () => {
                             //   lineColor: "rgb(232, 234, 237)",
                             //   placeholderColor: "grey",
                         }}
-                    />
+                    /> */}
+                    <input
+                type="text"
+                placeholder={switcheo2 === 'professional' ? "Busca un tecnico": 'Busca trabajo'}
+                value={name}
+                onChange={e => {setName(e.target.value)}}
+                // className={style.input}
+            />
                 </div>
         </div>
     )

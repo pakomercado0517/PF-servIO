@@ -1,7 +1,12 @@
 import React from 'react'
 import s from './styles/CardClientNeed.module.css'
+import { filterProfessions, filter } from '../redux/actions';
+import { useDispatch, useSelector } from "react-redux";
 
 export default function CardClientNeed(props) {
+  const needs = useSelector((state) => state.switch)
+  console.log(needs)
+  
     return (
         <div className={ s.container }>
             <div className= { s.container_info }>
