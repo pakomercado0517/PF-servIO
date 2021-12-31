@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { filterProfessions } from '../redux/actions';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function EditCliente() {
 
@@ -28,6 +28,7 @@ export default function EditCliente() {
     })
 
     console.log('profesional: ', globalUser.professional)
+    
     useEffect(() => {
         dispatch(filterProfessions())      
     },[])
@@ -177,11 +178,8 @@ export default function EditCliente() {
     }
     function changeCountry(event){
         // setDetails({...details, profession: event.target.value})
-        setDetails(() =>({ 
-            ...details, 
-            profession: [...details.profession, event.target.value] 
-            })
-        );
+
+        setDetails(() =>({...details, profession:event.target.value}));
 
     }  
     function onClose(e){
@@ -348,6 +346,7 @@ export default function EditCliente() {
 //////--------------------- edit de cliente -------------------------------
 
                     <div className={s.container_edilt_form_pofesional}>
+                      
                         <label>Dar de alta como profesional:<input
                                 type='checkbox'
                                 value={globalUser.professional}
@@ -358,7 +357,7 @@ export default function EditCliente() {
                         {
                             details.professionalCase ? (
                                 <>
-                                    <label htmlFor="countries">Seleccona tu Oficio:</label>
+                                    <label htmlFor="profession">Seleccona tu Oficio:</label>
                                     <div>
                                         <select 
                                         className={s.inputClass3}

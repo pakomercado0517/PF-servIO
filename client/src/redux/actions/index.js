@@ -378,15 +378,44 @@ export const filter = (name, rate, location, professions, sortByName) => async  
   .then(response => {
     const db = response.data
 
-    //*******************FILTER BY RATE***************//
+    // //*******************FILTER BY RATE***************//
     let aux = db.filter(e =>{
       if(rate === undefined || !rate[0]){
         return e
       }else{
-        for(let i=0; i<rate.length; i++){
+        // for(let i=0; i<rate.length; i++){
 
+        // }
+      }
+    })
+    // //*******************FILTER BY location***************//
+
+
+
+    // //*******************FILTER BY professions***************//
+    let aux2 = aux.filter(e => {
+      if(professions === undefined || !professions[0]){
+        return e
+      }else{
+        for(let i=0; i < professions.length; i++){
+          for(let j=0; j < e.Professional.Professions.length; j++){
+            if(professions[i] ===  e.Professional.Professions[j].name){
+              return e
+            }
+          }
         }
       }
     })
+
+
+
+
+    let order = aux2;
+
+
+    dispatch({
+      type:DATA_FILTERED,
+      payload: order
+  })
   })
 }

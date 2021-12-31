@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import s from './styles/Home.module.css'
+import {Filter} from '../components/Filter'
 // import NavBar from '../components/NavBar';
 import Landing from '../components/Landing';
 import {CgOptions} from 'react-icons/cg'
@@ -21,7 +22,7 @@ import img from '../img/undraw_welcome_cats_thqn.svg';
 export default function Home(){
     
     const dispatch = useDispatch();
-    const professionals = useSelector(state => state.professionals);
+    const professionals = useSelector(state => state.filter);
     const {params} = useParams()
     console.log("PARAMS: --->",params)
     const clientNeeds = useSelector(state => state.clientNeeds);
@@ -95,6 +96,7 @@ export default function Home(){
                 </>: <></>
                 
                 }
+                <Filter />
                 {/* FILTROS */}
                 <div className='dropdown'>
                     <button class="border-0 btn btn-primary dropdown-toggle bg-info" id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false" ><CgOptions/>Ordenado</button>
@@ -108,24 +110,24 @@ export default function Home(){
 
         {/* {WELCOME CARD} */}
             {
-                globalUser.professional === false ? 
-                <div className={s.card_gat}>
-                    <div className={s.card_gat_text}>
-                        {/* <p>Aprobecha y volvete un prodecionañ en nuestra seccion "Volvese profecional"
-                            en la barra desplegable de un perdil
-                        </p> */}
-                        <p>
-                            Aprovechá y registrate como profesional en 
-                            nuestra seccion "Registrate como profesional"
-                            en la barra desplegable de tu perfil
-                        </p>
-                    </div>
-                    <div className={s.card_gat_img}>
-                        <img src={img}/>
-                    </div>
+                // globalUser.professional === false ? 
+                // <div className={s.card_gat}>
+                //     <div className={s.card_gat_text}>
+                //         {/* <p>Aprobecha y volvete un prodecionañ en nuestra seccion "Volvese profecional"
+                //             en la barra desplegable de un perdil
+                //         </p> */}
+                //         <p>
+                //             Aprovechá y registrate como profesional en 
+                //             nuestra seccion "Registrate como profesional"
+                //             en la barra desplegable de tu perfil
+                //         </p>
+                //     </div>
+                //     <div className={s.card_gat_img}>
+                //         <img src={img}/>
+                //     </div>
                     
-                </div> : 
-                <></>
+                // </div> : 
+                // <></>
             }
             
             {/* COMPONENTE LANDING DE PRESENTACIÓN */}
