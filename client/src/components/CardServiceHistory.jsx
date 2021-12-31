@@ -21,8 +21,10 @@ export default function CardServiceHistory(props) {
         getOffers()
     }, [])
 
-    function nav(){
-        navigate('/client/offerToNeed/'+props.id)
+    function nav(e){
+        console.log(e.target.name)
+        if(e.target.name === "offers" ) return navigate('/client/offerToNeed/'+props.id)
+        if(e.target.name === "details" ) return navigate('/client/need/'+props.id)
     }
 
     return (
@@ -56,7 +58,7 @@ export default function CardServiceHistory(props) {
                 <div className={ s.container_datos_buttons }>
                     {
                         (props.status === "in offer") ? 
-                        <button onClick={ nav } type="button" class="btn btn-outline-warning position-relative">
+                        <button onClick={ nav } name="offers" type="button" class="btn btn-outline-warning position-relative">
                         Ver ofertas
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             { offers ? offers.length : 0 }
@@ -67,7 +69,7 @@ export default function CardServiceHistory(props) {
                     {
                         (props.status === "finished") ? <button className='btn btn-outline-secondary'>Calificar Técnico</button>:<></>
                     }
-                    <button className='btn btn-outline-secondary'>Ver Detalles</button>
+                    <button onClick={nav} name="details" className='btn btn-outline-secondary'>Ver Detalles</button>
                 </div>
             </div>
         </div>
