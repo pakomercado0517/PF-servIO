@@ -58,7 +58,7 @@ export default function Home(){
         professional: globalUser.professional,
         
     })
-    
+
     function landingView(){
         if (landing==="visible") setLanding("NoVisible")
         if(landing==="NoVisible") setLanding("visible")
@@ -150,7 +150,7 @@ export default function Home(){
                               idTech={professional.id} 
                               avatarTech={professional.photo} 
                               titleTech={professional.first_name + ' ' + professional.last_name}
-                              workTech={ professional.Professional?.Professions[0]?.name }
+                              workTech={ professional.Professional?.Professions}
                               locationTech={professional.state + ', ' + professional.city}
                               //* PENDIENTE DATA DEL CALIFICATION
                               calificationTech={'calification: 5/5'}/>
