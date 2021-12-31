@@ -15,16 +15,18 @@ import { showFormClientNeed, showFormProfessionalOffer } from '../redux/actions'
 import s from './styles/NavBar.module.css'
 // Hooks
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
-// import { useLocalStorage } from '../hooks/useLocalStorage';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 
 export default function NavBar() {
 
     const dispatch = useDispatch()
-    const [login] = useGlobalStorage("globalUser", "")
+    const [login, setLogin] = useGlobalStorage("globalUser", "")
     const [cart] = useGlobalStorage("cart", "")
     const [ , setSwitcheo] = useGlobalStorage("switcheo", null)
     const stateTotalRedux = useSelector(state => state)
+    const [globalUser, setGlobalUser] = useGlobalStorage("globalUser", "");
+    const [localUser, setLocalUser] = useLocalStorage("localUser", "");
 
     function showModalFormCLient(){
         dispatch(showFormClientNeed("show"))
@@ -38,6 +40,8 @@ export default function NavBar() {
         .then(response => {
             localStorage.clear()
             window.location.replace('/')
+            setGlobalUser(null)
+            setLocalUser(null)
         })
         
     }
