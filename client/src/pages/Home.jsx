@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import { useSelector} from 'react-redux';
 import s from './styles/Home.module.css'
 import {Filter} from '../components/Filter'
 // import NavBar from '../components/NavBar';
@@ -7,7 +7,7 @@ import Landing from '../components/Landing';
 import {CgOptions} from 'react-icons/cg'
 import {IoEyeSharp} from 'react-icons/io5'
 import CardProfessional from '../components/CardProtessional.jsx'
-import { getAllProfessionals, orderProfessionals, getAllNeeds } from '../redux/actions';
+// import { getAllProfessionals, orderProfessionals, getAllNeeds } from '../redux/actions';
 // import img from '../img/ivana-cajina-_7LbC5J-jw4-unsplash.jpg'
 import Pagination from "../components/Pagination";
 import TestimoniosHome from '../components/TestimoniosHome';
@@ -17,15 +17,15 @@ import { useLocalStorage } from '../hooks/useLocalStorage'
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
 import { NavLink, useParams } from 'react-router-dom';
 import Footer from '../components/Footer';
-import img from '../img/undraw_welcome_cats_thqn.svg';
+// import img from '../img/undraw_welcome_cats_thqn.svg';
 
 export default function Home(){
-    
-    const dispatch = useDispatch();
+    const needs = useSelector((state) => state.switch)
+    console.log(needs)
+    // const dispatch = useDispatch();
     const professionals = useSelector(state => state.filter);
     const {params} = useParams()
-    console.log("PARAMS: --->",params)
-    const clientNeeds = useSelector(state => state.clientNeeds);
+    const clientNeeds = useSelector(state => state.filter);
     const switcheo = useSelector(state => state.switch)
     const stateRedux = useSelector(state => state)
     const [switcheo2] = useGlobalStorage("switcheo", null)
@@ -64,19 +64,19 @@ export default function Home(){
         if(landing==="NoVisible") setLanding("visible")
     }
 
-    useEffect(()=>{
-        if (input.order) {
-            dispatch(orderProfessionals(input.order))
-        }
-        else{
-            if(switcheo2 === "professional") {  
-                dispatch(getAllProfessionals())
-            }else if (switcheo2 === "user"){
-                dispatch(getAllNeeds())
-            }
-        }
+    // useEffect(()=>{
+    //     if (input.order) {
+    //         dispatch(orderProfessionals(input.order))
+    //     }
+    //     else{
+    //         if(switcheo2 === "professional") {  
+    //             dispatch(getAllProfessionals())
+    //         }else if (switcheo2 === "user"){
+    //             dispatch(getAllNeeds())
+    //         }
+    //     }
 
-    },[dispatch, input.order, switcheo2])
+    // },[dispatch, input.order, switcheo2])
 
     useEffect(() => {
         setCurrentPosts2((switcheo2 === "professional") ? professionals?.slice(indexOfFirstPost, indexOfLastPost) : clientNeeds?.slice(indexOfFirstPost, indexOfLastPost))
@@ -160,7 +160,7 @@ export default function Home(){
                   {/* CARDS DE SOLICITUDES DE CLIENTES */}
 
               </div> : 
-              <div>
+              <div className={s.professionalGrid}>
                     {
                         currentPosts2?.length > 0 ? currentPosts?.map((user)=>(
                             <NavLink className={s.card_client_need} to={"/client/need/"+user.id}>

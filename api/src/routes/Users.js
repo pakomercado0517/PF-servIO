@@ -51,19 +51,21 @@ router.post(
 );
 
 router.get("/getGoogleUser", async (req, res, next) => {
-  // res.send(cacheUser);
-  if (req.isAuthenticated()) {
-    const userResult = await User.findOne({
-      where: { email: req.user._json.email },
-    });
-    res.send({
-      message: "Logged",
-      cookies: req.session,
-      data: userResult,
-    });
-  } else {
-    res.send("Inicia Sesión");
-  }
+  res.json(cacheUser);
+  next();
+  cacheUser.pop;
+  // if (req.isAuthenticated()) {
+  //   const userResult = await User.findOne({
+  //     where: { email: req.user._json.email },
+  //   });
+  //   res.send({
+  //     message: "Logged",
+  //     cookies: req.session,
+  //     data: userResult,
+  //   });
+  // } else {
+  //   res.send("Inicia Sesión");
+  // }
 });
 
 router.get(

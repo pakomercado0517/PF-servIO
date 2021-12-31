@@ -62,19 +62,17 @@ export default function Cart() {
             items: request
         })
         .then(function(response) {
-            console.log("Pasee primer then", response.data)
             return response.data;
         })
         .then(function(preference) {
-            console.log("Pasee segundo then")
             createCheckoutButton(preference.id);
             document.getElementById("checkout_button").style.display = "none";
             // document.getElementsByClassName("shopping-cart").fadeOut(500);
             // $(".shopping-cart").fadeOut(500);
-            setTimeout(() => {
-                // document.getElementsByClassName("container_payment").show(500).fadeIn();
-                // $(".container_payment").show(500).fadeIn();
-            }, 500);
+            // setTimeout(() => {
+            //     // document.getElementsByClassName("container_payment").show(500).fadeIn();
+            //     // $(".container_payment").show(500).fadeIn();
+            // }, 500);
         })
         .catch(function() {
             alert("Unexpected error");

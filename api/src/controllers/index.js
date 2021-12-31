@@ -16,7 +16,7 @@ const {
   SpecificTechnicalActivity,
   Transactions,
   Profession_Professional,
-  ClientReview
+  ClientReview,
 } = require("../db.js");
 const e = require("express");
 
@@ -362,6 +362,7 @@ module.exports = {
   //CONDICIONAR QUE SOLO PUEDAN OFERTAR PROFESIONALES
   newProfessionalOffer: async (req, res) => {
     const {
+      name,
       description,
       price,
       duration,
@@ -374,11 +375,12 @@ module.exports = {
     const user = await User.findOne({ where: { id: UserId } });
 
     try {
-      if(user){
+      if (user) {
         if (user.professional === false) {
           res.status(400).send("Only Professionals can make an offer");
         } else {
           const newOffert = await ProfessionalOffer.create({
+            name,
             description,
             price,
             duration,
@@ -395,10 +397,9 @@ module.exports = {
           await newOffert.setClientNeed(clientNeeds[0]);
           res.status(200).send(newOffert);
         }
-      }else{
-        res.send('user does not exist')
+      } else {
+        res.send("user does not exist");
       }
-      
     } catch (error) {
       res.status(400).send(error.message);
     }
@@ -424,12 +425,20 @@ module.exports = {
         where: {
           professional: true,
         },
-        include: [{ model: Professional, include: [{ model: Profession },{model: ClientReview}, {model: SpecificTechnicalActivity}] }],
+        include: [
+          {
+            model: Professional,
+            include: [
+              { model: Profession },
+              { model: ClientReview },
+              { model: SpecificTechnicalActivity },
+            ],
+          },
+        ],
       });
-      const rate = professionals.filter(r => {
-        return r
-        
-      })
+      const rate = professionals.filter((r) => {
+        return r;
+      });
       res.status(200).send(professionals);
     } catch (error) {
       res.status(400).send(error.message);
@@ -460,7 +469,16 @@ module.exports = {
         user = await User.findAll({
           where: { id: { [Op.eq]: id } },
           //include: [{ model: Professional, include: [{ model: Profession },{model: ClientReview}, {model: SpecificTechnicalActivity}] }],
-          include: [{ model: Professional, include: [{ model: Profession },{model: ClientReview}, {model: SpecificTechnicalActivity}] }],
+          include: [
+            {
+              model: Professional,
+              include: [
+                { model: Profession },
+                { model: ClientReview },
+                { model: SpecificTechnicalActivity },
+              ],
+            },
+          ],
         });
         res.status(200).send(user);
       } else {
@@ -971,4 +989,32 @@ module.exports = {
       res.status(400).send(error.message);
     }
   },
+  getNeedByName: async (req, res) => {
+    try {
+      const need = await ClientNeed.findAll({
+        include: [{ model: User }],
+        where: { name: { [Sequelize.Op.iLike]: `%${req.query.name}%` } },
+      });
+      res.status(200).send(need);
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
+  },
+
+
+  getOffersByUserId: async (req, res) => {
+    const id = req.params.id
+    try{
+      
+      const professional = await Professional.findOne({where: {UserId: id}})
+      const ProfessionalId = professional.id
+
+      const offers = await ProfessionalOffer.findAll({ where: { ProfessionalId }})
+      res.send(offers)
+
+    }catch(error){
+      console.log(error)
+    }
+  }
+
 };
