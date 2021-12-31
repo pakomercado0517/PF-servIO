@@ -18,17 +18,20 @@ console.log(login.professional)
     pageNumbers.push(i);
     console.log(pageNumbers)
   }
-
+  const reset = () => paginate(1)
   function moodRender(e){
+    reset()
     if(e === 'btnradio2') {
       dispatch(changeSwitch(true))
       setSwitcheo('professional')
       setstate('professional')
+      
     } 
     if (e === 'btnradio1') {
       dispatch(changeSwitch(false))
       setSwitcheo('user')
       setstate('user')
+      
     }
   }
 

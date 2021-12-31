@@ -78,11 +78,11 @@ export default function Home(){
           dispatch(filterClients(input.order))
         }
         else{
-            if(switcheo2 === "professional") {  
-                dispatch(filterClients(input.order))
-            }else if (switcheo2 === "user"){
-                dispatch(filterClients(input.order))
-            }
+            // if(switcheo2 === "professional") {  
+            //     dispatch(filterClients(input.order))
+            // }else if (switcheo2 === "user"){
+            //     dispatch(filterClients(input.order))
+            // }
         }
 
     },[dispatch, input.order, switcheo2])
