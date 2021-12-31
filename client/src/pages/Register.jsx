@@ -17,8 +17,9 @@ export default function Crear() {
     
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const[oficio, setOficio] = useState([])
+    // const[oficio, setOficio] = useState([])
     const { professionsName } = useSelector(state => state)
+    console.log(professionsName)
     const[errors, setErrors] = useState({
         firstName:"",
         lastName: "",
@@ -29,11 +30,11 @@ export default function Crear() {
     });
     const [buttonSubmit, setbuttonSubmit] = useState(false)
 
-    useEffect(() => {
-        if (professionsName){
-            setOficio(professionsName)
-        }
-    }, [professionsName])
+    // useEffect(() => {
+    //     if (professionsName){
+    //         setOficio(professionsName)
+    //     }
+    // }, [professionsName])
     
     const [details, setDetails] = useState({
         firstName:'',
@@ -343,7 +344,7 @@ export default function Crear() {
                                         <button className="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false" ><CgOptions />Elegir oficio</button>
                                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
                                             {
-                                                oficio.map((el, index) => {
+                                                professionsName.map((el, index) => {
                                                     return (
                                                         <li key={"li" + index}><span className="dropdown-item" id={el} onClick={handleSelect}>{el}</span></li>
                                                     )
