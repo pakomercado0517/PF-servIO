@@ -362,6 +362,7 @@ module.exports = {
   //CONDICIONAR QUE SOLO PUEDAN OFERTAR PROFESIONALES
   newProfessionalOffer: async (req, res) => {
     const {
+      name,
       description,
       price,
       duration,
@@ -379,6 +380,7 @@ module.exports = {
           res.status(400).send("Only Professionals can make an offer");
         } else {
           const newOffert = await ProfessionalOffer.create({
+            name,
             description,
             price,
             duration,
@@ -998,4 +1000,21 @@ module.exports = {
       res.status(400).send(error.message);
     }
   },
+
+
+  getOffersByUserId: async (req, res) => {
+    const id = req.params.id
+    try{
+      
+      const professional = await Professional.findOne({where: {UserId: id}})
+      const ProfessionalId = professional.id
+
+      const offers = await ProfessionalOffer.findAll({ where: { ProfessionalId }})
+      res.send(offers)
+
+    }catch(error){
+      console.log(error)
+    }
+  }
+
 };
