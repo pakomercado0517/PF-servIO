@@ -16,7 +16,9 @@ import {
     SWITCH_RENDER,
     SEARCH_PROFESSIONAL_BY_NAME,
     GET_DETAILS_CLIENT_NEED_BYID,
-    GET_ALL_PROFESSIONAL_OFFERS
+    GET_ALL_PROFESSIONAL_OFFERS,
+    DATA_FILTERED,
+    SEARCHBAR
 } from '../actions'
 
 
@@ -37,7 +39,8 @@ const initialState = {
     specificActivitiesById: [],
     professionalActivityById: [],
     allProfessionalsOffers: [],
-
+    filter:[],
+    searchbar:''
 };
 
 function rootReducer( state = initialState, { type, payload } ) {
@@ -127,6 +130,16 @@ function rootReducer( state = initialState, { type, payload } ) {
                 ...state,
                 switch: payload
             };
+        case DATA_FILTERED:
+              return {
+                  ...state,
+                  filter: payload
+              };
+        case SEARCHBAR:
+                return {
+                    ...state,
+                    searchbar: payload
+                };
         case ORDER_DATA:
             let option = [];
             switch (payload) {

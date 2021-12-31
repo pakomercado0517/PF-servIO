@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import s from './styles/Home.module.css'
+import {Filter} from '../components/Filter'
 // import NavBar from '../components/NavBar';
 import Landing from '../components/Landing';
 import {CgOptions} from 'react-icons/cg'
@@ -19,16 +20,17 @@ import Footer from '../components/Footer';
 import img from '../img/undraw_welcome_cats_thqn.svg';
 
 export default function Home(){
-    
+    const needs = useSelector((state) => state.switch)
+    console.log(needs)
     const dispatch = useDispatch();
-    const professionals = useSelector(state => state.professionals);
+    const professionals = useSelector(state => state.filter);
     const {params} = useParams()
     console.log("PARAMS: --->",params)
-    const clientNeeds = useSelector(state => state.clientNeeds);
+    const clientNeeds = useSelector(state => state.filter);
     const switcheo = useSelector(state => state.switch)
     const stateRedux = useSelector(state => state)
     const [switcheo2] = useGlobalStorage("switcheo", null)
-//     const [state, setstate] = useState("")
+    // const [state, setstate] = useState("")
     // const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
 
     const [login] = useLocalStorage("user", null)
@@ -57,25 +59,25 @@ export default function Home(){
         professional: globalUser.professional,
         
     })
-    
+
     function landingView(){
         if (landing==="visible") setLanding("NoVisible")
         if(landing==="NoVisible") setLanding("visible")
     }
 
-    useEffect(()=>{
-        if (input.order) {
-            dispatch(orderProfessionals(input.order))
-        }
-        else{
-            if(switcheo2 === "professional") {  
-                dispatch(getAllProfessionals())
-            }else if (switcheo2 === "user"){
-                dispatch(getAllNeeds())
-            }
-        }
+    // useEffect(()=>{
+    //     if (input.order) {
+    //         dispatch(orderProfessionals(input.order))
+    //     }
+    //     else{
+    //         if(switcheo2 === "professional") {  
+    //             dispatch(getAllProfessionals())
+    //         }else if (switcheo2 === "user"){
+    //             dispatch(getAllNeeds())
+    //         }
+    //     }
 
-    },[dispatch, input.order, switcheo2])
+    // },[dispatch, input.order, switcheo2])
 
     useEffect(() => {
         setCurrentPosts2((switcheo2 === "professional") ? professionals?.slice(indexOfFirstPost, indexOfLastPost) : clientNeeds?.slice(indexOfFirstPost, indexOfLastPost))
@@ -95,6 +97,7 @@ export default function Home(){
                 </>: <></>
                 
                 }
+                <Filter />
                 {/* FILTROS */}
                 <div className='dropdown'>
                     <button class="border-0 btn btn-primary dropdown-toggle bg-info" id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false" ><CgOptions/>Ordenado</button>
@@ -108,24 +111,24 @@ export default function Home(){
 
         {/* {WELCOME CARD} */}
             {
-                globalUser.professional === false ? 
-                <div className={s.card_gat}>
-                    <div className={s.card_gat_text}>
-                        {/* <p>Aprobecha y volvete un prodecionañ en nuestra seccion "Volvese profecional"
-                            en la barra desplegable de un perdil
-                        </p> */}
-                        <p>
-                            Aprovechá y registrate como profesional en 
-                            nuestra seccion "Registrate como profesional"
-                            en la barra desplegable de tu perfil
-                        </p>
-                    </div>
-                    <div className={s.card_gat_img}>
-                        <img src={img}/>
-                    </div>
+                // globalUser.professional === false ? 
+                // <div className={s.card_gat}>
+                //     <div className={s.card_gat_text}>
+                //         {/* <p>Aprobecha y volvete un prodecionañ en nuestra seccion "Volvese profecional"
+                //             en la barra desplegable de un perdil
+                //         </p> */}
+                //         <p>
+                //             Aprovechá y registrate como profesional en 
+                //             nuestra seccion "Registrate como profesional"
+                //             en la barra desplegable de tu perfil
+                //         </p>
+                //     </div>
+                //     <div className={s.card_gat_img}>
+                //         <img src={img}/>
+                //     </div>
                     
-                </div> : 
-                <></>
+                // </div> : 
+                // <></>
             }
             
             {/* COMPONENTE LANDING DE PRESENTACIÓN */}
@@ -148,7 +151,7 @@ export default function Home(){
                               idTech={professional.id} 
                               avatarTech={professional.photo} 
                               titleTech={professional.first_name + ' ' + professional.last_name}
-                              workTech={ professional.Professional?.Professions[0]?.name }
+                              workTech={ professional.Professional?.Professions}
                               locationTech={professional.state + ', ' + professional.city}
                               //* PENDIENTE DATA DEL CALIFICATION
                               calificationTech={'calification: 5/5'}/>
@@ -158,7 +161,7 @@ export default function Home(){
                   {/* CARDS DE SOLICITUDES DE CLIENTES */}
 
               </div> : 
-              <div>
+              <div className={s.professionalGrid}>
                     {
                         currentPosts2?.length > 0 ? currentPosts?.map((user)=>(
                             <NavLink className={s.card_client_need} to={"/client/need/"+user.id}>

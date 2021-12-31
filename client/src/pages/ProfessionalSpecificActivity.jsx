@@ -1,78 +1,117 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { NavLink, useParams } from 'react-router-dom'
-import { getProfessionalActivityById, getByAccountId } from '../redux/actions/index'
+import { getByUserId, getSpecificActivitiesById } from '../redux/actions/index'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
 import { StarRating } from '../components/StarRating'
 
 import s from './styles/ProfessionalSpecificActivity.module.css'
+import { useGlobalStorage } from '../hooks/useGlobalStorage'
 
 
 function ProfessionalSpecificActivity() {
   
+  // const [cart, setCart] = useGlobalStorage("cart", [])
+
   const {id}= useParams()
+  console.log('id',id) // id de usuario--- necesito id de publicacion
   const dispatch= useDispatch()
-  
-  const user = useSelector(state => state.user)
+  let ranked= 3;
+
   const professionalActivities = useSelector(state => state.professionalActivities)
+  console.log('professionalActivities',professionalActivities)
   
+  const profesional = useSelector((state) => state?.user[0])
+  console.log('profesional',profesional)
+
+  // hacer un ternario para que si el usuario logeado es el mismo que el prfesional devuelva true asi puedo hacer un boton de editar
+
+  const user = useSelector(state => state.globalUserGlobalStorage)
+  console.log('user global',user)
   // console.log('id', id)
   // console.log('profesional activities',professionalActivities)
-  
-  // const specificActivities = useSelector((state) => state.specificActivitiesById)
+  const specificActivities = useSelector((state) => state.specificActivitiesById)
+  console.log('specificActivities la posta',specificActivities)
 
 
-  useEffect( ()=> {
-  dispatch(getByAccountId(id))
-  dispatch(getProfessionalActivityById(id))
-  }, [dispatch, id])  
-  
-  const activities = useSelector(state => state.professionalActivityById)
-  console.log('activities',activities)
-    
-  
-  let ranked= 2.6
-  
-  console.log('activities......', professionalActivities)
+  useEffect(()=>{
+    dispatch(getByUserId(id))
+    dispatch(getSpecificActivitiesById(id))
+},[dispatch, id])
+
+// function addToCart(){
+//   const exist = cart.filter(el => el.name === props.name )
+//   const notExist = cart.filter(el => el.name !== props.name )
+//   console.log("exists: ", exist)
+//   if ( exist[0] ){
+//       exist[0].count +=1;
+//       setCart([
+//           ...notExist,
+//           ...exist
+//       ])
+//   } else {
+//       setCart([
+//           ...cart,
+//           {
+//               name: props.name,
+//               description: props.description,
+//               price: props.price,
+//               count: 1
+//           }
+//       ])
+//   }
+// }
+
 
   return (
     <div>
       <div className={s.container_ativity}>
 
-        {/* |---------------------------Banner...----------------------------------------| */}
+        {/* |------------Banner...----------------------------------------| */}
         <div className={s.activity_banner}>
-          {/* |---------------------------Profile Photo...----------------------------------------| */}
+        {/* |----Profile Photo...----------------------------------------| */}
 
-          <div className={s.professional_img}>
-            <img src={user[0]?.photo} className={s.p_image}/>
+        <div className={s.professional_img}>
+          <img src={profesional?.photo} className={s.p_image}/>
+        </div>
+
+          {/* |--------Float card...----------------------------------------| */}
+
+        <div className={s.professional_floatCard}>
+
+            <div className={s.floatCard_title}>
+              <h3>{`${profesional?.first_name} ${profesional?.last_name}`}</h3>
+            </div>
+
+            <div className={s.floatCard_body}>
+              
+              <p className={s.floatCard_p}>{`@${profesional?.user_name}`}</p>
+              <p className={s.floatCard_p}>
+                <StarRating stars={ranked}/>
+                <span className={s.floatCard_span}>{`${ranked}`}</span>
+              </p>
+              <p className={s.floatCard_p}>
+                <FontAwesomeIcon icon={faPhoneAlt}/>
+                <strong>Teléfono: </strong>
+                <span className={s.floatCard_span}>{profesional?.phone}</span>
+              </p>
+            </div>
+
           </div>
 
-          {/* |---------------------------Float card...----------------------------------------| */}
-
-          <div className={s.professional_floatCard}>
-              <div className={s.floatCard_title}>
-                <h3>{`${user[0]?.first_name} ${user[0]?.last_name}`}</h3>
-              </div>
-              <div className={s.floatCard_body}>
-                <p className={s.floatCard_p}>{`@${user[0]?.user_name}`}</p>
-                <p className={s.floatCard_p}><StarRating stars={ranked}/> <span className={s.floatCard_span}>{`${ranked}`}</span></p>
-                <p className={s.floatCard_p}><FontAwesomeIcon icon={faPhoneAlt}/><strong>Teléfono: </strong><span className={s.floatCard_span}>{user[0]?.phone}</span></p>
-              </div>
-          </div>
-
-          {/* |---------------------------Show Professions...----------------------------------------| */}
+          {/* |---------------------------Show Professions...--------------| */}
 
           <div className={s.professional_showProfessions} >
-            <div><h3 className={s.professions_title}>Professiones:</h3></div>
+            <div><h3 className={s.professions_title}>{`Profesion :`}</h3></div>
             <div className={s.professions_container}>
-              {/* {
-              user[0]?.Professional.Professions.map(el=> {
+              {
+              profesional?.Professional.Professions.map(el=> {
                 return(
                   <div className='profession'>{el.name.toUpperCase()}</div>
                 )
                 })
-              } */}
+              }
             </div>
           </div>
         </div>
@@ -104,15 +143,21 @@ function ProfessionalSpecificActivity() {
 
         <div className={s.buttons_list}>
           <div className={s.a_button}>
-            <NavLink to='#' className={s.link_button}>Volver</NavLink>
+            <NavLink to={`/professional/${id}`} className={s.link_button}>Volver</NavLink>
           </div>
-          <div className='a-button'>
-            <NavLink to='#' className={s.link_button}>Descartar</NavLink>
-          </div>
-          <div className='a-button'>
-            <NavLink to='#' className={s.link_button}>Carrito</NavLink>
-          </div>
-          <div className='a-button'>
+          
+
+          {/* no pude meter el carrito -------------------- */}
+
+          {/* <div className={s.a_button}>
+            <button
+              className={s.link_button}
+              // onClick={ addToCart } 
+            >
+              Agregar carrito
+            </button> */}
+
+          <div className={s.a_button}>
             <NavLink to='#' className={s.link_button}>Contratar</NavLink>
           </div>
         </div>

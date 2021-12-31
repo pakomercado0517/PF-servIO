@@ -14,7 +14,6 @@ import s from './styles/ProfileProfessional.module.css'
 export default function ProfileProfessional(){
 
     const { id } = useParams()
-    // console.log('params profes',id)
     const dispatch= useDispatch();
     const [state, setstate] = useState({
         login: false,
@@ -27,7 +26,7 @@ export default function ProfileProfessional(){
     const specificActivities = useSelector((state) => state.specificActivitiesById)
 
     
-    const idSpecificActivities = specificActivities !== "There are not specifical Activities" && specificActivities.map((item) => item.id)
+    const idSpecificActivities = specificActivities.map((item) => item.id)
     console.log('idSpecificActivities',idSpecificActivities)
 
 
@@ -83,10 +82,10 @@ export default function ProfileProfessional(){
             <div><h3 className={s.professions_title}>Profesiones:</h3></div>
             
             <div className={s.professions_container}>
-                {
+                    {
                     professional?.Professional.Professions.map(el=> {
                         return(
-                            <div className='profession'>{el.name.toUpperCase()}</div>
+                            <div className='profession'>{el.name}</div>
                         )
                     })
                 }
@@ -118,6 +117,7 @@ export default function ProfileProfessional(){
                         specificActivities && specificActivities !== 'There are not specifical Activities' && specificActivities.map((el, index) => 
                             (
                                 <CardParticularService
+                                        id={el.id}
                                         name= { el.name }
                                         description= { el.description }
                                         price= { el.price }

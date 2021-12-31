@@ -424,8 +424,7 @@ module.exports = {
         where: {
           professional: true,
         },
-        include: [{ model: Professional, include: [{ model: Profession },{model: ClientReview}] }],
-        prueba:'ala'
+        include: [{ model: Professional, include: [{ model: Profession },{model: ClientReview}, {model: SpecificTechnicalActivity}] }],
       });
       const rate = professionals.filter(r => {
         return r
@@ -460,7 +459,8 @@ module.exports = {
       if (user[0]) {
         user = await User.findAll({
           where: { id: { [Op.eq]: id } },
-          include: [{ model: Professional, include: [{ model: Profession }] }],
+          //include: [{ model: Professional, include: [{ model: Profession },{model: ClientReview}, {model: SpecificTechnicalActivity}] }],
+          include: [{ model: Professional, include: [{ model: Profession },{model: ClientReview}, {model: SpecificTechnicalActivity}] }],
         });
         res.status(200).send(user);
       } else {
@@ -971,4 +971,17 @@ module.exports = {
       res.status(400).send(error.message);
     }
   },
+  getNeedByName:  async (req, res) =>{
+    try {
+      const need = await ClientNeed.findAll({
+        include: [
+          {model: User,},
+        ],
+        where: { name: { [Sequelize.Op.iLike]: `%${ req.query.name}%` } },
+      });
+      res.status(200).send(need);
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
+  }
 };

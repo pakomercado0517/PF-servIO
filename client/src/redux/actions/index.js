@@ -29,6 +29,7 @@ export const GET_PROFESSIONAL_ACTIVITY_BY_ID = 'GET_PROFESSIONAL_ACTIVITY_BY_ID'
 export const GET_DETAILS_CLIENT_NEED_BYID = 'GET_DETAILS_CLIENT_NEED_BYID';
 export const GET_DETAILS_PROFESSIONAL_OFFER_BYID = 'GET_DETAILS_PROFESSIONAL_OFFER_BYID'; //
 export const GET_ALL_PROFESSIONAL_OFFERS = 'GET_ALL_PROFESSIONAL_OFFERS';
+export const SEARCHBAR = 'SEARCHBAR'
 export const DATA_FILTERED = 'DATA_FILTERED';
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers () {
@@ -321,6 +322,10 @@ export function showFormProfessionalOffer(data) {
   };
 }
 
+// repetido ==> comentado y si no rompe nada se borra
+// ya esta repetida esta peticion en getByUserId linea 116
+// no se puede borrar porque se usa en /pages/profileclient.jsx
+
 export function getByAccountId(id) {
   return async function (dispatch) {
     try {
@@ -334,18 +339,20 @@ export function getByAccountId(id) {
     }
   };
 }
+// getSpecificActivitiesById  linea 66
+// repetido ==> comentado y si no rompe nada se borra
 
-export const getProfessionalActivityById = (id) => {
-  return async (dispatch) => {
-    const response = await axios.get(
-      `${constants.localhost}/TecnicalsActivities/${id}`
-    );
-    dispatch({
-      type: GET_PROFESSIONAL_ACTIVITY_BY_ID,
-      payload: response.data,
-    });
-  };
-};
+// export const getProfessionalActivityById = (id) => {
+//   return async (dispatch) => {
+//     const response = await axios.get(
+//       `${constants.localhost}/TecnicalsActivities/${id}`
+//     );
+//     dispatch({
+//       type: GET_PROFESSIONAL_ACTIVITY_BY_ID,
+//       payload: response.data,
+//     });
+//   };
+// };
 
 export const getAllProfessionalOffers = () => {
   return async (dispatch) => {
@@ -366,21 +373,99 @@ export function changeSwitch(boolean) {
   };
 }
 
-export const filter = (name, rate, location, professions, sortByName) => async  dispatch => {        
-  const url = (name.length > 0) ?  `${ constants.localhost }/professionals?name=${name}`:`${ constants.localhost }/user/professionals`
+export const filter = (name, rate, location, professions, sortByName, filterWithActivity, state) => async  dispatch => {        
+  const urla = (name.length > 0) ?  `${ constants.localhost }/professionals?name=${name}`:`${ constants.localhost }/user/professionals`
+  const urlb = (name.length > 0) ?  `${ constants.localhost }/clientNeeds/need?name=${name}`:`${ constants.localhost }/clientNeeds/all`
+  let url = ''
+  if(state === 'professional') {
+    url=urla
+  }else{
+    url=urlb
+  }
   axios.get(url)
   .then(response => {
+    let order = []
     const db = response.data
+    if(state === 'professional') {
 
-    //*******************FILTER BY RATE***************//
+    
+    // //*******************FILTER BY RATE***************//
     let aux = db.filter(e =>{
       if(rate === undefined || !rate[0]){
         return e
       }else{
-        for(let i=0; i<rate.length; i++){
+        // for(let i=0; i<rate.length; i++){
 
+        // }
+      }
+    })
+    // //*******************FILTER BY location***************//
+
+
+
+    // //*******************FILTER BY professions***************//
+    let aux2 = aux.filter(e => {
+      if(professions === undefined || !professions[0]){
+        return e
+      }else{
+        for(let i=0; i < professions.length; i++){
+          for(let j=0; j < e.Professional.Professions.length; j++){
+            if(professions[i] ===  e.Professional.Professions[j].name){
+              return e
+            }
+          }
         }
       }
     })
+      
+      let c = []
+      // //*******************FILTER BY filterWithActivity***************//
+      if(filterWithActivity === true){
+        c.push(true)
+        order = aux2.filter(e =>{
+          if(e.Professional.SpecificTechnicalActivities.length > 0){
+            return e
+          }
+        })
+      }else{
+        order = aux2;
+      }
+      
+    }else{
+      order=db
+    }
+    
+    function SortArray(x, y){
+      if (x.first_name < y.first_name) {return -1;}
+      if (x.first_name > y.first_name) {return 1;}
+      return 0;
+  }
+
+  function SortArray2(x, y){
+    if (x.first_name < y.first_name) {return 1;}
+    if (x.first_name > y.first_name) {return -1;}
+    return 0;
+}
+  let aToZ  = order.sort(SortArray);
+  let zToA = order.sort(SortArray2)
+  let a = ''
+  if(sortByName === true){
+    a = aToZ
+  }else if(sortByName === false){
+    a = zToA
+  }else{
+    a = order.sort(((a, b) => a.id - b.id))
+  }
+    dispatch({
+      type:DATA_FILTERED,
+      payload: a
   })
+  })
+}
+
+export const searchBar = name =>{
+  return {
+    type: SEARCHBAR,
+    payload: name,
+  };
 }
