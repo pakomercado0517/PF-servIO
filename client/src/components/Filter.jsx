@@ -2,10 +2,9 @@ import React, {useState, useEffect} from 'react';
 import { connect } from 'react-redux';
 import { useDispatch, useSelector } from "react-redux";
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
-import { filterProfessions, filter } from '../redux/actions';
-import axios from 'axios';
-import Swal from 'sweetalert2';
+import { filterProfessions, filterProfessionals, filterClients } from '../redux/actions';
 import { useNavigate } from "react-router-dom";
+
 export  function Filter(){
   const [switcheo2] = useGlobalStorage("switcheo", null)
   console.log(switcheo2)
@@ -28,8 +27,9 @@ export  function Filter(){
   },[profession])
 
   useEffect(() => {
-    dispatch(filter(search,[],[], profession, true, details.filterWithActivity, switcheo2 ))
-  },[profession, details, switchState, search])
+    dispatch(filterClients(search,[],[], profession, true, details.filterWithActivity ))
+    dispatch(filterProfessionals(search,[],[], profession, true, details.filterWithActivity ))
+  },[profession, details, switchState, search,switcheo2])
 
   function changeProfession(event){
     // setDetails({...details, profession: event.target.value})

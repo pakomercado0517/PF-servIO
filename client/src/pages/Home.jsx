@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { useSelector} from 'react-redux';
+import { useSelector, useDispatch} from 'react-redux';
 import s from './styles/Home.module.css'
 import {Filter} from '../components/Filter'
 // import NavBar from '../components/NavBar';
@@ -7,8 +7,8 @@ import Landing from '../components/Landing';
 import {CgOptions} from 'react-icons/cg'
 import {IoEyeSharp} from 'react-icons/io5'
 import CardProfessional from '../components/CardProtessional.jsx'
-// import { getAllProfessionals, orderProfessionals, getAllNeeds } from '../redux/actions';
-// import img from '../img/ivana-cajina-_7LbC5J-jw4-unsplash.jpg'
+import { getAllProfessionals, orderProfessionals, filterProfessionals,filterClients, getAllNeeds } from '../redux/actions';
+import img from '../img/ivana-cajina-_7LbC5J-jw4-unsplash.jpg'
 import Pagination from "../components/Pagination";
 import TestimoniosHome from '../components/TestimoniosHome';
 import { ClientSpecificNeed } from '../components/ClientSpecificNeed';
@@ -21,11 +21,13 @@ import Footer from '../components/Footer';
 
 export default function Home(){
     const needs = useSelector((state) => state.switch)
-    console.log(needs)
-    // const dispatch = useDispatch();
-    const professionals = useSelector(state => state.filter);
+    const state = useSelector(state => state)
+    const dispatch = useDispatch();
+    const clientNeeds = useSelector(state => state.professionalsFilter);
     const {params} = useParams()
-    const clientNeeds = useSelector(state => state.filter);
+    const professionals = useSelector(state => state.clientsFilter);
+
+    console.log(clientNeeds, professionals)
     const switcheo = useSelector(state => state.switch)
     const stateRedux = useSelector(state => state)
     const [switcheo2] = useGlobalStorage("switcheo", null)
@@ -34,16 +36,20 @@ export default function Home(){
 
     const [login] = useLocalStorage("user", null)
     // const [usuario, setLogin] = useLocalStorage("usuario", "Imanol")
-    
+    let switcheoGlobalStorage = useSelector(state => state.switcheoGlobalStorage);
     let [postsPerPage, setPostsPerPage] = useState(16);
     let [currentPage, setCurrentPage] = useState(1);
     let indexOfLastPost = currentPage * postsPerPage;
     let indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const [b, setB] = useLocalStorage("b", professionals)
+    const [c, setC] = useLocalStorage("c", clientNeeds)
     let currentPosts = switcheo2 === "professional" ? professionals?.slice(indexOfFirstPost, indexOfLastPost) : clientNeeds?.slice(indexOfFirstPost, indexOfLastPost)
-    const [currentPosts2, setCurrentPosts2] = useLocalStorage("currentPosts", currentPosts)
+    const [currentPosts2, setCurrentPosts2] = useLocalStorage("currentPosts2", currentPosts)
+    const [a, setA] = useGlobalStorage("currentPosts", currentPosts)
+
     const [globalUser, setGlobalUser] = useGlobalStorage("globalUser", "");
     const paginate = pageNumber => setCurrentPage(pageNumber);
-
+    console.log(a)
     const [input, setInput] = useState({
         order: ''
     })
@@ -64,23 +70,26 @@ export default function Home(){
         if(landing==="NoVisible") setLanding("visible")
     }
 
-    // useEffect(()=>{
-    //     if (input.order) {
-    //         dispatch(orderProfessionals(input.order))
-    //     }
-    //     else{
-    //         if(switcheo2 === "professional") {  
-    //             dispatch(getAllProfessionals())
-    //         }else if (switcheo2 === "user"){
-    //             dispatch(getAllNeeds())
-    //         }
-    //     }
+    useEffect(()=>{
+        if (input.order && needs === 'user') {
+            dispatch(filterProfessionals(input.order))
+            
+        }else if(input.order && needs === "professional"){
+          dispatch(filterClients(input.order))
+        }
+        else{
+            if(switcheo2 === "professional") {  
+                dispatch(filterClients(input.order))
+            }else if (switcheo2 === "user"){
+                dispatch(filterClients(input.order))
+            }
+        }
 
-    // },[dispatch, input.order, switcheo2])
+    },[dispatch, input.order, switcheo2])
 
     useEffect(() => {
-        setCurrentPosts2((switcheo2 === "professional") ? professionals?.slice(indexOfFirstPost, indexOfLastPost) : clientNeeds?.slice(indexOfFirstPost, indexOfLastPost))
-    }, [stateRedux])
+      setA((switcheo2 === "professional") ? b?.slice(indexOfFirstPost, indexOfLastPost) : c?.slice(indexOfFirstPost, indexOfLastPost))
+    }, [needs, switcheo2,dispatch,currentPage])
 
     return (
         <div>
@@ -145,7 +154,7 @@ export default function Home(){
             { switcheo2 === "professional" ? 
               <div className={s.professionalGrid}>
                   {
-                      currentPosts2?.length > 0 ? currentPosts.map((professional) => (
+                      b?.length > 0 ? currentPosts.map((professional) => (
                           <CardProfessional
                               idTech={professional.id} 
                               avatarTech={professional.photo} 
@@ -162,7 +171,7 @@ export default function Home(){
               </div> : 
               <div className={s.professionalGrid}>
                     {
-                        currentPosts2?.length > 0 ? currentPosts?.map((user)=>(
+                        c?.length > 0 ? currentPosts?.map((user)=>(
                             <NavLink className={s.card_client_need} to={"/client/need/"+user.id}>
                                 <CardClientNeed key={user.id}
                                 name={ user.name }
