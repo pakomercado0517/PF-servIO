@@ -16,6 +16,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
 console.log(login.professional)
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
     pageNumbers.push(i);
+    console.log(pageNumbers)
   }
 
   function moodRender(e){

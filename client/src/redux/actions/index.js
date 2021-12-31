@@ -31,6 +31,9 @@ export const GET_DETAILS_PROFESSIONAL_OFFER_BYID = 'GET_DETAILS_PROFESSIONAL_OFF
 export const GET_ALL_PROFESSIONAL_OFFERS = 'GET_ALL_PROFESSIONAL_OFFERS';
 export const SEARCHBAR = 'SEARCHBAR'
 export const DATA_FILTERED = 'DATA_FILTERED';
+export const CLIENTS_FILTERED ='CLIENTS_FILTERED';
+export const PROFESSIONAL_FILTERED ='PROFESSIONAL_FILTERED'
+export const ORDER_DATA_CLIENT ='ORDER_DATA_CLIENT';
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers () {
     
@@ -304,7 +307,14 @@ export function setToGlobalStorage(data) {
 export function orderProfessionals(data) {
   return {
     type: ORDER_DATA,
-    payload: data,
+    payload: data
+  };
+}
+
+export function orderClientNeeds(data) {
+  return {
+    type: ORDER_DATA_CLIENT,
+    payload: data
   };
 }
 
@@ -373,22 +383,12 @@ export function changeSwitch(boolean) {
   };
 }
 
-export const filter = (name, rate, location, professions, sortByName, filterWithActivity, state) => async  dispatch => {        
-  const urla = (name.length > 0) ?  `${ constants.localhost }/professionals?name=${name}`:`${ constants.localhost }/user/professionals`
-  const urlb = (name.length > 0) ?  `${ constants.localhost }/clientNeeds/need?name=${name}`:`${ constants.localhost }/clientNeeds/all`
-  let url = ''
-  if(state === 'professional') {
-    url=urla
-  }else{
-    url=urlb
-  }
+export const filterClients = (name, rate, location, professions, sortByName, filterWithActivity) => async  dispatch => {        
+  let url = (name.length > 0) ?  `${ constants.localhost }/professionals?name=${name}`:`${ constants.localhost }/user/professionals`
   axios.get(url)
   .then(response => {
     let order = []
-    const db = response.data
-    if(state === 'professional') {
-
-    
+    const db = response.data  
     // //*******************FILTER BY RATE***************//
     let aux = db.filter(e =>{
       if(rate === undefined || !rate[0]){
@@ -431,34 +431,24 @@ export const filter = (name, rate, location, professions, sortByName, filterWith
         order = aux2;
       }
       
-    }else{
-      order=db
-    }
-    
-    function SortArray(x, y){
-      if (x.first_name < y.first_name) {return -1;}
-      if (x.first_name > y.first_name) {return 1;}
-      return 0;
-  }
-
-  function SortArray2(x, y){
-    if (x.first_name < y.first_name) {return 1;}
-    if (x.first_name > y.first_name) {return -1;}
-    return 0;
-}
-  let aToZ  = order.sort(SortArray);
-  let zToA = order.sort(SortArray2)
-  let a = ''
-  if(sortByName === true){
-    a = aToZ
-  }else if(sortByName === false){
-    a = zToA
-  }else{
-    a = order.sort(((a, b) => a.id - b.id))
-  }
     dispatch({
-      type:DATA_FILTERED,
-      payload: a
+      type:CLIENTS_FILTERED,
+      payload: order
+  })
+  })
+}
+
+export const filterProfessionals = (name, rate, location, professions, sortByName, filterWithActivity) => async  dispatch => {        
+
+  let url = (name.length > 0) ?  `${ constants.localhost }/clientNeeds/need?name=${name}`:`${ constants.localhost }/clientNeeds/all`
+
+  axios.get(url)
+  .then(response => {
+    let order = []
+    const db = response.data  
+    dispatch({
+      type:PROFESSIONAL_FILTERED,
+      payload: db
   })
   })
 }

@@ -18,7 +18,10 @@ import {
     GET_DETAILS_CLIENT_NEED_BYID,
     GET_ALL_PROFESSIONAL_OFFERS,
     DATA_FILTERED,
-    SEARCHBAR
+    SEARCHBAR,
+    CLIENTS_FILTERED,
+    PROFESSIONAL_FILTERED,
+    ORDER_DATA_CLIENT
 } from '../actions'
 
 
@@ -39,7 +42,8 @@ const initialState = {
     specificActivitiesById: [],
     professionalActivityById: [],
     allProfessionalsOffers: [],
-    filter:[],
+    clientsFilter:[],
+    professionalsFilter:[],
     searchbar:''
 };
 
@@ -130,10 +134,15 @@ function rootReducer( state = initialState, { type, payload } ) {
                 ...state,
                 switch: payload
             };
-        case DATA_FILTERED:
+        case CLIENTS_FILTERED:
               return {
                   ...state,
-                  filter: payload
+                  clientsFilter: payload
+              };
+        case PROFESSIONAL_FILTERED:
+              return {
+                  ...state,
+                  professionalsFilter: payload
               };
         case SEARCHBAR:
                 return {
@@ -144,17 +153,29 @@ function rootReducer( state = initialState, { type, payload } ) {
             let option = [];
             switch (payload) {
                 case 'A-Z':
-                    option = state.professionals.sort((a,b) => {
+                    option = state.professionalsFilter.sort((a,b) => {
+                      if(a.first_name){
                         if (a.first_name > b.first_name) return 1;
                         if(a.first_name < b.first_name) return -1;
                         return 0;
+                      }else{
+                        if (a.name > b.name) return 1;
+                        if(a.name < b.name) return -1;
+                        return 0;
+                      }
                     })
                     break;
                 case 'Z-A':
-                    option = state.professionals.sort((a,b) => {
+                    option = state.professionalsFilter.sort((a,b) => {
+                      if(a.first_name){
                         if (a.first_name > b.first_name) return -1;
-                        if(a.first_name < b.first_name)return 1;
+                        if(a.first_name < b.first_name) return 1;
                         return 0;
+                      }else{
+                        if (a.name > b.name) return -1;
+                        if(a.name < b.name) return 1;
+                        return 0;
+                      }
                     })
                     break
                 default:
@@ -162,10 +183,46 @@ function rootReducer( state = initialState, { type, payload } ) {
             };
             return {
                 ...state,
-                professionals: option
+                professionalsFilter: option
             };
-        default:
-            return state;
+        case ORDER_DATA_CLIENT:
+              let option2 = [];
+              switch (payload) {
+                  case 'A-Z':
+                      option2 = state.clientsFilter.sort((a,b) => {
+                        if(a.first_name){
+                          if (a.first_name > b.first_name) return 1;
+                          if(a.first_name < b.first_name) return -1;
+                          return 0;
+                        }else{
+                          if (a.name > b.name) return 1;
+                          if(a.name < b.name) return -1;
+                          return 0;
+                        }
+                      })
+                      break;
+                  case 'Z-A':
+                      option2 = state.clientsFilter.sort((a,b) => {
+                        if(a.first_name){
+                          if (a.first_name > b.first_name) return -1;
+                          if(a.first_name < b.first_name) return 1;
+                          return 0;
+                        }else{
+                          if (a.name > b.name) return -1;
+                          if(a.name < b.name) return 1;
+                          return 0;
+                        }
+                      })
+                      break
+                  default:
+                      break;
+              };
+              return {
+                  ...state,
+                  clientsFilter: option2
+              };
+          default:
+              return state;
     };
 };
 
