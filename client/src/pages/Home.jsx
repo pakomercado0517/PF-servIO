@@ -20,12 +20,13 @@ import Footer from '../components/Footer';
 import img from '../img/undraw_welcome_cats_thqn.svg';
 
 export default function Home(){
-    
+    const needs = useSelector((state) => state.switch)
+    console.log(needs)
     const dispatch = useDispatch();
     const professionals = useSelector(state => state.filter);
     const {params} = useParams()
     console.log("PARAMS: --->",params)
-    const clientNeeds = useSelector(state => state.clientNeeds);
+    const clientNeeds = useSelector(state => state.filter);
     const switcheo = useSelector(state => state.switch)
     const stateRedux = useSelector(state => state)
     const [switcheo2] = useGlobalStorage("switcheo", null)
@@ -64,19 +65,19 @@ export default function Home(){
         if(landing==="NoVisible") setLanding("visible")
     }
 
-    useEffect(()=>{
-        if (input.order) {
-            dispatch(orderProfessionals(input.order))
-        }
-        else{
-            if(switcheo2 === "professional") {  
-                dispatch(getAllProfessionals())
-            }else if (switcheo2 === "user"){
-                dispatch(getAllNeeds())
-            }
-        }
+    // useEffect(()=>{
+    //     if (input.order) {
+    //         dispatch(orderProfessionals(input.order))
+    //     }
+    //     else{
+    //         if(switcheo2 === "professional") {  
+    //             dispatch(getAllProfessionals())
+    //         }else if (switcheo2 === "user"){
+    //             dispatch(getAllNeeds())
+    //         }
+    //     }
 
-    },[dispatch, input.order, switcheo2])
+    // },[dispatch, input.order, switcheo2])
 
     useEffect(() => {
         setCurrentPosts2((switcheo2 === "professional") ? professionals?.slice(indexOfFirstPost, indexOfLastPost) : clientNeeds?.slice(indexOfFirstPost, indexOfLastPost))
@@ -160,7 +161,7 @@ export default function Home(){
                   {/* CARDS DE SOLICITUDES DE CLIENTES */}
 
               </div> : 
-              <div>
+              <div className={s.professionalGrid}>
                     {
                         currentPosts2?.length > 0 ? currentPosts?.map((user)=>(
                             <NavLink className={s.card_client_need} to={"/client/need/"+user.id}>

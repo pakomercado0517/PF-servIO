@@ -117,6 +117,7 @@ export default function ProfileProfessional(){
                         specificActivities && specificActivities !== 'There are not specifical Activities' && specificActivities.map((el, index) => 
                             (
                                 <CardParticularService
+                                        id={el.id}
                                         name= { el.name }
                                         description= { el.description }
                                         price= { el.price }
