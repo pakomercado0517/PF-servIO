@@ -5,10 +5,10 @@ import { BsArrowLeftCircle } from 'react-icons/bs'
 import CardReview from '../components/CardReview';
 import CardParticularService from '../components/CardParticularService';
 import star from '../img/star.svg'
-import s from './styles/ProfileProfessional.module.css'
 import { useSelector, useDispatch } from 'react-redux';
 import { getByUserId, getSpecificActivitiesById } from '../redux/actions';
 import { NavLink } from 'react-router-dom';
+import s from './styles/ProfileProfessional.module.css'
 
 
 export default function ProfileProfessional(){
@@ -21,12 +21,13 @@ export default function ProfileProfessional(){
         seeAllServices: true,
     })
     
-    const professional = useSelector((state) => state?.globalUserGlobalStorage)
+    const professional = useSelector((state) => state?.user[0])
     console.log('profesionalesssssssss',professional)
     const specificActivities = useSelector((state) => state.specificActivitiesById)
 
     
     const idSpecificActivities = specificActivities !== "There are not specifical Activities" && specificActivities.map((item) => item.id)
+    console.log('idSpecificActivities',idSpecificActivities)
 
 
     useEffect(()=>{
@@ -49,9 +50,13 @@ export default function ProfileProfessional(){
 
     return (
         <div className={ s.container }>
-
+        
             <div className={s.container_details}>
-                <div className={ s.container_details_photo }>
+                <div>
+                    <img 
+                        src={ professional?.photo } 
+                        className={ s.container_details_photo }
+                        />
                 </div>
                 <div className={ s.container_details_text }>
                     <h1>
@@ -73,6 +78,21 @@ export default function ProfileProfessional(){
                         </div>
                     </div>
                 </div>
+                <div className={s.professional_showProfessions} >
+            <div><h3 className={s.professions_title}>Profesiones:</h3></div>
+            
+            <div className={s.professions_container}>
+                    {
+                    professional?.Professional.Professions.map(el=> {
+                        return(
+                            <div className='profession'>{el.name}</div>
+                        )
+                    })
+                }
+            </div>
+
+            </div>
+{/* revisar opcion solicitar presupuesto => state.login no existe mas(?) -- @fer */}
                 {
                     state.login ? (
                         <NavLink to='/necesidades'>
@@ -82,7 +102,7 @@ export default function ProfileProfessional(){
                             </span>
                         </button>
                         </NavLink>
-                    ) : null
+                    ) : <></>
                 }
             </div>
             <h4>Servicios particulares</h4>
@@ -96,13 +116,11 @@ export default function ProfileProfessional(){
                     {
                         specificActivities && specificActivities !== 'There are not specifical Activities' && specificActivities.map((el, index) => 
                             (
-                                <NavLink to={"/ProfessionalSpecificActivity/" + el.id}>
-                                    <CardParticularService
+                                <CardParticularService
                                         name= { el.name }
                                         description= { el.description }
                                         price= { el.price }
-                                    />
-                                </NavLink>
+                                        />
                             )
                         )
                     }

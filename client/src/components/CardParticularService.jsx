@@ -1,11 +1,32 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
 import { useGlobalStorage } from '../hooks/useGlobalStorage'
+import { getSpecificActivitiesById, getByUserId } from '../redux/actions';
+
 import s from './styles/CardParticularService.module.css'
 
 
 export default function CardParticularService(props) {
 
     const [cart, setCart] = useGlobalStorage("cart", [])
+    const { id } = useParams()
+    const dispatch = useDispatch()
+
+    // const specificActivities = useSelector((state) => state.specificActivitiesById)
+
+    // const idSpecificActivities = specificActivities.map((item) => item.id)
+    // console.log('idSpecificActivities',idSpecificActivities)
+
+
+    const professional = useSelector((state) => state?.user[0])
+    // console.log('profesionalesssssssss',professional)
+
+
+    useEffect(()=>{
+        dispatch(getByUserId(id))
+        dispatch(getSpecificActivitiesById(id)) // comentar
+    },[dispatch, id])
 
     function addToCart(){
         const exist = cart.filter(el => el.name === props.name )
@@ -31,17 +52,28 @@ export default function CardParticularService(props) {
     }
     return (
         <div className={s.container}>
+            
+            <Link 
+                to={`/professional/${id}/ProfessionalSpecificActivity/${id}`}
+                // to={"/ProfessionalSpecificActivity/" + id} 
+                style={{ textDecoration: 'none' }}
+            >
+            
+                <div className={s.container_info}>
+                    <h1>${props.price}</h1>
+                </div>
+                
+                <div className={ s.container_description }>
+                    <h5>{ props.name }</h5>
+                    <p>{ props.description }</p>
+                </div>
 
-            <div className={s.container_info}>
-                <h1>${props.price}</h1>
-            </div>
-            
-            <div className={ s.container_description }>
-                <h5>{ props.name }</h5>
-                <p>{ props.description }</p>
-            </div>
-            
-            <button onClick={ addToCart } className={ s.container_button + " btn btn-success"}>
+            </Link>
+
+            <button 
+                className={ s.container_button + " btn btn-success"}
+                onClick={ addToCart } 
+            >
                 Agregar al carrito
             </button>
         

@@ -99,14 +99,13 @@ export default function EditCliente() {
         try{
             let prof= profession.toString()
             let newData= {
-                firstName:details.firstName,
+                firstName: details.firstName,
                 lastName: details.lastName,
                 email: details.email,
                 dni:details.dni,
                 password:details.password,
                 professional:details.professional,
                 profession:prof,
-
             }
             await axios.put(`http://localhost:3001/user/updateUser/101`, newData)
             const obj = {
@@ -119,7 +118,11 @@ export default function EditCliente() {
                 professional: details.professional,
                 profession:prof
             }
+
+            // 
+
             setGlobalUser(obj)
+
             Swal.fire({
                 title: 'Los cambios fueron aceptados',
                 text: 'En la brevedad los cambios se ejecutaran',
@@ -147,7 +150,10 @@ export default function EditCliente() {
 
     function handleCheck(e){
         console.log(details.professionalCase)
-        if (e.target.id === 'checkboxClient' && details.professionalCase) {
+        console.log(globalUser.professional)
+        // como estaba antes
+        // if (e.target.id === 'checkboxClient' && details.professionalCase)
+        if (e.target.id === 'checkboxClient' && globalUser.professional) {
             const obj = {
                 ...details,
                 professionalCase:false,
@@ -159,20 +165,22 @@ export default function EditCliente() {
             const obj = {
                 ...details,
                 professionalCase:true,
-                professional:"true"
+                professional:"true",
             }
             setDetails(obj)
         }
     } 
 
-    function onClick(){
+    function onClick(e){
         if(profession.indexOf(details.profession) === -1 && details.profession !== ''){
-          setProfession([...profession, details.profession])
+        setProfession([...profession, details.profession])
         }
     }
     function changeCountry(event){
         // setDetails({...details, profession: event.target.value})
+
         setDetails(() =>({...details, profession:event.target.value}));
+
     }  
     function onClose(e){
         let index = profession.indexOf(e.target.value)
@@ -292,14 +300,14 @@ export default function EditCliente() {
 ////////----------------------- edit Profesional -------------------- 
 
                     <div className={s.subDiv}>
-                        <label htmlFor="professions">Seleccona tu Oficio:</label>
+                        <label htmlFor="countries">Seleccona tu Oficio:</label>
                         <div>
                             <select 
                             className={s.inputClass3}
                             onChange={changeCountry}
                             value={details.profession}
                             >
-                            <option >Seleccona tu Oficio:</option>
+                            <option >{details.profession}</option>
                             {oficio.map((e, index) => {
                                 return (<option key={ "options" + index}>{e}</option>)
                             })

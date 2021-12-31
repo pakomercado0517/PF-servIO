@@ -321,6 +321,10 @@ export function showFormProfessionalOffer(data) {
   };
 }
 
+// repetido ==> comentado y si no rompe nada se borra
+// ya esta repetida esta peticion en getByUserId linea 116
+// no se puede borrar porque se usa en /pages/profileclient.jsx
+
 export function getByAccountId(id) {
   return async function (dispatch) {
     try {
@@ -334,18 +338,20 @@ export function getByAccountId(id) {
     }
   };
 }
+// getSpecificActivitiesById  linea 66
+// repetido ==> comentado y si no rompe nada se borra
 
-export const getProfessionalActivityById = (id) => {
-  return async (dispatch) => {
-    const response = await axios.get(
-      `${constants.localhost}/TecnicalsActivities/${id}`
-    );
-    dispatch({
-      type: GET_PROFESSIONAL_ACTIVITY_BY_ID,
-      payload: response.data,
-    });
-  };
-};
+// export const getProfessionalActivityById = (id) => {
+//   return async (dispatch) => {
+//     const response = await axios.get(
+//       `${constants.localhost}/TecnicalsActivities/${id}`
+//     );
+//     dispatch({
+//       type: GET_PROFESSIONAL_ACTIVITY_BY_ID,
+//       payload: response.data,
+//     });
+//   };
+// };
 
 export const getAllProfessionalOffers = () => {
   return async (dispatch) => {

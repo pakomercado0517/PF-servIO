@@ -45,11 +45,13 @@
     padding-right: 12px;
     position: relative;
     right: 55px;
-    background-color: white;
+    background-color: rgb(216, 197, 197);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: start;
+    border-radius: 20px;
+
 }
 
 .floatCard_title {
@@ -87,8 +89,9 @@
     width: 220px;
     height: 34px;
     font-size: 25px;
-    border-radius: 2px;
+    border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.67);
+    color: #0c0b0b;
     text-align: center;
 }
 
@@ -96,13 +99,15 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    color: #0c0b0b;
 }
 
 .profession {
     width: 190px;
     height: 23px;
     border-radius: 2px;
-    background-color: rgba(255, 255, 255, 0.67);
+    background-color: rgba(26, 23, 23, 0.67);
     text-align: center;
     margin-top: 5px;
 }
@@ -113,6 +118,7 @@
 }
 
 .description_card {
+    margin-top: 10px;
     width: 80%;
     margin-left: auto;
     margin-right: auto;

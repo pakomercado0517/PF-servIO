@@ -69,12 +69,12 @@ function rootReducer( state = initialState, { type, payload } ) {
                 ...payload,
             };
         case GET_BY_USER_ID:
-            return {
+            return { // usado para perfil profesional
                 ...state,
                 user: payload,
             };
         case GET_BY_ACCOUNT_ID:
-            return {
+            return { // usado para perfil cliente
                 ...state,
                 account: payload,
             };

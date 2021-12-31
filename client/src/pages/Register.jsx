@@ -364,6 +364,13 @@ export default function Crear() {
                     <div className={ s.container_registro_form_button }>
                         <button id='buttonSubmit' type='submit' className={"btn btn-success " + s.buttonSubmit}>Registrarse</button>
                     </div>
+
+                    <a 
+                        type="button" 
+                        className="btn btn-lg btn-google btn-block text-uppercase btn-outline" href="http://localhost:3001/user/auth/google/signUp">
+                        <img src="https://img.icons8.com/color/40/000000/google-logo.png" alt="google"/> 
+                    </a>
+                    
                 </form>
             </div>
         </div>
