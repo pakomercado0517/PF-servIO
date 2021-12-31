@@ -26,7 +26,7 @@ export default function ProfileProfessional(){
     const specificActivities = useSelector((state) => state.specificActivitiesById)
 
     
-    const idSpecificActivities = specificActivities !== "There are not specifical Activities" && specificActivities.map((item) => item.id)
+    const idSpecificActivities = specificActivities.map((item) => item.id)
     console.log('idSpecificActivities',idSpecificActivities)
 
 

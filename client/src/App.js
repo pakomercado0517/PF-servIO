@@ -44,7 +44,7 @@ function App() {
           element={<ProfessionalOfferToClientNeed />}
         />
         <Route
-          exact path="/professional/:idProfessional/ProfessionalSpecificActivity/:id"
+          exact path="/professional/:idProfessional/SpecificActivity/:id"
           element={<ProfessionalSpecificActivity />}
         />
         <Route
