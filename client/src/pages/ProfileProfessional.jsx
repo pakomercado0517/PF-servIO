@@ -26,8 +26,8 @@ export default function ProfileProfessional(){
     const specificActivities = useSelector((state) => state.specificActivitiesById)
 
     
-    const idSpecificActivities = specificActivities.map((item) => item.id)
-    console.log('idSpecificActivities',idSpecificActivities)
+    // const idSpecificActivities = specificActivities.map((item) => item.id)
+    // console.log('idSpecificActivities',idSpecificActivities)
 
 
     useEffect(()=>{

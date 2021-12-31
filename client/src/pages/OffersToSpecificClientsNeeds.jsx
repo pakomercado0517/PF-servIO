@@ -49,7 +49,7 @@ export const OffersToSpecificClientsNeeds = () => {
                     return (
                         <CardOfferToClientNeed
                         key={ index + id }
-                        name={ el.name }
+                        name={ el.name || "algun servicio" }
                         id={ el.id }
                         guarantee_time={ el.guarantee_time }
                         materials={ el.materials }
