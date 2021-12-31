@@ -13,8 +13,9 @@ export default function CardParticularService(props) {
     const { id } = useParams()
     const dispatch = useDispatch()
 
-    // const specificActivities = useSelector((state) => state.specificActivitiesById)
-
+    const specificActivities = useSelector((state) => state.specificActivitiesById)
+    console.log('specificActivities', specificActivities)
+    
     // const idSpecificActivities = specificActivities.map((item) => item.id)
     // console.log('idSpecificActivities',idSpecificActivities)
 
@@ -54,8 +55,7 @@ export default function CardParticularService(props) {
         <div className={s.container}>
             
             <Link 
-                to={`/professional/${id}/ProfessionalSpecificActivity/${id}`}
-                // to={"/ProfessionalSpecificActivity/" + id} 
+                to={`/professional/${id}/SpecificActivity/${id}`}
                 style={{ textDecoration: 'none' }}
             >
             
