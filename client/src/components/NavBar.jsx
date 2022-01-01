@@ -39,6 +39,7 @@ export default function NavBar() {
             method: 'POST'
         })
         .then(response => {
+            console.log('logout responseee', response)
             localStorage.clear()
             window.location.replace('/')
             setGlobalUser(null)

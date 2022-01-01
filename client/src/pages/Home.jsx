@@ -140,6 +140,7 @@ console.log(clientNeeds,switcheo2)
                   {
                       currentPosts?.length > 0 ? currentPosts.map((professional) => (
                           <CardProfessional
+                              key={professional.id}
                               idTech={professional.id} 
                               avatarTech={professional.photo} 
                               titleTech={professional.first_name + ' ' + professional.last_name}

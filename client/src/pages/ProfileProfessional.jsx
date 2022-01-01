@@ -28,7 +28,7 @@ export default function ProfileProfessional(){
     useEffect(()=>{
         dispatch(getByUserId(id))
         dispatch(getSpecificActivitiesById(id))
-    },[dispatch, id])
+    },[dispatch,id])
 
     function newStateReview(){
         setstate({

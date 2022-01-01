@@ -6,7 +6,8 @@ const { User } = require("../db");
 
 require("../config/googleConfig");
 
-let cacheUser = [];
+let googleData = [];
+let cacheData = [];
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
@@ -51,9 +52,7 @@ router.post(
 );
 
 router.get("/getGoogleUser", async (req, res, next) => {
-  res.json(cacheUser);
-  next();
-  cacheUser.pop;
+  res.json(googleData);
   // if (req.isAuthenticated()) {
   //   const userResult = await User.findOne({
   //     where: { email: req.user._json.email },
@@ -67,6 +66,30 @@ router.get("/getGoogleUser", async (req, res, next) => {
   //   res.send("Inicia Sesión");
   // }
 });
+
+router.get("/getUser", async (req, res) => {
+  res.json(cacheData);
+});
+
+router.get("/auth/github", passport.authenticate("github"));
+
+router.get(
+  "/auth/github/callback",
+  passport.authenticate("github"),
+  async (req, res, next) => {
+    cacheData.pop();
+    const userResult = await User.findOne({
+      where: { email: req.user._json.login },
+    });
+    cacheData.push({
+      message: "Logged",
+      cookies: req.session,
+      data: userResult,
+    });
+    res.redirect("http://localhost:3000/login");
+  }
+  // userFunctions.githubAuth
+);
 
 router.get(
   "/auth/google/signUp",
@@ -87,13 +110,13 @@ router.get(
     scope: ["email", "profile"],
   }),
   async (req, res) => {
-    cacheUser.pop();
+    cacheData.pop();
     // console.log("req.user", req.user._json);
     const userResult = await User.findOne({
       where: { email: req.user._json.email },
     });
     if (userResult) {
-      cacheUser.push({
+      cacheData.push({
         message: "Logged",
         cookies: req.session,
         data: userResult,
