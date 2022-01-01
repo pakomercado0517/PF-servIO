@@ -98,22 +98,25 @@ export default function Login() {
 
 
     useEffect(async ()=> {
+        let result= await axios.get('http://localhost:3001/user/getUser')
+        console.log('resulllt', result.data[0])
+        const id= result.data[0].data.id
+        // dispatch(getByUserId(id))
+        await setGlobalUser(result.data[0].data)
+        await setLocalUser(result.data[0].data)
         try {
-            const result= await axios.get('http://localhost:3001/user/getUserData')
-            console.log('resulllt', result)
-            const id= result.data[0].data.id
-            // dispatch(getByUserId(id))
-            setGlobalUser(result.data[0].data)
-            setLocalUser(result.data[0].data)
-            if(globalUser.id) {
+            const glbUser= globalUser
+            console.log('globaluser', glbUser)
+            if(glbUser) {
                 Swal.fire({
                         icon: 'success',
                         title: 'Logged in',
                         showConfirmButton: false,
                         timer: 2500
                     })
-                    navigate('/')
-            }
+                    await navigate('/')
+                }
+                return result='';
         } catch (error) {
             console.log('errorrrrrr', error)
         }

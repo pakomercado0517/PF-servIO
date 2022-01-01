@@ -41,8 +41,8 @@ export default function NavBar() {
             console.log('logout responseee', response)
             localStorage.clear()
             window.location.replace('/')
-            setGlobalUser("")
-            setLocalUser("")
+            setGlobalUser(null)
+            setLocalUser(null)
         })
         
     }
