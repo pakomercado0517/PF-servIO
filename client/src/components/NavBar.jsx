@@ -82,7 +82,8 @@ export default function NavBar() {
 
                     <div 
                         className={s.show__presentation}
-                        onClick={showModalFormCLient} 
+                        onClick={showModalFormCLient}
+                        style={{cursor:"pointer"}}
                     >
                         <CgOptions />
                         <span>Crear publicacion</span>
