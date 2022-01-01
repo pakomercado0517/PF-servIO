@@ -97,6 +97,7 @@ export default function Login() {
     }
 
 
+
     useEffect(async ()=> {
         let result= await axios.get('http://localhost:3001/user/getUser')
         console.log('resulllt', result.data[0])
@@ -121,6 +122,31 @@ export default function Login() {
             console.log('errorrrrrr', error)
         }
     },[])
+
+    // useEffect( async () => {
+    //     const result= await axios.get('http://localhost:3001/user/getGoogleUser')
+    //     const id= result.data[0].data.id
+    //     const message= result.data[0].message
+    //     dispatch(getByUserId(id))
+    //     setGlobalUser(result.data[0].data)
+    //     setLocalUser(result.data[0].data)
+    //     console.log('result:', id)
+    //     console.log('message:', message)
+    //     console.log('length', result.data.length)
+    //     console.log('globalUser', globalUser.id)
+    //     console.log('localUser', localUser)
+    //     if(globalUser.id) {
+    //         Swal.fire({
+    //                 icon: 'success',
+    //                 title: 'Logged in',
+    //                 showConfirmButton: false,
+    //                 timer: 2500
+    //             })
+    //             navigate('/')
+    //     }
+    //     return result
+    // },[])
+
 
 
     useEffect(() => {

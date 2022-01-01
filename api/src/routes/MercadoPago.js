@@ -12,11 +12,28 @@ router.post('/', (req, res, next) =>{
   console.log("aqui")
     let preference = {
         items: req.body.items,
-        // notification_url: "http://localhost:3001/create_preference/data_payments",
+        payer: {
+            name: "Juan",
+            surname: "Lopez",
+            email: "user@email.com",
+            phone: {
+                area_code: "11",
+                number: "4444-4444"
+            },
+            identification: {
+                type: "DNI",
+                number: "12345678"
+            },
+            address: {
+                street_name: "Street",
+                street_number: 123,
+                zip_code: "5700"
+            }
+        },
         back_urls: {
-          success: "http://localhost:3000/",
-          failure: "http://localhost:3000/",
-          pending: "http://localhost:3000/"
+          success: "http://localhost:3001/create_preference/succes",
+          failure: "http://localhost:3001/create_preference/failure",
+          pending: "http://localhost:3001/create_preference/pending"
       },
       };
       
@@ -36,14 +53,19 @@ router.get('/', (req, res) =>{
   res.send({message: "si entra"})
 })
 
-router.post('/data_payments', (req, res) =>{
+router.get('/succes', (req, res) =>{
   console.log(req.query)
-  res.send({message: "OK"})
+  res.redirect("http://localhost:3000/")
 })
 
-router.get('/data_payments', (req, res) =>{
+router.get('/pending', (req, res) =>{
   console.log(req.query)
-  res.send({message: "OK"})
+  res.redirect("http://localhost:3000/")
+})
+
+router.get('/failure', (req, res) =>{
+  console.log(req.query)
+  res.redirect("http://localhost:3000/cart")
 })
 
 module.exports= router;

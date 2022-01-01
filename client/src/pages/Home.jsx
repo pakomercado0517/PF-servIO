@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import { useSelector, useDispatch} from 'react-redux';
 import s from './styles/Home.module.css'
 import {Filter} from '../components/Filter'
 // import NavBar from '../components/NavBar';
@@ -7,8 +7,8 @@ import Landing from '../components/Landing';
 import {CgOptions} from 'react-icons/cg'
 import {IoEyeSharp} from 'react-icons/io5'
 import CardProfessional from '../components/CardProtessional.jsx'
-import { getAllProfessionals, orderProfessionals, getAllNeeds } from '../redux/actions';
-// import img from '../img/ivana-cajina-_7LbC5J-jw4-unsplash.jpg'
+import { getAllProfessionals, orderProfessionals, filterProfessionals,orderClientNeeds, getAllNeeds } from '../redux/actions';
+import img from '../img/ivana-cajina-_7LbC5J-jw4-unsplash.jpg'
 import Pagination from "../components/Pagination";
 import TestimoniosHome from '../components/TestimoniosHome';
 import { ClientSpecificNeed } from '../components/ClientSpecificNeed';
@@ -17,71 +17,63 @@ import { useLocalStorage } from '../hooks/useLocalStorage'
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
 import { NavLink, useParams } from 'react-router-dom';
 import Footer from '../components/Footer';
-import img from '../img/undraw_welcome_cats_thqn.svg';
+// import img from '../img/undraw_welcome_cats_thqn.svg';
 
 export default function Home(){
     const needs = useSelector((state) => state.switch)
-    console.log(needs)
+    const state = useSelector(state => state)
     const dispatch = useDispatch();
-    const professionals = useSelector(state => state.filter);
+    const clientNeeds = useSelector(state => state.professionalsFilter);
     const {params} = useParams()
-    console.log("PARAMS: --->",params)
-    const clientNeeds = useSelector(state => state.filter);
+    const professionals = useSelector(state => state.clientsFilter);
+
+    // console.log(clientNeeds, professionals)
     const switcheo = useSelector(state => state.switch)
     const stateRedux = useSelector(state => state)
     const [switcheo2] = useGlobalStorage("switcheo", null)
-    // const [state, setstate] = useState("")
-    // const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
-
     const [login] = useLocalStorage("user", null)
-    // const [usuario, setLogin] = useLocalStorage("usuario", "Imanol")
-    
     let [postsPerPage, setPostsPerPage] = useState(16);
     let [currentPage, setCurrentPage] = useState(1);
     let indexOfLastPost = currentPage * postsPerPage;
     let indexOfFirstPost = indexOfLastPost - postsPerPage;
-    let currentPosts = switcheo2 === "professional" ? professionals?.slice(indexOfFirstPost, indexOfLastPost) : clientNeeds?.slice(indexOfFirstPost, indexOfLastPost)
-    const [currentPosts2, setCurrentPosts2] = useLocalStorage("currentPosts", currentPosts)
-    const [globalUser, setGlobalUser] = useGlobalStorage("globalUser", "");
+    let currentPosts = switcheo2 === "professional" ? professionals?.slice(indexOfFirstPost, indexOfLastPost) : clientNeeds.slice(indexOfFirstPost, indexOfLastPost)
     const paginate = pageNumber => setCurrentPage(pageNumber);
-
     const [input, setInput] = useState({
         order: ''
     })
-
+console.log(clientNeeds,switcheo2)
     function handleOrder(e) {setInput({...input, order:e.target.id})}
 
     // VISIBILIDAD DEL LANDING DE PRESENTACIÓN //
     const [landing, setLanding] = useLocalStorage("landing", "visible")
-
-    //dependiendo si son cliente o profecional (welcome)
-    const [details, setDetails] = useState({
-        professional: globalUser.professional,
-        
-    })
+    useEffect(() => {
+      dispatch(orderProfessionals(''))
+    },[])
 
     function landingView(){
         if (landing==="visible") setLanding("NoVisible")
         if(landing==="NoVisible") setLanding("visible")
     }
+    console.log(input.order )
+    console.log(input.order && switcheo2 === "user")
+    useEffect(()=>{
+        if (input.order && switcheo2 === 'professional') {
+            dispatch(filterProfessionals(input.order, professionals))
+        }
+        else if(input.order && switcheo2 === "user"){
+          console.log(2)
+          dispatch(orderClientNeeds(input.order, clientNeeds))
+        }
+        // else{
+        //     if(switcheo2 === "professional") {  
+        //         dispatch(filterClients(input.order))
+        //     }else if (switcheo2 === "user"){
+        //         dispatch(filterClients(input.order))
+        //     }
+        // }
 
-    // useEffect(()=>{
-    //     if (input.order) {
-    //         dispatch(orderProfessionals(input.order))
-    //     }
-    //     else{
-    //         if(switcheo2 === "professional") {  
-    //             dispatch(getAllProfessionals())
-    //         }else if (switcheo2 === "user"){
-    //             dispatch(getAllNeeds())
-    //         }
-    //     }
+    },[dispatch, input.order, switcheo2])
 
-    // },[dispatch, input.order, switcheo2])
-
-    useEffect(() => {
-        setCurrentPosts2((switcheo2 === "professional") ? professionals?.slice(indexOfFirstPost, indexOfLastPost) : clientNeeds?.slice(indexOfFirstPost, indexOfLastPost))
-    }, [stateRedux])
 
     return (
         <div>
@@ -146,7 +138,7 @@ export default function Home(){
             { switcheo2 === "professional" ? 
               <div className={s.professionalGrid}>
                   {
-                      currentPosts2?.length > 0 ? currentPosts.map((professional) => (
+                      currentPosts?.length > 0 ? currentPosts.map((professional) => (
                           <CardProfessional
                               key={professional.id}
                               idTech={professional.id} 
@@ -164,7 +156,7 @@ export default function Home(){
               </div> : 
               <div className={s.professionalGrid}>
                     {
-                        currentPosts2?.length > 0 ? currentPosts?.map((user)=>(
+                        currentPosts?.length > 0 ? currentPosts?.map((user)=>(
                             <NavLink className={s.card_client_need} to={"/client/need/"+user.id}>
                                 <CardClientNeed key={user.id}
                                 name={ user.name }

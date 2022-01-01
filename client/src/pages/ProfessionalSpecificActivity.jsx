@@ -13,30 +13,38 @@ import { useGlobalStorage } from '../hooks/useGlobalStorage'
 function ProfessionalSpecificActivity() {
   
   // const [cart, setCart] = useGlobalStorage("cart", [])
-
+  
   const {id}= useParams()
-  console.log('id',id) // id de usuario--- necesito id de publicacion
+  console.log('id',id) // trae id de publicacion pero pierdo la referencia del usuario
   const dispatch= useDispatch()
   let ranked= 3;
 
-  const professionalActivities = useSelector(state => state.professionalActivities)
-  console.log('professionalActivities',professionalActivities)
+  useEffect(()=>{
+    dispatch(getByUserId(id))
+    dispatch(getSpecificActivitiesById(id))
+  },[dispatch, id])
   
-  const profesional = useSelector((state) => state?.user[0])
-  console.log('profesional',profesional)
+
+  const profesional = useSelector((state) => state)
+  console.log('1 - profesional',profesional)
+  
+  const professionalActivities = useSelector(state => state.professionalActivities)
+  console.log('2 - professionalActivities',professionalActivities)
+  
+  
+  const specificActivities = useSelector((state) => state.specificActivitiesById)
+  console.log('3 - specificActivities la posta',specificActivities)
 
   // hacer un ternario para que si el usuario logeado es el mismo que el prfesional devuelva true asi puedo hacer un boton de editar
 
-  const user = useSelector(state => state.globalUserGlobalStorage)
-  console.log('user global',user)
+  // const user = useSelector(state => state.globalUserGlobalStorage)
+  // console.log('user global',user)
   // console.log('id', id)
   // console.log('profesional activities',professionalActivities)
-  const specificActivities = useSelector((state) => state.specificActivitiesById)
-  console.log('specificActivities la posta',specificActivities)
 
 
   useEffect(()=>{
-    dispatch(getByUserId(id))
+    // dispatch(getByUserId(id))
     dispatch(getSpecificActivitiesById(id))
 },[dispatch, id])
 
@@ -105,13 +113,18 @@ function ProfessionalSpecificActivity() {
           <div className={s.professional_showProfessions} >
             <div><h3 className={s.professions_title}>{`Profesion :`}</h3></div>
             <div className={s.professions_container}>
-              {
+              {/* {
               profesional?.Professional.Professions.map(el=> {
                 return(
-                  <div className='profession'>{el.name.toUpperCase()}</div>
+                  <div
+                    key={el.id}
+                    className='profession'
+                  >
+                    {el.name.toUpperCase()}
+                  </div>
                 )
                 })
-              }
+              } */}
             </div>
           </div>
         </div>
@@ -122,6 +135,11 @@ function ProfessionalSpecificActivity() {
             <div className={s.description_card}>
               <h3>Descripción</h3>
               <div className={s.description_text}>
+
+                {/* {
+                  specificActivities.description
+                } */}
+
                 {/* <p>{professionalActivities[0]?.description}</p> */}
               </div>
             </div>
@@ -142,9 +160,9 @@ function ProfessionalSpecificActivity() {
         {/* |-----------------------------buttons-----------------------| */}
 
         <div className={s.buttons_list}>
-          <div className={s.a_button}>
+          {/* <div className={s.a_button}>
             <NavLink to={`/professional/${id}`} className={s.link_button}>Volver</NavLink>
-          </div>
+          </div> */}
           
 
           {/* no pude meter el carrito -------------------- */}

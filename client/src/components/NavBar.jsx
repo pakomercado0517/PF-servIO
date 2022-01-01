@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 // Router-dom
-import { NavLink } from 'react-router-dom';
+import { NavLink} from 'react-router-dom';
 // Imagenes e iconos
 import { CgOptions } from 'react-icons/cg';
 import { MdAccountCircle } from 'react-icons/md';
@@ -29,7 +29,8 @@ export default function NavBar() {
     const [localUser, setLocalUser] = useLocalStorage("localUser", "");
 
     function showModalFormCLient(){
-        dispatch(showFormClientNeed("show"))
+        dispatch(showFormClientNeed("show"));
+        
     }
     
     function logout() {
