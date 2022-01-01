@@ -50,10 +50,8 @@ router.post(
   }
 );
 
-router.get("/getGoogleUser", async (req, res, next) => {
+router.get("/getUserData", async (req, res, next) => {
   res.json(cacheUser);
-  next();
-  cacheUser.pop;
   // if (req.isAuthenticated()) {
   //   const userResult = await User.findOne({
   //     where: { email: req.user._json.email },
@@ -67,6 +65,24 @@ router.get("/getGoogleUser", async (req, res, next) => {
   //   res.send("Inicia Sesión");
   // }
 });
+
+router.get("/auth/github", passport.authenticate("github"));
+
+router.get(
+  "/auth/github/callback",
+  passport.authenticate("github"),
+  async (req, res, next) => {
+    cacheUser.pop();
+    const userResult = User.findOne({ where: { email: req.user._json.login } });
+    cacheUser.push({
+      message: "Logged",
+      cookies: req.session,
+      data: userResult,
+    });
+    res.redirect("http://localhost:3000/login");
+  }
+  // userFunctions.githubAuth
+);
 
 router.get(
   "/auth/google/signUp",

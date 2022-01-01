@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useLayoutEffect } from 'react'
+import { useNavigate, Link } from "react-router-dom";
 import Swal from 'sweetalert2'
 import axios from 'axios'
 import logo from '../img/ServIO.svg';
@@ -97,28 +97,26 @@ export default function Login() {
     }
 
 
-    useEffect( async () => {
-        const result= await axios.get('http://localhost:3001/user/getGoogleUser')
-        const id= result.data[0].data.id
-        const message= result.data[0].message
-        dispatch(getByUserId(id))
-        setGlobalUser(result.data[0].data)
-        setLocalUser(result.data[0].data)
-        console.log('result:', id)
-        console.log('message:', message)
-        console.log('length', result.data.length)
-        console.log('globalUser', globalUser.id)
-        console.log('localUser', localUser)
-        if(globalUser.id) {
-            Swal.fire({
-                    icon: 'success',
-                    title: 'Logged in',
-                    showConfirmButton: false,
-                    timer: 2500
-                })
-                // navigate('/')
+    useEffect(async ()=> {
+        try {
+            const result= await axios.get('http://localhost:3001/user/getUserData')
+            console.log('resulllt', result)
+            const id= result.data[0].data.id
+            // dispatch(getByUserId(id))
+            setGlobalUser(result.data[0].data)
+            setLocalUser(result.data[0].data)
+            if(globalUser.id) {
+                Swal.fire({
+                        icon: 'success',
+                        title: 'Logged in',
+                        showConfirmButton: false,
+                        timer: 2500
+                    })
+                    navigate('/')
+            }
+        } catch (error) {
+            console.log('errorrrrrr', error)
         }
-        return result
     },[])
 
 
@@ -203,9 +201,14 @@ export default function Login() {
                         <p>O inicia con:</p>
 
                         <a 
-                            type="button" 
-                            className="btn btn-lg btn-google btn-block text-uppercase btn-outline" href="http://localhost:3001/user/auth/google/login">
+                            type="button"
+                            className="btn btn-lg btn-google  text-uppercase btn-outline" href="http://localhost:3001/user/auth/google/login">
                             <img src="https://img.icons8.com/color/40/000000/google-logo.png" alt="google"/> 
+                        </a>
+                        <a 
+                            type="button"
+                            className="btn btn-lg btn-google text-uppercase btn-outline" href="http://localhost:3001/user/auth/github">
+                            <img src="https://img.icons8.com/material-rounded/48/000000/github.png" alt='github'/>
                         </a>
                     </div>
 
