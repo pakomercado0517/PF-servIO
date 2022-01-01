@@ -24,7 +24,7 @@ export default function ProfileClient(){
     useEffect(()=>{
         dispatch(getByAccountId(idClient))
         dispatch(getClientNeedsById(idClient))
-    },[ dispatch, idClient ])
+    },[ dispatch, idClient, clientNeeds ])
 
 
     useEffect(()=>{
@@ -56,10 +56,12 @@ export default function ProfileClient(){
                 {/* CARDS DE SOLICITUDES HECHAS */}
 
                 <div className={ s.reviews }>
-                    <h4>Últimas Solicitudes</h4>
-                    <Link to="/service-history">
-                        <button>Ver todas</button>
+                    <h4 className="">Últimas Solicitudes</h4>
+
+                    <Link to={`/service-history/${idClient}`}>
+                        <button className="btn btn-outline-info">Ver todas</button>
                     </Link>
+                    
                     <div className={ s.reviews_container }>
                         { clientNeeds.map( clientNeed => {
                             return (
