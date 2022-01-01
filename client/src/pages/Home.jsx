@@ -27,7 +27,6 @@ export default function Home(){
     const {params} = useParams()
     const professionals = useSelector(state => state.clientsFilter);
 
-    // console.log(clientNeeds, professionals)
     const switcheo = useSelector(state => state.switch)
     const stateRedux = useSelector(state => state)
     const [switcheo2] = useGlobalStorage("switcheo", null)

@@ -28,7 +28,9 @@ export default function ServiceHistory() {
     return (
         <div className={ s.container }>
             <div>
-                <h2>Historial de Servicios</h2>
+                <h2
+                    className="text-center mt-3 border-bottom"
+                >Historial de Servicios</h2>
             </div>
             <div>
                 {/* DATOS DE SERVICIOS SOLICITADOS */}
