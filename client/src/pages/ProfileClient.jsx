@@ -10,6 +10,7 @@ import CardClientNeed from '../components/CardClientNeed';
 // import CardReview from '../components/CardReview';
 
 import s from './styles/ProfileClient.module.css'
+import { ClientSpecificNeed } from '../components/ClientSpecificNeed';
 
 
 export default function ProfileClient(){
@@ -31,6 +32,7 @@ export default function ProfileClient(){
 
     return (
         <div className={ s.div_principal }>
+            <ClientSpecificNeed/>
             <div className={ s.div_inicio  }></div>
 
             <div className={ s.div_photo  }>

@@ -89,16 +89,7 @@ console.log(clientNeeds,switcheo2)
                 </>: <></>
                 
                 }
-                <Filter />
-                {/* FILTROS */}
-                <div className='dropdown'>
-                    <button class="border-0 btn btn-primary dropdown-toggle bg-info" id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false" ><CgOptions/>Ordenado</button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
-                        <li><span class="dropdown-item" id='' onClick={handleOrder}>Default</span></li>
-                        <li><span class="dropdown-item" id='A-Z' onClick={handleOrder}>A-Z</span></li>
-                        <li><span class="dropdown-item" id='Z-A' onClick={handleOrder}>Z-A</span></li>
-                    </ul>
-                </div>
+                
             </div>
 
         {/* {WELCOME CARD} */}
@@ -108,8 +99,8 @@ console.log(clientNeeds,switcheo2)
                 //     <div className={s.card_gat_text}>
                 //         {/* <p>Aprobecha y volvete un prodecionañ en nuestra seccion "Volvese profecional"
                 //             en la barra desplegable de un perdil
-                //         </p> */}
-                //         <p>
+            //         </p> */}
+            //         <p>
                 //             Aprovechá y registrate como profesional en 
                 //             nuestra seccion "Registrate como profesional"
                 //             en la barra desplegable de tu perfil
@@ -118,7 +109,7 @@ console.log(clientNeeds,switcheo2)
                 //     <div className={s.card_gat_img}>
                 //         <img src={img}/>
                 //     </div>
-                    
+                
                 // </div> : 
                 // <></>
             }
@@ -134,22 +125,47 @@ console.log(clientNeeds,switcheo2)
                 postsPerPage={postsPerPage}
                 totalPosts={switcheo === true ? professionals?.length: clientNeeds?.length}
                 />
+            
+            {/* FILTROS / ORDENADOS */}
+
+            <div
+                className="row justify-content-center align-items-center mt-2"
+            >
+            <div className='col-auto bg-info-center mx-auto'>
+                <button 
+                    className="border-1 mx-2 btn btn-primary dropdown-toggle bg-info" 
+                    id="dropdownMenuButton1" 
+                    data-bs-toggle="dropdown" 
+                    type="button" 
+                    aria-expanded="false" 
+                >
+                    <CgOptions/>Ordenado
+                </button>
+                
+                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
+                    <li><span className="dropdown-item" id='' onClick={handleOrder}>Default</span></li>
+                    <li><span className="dropdown-item" id='A-Z' onClick={handleOrder}>A-Z</span></li>
+                    <li><span className="dropdown-item" id='Z-A' onClick={handleOrder}>Z-A</span></li>
+                </ul>
+            <Filter />
+            </div>
+            </div>
 
             { switcheo2 === "professional" ? 
-              <div className={s.professionalGrid}>
-                  {
-                      currentPosts?.length > 0 ? currentPosts.map((professional) => (
-                          <CardProfessional
-                              key={professional.id}
-                              idTech={professional.id} 
-                              avatarTech={professional.photo} 
-                              titleTech={professional.first_name + ' ' + professional.last_name}
-                              workTech={ professional.Professional?.Professions}
-                              locationTech={professional.state + ', ' + professional.city}
-                              //* PENDIENTE DATA DEL CALIFICATION
-                              calificationTech={'calification: 5/5'}/>
-                      )) : <h1>No hay mas resultados</h1>
-                  }
+            <div className={s.professionalGrid}>
+                {
+                    currentPosts?.length > 0 ? currentPosts.map((professional) => (
+                        <CardProfessional
+                            key={professional.id}
+                            idTech={professional.id} 
+                            avatarTech={professional.photo} 
+                            titleTech={professional.first_name + ' ' + professional.last_name}
+                            workTech={ professional.Professional?.Professions}
+                            locationTech={professional.state + ', ' + professional.city}
+                            //* PENDIENTE DATA DEL CALIFICATION
+                            calificationTech={'calification: 5/5'}/>
+                    )) : <h1>No hay mas resultados</h1>
+                }
 
                   {/* CARDS DE SOLICITUDES DE CLIENTES */}
 
