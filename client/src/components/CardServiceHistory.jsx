@@ -58,13 +58,28 @@ export default function CardServiceHistory(props) {
                 <div className={ s.container_datos_buttons }>
                     {
                         (props.status === "in offer") ? 
-                        <button onClick={ nav } name="offers" type="button" class="btn btn-outline-warning position-relative">
-                        Ver ofertas
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        <button 
+                            onClick={ nav } 
+                            name="offers" 
+                            type="button" 
+                            className="btn btn-outline-warning position-relative"
+                        >
+                            Ver ofertas
+                            
+                            <span 
+                                className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            >
                             { offers ? offers.length : 0 }
-                                <span class="visually-hidden">unread messages</span>
+                                
+                                <span 
+                                    className="visually-hidden"
+                                >
+                                    unread messages
+                                </span>
+
                             </span>
-                      </button>:<></>
+
+                        </button>:<></>
                     }
                     {
                         (props.status === "finished") ? <button className='btn btn-outline-secondary'>Calificar Técnico</button>:<></>

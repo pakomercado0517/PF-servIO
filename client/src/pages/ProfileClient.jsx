@@ -27,8 +27,8 @@ export default function ProfileClient(){
     },[ dispatch, idClient ])
 
 
-    useEffect(()=>{
-    },[state])
+    // useEffect(()=>{
+    // },[state, clientNeeds])
 
     return (
         <div className={ s.div_principal }>
