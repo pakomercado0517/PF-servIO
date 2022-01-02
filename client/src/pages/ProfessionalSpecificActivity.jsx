@@ -151,7 +151,7 @@ function ProfessionalSpecificActivity() {
               Volver
             </span>
           </div>
-        
+{/*         
         {
           globalUserGlobalStorage?.id === professional?.id ?
           <div className="mx-4">
@@ -173,7 +173,7 @@ function ProfessionalSpecificActivity() {
           </div>
           : <></>
 
-        }
+        } */}
 
           {/* no pude meter el carrito -------------------- */}
 
