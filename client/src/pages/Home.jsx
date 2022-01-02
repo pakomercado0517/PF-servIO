@@ -119,9 +119,9 @@ export default function Home(){
             {/* DIV RENDERIZA LAS CARDS DEL PROFESIONAL */}
                 
                 <Pagination
-                paginate={paginate}
-                postsPerPage={postsPerPage}
-                totalPosts={switcheo === true ? professionals?.length: clientNeeds?.length}
+                    paginate={paginate}
+                    postsPerPage={postsPerPage}
+                    totalPosts={switcheo === true ? professionals?.length: clientNeeds?.length}
                 />
             
             {/* FILTROS / ORDENADOS */}
@@ -169,21 +169,25 @@ export default function Home(){
 
               </div> : 
               <div className={s.professionalGrid}>
-                    {
-                        currentPosts?.length > 0 ? currentPosts?.map((user)=>(
-                            <NavLink className={s.card_client_need} to={"/client/need/"+user.id}>
-                                <CardClientNeed key={user.id}
-                                name={ user.name }
-                                description={ user.description }
-                                date={ user.date }
-                                userId={ user.userId }
-                                location={ user.location }
-                                />
-                            </NavLink>
-                            
-                        )): <h1>No hay mas resultados</h1>
-                    }
-              </div>
+                {
+                    currentPosts?.length > 0 ? currentPosts?.map((user)=>(
+                        <NavLink 
+                            className={s.card_client_need} 
+                            to={"/client/need/"+user.id}
+                        >
+                            <CardClientNeed 
+                            key={user.id}
+                            name={ user.name }
+                            description={ user.description }
+                            date={ user.date }
+                            userId={ user.userId }
+                            location={ user.location }
+                            />
+                        </NavLink>
+                        
+                    )): <h1>No hay mas resultados</h1>
+                }
+            </div>
             }
 
             {/* DIV MUESTRA LOS TESTIMONIOS (FEEBACK DE LOS USUARIOS) */}
