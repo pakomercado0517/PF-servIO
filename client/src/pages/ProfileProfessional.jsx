@@ -53,6 +53,7 @@ return (
                 <img 
                     src={ professional?.photo } 
                     className={ s.container_details_photo }
+                    alt="foto"
                     />
             </div>
             
