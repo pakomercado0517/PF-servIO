@@ -39,7 +39,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
     <div className='pagination'>
 
             <div 
-              class="btn-group" 
+              className="btn-group" 
               role="group" 
               aria-label="Basic radio toggle button group"
             >
