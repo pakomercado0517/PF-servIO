@@ -117,16 +117,15 @@ return (
             globalUserGlobalStorage?.id === professional?.id ?
             <div className="mx-4">
             
-                <a
-                href="/agregarServicio"
+                <NavLink
+                to="/ProfessionalServiceOffer"
                 >
                     <button className="btn btn-outline-info ml-2">
                         <span className="">
                             Agregar Servicio
                         </span>
                     </button>
-
-                </a>
+                </NavLink>
             
             </div>
             : <></>
