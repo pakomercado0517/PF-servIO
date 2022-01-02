@@ -140,7 +140,7 @@ export default function EditCliente() {
                 profession:prof,
                 photo: details.photo
             }
-            await axios.put(`http://localhost:3001/user/updateUser/101`,  newData)
+            await axios.put(`http://localhost:3001/user/updateUser/${globalUser.id}`,  newData)
             const obj = {
                 ...globalUser,
                 first_name:details.firstName,
@@ -229,7 +229,7 @@ export default function EditCliente() {
         <div className={s.container}>
             <div className={ s.container_img}>
                 <p>
-                    Sé parte de nuestra plataforma, registrate ya y disfruta!
+                    Aquí podes mejorar la visulaización de tu perfil
                 </p>
             </div>
             <div className={ s.container_edilt}>

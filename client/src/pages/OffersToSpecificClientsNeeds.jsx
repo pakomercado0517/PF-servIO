@@ -54,7 +54,7 @@ export const OffersToSpecificClientsNeeds = () => {
                         guarantee_time={ el.guarantee_time }
                         materials={ el.materials }
                         price={ el.price }
-                        date={ el.updatedAt }
+                        date={ el.updatedAt.split("T")[0] }
                         description={ el.description }
                         />
                     )
