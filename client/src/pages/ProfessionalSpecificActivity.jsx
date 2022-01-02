@@ -15,23 +15,25 @@ function ProfessionalSpecificActivity() {
   // const [cart, setCart] = useGlobalStorage("cart", [])
   
   const {id}= useParams()
-  console.log('id',id) // trae id de publicacion pero pierdo la referencia del usuario
+  // console.log('id',id)
   const dispatch= useDispatch()
   let ranked= 3;
 
   const idPublicacion = id
   console.log('idPublicacion',idPublicacion)
 
-  const profesional = useSelector((state) => state)
-  // console.log('1 - profesional',profesional)  
-  // const professionalActivities = useSelector(state => state.professionalActivities)
-  // console.log('2 - professionalActivities',professionalActivities)
+  const professional = useSelector((state) => state.user[0])
+  // console.log('1 - professional',professional)
   
   const specificActivities = useSelector((state) => state.specificActivitiesById)
-  console.log('3 - specificActivities la posta',specificActivities)
+  // console.log('2 - specificActivities la posta',specificActivities)
 
-  const professional = useSelector((state) => state.user[0])
-  console.log('4 - professional',professional)
+  const activityById = specificActivities.indexOf(
+                        specificActivities.find(activity => activity.id == id))
+
+  const activity = specificActivities[activityById]
+
+
 
   // hacer un ternario para que si el usuario logeado es el mismo que el prfesional devuelva true asi puedo hacer un boton de editar
 
@@ -124,16 +126,16 @@ function ProfessionalSpecificActivity() {
 
         <div className={s.activity_body}>
 
-            <h2 className='body-title'>{specificActivities[0]?.name}</h2>
+            <h2 className='body-title'>{activity?.name}</h2>
             <div className={s.description_card}>
               
               <h3>Descripción</h3>
               <div className={s.description_text}>
-                <p>{specificActivities[0]?.description}</p>
+                <p>{activity?.description}</p>
               </div>
 
             </div>
-            
+
         </div>
 
         <hr/>
@@ -146,12 +148,12 @@ function ProfessionalSpecificActivity() {
           
           <span className={s.materials}>
             <span>Materiales:</span>
-            <span>{specificActivities[0]?.materials ? ' SI ' : ' NO '}</span>
+            <span>{activity?.materials ? ' SI ' : ' NO '}</span>
           </span>
 
           <span className={s.price}>
             <span>Precio:</span>
-            <span>{specificActivities[0]?.price}</span>
+            <span>{activity?.price}</span>
           </span>
 
         </div>
