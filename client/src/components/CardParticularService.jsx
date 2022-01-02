@@ -45,6 +45,8 @@ export default function CardParticularService(props) {
         <div className={s.container}>
             
             <Link 
+                // to={`/professional/${id}/SpecificActivity/${props.id + "-" + id}`}
+                // Puse el id del professional y de la publicacion juntas para que puedas tomar los datos y hacer el dispatch de cada uno
                 to={`/professional/${id}/SpecificActivity/${props.id}`}
                 style={{ textDecoration: 'none' }}
             >

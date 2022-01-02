@@ -7,18 +7,18 @@ import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
 import { StarRating } from '../components/StarRating'
 
 import s from './styles/ProfessionalSpecificActivity.module.css'
-// import { useGlobalStorage } from '../hooks/useGlobalStorage'
+import { useGlobalStorage } from '../hooks/useGlobalStorage'
 
 
 function ProfessionalSpecificActivity() {
   
-  // const [cart, setCart] = useGlobalStorage("cart", [])
+  const [cart, setCart] = useGlobalStorage("cart", [])
+  const [ globalUserGlobalStorage ] = useGlobalStorage("globalUser", [])
   
   const {id}= useParams()
   let ranked= 3;
   const professional = useSelector((state) => state.user[0])
   // console.log('1 - professional',professional)
-  // const { globalUserGlobalStorage } = useSelector(state => state)
   
   const specificActivities = useSelector((state) => state.specificActivitiesById)
   // console.log('2 - specificActivities la posta',specificActivities)
@@ -28,6 +28,28 @@ function ProfessionalSpecificActivity() {
 
   const activity = specificActivities[activityById]
   console.log('3 - activity',activity)
+
+  function addToCart(){
+    const exist = cart.filter(el => el.name === activity?.name )
+        const notExist = cart.filter(el => el.name !== activity?.name )
+        if ( exist[0] ){
+            exist[0].count +=1;
+            setCart([
+                ...notExist,
+                ...exist
+            ])
+        } else {
+            setCart([
+                ...cart,
+                {
+                    name: activity?.name,
+                    description: activity?.description,
+                    price: activity?.price,
+                    count: 1
+                }
+            ])
+        }
+  }
 
   return (
     <div>
@@ -177,14 +199,18 @@ function ProfessionalSpecificActivity() {
 
           {/* no pude meter el carrito -------------------- */}
 
-          {/* <div className={s.a_button}>
-            <span
-              className={s.link_button}
-              // onClick={ addToCart } 
-            >
-              Agregar carrito
-            </span>
-          </div> */}
+          {
+            globalUserGlobalStorage?.id !== professional?.id ?
+            <div className={s.a_button}>
+              <span
+                className={s.link_button}
+                onClick={ addToCart } 
+              >
+                Agregar carrito
+              </span>
+            </div>
+            :<></>
+          }
 
           {/* <div className={s.a_button}>
             <NavLink to='#' className={s.link_button}>Contratar</NavLink>
