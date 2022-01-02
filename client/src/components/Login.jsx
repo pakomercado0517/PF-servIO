@@ -107,7 +107,7 @@ export default function Login() {
                     showConfirmButton: false,
                     timer: 2500
                 })
-                // navigate('/')
+                navigate('/')
             }
         }
         try {
