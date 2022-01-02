@@ -24,7 +24,7 @@ export default function ProfileClient(){
     useEffect(()=>{
         dispatch(getByAccountId(idClient))
         dispatch(getClientNeedsById(idClient))
-    },[ dispatch, idClient, clientNeeds ])
+    },[ dispatch, idClient ])
 
 
     useEffect(()=>{

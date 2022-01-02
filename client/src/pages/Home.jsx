@@ -167,16 +167,17 @@ export default function Home(){
 
                   {/* CARDS DE SOLICITUDES DE CLIENTES */}
 
-              </div> : 
-              <div className={s.professionalGrid}>
+                </div> : 
+                <div className={s.professionalGrid}>
                 {
-                    currentPosts?.length > 0 ? currentPosts?.map((user)=>(
+                    currentPosts?.length > 0 ? currentPosts?.map((user, index)=>(
                         <NavLink 
                             className={s.card_client_need} 
                             to={"/client/need/"+user.id}
+                            key={index}
                         >
                             <CardClientNeed 
-                            key={user.id}
+                            key={user.id + index}
                             name={ user.name }
                             description={ user.description }
                             date={ user.date }

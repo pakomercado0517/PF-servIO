@@ -182,7 +182,7 @@ export default function Login() {
                         </label>
                     </div>
 
-                    <div clasName="row mb-2">
+                    <div className="row mb-2">
                         <input
                             className={`form-control && ${errors.password && 'danger'}`}
                             type="password"

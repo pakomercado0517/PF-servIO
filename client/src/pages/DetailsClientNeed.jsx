@@ -86,12 +86,14 @@ export default function DetailsClientNeed() {
             globalUserGlobalStorage?.professional === false ?
           <>
             <div className={s.a_button}>
-              <NavLink className={s.link_button} to={`/client/${user[0]?.id}/edit/${detailsClientNeed?.id}`}>Editar</NavLink> 
-                {/* className={s.link_button} 
-                onClick={showModalFormCLient}  */}
               
-              
-              
+              <NavLink 
+                className={s.link_button} 
+                to={`/client/${user[0]?.id}/edit/${detailsClientNeed?.id}`}
+              >
+                Editar
+              </NavLink>
+
             </div>
 
             <div className={s.a_button}>
