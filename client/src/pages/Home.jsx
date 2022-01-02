@@ -53,8 +53,8 @@ console.log(clientNeeds,switcheo2)
         if (landing==="visible") setLanding("NoVisible")
         if(landing==="NoVisible") setLanding("visible")
     }
-    console.log(input.order )
-    console.log(input.order && switcheo2 === "user")
+    // console.log(input.order )
+    // console.log(input.order && switcheo2 === "user")
     useEffect(()=>{
         if (input.order && switcheo2 === 'professional') {
             dispatch(filterProfessionals(input.order, professionals))

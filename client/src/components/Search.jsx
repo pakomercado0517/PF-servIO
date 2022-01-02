@@ -12,7 +12,7 @@ const Search = () => {
     const display = useSelector(state => state.professionals)
     const dispatch = useDispatch()
     const[name, setName]= useState('')
-    console.log(name)
+    // console.log(name)
     // useEffect(()=>{
     //     if (input.name) {
     //         dispatch(searchByName(input.name))

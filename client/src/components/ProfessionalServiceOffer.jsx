@@ -13,9 +13,6 @@ export const ProfessionalServiceOffer = () => {
     const modal = useSelector(state => state.modalProfessionalsOffer)
     const user = useSelector(state => state.globalUserGlobalStorage)
 
-    // const idProfessional = useSelector(state => state.professional)
-    // const user = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
-
     const [form, setForm] = useState({
         name: "", //ok en db
         description: "", // ok en db
@@ -28,7 +25,6 @@ export const ProfessionalServiceOffer = () => {
         // professionalId: "",
         userId: user?.id,
     })
-    console.log('professional offer==>',form)
 
     function onChangeForm(e) {
         setForm({
