@@ -96,28 +96,27 @@ export default function Login() {
         }
     }
 
-
-
+    
     useEffect(async ()=> {
-        let result= await axios.get('http://localhost:3001/user/getUser')
-        console.log('resulllt', result.data[0])
-        const id= result.data[0].data.id
-        // dispatch(getByUserId(id))
-        await setGlobalUser(result.data[0].data)
-        await setLocalUser(result.data[0].data)
-        try {
-            const glbUser= globalUser
-            console.log('globaluser', glbUser)
+        const glbUser= localUser
+        const activeStorage= ()=> {
             if(glbUser) {
                 Swal.fire({
-                        icon: 'success',
-                        title: 'Logged in',
-                        showConfirmButton: false,
-                        timer: 2500
-                    })
-                    await navigate('/')
-                }
-                return result='';
+                    icon: 'success',
+                    title: 'Logged in',
+                    showConfirmButton: false,
+                    timer: 2500
+                })
+                // navigate('/')
+            }
+        }
+        try {
+            let result= await axios.get('http://localhost:3001/user/getUser')
+            console.log('resulllt', result.data[0])
+            await setGlobalUser(result.data[0].data)
+            await setLocalUser(result.data[0].data)
+            await activeStorage()
+            console.log('globaluser', glbUser)
         } catch (error) {
             console.log('errorrrrrr', error)
         }
@@ -231,13 +230,18 @@ export default function Login() {
 
                         <a 
                             type="button"
-                            className="btn btn-lg btn-google  text-uppercase btn-outline" href="http://localhost:3001/user/auth/google/login">
+                            className="btn btn-lg btn-google  text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/google">
                             <img src="https://img.icons8.com/color/40/000000/google-logo.png" alt="google"/> 
                         </a>
                         <a 
                             type="button"
-                            className="btn btn-lg btn-google text-uppercase btn-outline" href="http://localhost:3001/user/auth/github">
+                            className="btn btn-lg btn-github text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/github">
                             <img src="https://img.icons8.com/material-rounded/48/000000/github.png" alt='github'/>
+                        </a>
+                        <a 
+                            type="button"
+                            className="btn btn-lg btn-facebook text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/facebook">
+                            <img src="https://img.icons8.com/fluency/48/000000/facebook.png" alt='facebook'/>
                         </a>
                     </div>
 

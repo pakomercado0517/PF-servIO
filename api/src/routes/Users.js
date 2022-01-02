@@ -71,6 +71,23 @@ router.get("/getUser", async (req, res) => {
   res.json(cacheData);
 });
 
+router.get("/auth/facebook", passport.authenticate("facebook"));
+
+router.get(
+  "/auth/facebook/callback",
+  passport.authenticate("facebook"),
+  async (req, res) => {
+    cacheData.pop();
+    const data = await User.findOne({ where: { email: req.user._json.email } });
+    cacheData.push({
+      message: "Logged",
+      cookies: req.session,
+      data: data,
+    });
+    res.redirect("http://localhost:3000/login");
+  }
+);
+
 router.get("/auth/github", passport.authenticate("github"));
 
 router.get(
@@ -92,23 +109,15 @@ router.get(
 );
 
 router.get(
-  "/auth/google/signUp",
-  passport.authenticate("sign-in-google", {
+  "/auth/google",
+  passport.authenticate("google", {
     scope: ["email", "profile"],
-  }),
-  (req, res) => {
-    if (req.user) {
-      res.cookie(req.session);
-      res.redirect("http://localhost:3000/login");
-    }
-  }
+  })
 );
 
 router.get(
-  "/auth/google/login",
-  passport.authenticate("sign-up-google", {
-    scope: ["email", "profile"],
-  }),
+  "/auth/google/callback",
+  passport.authenticate("google"),
   async (req, res) => {
     cacheData.pop();
     // console.log("req.user", req.user._json);

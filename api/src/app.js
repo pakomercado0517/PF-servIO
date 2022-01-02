@@ -10,6 +10,7 @@ const Strategy = require("passport-local").Strategy;
 require("./config/passport")(passport);
 require("./config/googleConfig");
 require("./config/githubConfig");
+require("./config/facebookConfig");
 require("./db.js");
 const server = express();
 
