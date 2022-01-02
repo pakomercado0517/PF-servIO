@@ -2,9 +2,9 @@ const { Router } = require("express");
 const router = Router();
 const mercadopago = require('mercadopago')
 
-const { ACCESS_TOKEN } = process.env;
+const { ACCESS_TOKEN_MERCADO_PAGO } = process.env;
 mercadopago.configure({
-	access_token: ACCESS_TOKEN,
+	access_token: ACCESS_TOKEN_MERCADO_PAGO,
 });
 
 router.post('/', (req, res) =>{
@@ -48,23 +48,19 @@ router.post('/', (req, res) =>{
       });
 })
 
-router.get('/', (req, res) =>{
-  res.send({message: "si entra"})
-})
-
 router.get('/succes', (req, res) =>{
   console.log(req.query)
-  res.redirect("http://localhost:3000/")
+  res.redirect("https://localhost:3000/")
 })
 
 router.get('/pending', (req, res) =>{
   console.log(req.query)
-  res.redirect("http://localhost:3000/")
+  res.redirect("https://localhost:3000/")
 })
 
 router.get('/failure', (req, res) =>{
   console.log(req.query)
-  res.redirect("http://localhost:3000/cart")
+  res.redirect("https://localhost:3000/cart")
 })
 
 module.exports= router;
