@@ -36,7 +36,7 @@ export default function EditCliente() {
     
     useEffect(() => {
         dispatch(filterProfessions())      
-    },[])
+    },[ dispatch ])
     
     
     useEffect(() => {
