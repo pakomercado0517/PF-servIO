@@ -119,6 +119,13 @@ export default function Login() {
             console.log('globaluser', glbUser)
         } catch (error) {
             console.log('errorrrrrr', error)
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                showConfirmButton: false,
+                timer: 2500
+            })
         }
     },[])
 
