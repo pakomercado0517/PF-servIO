@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { NavLink, useParams } from 'react-router-dom'
-import { getByUserId, getSpecificActivitiesById } from '../redux/actions/index'
+// import { getByUserId, getSpecificActivitiesById } from '../redux/actions/index'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
 import { StarRating } from '../components/StarRating'
@@ -15,13 +15,7 @@ function ProfessionalSpecificActivity() {
   // const [cart, setCart] = useGlobalStorage("cart", [])
   
   const {id}= useParams()
-  // console.log('id',id)
-  const dispatch= useDispatch()
   let ranked= 3;
-
-  const idPublicacion = id
-  console.log('idPublicacion',idPublicacion)
-
   const professional = useSelector((state) => state.user[0])
   // console.log('1 - professional',professional)
   
@@ -32,15 +26,7 @@ function ProfessionalSpecificActivity() {
                         specificActivities.find(activity => activity.id == id))
 
   const activity = specificActivities[activityById]
-
-
-
-  // hacer un ternario para que si el usuario logeado es el mismo que el prfesional devuelva true asi puedo hacer un boton de editar
-
-  // const user = useSelector(state => state.globalUserGlobalStorage)
-  // console.log('user global',user)
-  // console.log('id', id)
-  // console.log('profesional activities',professionalActivities)
+  console.log('3 - activity',activity)
 
 // function addToCart(){
 //   const exist = cart.filter(el => el.name === props.name )
@@ -138,7 +124,7 @@ function ProfessionalSpecificActivity() {
 
         </div>
 
-        <hr/>
+        <hr className={s.line}/>
 
         <div className={s.activity_body}>
           <h3>Detalles</h3>
@@ -147,7 +133,26 @@ function ProfessionalSpecificActivity() {
         <div className={s.details_components}>
           
           <span className={s.materials}>
-            <span>Materiales:</span>
+            <span>Garantia:</span>
+            <span>{activity?.guarantee ? ' SI ' : ' NO '}</span>
+          </span>
+
+          <span className={s.price}>
+            <span>Duracion de la Garantia:</span>
+            <span>{ activity?.guarantee_time } días</span>
+          </span>
+
+        </div>
+
+        
+        {/* <div className={s.activity_body}>
+          <h3>Detalles</h3>
+        </div> */}
+        
+        <div className={s.details_components}>
+          
+          <span className={s.materials}>
+            <span>Materiales incluidos:</span>
             <span>{activity?.materials ? ' SI ' : ' NO '}</span>
           </span>
 
@@ -157,7 +162,6 @@ function ProfessionalSpecificActivity() {
           </span>
 
         </div>
-
         {/* |-----------------------------buttons-----------------------| */}
 
         <div className={s.buttons_list}>
