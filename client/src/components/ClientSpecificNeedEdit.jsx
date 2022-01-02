@@ -11,11 +11,7 @@ import s from './styles/ClientSpecificNeedEdit.module.css'
 export const ClientSpecificNeedEdit = () => {
     
     const navigate = useNavigate()
-    // const modal = useSelector(state => state.modal)
-    const user = useSelector(state => state.globalUserGlobalStorage)
-    // para editar publicacion
     const detailsClientNeed = useSelector(state => state.detailsClientNeed)
-    console.log('ClientSpecificNeed -edit',detailsClientNeed)
 
 
     const [input, setInput] = useState({

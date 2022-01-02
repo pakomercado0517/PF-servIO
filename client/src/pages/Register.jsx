@@ -19,7 +19,7 @@ export default function Crear() {
     const dispatch = useDispatch()
     // const[oficio, setOficio] = useState([])
     const { professionsName } = useSelector(state => state)
-    console.log(professionsName)
+    // console.log(professionsName)
     const[errors, setErrors] = useState({
         firstName:"",
         lastName: "",
@@ -163,7 +163,7 @@ export default function Crear() {
         }
         try{
             const user = await axios.post(`http://localhost:3001/user/`, obj)
-            console.log('user',user)
+            // console.log('user',user)
             
             Swal.fire({
                 title: 'Registro exitoso',
@@ -182,7 +182,7 @@ export default function Crear() {
     }
 
     function handleCheck(e){
-        console.log(e.target.value)
+        // console.log(e.target.value)
         if (e.target.id === 'checkboxClient') {
             setDetails({
                 ...details,
