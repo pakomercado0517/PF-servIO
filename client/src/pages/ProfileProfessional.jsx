@@ -11,7 +11,7 @@ import { NavLink } from 'react-router-dom';
 import s from './styles/ProfileProfessional.module.css'
 
 
-export default function ProfileProfessional(){
+export default function ProfileProfessional( ){
 
     const { id } = useParams()
     const dispatch= useDispatch();

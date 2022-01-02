@@ -19,21 +19,19 @@ function ProfessionalSpecificActivity() {
   const dispatch= useDispatch()
   let ranked= 3;
 
-  useEffect(()=>{
-    dispatch(getByUserId(id))
-    dispatch(getSpecificActivitiesById(id))
-  },[dispatch, id])
-  
+  const idPublicacion = id
+  console.log('idPublicacion',idPublicacion)
 
   const profesional = useSelector((state) => state)
-  console.log('1 - profesional',profesional)
-  
-  const professionalActivities = useSelector(state => state.professionalActivities)
-  console.log('2 - professionalActivities',professionalActivities)
-  
+  // console.log('1 - profesional',profesional)  
+  // const professionalActivities = useSelector(state => state.professionalActivities)
+  // console.log('2 - professionalActivities',professionalActivities)
   
   const specificActivities = useSelector((state) => state.specificActivitiesById)
   console.log('3 - specificActivities la posta',specificActivities)
+
+  const professional = useSelector((state) => state.user[0])
+  console.log('4 - professional',professional)
 
   // hacer un ternario para que si el usuario logeado es el mismo que el prfesional devuelva true asi puedo hacer un boton de editar
 
@@ -41,12 +39,6 @@ function ProfessionalSpecificActivity() {
   // console.log('user global',user)
   // console.log('id', id)
   // console.log('profesional activities',professionalActivities)
-
-
-  useEffect(()=>{
-    // dispatch(getByUserId(id))
-    dispatch(getSpecificActivitiesById(id))
-},[dispatch, id])
 
 // function addToCart(){
 //   const exist = cart.filter(el => el.name === props.name )
@@ -81,7 +73,7 @@ function ProfessionalSpecificActivity() {
         {/* |----Profile Photo...----------------------------------------| */}
 
         <div className={s.professional_img}>
-          <img src={profesional?.photo} className={s.p_image}/>
+          <img src={professional?.photo} className={s.p_image}/>
         </div>
 
           {/* |--------Float card...----------------------------------------| */}
@@ -89,12 +81,12 @@ function ProfessionalSpecificActivity() {
         <div className={s.professional_floatCard}>
 
             <div className={s.floatCard_title}>
-              <h3>{`${profesional?.first_name} ${profesional?.last_name}`}</h3>
+              <h3>{`${professional?.first_name} ${professional?.last_name}`}</h3>
             </div>
 
             <div className={s.floatCard_body}>
               
-              <p className={s.floatCard_p}>{`@${profesional?.user_name}`}</p>
+              <p className={s.floatCard_p}>{`@${professional?.user_name}`}</p>
               <p className={s.floatCard_p}>
                 <StarRating stars={ranked}/>
                 <span className={s.floatCard_span}>{`${ranked}`}</span>
@@ -102,7 +94,7 @@ function ProfessionalSpecificActivity() {
               <p className={s.floatCard_p}>
                 <FontAwesomeIcon icon={faPhoneAlt}/>
                 <strong>Teléfono: </strong>
-                <span className={s.floatCard_span}>{profesional?.phone}</span>
+                <span className={s.floatCard_span}>{professional?.phone}</span>
               </p>
             </div>
 
@@ -113,71 +105,85 @@ function ProfessionalSpecificActivity() {
           <div className={s.professional_showProfessions} >
             <div><h3 className={s.professions_title}>{`Profesion :`}</h3></div>
             <div className={s.professions_container}>
-              {/* {
-              profesional?.Professional.Professions.map(el=> {
+              {
+              professional?.Professional.Professions.map(el=> {
                 return(
                   <div
                     key={el.id}
                     className='profession'
                   >
-                    {el.name.toUpperCase()}
+                    {el.name}
                   </div>
                 )
                 })
-              } */}
+              }
             </div>
           </div>
         </div>
         {/* |-------------------------------body--------------------------------------| */}
 
         <div className={s.activity_body}>
-            {/* <h2 className='body-title'>{professionalActivities[0]?.name}</h2> */}
+
+            <h2 className='body-title'>{specificActivities[0]?.name}</h2>
             <div className={s.description_card}>
+              
               <h3>Descripción</h3>
               <div className={s.description_text}>
-
-                {/* {
-                  specificActivities.description
-                } */}
-
-                {/* <p>{professionalActivities[0]?.description}</p> */}
+                <p>{specificActivities[0]?.description}</p>
               </div>
+
             </div>
+            
         </div>
 
-        {/* <div className='details'>
-          <h3>Detalles   <hr className='line'/></h3>
+        <hr/>
+
+        <div className={s.activity_body}>
+          <h3>Detalles</h3>
         </div>
-        <div className='details-components'>
-          <div className='materials'>
-            <h4>Materiales:</h4><span>{professionalActivities[0]?.materials ? ' SI' : ' NO'}</span>
-          </div>
-          <div className='price'>
-            <h4>Precio:</h4><span>{professionalActivities[0]?.price}</span>
-          </div>
-        </div> */}
+        
+        <div className={s.details_components}>
+          
+          <span className={s.materials}>
+            <span>Materiales:</span>
+            <span>{specificActivities[0]?.materials ? ' SI ' : ' NO '}</span>
+          </span>
+
+          <span className={s.price}>
+            <span>Precio:</span>
+            <span>{specificActivities[0]?.price}</span>
+          </span>
+
+        </div>
 
         {/* |-----------------------------buttons-----------------------| */}
 
         <div className={s.buttons_list}>
-          {/* <div className={s.a_button}>
-            <NavLink to={`/professional/${id}`} className={s.link_button}>Volver</NavLink>
-          </div> */}
+          <div className={s.a_button}>
+          <span 
+              className={s.link_button} 
+              onClick={()=>{window.history.back()}}
+              style={{cursor:'pointer'}}
+            >
+              Volver
+            </span>
+          </div>
           
 
           {/* no pude meter el carrito -------------------- */}
 
           {/* <div className={s.a_button}>
-            <button
+            <span
               className={s.link_button}
               // onClick={ addToCart } 
             >
               Agregar carrito
-            </button> */}
+            </span>
+          </div> */}
 
-          <div className={s.a_button}>
+          {/* <div className={s.a_button}>
             <NavLink to='#' className={s.link_button}>Contratar</NavLink>
-          </div>
+          </div> */}
         </div>
         
       </div>

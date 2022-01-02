@@ -46,7 +46,7 @@ export default function ServiceHistory() {
                             location={ el.location }
                             photo={ el.photo }
                             UserId={ el.UserId }
-                            date={ el.updatedAt }
+                            date={ el.updatedAt.split("T")[0] }
                             />
 
                         )
