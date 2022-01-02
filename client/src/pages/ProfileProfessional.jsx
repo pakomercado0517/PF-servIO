@@ -80,7 +80,12 @@ export default function ProfileProfessional( ){
                     {
                     professional?.Professional.Professions?.map(el=> {
                         return(
-                            <div className='profession'>{el.name}</div>
+                            <div 
+                                className='profession'
+                                key={el.id}
+                            >
+                                {el.name}
+                            </div>
                         )
                     })
                 }

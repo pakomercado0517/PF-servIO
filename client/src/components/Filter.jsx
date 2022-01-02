@@ -39,7 +39,6 @@ export  function Filter(){
   };
 
   const onlyOffers = () =>{
-    let boolean = !details.filterWithActivity
     setDetails(() => ({...details, filterWithActivity: !details.filterWithActivity}))
   };
 
@@ -49,11 +48,12 @@ export  function Filter(){
               className="border-1 mx-2 btn btn-primary bg-info" 
               onChange={changeProfession} 
               id='profession'
+              key='profession'
               >
               <option value=''>Filtrar por Profesion</option>
               {oficio?.map(e =>
                 <option
-                  key={e.id}
+                  key={e}
                   type= "button"
                   value={e}
                   name="profession"
@@ -67,6 +67,7 @@ export  function Filter(){
             </select>
             <input
               className="border-1 mx-2 btn btn-primary bg-info" 
+              key="offers"
               type='button' 
               value='Solo tecnicos con ofertas'
               name='soloConOfertas'
