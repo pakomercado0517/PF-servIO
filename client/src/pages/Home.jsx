@@ -40,7 +40,6 @@ export default function Home(){
     const [input, setInput] = useState({
         order: ''
     })
-console.log(clientNeeds,switcheo2)
     function handleOrder(e) {setInput({...input, order:e.target.id})}
 
     // VISIBILIDAD DEL LANDING DE PRESENTACIÓN //
