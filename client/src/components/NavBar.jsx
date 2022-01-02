@@ -141,16 +141,12 @@ export default function NavBar() {
                                                 </span>
                                             </NavLink>
                                         </li>
-
                                         <li>
-                                            <span className={s.dropdown_item + " dropdown-item"} >
-                                                Notificaciones
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <span className={s.dropdown_item + " dropdown-item"} >
-                                                Carrito
-                                            </span>
+                                            <NavLink to="/cart">
+                                                <span className={s.dropdown_item + " dropdown-item"} 
+                                                    >Carrito
+                                                </span>
+                                            </NavLink>
                                         </li>
                                         
                                         <li>
@@ -211,37 +207,17 @@ export default function NavBar() {
                                         </li>
                                         
                                         <li>
-                                            <span className={s.dropdown_item + " dropdown-item"} 
-                                                >Ver Trabajos Pendientes
-                                            </span>
-                                        </li>
-                                        
-                                        <li>
-                                            <span className={s.dropdown_item + " dropdown-item"} >Notificaciones
-                                            </span>
-                                        </li>
-                                        
-                                        <li>
-                                            <span className={s.dropdown_item + " dropdown-item"} 
-                                                >Carrito
-                                            </span>
-                                        </li>
-                                        
-                                        <li>
-                                            <span className={s.dropdown_item + " dropdown-item"} >------------
-                                            </span>
-                                        </li>
-                                        
-                                        <li>
-                                            <span className={s.dropdown_item + " dropdown-item"} 
-                                                >Ver perfil Cliente
-                                            </span>
+                                            <NavLink to="/cart">
+                                                <span className={s.dropdown_item + " dropdown-item"} 
+                                                    >Carrito
+                                                </span>
+                                            </NavLink>
                                         </li>
 
                                         <li>
                                             <NavLink to={"/service-history/" + login.id}>
                                                 <span className={s.dropdown_item + " dropdown-item"} >
-                                                    Servicios Solicitados
+                                                    Historial de Trabajos y Servicios
                                                 </span>
                                             </NavLink>
                                         </li>

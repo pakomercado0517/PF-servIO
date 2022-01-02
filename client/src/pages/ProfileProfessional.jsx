@@ -18,7 +18,7 @@ export default function ProfileProfessional( ){
     const professional = useSelector((state) => state?.user[0])
     const { globalUserGlobalStorage } = useSelector(state => state)
     const specificActivities = useSelector((state) => state?.specificActivitiesById)
-    // console.log('specificActivities',specificActivities)
+    console.log('professional',professional)
     
     const [state, setstate] = useState({
         login: false,
