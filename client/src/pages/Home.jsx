@@ -13,7 +13,7 @@ import { ClientSpecificNeed } from '../components/ClientSpecificNeed';
 import CardClientNeed from '../components/CardClientNeed';
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Footer from '../components/Footer';
 
 export default function Home(){
