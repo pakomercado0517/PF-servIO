@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React /*, { useEffect, useState }*/ from 'react'
+// import axios from 'axios'
 import { useSelector } from 'react-redux'
-import { NavLink, useNavigate, useParams } from 'react-router-dom'
+import { /*NavLink,*/ useNavigate, useParams } from 'react-router-dom'
 // import { getByUserId, getSpecificActivitiesById } from '../redux/actions/index'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
-import { StarRating } from '../components/StarRating'
-import Swal from 'sweetalert2'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
+// import { StarRating } from '../components/StarRating'
+// import Swal from 'sweetalert2'
 import s from './styles/ProfessionalSpecificActivity.module.css'
-import { useGlobalStorage } from '../hooks/useGlobalStorage'
-import { GrConsole } from 'react-icons/gr'
+// import { useGlobalStorage } from '../hooks/useGlobalStorage'
+// import { GrConsole } from 'react-icons/gr'
 
 
 function ProfessionalSpecificActivityEdit() {
 
     const {id}= useParams()
     console.log('id',id)
-    const ranked= 3;
-    const navigate = useNavigate()
+    // const ranked= 3;
+    // const navigate = useNavigate()
 
     const professional = useSelector((state) => state.user[0])
     console.log('1 - professional',professional)

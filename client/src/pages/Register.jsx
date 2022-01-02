@@ -10,16 +10,11 @@ import { CgOptions } from 'react-icons/cg';
 import { filterProfessions } from '../redux/actions';
 
 export default function Crear() {
-
-    useEffect(() => {
-        dispatch(filterProfessions())      
-    }, [])
     
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    // const[oficio, setOficio] = useState([])
+
     const { professionsName } = useSelector(state => state)
-    // console.log(professionsName)
     const[errors, setErrors] = useState({
         firstName:"",
         lastName: "",
@@ -29,13 +24,6 @@ export default function Crear() {
         repeatPassword:'',
     });
     const [buttonSubmit, setbuttonSubmit] = useState(false)
-
-    // useEffect(() => {
-    //     if (professionsName){
-    //         setOficio(professionsName)
-    //     }
-    // }, [professionsName])
-    
     const [details, setDetails] = useState({
         firstName:'',
         lastName: '',
@@ -49,6 +37,9 @@ export default function Crear() {
         profession:[],
     })
     
+    useEffect(() => {
+        dispatch(filterProfessions())      
+    }, [dispatch])
     
     useEffect(() => {
         if (!buttonSubmit) {
@@ -63,7 +54,6 @@ export default function Crear() {
             } else {
                 document.getElementById("buttonSubmit").disabled = false
             }
-            // document.getElementById("buttonSubmit").disabled = false
         }
     }, [buttonSubmit, details])
     
@@ -163,7 +153,7 @@ export default function Crear() {
         }
         try{
             const user = await axios.post(`http://localhost:3001/user/`, obj)
-            // console.log('user',user)
+            console.log('user',user)
             
             Swal.fire({
                 title: 'Registro exitoso',

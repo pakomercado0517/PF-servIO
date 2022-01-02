@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-import { FiSearch } from 'react-icons/fi'
-import s from './styles/Search.module.css'
+// import { FiSearch } from 'react-icons/fi'
+// import s from './styles/Search.module.css'
 import { useDispatch, useSelector } from 'react-redux';
 import {searchByName, getAllProfessionals, searchBar } from '../redux/actions'
-import { ReactSearchAutocomplete } from 'react-search-autocomplete'
+// import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
 
 const Search = () => {
   const [switcheo2] = useGlobalStorage("switcheo", null)
-    const display = useSelector(state => state.professionals)
+    // const display = useSelector(state => state.professionals)
     const dispatch = useDispatch()
     const[name, setName]= useState('')
     // console.log(name)

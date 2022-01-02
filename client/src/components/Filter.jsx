@@ -1,10 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import { connect } from 'react-redux';
 import { useDispatch, useSelector } from "react-redux";
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
-import { filterProfessions, filterProfessionals, filterClients, orderProfessionals } from '../redux/actions';
-import { useNavigate } from "react-router-dom";
-import {CgOptions} from 'react-icons/cg'
+import { filterProfessions, filterClients, orderProfessionals } from '../redux/actions';
 
 export  function Filter(){
   const [switcheo2] = useGlobalStorage("switcheo", null)

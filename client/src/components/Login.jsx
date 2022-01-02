@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react'
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
 import axios from 'axios'
 import logo from '../img/ServIO.svg';
@@ -24,9 +24,9 @@ export default function Login() {
     const dispatch = useDispatch()
 
     const [errors, setErrors] = useState({});
-    const [globalUser, setGlobalUser] = useGlobalStorage("globalUser", "");
+    const [, setGlobalUser] = useGlobalStorage("globalUser", "");
     const [localUser, setLocalUser] = useLocalStorage("localUser", "");
-    const [ switcheo, setSwitcheo] = useGlobalStorage("switcheo", "")
+    const [, setSwitcheo] = useGlobalStorage("switcheo", "")
     const validate = (input) => {
         let errors = {};
         if (!input.email) {

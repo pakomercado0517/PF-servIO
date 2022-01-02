@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useGlobalStorage } from '../hooks/useGlobalStorage'
 import { getSpecificActivitiesById, getByUserId } from '../redux/actions';
 

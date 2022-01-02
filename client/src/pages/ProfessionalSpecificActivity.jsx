@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react'
+import React/*, { useEffect }*/ from 'react'
 import { useSelector } from 'react-redux'
-import { NavLink, useParams } from 'react-router-dom'
+import { /*NavLink,*/ useParams } from 'react-router-dom'
 // import { getByUserId, getSpecificActivitiesById } from '../redux/actions/index'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
 import { StarRating } from '../components/StarRating'
 
 import s from './styles/ProfessionalSpecificActivity.module.css'
-import { useGlobalStorage } from '../hooks/useGlobalStorage'
+// import { useGlobalStorage } from '../hooks/useGlobalStorage'
 
 
 function ProfessionalSpecificActivity() {
@@ -18,7 +18,7 @@ function ProfessionalSpecificActivity() {
   let ranked= 3;
   const professional = useSelector((state) => state.user[0])
   // console.log('1 - professional',professional)
-  const { globalUserGlobalStorage } = useSelector(state => state)
+  // const { globalUserGlobalStorage } = useSelector(state => state)
   
   const specificActivities = useSelector((state) => state.specificActivitiesById)
   // console.log('2 - specificActivities la posta',specificActivities)

@@ -15,7 +15,6 @@ import { useGlobalStorage } from '../hooks/useGlobalStorage'
 export default function ServiceHistory() {
 
     const dispatch = useDispatch()
-    const state = useSelector(state => state)
     const { id } = useParams()
     const clientNeeds = useSelector(state => state.clientNeedById)
     const user = useGlobalStorage("globalUser", "")

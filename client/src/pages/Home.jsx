@@ -2,13 +2,11 @@ import React, {useEffect, useState} from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import s from './styles/Home.module.css'
 import {Filter} from '../components/Filter'
-// import NavBar from '../components/NavBar';
 import Landing from '../components/Landing';
 import {CgOptions} from 'react-icons/cg'
 import {IoEyeSharp} from 'react-icons/io5'
 import CardProfessional from '../components/CardProtessional.jsx'
-import { getAllProfessionals, orderProfessionals, filterProfessionals,orderClientNeeds, getAllNeeds } from '../redux/actions';
-import img from '../img/ivana-cajina-_7LbC5J-jw4-unsplash.jpg'
+import { orderProfessionals, filterProfessionals,orderClientNeeds } from '../redux/actions';
 import Pagination from "../components/Pagination";
 import TestimoniosHome from '../components/TestimoniosHome';
 import { ClientSpecificNeed } from '../components/ClientSpecificNeed';
@@ -17,21 +15,16 @@ import { useLocalStorage } from '../hooks/useLocalStorage'
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
 import { NavLink, useParams } from 'react-router-dom';
 import Footer from '../components/Footer';
-// import img from '../img/undraw_welcome_cats_thqn.svg';
 
 export default function Home(){
-    const needs = useSelector((state) => state.switch)
-    const state = useSelector(state => state)
     const dispatch = useDispatch();
     const clientNeeds = useSelector(state => state.professionalsFilter);
-    const {params} = useParams()
     const professionals = useSelector(state => state.clientsFilter);
 
     const switcheo = useSelector(state => state.switch)
-    const stateRedux = useSelector(state => state)
     const [switcheo2] = useGlobalStorage("switcheo", null)
     const [login] = useLocalStorage("user", null)
-    let [postsPerPage, setPostsPerPage] = useState(16);
+    let [postsPerPage,] = useState(16);
     let [currentPage, setCurrentPage] = useState(1);
     let indexOfLastPost = currentPage * postsPerPage;
     let indexOfFirstPost = indexOfLastPost - postsPerPage;
