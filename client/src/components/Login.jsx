@@ -7,7 +7,7 @@ import logo from '../img/ServIO.svg';
 import { useDispatch, useSelector } from 'react-redux';
 
 import s from './styles/Login.module.css'
-import { getByUserId, userLogin } from '../redux/actions';
+import { userLogin } from '../redux/actions';
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 

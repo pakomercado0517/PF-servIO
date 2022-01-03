@@ -39,16 +39,6 @@ export const PROFESSIONAL_FILTERED = "PROFESSIONAL_FILTERED";
 export const ORDER_DATA_CLIENT = "ORDER_DATA_CLIENT";
 export const USER_LOGIN = "USER_LOGIN";
 
-export const userLogin = (user) => async (dispatch) => {
-  try {
-    const result = await axios.post(`${constants.localhost}/user/login`, user);
-    dispatch({
-      type: USER_LOGIN,
-      payload: result,
-    });
-  } catch (error) {
-    console.log(error.message);
-  }
 export const GET_ALL_USERS = 'GET_ALL_USERS';
 export const GET_ALL_PROFESSIONALS = 'GET_ALL_PROFESSIONALS';
 export const GET_ALL_COMMON_USERS = 'GET_ALL_COMMON_USERS';
@@ -551,6 +541,18 @@ export const orderProfessionals = (name) => async (dispatch) => {
       payload: db
     })
   })
+};
+
+export const userLogin = (user) => async (dispatch) => {
+  try {
+    const result = await axios.post(`${constants.localhost}/user/login`, user);
+    dispatch({
+      type: USER_LOGIN,
+      payload: result,
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const searchBar = (name) => {
