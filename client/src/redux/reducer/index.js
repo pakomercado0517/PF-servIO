@@ -23,7 +23,8 @@ import {
   PROFESSIONAL_FILTERED,
   ORDER_DATA_CLIENT,
   OFFER_IN_NEED_BY_ID,
-  CREATE_PREFERENCE
+  CREATE_PREFERENCE,
+  CREATE_TECNICAL_ACTIVITY
 } from '../actions'
 
 
@@ -172,6 +173,11 @@ function rootReducer( state = initialState, { type, payload } ) {
             ...state,
             message: payload
         };
+        case CREATE_TECNICAL_ACTIVITY:
+          return {
+              ...state,
+              message: payload
+          };
         default:
             return state;
   };

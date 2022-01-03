@@ -36,6 +36,7 @@ export const PROFESSIONAL_FILTERED ='PROFESSIONAL_FILTERED'
 export const ORDER_DATA_CLIENT ='ORDER_DATA_CLIENT';
 export const OFFER_IN_NEED_BY_ID = 'OFFER_IN_NEED_BY_ID';
 export const CREATE_PREFERENCE = 'CREATE_PREFERENCE';
+export const CREATE_TECNICAL_ACTIVITY = 'CREATE_TECNICAL_ACTIVITY';
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers () {
     
@@ -516,10 +517,17 @@ export const offerInNeedById =  id => async dispatch =>{
 }
 
 export const createPreference = (data) => async  dispatch => {
-
   const response = await axios.post(`${ constants.localhost }/create_preference`,data)
   dispatch ({
     type: CREATE_PREFERENCE,
     payload: response,
-});
+  });
+}
+
+export const createTecnicalActivity = (data) => async  dispatch => {
+  const response = await axios.post(`${ constants.localhost }/TecnicalsActivities`,data)
+  dispatch ({
+    type: CREATE_TECNICAL_ACTIVITY,
+    payload: response,
+  });
 }
