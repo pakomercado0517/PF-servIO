@@ -1,52 +1,59 @@
 import {
-  NEW_USER, 
-  NEW_CLIENT_NEED,
-  GET_ALL_NEEDS, 
-  GET_ALL_CLIENT_NEEDS,
-  GET_ALL_PROFESSIONALS, 
-  GET_BY_USER_ID, 
-  GET_BY_ACCOUNT_ID,
-  GET_SPECIFIC_ACTIVITIES_BYID,
-  GET_PROFESSIONAL_ACTIVITY_BY_ID,
-  GLOBAL_LOCAL_STORAGE,
-  ORDER_DATA, 
-  FILTER_PROFESSIONS,
-  SHOW_FORM_CLIENT_NEED,
-  SHOW_FORM_PROFESSIONAL_OFFER,
-  SWITCH_RENDER,
-  SEARCH_PROFESSIONAL_BY_NAME,
-  GET_DETAILS_CLIENT_NEED_BYID,
-  GET_ALL_PROFESSIONAL_OFFERS,
-  DATA_FILTERED,
-  SEARCHBAR,
-  CLIENTS_FILTERED,
-  PROFESSIONAL_FILTERED,
-  ORDER_DATA_CLIENT,
+    NEW_USER, 
+    NEW_CLIENT_NEED,
+    GET_ALL_NEEDS, 
+    GET_ALL_CLIENT_NEEDS,
+    GET_ALL_PROFESSIONALS, 
+    GET_BY_USER_ID, 
+    GET_BY_ACCOUNT_ID,
+    GET_SPECIFIC_ACTIVITIES_BYID,
+    GET_PROFESSIONAL_ACTIVITY_BY_ID,
+    GLOBAL_LOCAL_STORAGE,
+    ORDER_DATA, 
+    FILTER_PROFESSIONS,
+    SHOW_FORM_CLIENT_NEED,
+    SHOW_FORM_PROFESSIONAL_OFFER,
+    SWITCH_RENDER,
+    SEARCH_PROFESSIONAL_BY_NAME,
+    GET_DETAILS_CLIENT_NEED_BYID,
+    GET_ALL_PROFESSIONAL_OFFERS,
+    DATA_FILTERED,
+    SEARCHBAR,
+    CLIENTS_FILTERED,
+    PROFESSIONAL_FILTERED,
+    ORDER_DATA_CLIENT,
+    PUT_CLIENT_NEEDS,
+    PUT_USER,
+    GET_OFFERS_OF_CLIENT_NEED,
   OFFER_IN_NEED_BY_ID,
   CREATE_PREFERENCE
+
 } from '../actions'
 
 
 
 
 const initialState = {
-  professionals: [],
-  user: [],
-  clientNeeds: [],
-  detailsClientNeed: [],
-  clientNeedById: [],
-  message:[],
-  modal:"",
-  modalProfessionalsOffer: "",
-  professionsName:[],
-  switch: true,
-  account: [],
-  specificActivitiesById: [],
-  professionalActivityById: [],
-  allProfessionalsOffers: [],
-  clientsFilter:[],
-  professionalsFilter:[],
-  searchbar:'',
+    professionals: [],
+    user: [],
+    clientNeeds: [],
+    detailsClientNeed: [],
+    clientNeedById: [],
+    message:[],
+    modal:"",
+    modalProfessionalsOffer: "",
+    professionsName:[],
+    switch: true,
+    account: [],
+    specificActivitiesById: [],
+    professionalActivityById: [],
+    allProfessionalsOffers: [],
+    clientsFilter:[],
+    professionalsFilter:[],
+    searchbar:'',
+    putClientNeed:[],
+    putUser:[],
+    offersOfClientNeed:[],
   offerInNeedById : []
 };
 
@@ -152,6 +159,23 @@ function rootReducer( state = initialState, { type, payload } ) {
                   ...state,
                   searchbar: payload
               };
+        case PUT_CLIENT_NEEDS:
+                return {
+                    ...state,
+                    putClientNeed: payload
+                };
+        case PUT_USER:
+                return {
+                    ...state,
+                    putUser: payload
+                };
+        case GET_OFFERS_OF_CLIENT_NEED:
+                return {
+                    ...state,
+                    offersOfClientNeed: payload
+                };
+
+    };
       case ORDER_DATA:
           return {
               ...state,

@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from "react-router-dom";
-import { showFormClientNeed } from '../redux/actions'
+import { putClientNeeds } from '../redux/actions'
 import Swal from 'sweetalert2'
 
 import s from './styles/ClientSpecificNeedEdit.module.css'
@@ -10,12 +9,12 @@ import s from './styles/ClientSpecificNeedEdit.module.css'
 
 export const ClientSpecificNeedEdit = () => {
     
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const detailsClientNeed = useSelector(state => state.detailsClientNeed)
 
-
     const [input, setInput] = useState({
-        // userId: detailsClientNeed?.id,
+        userId: detailsClientNeed?.id,
         name: detailsClientNeed?.name,
         description: detailsClientNeed?.description,
     })
@@ -30,8 +29,7 @@ export const ClientSpecificNeedEdit = () => {
     const postNeed = async (e) =>{
         e.preventDefault()
         try {
-            await axios.put(`http://localhost:3001/clientNeeds/${detailsClientNeed?.id}`, input)
-
+            dispatch(putClientNeeds(input))
             Swal.fire({
                 icon: 'success',
                 title: 'Publicacion editada!',
@@ -39,38 +37,12 @@ export const ClientSpecificNeedEdit = () => {
                 // timer: 1500
             })
             navigate(`/clients/${detailsClientNeed?.UserId}`)
-            // navigate(`/`)
             
         } catch ( error ) {
             console.log( error.message )
-        }
-    }
+        };
+    };
 
-    // function stateReset() {
-    //     setInput({
-    //         name:'',
-    //         description:'',
-    //         status: ''
-    //     })
-    // }
-
-
-    const dispatch = useDispatch()
-
-    // useEffect(() => {
-    //     if (modal === "show") {
-    //         const fondo = document.getElementById("fondo-form-client-need")
-    //         fondo.style.top = "0px"
-    //     } else if("notshow") {
-    //         const fondo = document.getElementById("fondo-form-client-need")
-    //         fondo.style.top = "-100vh"
-    //     }
-    // }, [modal])
-
-    // function hideFormClientNeed(){
-    //     dispatch(showFormClientNeed("show"))
-    // }
-    
     return (
         <>
             <div id='fondo-form-client-need' className={s.container}>

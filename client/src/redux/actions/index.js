@@ -34,8 +34,13 @@ export const DATA_FILTERED = 'DATA_FILTERED';
 export const CLIENTS_FILTERED ='CLIENTS_FILTERED';
 export const PROFESSIONAL_FILTERED ='PROFESSIONAL_FILTERED'
 export const ORDER_DATA_CLIENT ='ORDER_DATA_CLIENT';
+
+export const PUT_CLIENT_NEEDS = 'PUT_CLIENT_NEEDS';
+export const PUT_USER = 'PUT_USER';
+export const GET_OFFERS_OF_CLIENT_NEED = 'GET_OFFERS_OF_CLIENT_NEED'
 export const OFFER_IN_NEED_BY_ID = 'OFFER_IN_NEED_BY_ID';
 export const CREATE_PREFERENCE = 'CREATE_PREFERENCE';
+
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers () {
     
@@ -491,12 +496,59 @@ export const orderProfessionals = (name) => async  dispatch => {
       payload: db
     })
   })
-}
+};
 
 export const searchBar = name =>{
   return {
     type: SEARCHBAR,
     payload: name,
+  };
+};
+
+// editar publicaciones del cliente
+export function putClientNeeds(data) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.put(`${constants.localhost}/clientNeeds/${data.userId}`, data);
+      console.log("put-clientneed",response.data)
+      dispatch({
+        type: PUT_CLIENT_NEEDS,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error.message);
+    };
+  };
+}; 
+
+//editar usuario
+export function putUser(data) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.put(`${constants.localhost}/user/updateUser/${data.id}`, data);
+      console.log("put-user",response.data)
+      dispatch({
+        type: PUT_USER,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error.message);
+    };
+  };
+};
+
+// get a las ofertas profesionales de las necesidades de los clientes
+export function getOffersToSpecificClientNeed(id) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(`${constants.localhost}/professsionalOffer/need/${id}`);
+      dispatch({
+        type: GET_OFFERS_OF_CLIENT_NEED,
+        payload: response,
+      });
+    } catch (error) {
+      console.log(error.message);
+    };
   };
 }
 

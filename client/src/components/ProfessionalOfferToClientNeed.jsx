@@ -154,7 +154,7 @@ export const ProfessionalOfferToClientNeed = (props) => {
                                 </div>
 
                                 <div className="col input-group mb-2">
-                                    <span class="input-group-text">$</span>
+                                    <span className="input-group-text">$</span>
                                     <input
                                         type="number"
                                         name='price'
