@@ -21,7 +21,10 @@ import {
     SEARCHBAR,
     CLIENTS_FILTERED,
     PROFESSIONAL_FILTERED,
-    ORDER_DATA_CLIENT
+    ORDER_DATA_CLIENT,
+    PUT_CLIENT_NEEDS,
+    PUT_USER,
+    GET_OFFERS_OF_CLIENT_NEED,
 } from '../actions'
 
 
@@ -44,7 +47,11 @@ const initialState = {
     allProfessionalsOffers: [],
     clientsFilter:[],
     professionalsFilter:[],
-    searchbar:''
+    searchbar:'',
+    putClientNeed:[],
+    putUser:[],
+    offersOfClientNeed:[],
+
 };
 
 function rootReducer( state = initialState, { type, payload } ) {
@@ -159,6 +166,22 @@ function rootReducer( state = initialState, { type, payload } ) {
                   ...state,
                   clientsFilter: payload
               };
+        case PUT_CLIENT_NEEDS:
+                return {
+                    ...state,
+                    putClientNeed: payload
+                };
+        case PUT_USER:
+                return {
+                    ...state,
+                    putUser: payload
+                };
+        case GET_OFFERS_OF_CLIENT_NEED:
+                return {
+                    ...state,
+                    offersOfClientNeed: payload
+                };
+
           default:
               return state;
     };
