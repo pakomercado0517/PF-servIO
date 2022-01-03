@@ -246,11 +246,11 @@ export default function Login() {
                             className="btn btn-lg btn-github text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/github">
                             <img src="https://img.icons8.com/material-rounded/48/000000/github.png" alt='github'/>
                         </a>
-                        <a 
+                        {/* <a 
                             type="button"
                             className="btn btn-lg btn-facebook text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/facebook">
                             <img src="https://img.icons8.com/fluency/48/000000/facebook.png" alt='facebook'/>
-                        </a>
+                        </a> */}
                     </div>
 
                 </form>
