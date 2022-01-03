@@ -89,7 +89,7 @@ export default function Login() {
                     showConfirmButton: false,
                     timer: 2500
                 })
-                // navigate('/')
+                navigate('/')
             }
         } catch (error) {
             console.log(error)
