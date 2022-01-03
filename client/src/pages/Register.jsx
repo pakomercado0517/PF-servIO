@@ -13,7 +13,7 @@ export default function Crear() {
 
     useEffect(() => {
         dispatch(filterProfessions())      
-    }, [])
+    }, [])//????????????
     
     const navigate = useNavigate()
     const dispatch = useDispatch()
