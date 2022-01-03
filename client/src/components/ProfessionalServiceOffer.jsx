@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
 import { showFormProfessionalOffer, createTecnicalActivity } from '../redux/actions'
 import {useNavigate } from "react-router-dom";
