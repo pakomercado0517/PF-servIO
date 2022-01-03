@@ -34,6 +34,7 @@ export const DATA_FILTERED = 'DATA_FILTERED';
 export const CLIENTS_FILTERED ='CLIENTS_FILTERED';
 export const PROFESSIONAL_FILTERED ='PROFESSIONAL_FILTERED'
 export const ORDER_DATA_CLIENT ='ORDER_DATA_CLIENT';
+export const OFFER_IN_NEED_BY_ID = 'OFFER_IN_NEED_BY_ID'
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers () {
     
@@ -314,7 +315,7 @@ export function filterProfessionals(type, data) {
                 return 0;
               }
         })
-      }else{
+      }else if(type === 'A-Z'){
         option = data.sort((a,b) => {
               if(a.first_name){
                 if (a.first_name > b.first_name) return 1;
@@ -322,6 +323,8 @@ export function filterProfessionals(type, data) {
                 return 0;
               }
         })
+      }else{
+        option = data
       }
       return {
         type: ORDER_DATA,
@@ -477,7 +480,7 @@ export const filterClients = (name, rate, location, professions, sortByName, fil
 
 export const orderProfessionals = (name) => async  dispatch => {        
 
-  let url = name ==! '' ?  `${ constants.localhost }/clientNeeds/need?name=${name}`:`${ constants.localhost }/clientNeeds/all`
+  let url = name  ?  `${ constants.localhost }/clientNeeds/need?name=${name}`:`${ constants.localhost }/clientNeeds/all`
   axios.get(url)
   .then(response => {
     let order = []
@@ -494,4 +497,20 @@ export const searchBar = name =>{
     type: SEARCHBAR,
     payload: name,
   };
+}
+
+export const offerInNeedById =  id => async dispatch =>{
+  const data = await axios.get(`http://localhost:3001/professsionalOffer/need/${id}`)
+  if (data.data === "No offers found") {
+    dispatch ({
+      type: OFFER_IN_NEED_BY_ID,
+      payload: [],
+    });    
+  }else{
+    dispatch ({
+      type: OFFER_IN_NEED_BY_ID,
+      payload: data.data,
+  }); 
+  }
+
 }
