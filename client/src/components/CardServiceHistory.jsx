@@ -1,34 +1,38 @@
 import React, { useEffect, useState } from 'react'
-
+import { useSelector, useDispatch} from 'react-redux';
 import s from './styles/CardServiceHistory.module.css'
-
+import { offerInNeedById } from '../redux/actions'
 import notFoundImg from '../img/not_found_img.svg'
-import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 
 export default function CardServiceHistory(props) {
-
-    const [offers, setOffers] = useState([])
+    const offer = useSelector(state => state.offerInNeedById)
+    // const [offers, setOffers] = useState([])  <-----comentado por guille
     const navigate = useNavigate()
-
+    const dispatch = useDispatch();
+    const { id } = props
     useEffect(() => {
-        async function getOffers(){
-            const data = await axios.get("http://localhost:3001/professsionalOffer/need/" + props.id)
-            if (data.data === "No offers found") return setOffers([])
-            setOffers(data.data)
-        }
-        getOffers()
+      dispatch(offerInNeedById(id))
+        // async function getOffers(){<-----comentado por guille
+          
+        //     const data = await axios.get("http://localhost:3001/professsionalOffer/need/" + props.id)
+        //     if (data.data === "No offers found") return setOffers([])
+        //     setOffers(data.data)
+        // }
+        // getOffers()
     }, [])
-
+    console.log(offer, props)
     function nav(e){
         console.log(e.target.name)
-        if(e.target.name === "offers" ) return navigate('/client/offerToNeed/'+props.id)
-        if(e.target.name === "details" ) return navigate('/client/need/'+props.id)
+        if(e.target.name === "offers" ) return navigate(`/client/offerToNeed/${id}`)
+        if(e.target.name === "details" ) return navigate(`/client/need/${id}`)
     }
 
     return (
+      
         <div className={ s.container }>
+          {console.log(offer)}
             {/* FECHA DE STATUS */}
             <div className={ s.container_fecha }>
                 <h5>{ props.date }</h5>
@@ -69,7 +73,7 @@ export default function CardServiceHistory(props) {
                             <span 
                                 className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                             >
-                            { offers ? offers.length : 0 }
+                            { offer ? offer.length : 0 }
                                 
                                 <span 
                                     className="visually-hidden"

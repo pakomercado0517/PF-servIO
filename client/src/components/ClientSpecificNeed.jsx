@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
-import { showFormClientNeed, getClientNeedsById } from '../redux/actions'
+import { showFormClientNeed, getClientNeedsById, newEspecificalNeed } from '../redux/actions'
 import Swal from 'sweetalert2'
 import s from './styles/ClientSpecificNeed.module.css'
 import { useNavigate } from "react-router-dom";
@@ -30,7 +30,8 @@ export const ClientSpecificNeed = () => {
         e.preventDefault()
         console.log(input)
         try {
-            await axios.post('http://localhost:3001/clientNeeds', input)
+            dispatch(newEspecificalNeed(input))
+            // await axios.post('http://localhost:3001/clientNeeds', input)
 
             Swal.fire({
                 icon: 'success',

@@ -1,41 +1,54 @@
 import React, { useEffect, useState } from 'react';
-
 import { useSelector, useDispatch } from 'react-redux'
-
 import { useParams } from 'react-router-dom';
-
-import { getAllProfessionalOffers, getDetailsClientNeed } from '../redux/actions'
-
 import CardOfferToClientNeed from '../components/CardOfferToClientNeed';
+import {getAllProfessionalOffers, 
+        getDetailsClientNeed, 
+        getOffersToSpecificClientNeed 
+    } from '../redux/actions'
 
-import axios from 'axios';
+    import axios from 'axios';
 
 import styles from './styles/OffersToSpecificClientsNeeds.module.css'
 
 export const OffersToSpecificClientsNeeds = () => {
-     
 
     const [offers, setOffers] = useState([])
     const { id } = useParams();
-
-    useEffect(() => {
-        async function getOffers(){
-            const data = await axios.get("http://localhost:3001/professsionalOffer/need/" + id)
-            if (data.data === "No offers found") return setOffers([])
-            setOffers(data.data)
-            console.log(data.data)
-        }
-        getOffers()
-    }, [])
-
+    const dispatch = useDispatch()
     const detailsClientNeed = useSelector(state => state.detailsClientNeed)
-    const dispatch = useDispatch();
-
-
-    useEffect(()=> {
-        dispatch(getAllProfessionalOffers())
+    
+    const getOffers = useSelector(state => state.offersOfClientNeed)
+    // console.log('getOffers', getOffers)
+    
+    
+    useEffect(() => {
         dispatch(getDetailsClientNeed(id))
-    }, []);
+        // dispatch(getAllProfessionalOffers())
+        dispatch(getOffersToSpecificClientNeed(id))
+    
+    if (getOffers.data === "No offers found") return setOffers([])
+    setOffers(getOffers.data)
+    }, [])
+    console.log(getOffers.data)
+
+
+
+    // useEffect(() => {
+        // async function getOffers(){
+        //     const data = await axios.get("http://localhost:3001/professsionalOffer/need/" + id)
+            // if (data.data === "No offers found") return setOffers([])
+            // setOffers(data.data)
+            // console.log(data.data)
+        // }
+        // getOffers()
+    // }, [])
+
+
+    // useEffect(()=> {
+        // dispatch(getAllProfessionalOffers())
+        // dispatch(getDetailsClientNeed(id))
+    // }, []);
 
 
     return (
@@ -43,9 +56,15 @@ export const OffersToSpecificClientsNeeds = () => {
             <h1>Ofertas para:</h1>
             <h3> {detailsClientNeed.name} </h3>
             <h4>{ detailsClientNeed.description}</h4>
+
             {
+                getOffers.data === "No offers found" ?
+                <h1>No hay ofertas para esta necesidad</h1>
+                
+                :
+                
                 offers?.map((el,index) => {
-                    console.log(offers)
+                    // console.log(offers)
                     return (
                         <CardOfferToClientNeed
                         key={ index + id }

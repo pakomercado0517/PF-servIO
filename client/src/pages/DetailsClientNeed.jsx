@@ -11,7 +11,7 @@ export default function DetailsClientNeed() {
 
   const clientNeed = useSelector((state) => state.detailsClientNeed)
   const { detailsClientNeed, user, globalUserGlobalStorage } = useSelector(state => state)
-  console.log('global',globalUserGlobalStorage)
+  // console.log('global',globalUserGlobalStorage)
   const { id } = useParams()
   const dispatch = useDispatch()
   let ranked= 2.6

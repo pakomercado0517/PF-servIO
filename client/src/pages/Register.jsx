@@ -10,7 +10,7 @@ import { CgOptions } from 'react-icons/cg';
 import { filterProfessions } from '../redux/actions';
 
 export default function Crear() {
-    
+
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
