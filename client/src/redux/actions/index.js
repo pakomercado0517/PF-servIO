@@ -38,48 +38,6 @@ export const CLIENTS_FILTERED = "CLIENTS_FILTERED";
 export const PROFESSIONAL_FILTERED = "PROFESSIONAL_FILTERED";
 export const ORDER_DATA_CLIENT = "ORDER_DATA_CLIENT";
 export const USER_LOGIN = "USER_LOGIN";
-
-export const userLogin = (user) => async (dispatch) => {
-  try {
-    const result = await axios.post(`${constants.localhost}/user/login`, user);
-    dispatch({
-      type: USER_LOGIN,
-      payload: result,
-    });
-  } catch (error) {
-    console.log(error.message);
-  }
-export const GET_ALL_USERS = 'GET_ALL_USERS';
-export const GET_ALL_PROFESSIONALS = 'GET_ALL_PROFESSIONALS';
-export const GET_ALL_COMMON_USERS = 'GET_ALL_COMMON_USERS';
-export const GET_BY_USER_ID = 'GET_BY_USER_ID';
-export const GET_BY_ACCOUNT_ID = 'GET_BY_ACCOUNT_ID';
-export const GET_PROFESSIONAL_BY_ACTIVITY_NAME = 'GET_PROFESSIONAL_BY_ACTIVITY_NAME';
-export const GET_BY_ACTIVITY_NAME = 'GET_BY_ACTIVITY_NAME';
-export const GET_ALL_NEEDS = 'GET_ALL_NEEDS';
-export const GET_ALL_CLIENT_NEEDS = 'GET_ALL_CLIENT_NEEDS';
-export const SEARCH_PROFESSIONAL_BY_NAME = 'SEARCH_PROFESSIONAL_BY_NAME'
-export const NEW_CLIENT_NEED = 'NEW_CLIENT_NEED';
-export const NEW_TECHNICAL_ACTIVITY = 'NEW_TECHNICAL_ACTIVITY';
-export const NEW_USER = 'NEW_USER';
-export const NEW_PROFESSIONAL_OFFER = 'NEW_PROFESSIONAL_OFFER';
-export const FILTER_PROFESSIONS = 'FILTER_PROFESSIONS;'
-export const SWITCH_RENDER = 'SWITCH_RENDER'
-export const ORDER_DATA = 'ORDER_DATA';
-export const SHOW_FORM_CLIENT_NEED = 'SHOW_FORM_CLIENT_NEED';
-export const SHOW_FORM_PROFESSIONAL_OFFER = 'SHOW_FORM_PROFESSIONAL_OFFER';
-export const GLOBAL_LOCAL_STORAGE = 'GLOBAL_LOCAL_STORAGE';
-export const GET_SPECIFIC_ACTIVITIES_BYID = 'GET_SPECIFIC_ACTIVITIES_BYID';
-export const GET_PROFESSIONAL_ACTIVITY_BY_ID = 'GET_PROFESSIONAL_ACTIVITY_BY_ID';
-export const GET_DETAILS_CLIENT_NEED_BYID = 'GET_DETAILS_CLIENT_NEED_BYID';
-export const GET_DETAILS_PROFESSIONAL_OFFER_BYID = 'GET_DETAILS_PROFESSIONAL_OFFER_BYID'; //
-export const GET_ALL_PROFESSIONAL_OFFERS = 'GET_ALL_PROFESSIONAL_OFFERS';
-export const SEARCHBAR = 'SEARCHBAR'
-export const DATA_FILTERED = 'DATA_FILTERED';
-export const CLIENTS_FILTERED ='CLIENTS_FILTERED';
-export const PROFESSIONAL_FILTERED ='PROFESSIONAL_FILTERED'
-export const ORDER_DATA_CLIENT ='ORDER_DATA_CLIENT';
-
 export const PUT_CLIENT_NEEDS = 'PUT_CLIENT_NEEDS';
 export const PUT_USER = 'PUT_USER';
 export const GET_OFFERS_OF_CLIENT_NEED = 'GET_OFFERS_OF_CLIENT_NEED'
@@ -103,20 +61,6 @@ export function getAllUsers () {
     };
 };
 
-// trae todos los usuarios - clientes y profesionales
-export function getAllUsers() {
-  return async function (dispatch) {
-    try {
-      const response = await axios.get(`${constants.localhost}/allUsers`);
-      dispatch({
-        type: GET_ALL_USERS,
-        payload: response.data,
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-}
 // trae todos los usuarios - clientes y profesionales
 export function getDetailsClientNeed(id) {
   return async function (dispatch) {
@@ -551,6 +495,18 @@ export const orderProfessionals = (name) => async (dispatch) => {
       payload: db
     })
   })
+};
+
+export const userLogin = (user) => async (dispatch) => {
+  try {
+    const result = await axios.post(`${constants.localhost}/user/login`, user);
+    dispatch({
+      type: USER_LOGIN,
+      payload: result,
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const searchBar = (name) => {
