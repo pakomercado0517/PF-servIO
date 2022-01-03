@@ -7,14 +7,14 @@ import logo from '../img/ServIO.svg';
 import { useDispatch, useSelector } from 'react-redux';
 
 import s from './styles/Login.module.css'
-import { getByUserId } from '../redux/actions';
+import { userLogin } from '../redux/actions';
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
 export default function Login() {
 
     const user = useSelector(state => state.user)
-
+    const loginDetail = useSelector(state => state.loginDetail)
     const navigate = useNavigate()
     const [ input, setInput ] = useState({
         email: '',
@@ -58,20 +58,27 @@ export default function Login() {
         });
     };
     // console.log(setInput)
+
+    // useEffect(() => {
+    //     dispatch(userLogin(input))
+    // },[])
     
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const post = await axios.post('http://localhost:3001/user/login', input)
-            dispatch(getByUserId(post.data.id))
-            setGlobalUser(post.data.data)
-            setLocalUser(post.data.data)
-            console.log('post login status',post.statusText)
+            // const post = await axios.post('http://localhost:3001/user/login', input)
+            dispatch(userLogin(input))
+            // dispatch(getByUserId(loginDetail.data.data.id))
+            console.log('loginDetail:', loginDetail)
+            // console.log('post login status',post.statusText)
             // console.log('post login data',post.data)
             // console.log('post login data',post.data.id)
 
-            if( post.statusText === 'OK') {
-                if(post.data.data.professional) {
+            if( loginDetail.statusText === 'OK') {
+                setGlobalUser(loginDetail.data.data)
+                setLocalUser(loginDetail.data.data)
+
+                if(loginDetail.data.data.professional) {
                     setSwitcheo("user")
                 } else {
                     setSwitcheo('professional')
@@ -97,9 +104,7 @@ export default function Login() {
     }
 
     
-    useEffect( ()=> {
-        
-        async function getUser() {
+    useEffect( async ()=> {
         const glbUser= localUser
         const activeStorage= ()=> {
             if(glbUser) {
@@ -115,15 +120,14 @@ export default function Login() {
         try {
             let result= await axios.get('http://localhost:3001/user/getUser')
             console.log('resulllt', result.data[0])
-            await setGlobalUser(result.data[0].data)
-            await setLocalUser(result.data[0].data)
-            await activeStorage()
+            setGlobalUser(result.data[0].data)
+            setLocalUser(result.data[0].data)
+            activeStorage()
             console.log('globaluser', glbUser)
         } catch (error) {
             console.log('errorrrrrr', error)
 
-        }}
-        getUser()
+        }
     },[])
 
     // useEffect( async () => {

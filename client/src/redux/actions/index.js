@@ -1,43 +1,51 @@
 import axios from "axios";
 
 const constants = {
-    localhost: 'http://localhost:3001',
-}
+  localhost: "http://localhost:3001",
+};
 
-export const GET_ALL_USERS = 'GET_ALL_USERS';
-export const GET_ALL_PROFESSIONALS = 'GET_ALL_PROFESSIONALS';
-export const GET_ALL_COMMON_USERS = 'GET_ALL_COMMON_USERS';
-export const GET_BY_USER_ID = 'GET_BY_USER_ID';
-export const GET_BY_ACCOUNT_ID = 'GET_BY_ACCOUNT_ID';
-export const GET_PROFESSIONAL_BY_ACTIVITY_NAME = 'GET_PROFESSIONAL_BY_ACTIVITY_NAME';
-export const GET_BY_ACTIVITY_NAME = 'GET_BY_ACTIVITY_NAME';
-export const GET_ALL_NEEDS = 'GET_ALL_NEEDS';
-export const GET_ALL_CLIENT_NEEDS = 'GET_ALL_CLIENT_NEEDS';
-export const SEARCH_PROFESSIONAL_BY_NAME = 'SEARCH_PROFESSIONAL_BY_NAME'
-export const NEW_CLIENT_NEED = 'NEW_CLIENT_NEED';
-export const NEW_TECHNICAL_ACTIVITY = 'NEW_TECHNICAL_ACTIVITY';
-export const NEW_USER = 'NEW_USER';
-export const NEW_PROFESSIONAL_OFFER = 'NEW_PROFESSIONAL_OFFER';
-export const FILTER_PROFESSIONS = 'FILTER_PROFESSIONS;'
-export const SWITCH_RENDER = 'SWITCH_RENDER'
-export const ORDER_DATA = 'ORDER_DATA';
-export const SHOW_FORM_CLIENT_NEED = 'SHOW_FORM_CLIENT_NEED';
-export const SHOW_FORM_PROFESSIONAL_OFFER = 'SHOW_FORM_PROFESSIONAL_OFFER';
-export const GLOBAL_LOCAL_STORAGE = 'GLOBAL_LOCAL_STORAGE';
-export const GET_SPECIFIC_ACTIVITIES_BYID = 'GET_SPECIFIC_ACTIVITIES_BYID';
-export const GET_PROFESSIONAL_ACTIVITY_BY_ID = 'GET_PROFESSIONAL_ACTIVITY_BY_ID';
-export const GET_DETAILS_CLIENT_NEED_BYID = 'GET_DETAILS_CLIENT_NEED_BYID';
-export const GET_DETAILS_PROFESSIONAL_OFFER_BYID = 'GET_DETAILS_PROFESSIONAL_OFFER_BYID'; //
-export const GET_ALL_PROFESSIONAL_OFFERS = 'GET_ALL_PROFESSIONAL_OFFERS';
-export const SEARCHBAR = 'SEARCHBAR'
-export const DATA_FILTERED = 'DATA_FILTERED';
-export const CLIENTS_FILTERED ='CLIENTS_FILTERED';
-export const PROFESSIONAL_FILTERED ='PROFESSIONAL_FILTERED'
-export const ORDER_DATA_CLIENT ='ORDER_DATA_CLIENT';
+export const GET_ALL_USERS = "GET_ALL_USERS";
+export const GET_ALL_PROFESSIONALS = "GET_ALL_PROFESSIONALS";
+export const GET_ALL_COMMON_USERS = "GET_ALL_COMMON_USERS";
+export const GET_BY_USER_ID = "GET_BY_USER_ID";
+export const GET_BY_ACCOUNT_ID = "GET_BY_ACCOUNT_ID";
+export const GET_PROFESSIONAL_BY_ACTIVITY_NAME =
+  "GET_PROFESSIONAL_BY_ACTIVITY_NAME";
+export const GET_BY_ACTIVITY_NAME = "GET_BY_ACTIVITY_NAME";
+export const GET_ALL_NEEDS = "GET_ALL_NEEDS";
+export const GET_ALL_CLIENT_NEEDS = "GET_ALL_CLIENT_NEEDS";
+export const SEARCH_PROFESSIONAL_BY_NAME = "SEARCH_PROFESSIONAL_BY_NAME";
+export const NEW_CLIENT_NEED = "NEW_CLIENT_NEED";
+export const NEW_TECHNICAL_ACTIVITY = "NEW_TECHNICAL_ACTIVITY";
+export const NEW_USER = "NEW_USER";
+export const NEW_PROFESSIONAL_OFFER = "NEW_PROFESSIONAL_OFFER";
+export const FILTER_PROFESSIONS = "FILTER_PROFESSIONS;";
+export const SWITCH_RENDER = "SWITCH_RENDER";
+export const ORDER_DATA = "ORDER_DATA";
+export const SHOW_FORM_CLIENT_NEED = "SHOW_FORM_CLIENT_NEED";
+export const SHOW_FORM_PROFESSIONAL_OFFER = "SHOW_FORM_PROFESSIONAL_OFFER";
+export const GLOBAL_LOCAL_STORAGE = "GLOBAL_LOCAL_STORAGE";
+export const GET_SPECIFIC_ACTIVITIES_BYID = "GET_SPECIFIC_ACTIVITIES_BYID";
+export const GET_PROFESSIONAL_ACTIVITY_BY_ID =
+  "GET_PROFESSIONAL_ACTIVITY_BY_ID";
+export const GET_DETAILS_CLIENT_NEED_BYID = "GET_DETAILS_CLIENT_NEED_BYID";
+export const GET_DETAILS_PROFESSIONAL_OFFER_BYID =
+  "GET_DETAILS_PROFESSIONAL_OFFER_BYID"; //
+export const GET_ALL_PROFESSIONAL_OFFERS = "GET_ALL_PROFESSIONAL_OFFERS";
+export const SEARCHBAR = "SEARCHBAR";
+export const DATA_FILTERED = "DATA_FILTERED";
+export const CLIENTS_FILTERED = "CLIENTS_FILTERED";
+export const PROFESSIONAL_FILTERED = "PROFESSIONAL_FILTERED";
+export const ORDER_DATA_CLIENT = "ORDER_DATA_CLIENT";
+export const USER_LOGIN = "USER_LOGIN";
+export const PUT_CLIENT_NEEDS = 'PUT_CLIENT_NEEDS';
+export const PUT_USER = 'PUT_USER';
+export const GET_OFFERS_OF_CLIENT_NEED = 'GET_OFFERS_OF_CLIENT_NEED'
 export const OFFER_IN_NEED_BY_ID = 'OFFER_IN_NEED_BY_ID';
 export const CREATE_PREFERENCE = 'CREATE_PREFERENCE';
 export const CREATE_TECNICAL_ACTIVITY = 'CREATE_TECNICAL_ACTIVITY';
 export const EXISTENT_USER = 'EXISTENT_USER'
+
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers () {
     
@@ -54,38 +62,39 @@ export function getAllUsers () {
         };
     };
 };
+
 // trae todos los usuarios - clientes y profesionales
-export function getDetailsClientNeed (id) {
-    
+export function getDetailsClientNeed(id) {
   return async function (dispatch) {
-      
-      try {
-          const response = await axios.get(`${ constants.localhost }/clientNeeds/need/${id}`)
-          dispatch({
-              type: GET_DETAILS_CLIENT_NEED_BYID,
-              payload: response.data
-          });
-      } catch (error) {
-          console.log(error.message)
-      };
+    try {
+      const response = await axios.get(
+        `${constants.localhost}/clientNeeds/need/${id}`
+      );
+      dispatch({
+        type: GET_DETAILS_CLIENT_NEED_BYID,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
   };
-};
+}
 // trae las necesidades especificas por id de profesional
-export function getSpecificActivitiesById (id) {
-    
-    return async function (dispatch) {
-        
-        try {
-            const response = await axios.get(`${ constants.localhost }/TecnicalsActivities/${ id }`)
-            dispatch({
-                type: GET_SPECIFIC_ACTIVITIES_BYID,
-                payload: response.data
-            });
-        } catch (error) {
-            console.log(error.message)
-        };
-    };
-};
+export function getSpecificActivitiesById(id) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(
+        `${constants.localhost}/TecnicalsActivities/${id}`
+      );
+      dispatch({
+        type: GET_SPECIFIC_ACTIVITIES_BYID,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+}
 // trae todos los professionales
 export function getAllProfessionals() {
   return async function (dispatch) {
@@ -173,7 +182,9 @@ export function getByActivityName(name) {
 export function getClientNeedsById(id) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(`${constants.localhost}/clientNeeds/${id}`);
+      const response = await axios.get(
+        `${constants.localhost}/clientNeeds/${id}`
+      );
       dispatch({
         type: GET_ALL_CLIENT_NEEDS,
         payload: response.data,
@@ -182,23 +193,24 @@ export function getClientNeedsById(id) {
       console.log(error.message);
     }
   };
-};
+}
 
 // trae todas las necesidades de los usuarios
 export function getAllNeeds() {
   return async function (dispatch) {
     try {
-      const response = await axios.get(`${constants.localhost}/clientNeeds/all`);
+      const response = await axios.get(
+        `${constants.localhost}/clientNeeds/all`
+      );
       dispatch({
         type: GET_ALL_NEEDS,
         payload: response.data,
       });
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error.message);
     }
   };
-};
+}
 
 // crea usuario cliente o professional
 export function newUser(data) {
@@ -219,7 +231,8 @@ export function newEspecificalNeed(data) {
   return async function (dispatch) {
     try {
       const response = await axios.post(
-        `${constants.localhost}/clientNeeds`, data
+        `${constants.localhost}/clientNeeds`,
+        data
       );
       dispatch({
         type: NEW_CLIENT_NEED,
@@ -251,19 +264,17 @@ export function newTechnicalActivity(data) {
 
 // nueva oferta del profesional al necesidad especifica del cliente
 export async function newProfessionalOffer(data) {
-        const response = await axios.post(
-          `${constants.localhost}/professsionalOffer`,
-          data
-        );
-        console.log(response)
-        // dispatch({
-        //   type: NEW_PROFESSIONAL_OFFER,
-        //   payload: response.data,
-        // });
+  const response = await axios.post(
+    `${constants.localhost}/professsionalOffer`,
+    data
+  );
+  console.log(response);
+  // dispatch({
+  //   type: NEW_PROFESSIONAL_OFFER,
+  //   payload: response.data,
+  // });
 
-        // alert('Please fill the camps')
-      
-
+  // alert('Please fill the camps')
 }
 
 //busqueda de un profesional por su nombre {TEMPORAL PARA LA PRIMER DEMO}
@@ -309,55 +320,48 @@ export function setToGlobalStorage(data) {
 }
 
 export function filterProfessionals(type, data) {
-  let option =  [];
-      if(type === 'Z-A'){
-        option = data.sort((a,b) => {
-              if(a.first_name){
-                if (a.first_name > b.first_name) return -1;
-                if(a.first_name < b.first_name) return 1;
-                return 0;
-              }
-        })
-      }else if(type === 'A-Z'){
-        option = data.sort((a,b) => {
-              if(a.first_name){
-                if (a.first_name > b.first_name) return 1;
-                if(a.first_name < b.first_name) return -1;
-                return 0;
-              }
-        })
-      }else{
-        option = data
+  let option = [];
+  if (type === "Z-A") {
+    option = data.sort((a, b) => {
+      if (a.first_name) {
+        if (a.first_name > b.first_name) return -1;
+        if (a.first_name < b.first_name) return 1;
+        return 0;
       }
-      return {
-        type: ORDER_DATA,
-        payload: option
-      };
-
+    });
+  } else {
+    option = data.sort((a, b) => {
+      if (a.first_name) {
+        if (a.first_name > b.first_name) return 1;
+        if (a.first_name < b.first_name) return -1;
+        return 0;
+      }
+    });
+  }
+  return {
+    type: ORDER_DATA,
+    payload: option,
   };
+}
 
-
-
-export function orderClientNeeds(type,data) {
-  let option =  [];
-  if(type === 'Z-A'){
-    option = data.sort((a,b) => {
-            if (a.name > b.name) return -1;
-            if(a.name < b.name) return 1;
-            return 0;
-          
-    })
-  }else{
-    option = data.sort((a,b) => {
-            if (a.name > b.name) return 1;
-            if(a.name < b.name) return -1;
-            return 0;
-          
-    })
+export function orderClientNeeds(type, data) {
+  let option = [];
+  if (type === "Z-A") {
+    option = data.sort((a, b) => {
+      if (a.name > b.name) return -1;
+      if (a.name < b.name) return 1;
+      return 0;
+    });
+  } else {
+    option = data.sort((a, b) => {
+      if (a.name > b.name) return 1;
+      if (a.name < b.name) return -1;
+      return 0;
+    });
   }
   return {
     type: ORDER_DATA_CLIENT,
-    payload: option
+    payload: option,
   };
 }
 
@@ -416,8 +420,8 @@ export const getAllProfessionalOffers = () => {
       type: GET_ALL_PROFESSIONAL_OFFERS,
       payload: response.data,
     });
-  }
-}
+  };
+};
 
 export function changeSwitch(boolean) {
   return {
@@ -426,63 +430,63 @@ export function changeSwitch(boolean) {
   };
 }
 
-export const filterClients = (name, rate, location, professions, sortByName, filterWithActivity) => async  dispatch => {        
-  let url = (name.length > 0) ?  `${ constants.localhost }/professionals?name=${name}`:`${ constants.localhost }/user/professionals`
-  axios.get(url)
-  .then(response => {
-    let order = []
-    const db = response.data  
-    // //*******************FILTER BY RATE***************//
-    let aux = db.filter(e =>{
-      if(rate === undefined || !rate[0]){
-        return e
-      }else{
-        // for(let i=0; i<rate.length; i++){
+export const filterClients =
+  (name, rate, location, professions, sortByName, filterWithActivity) =>
+  async (dispatch) => {
+    let url =
+      name.length > 0
+        ? `${constants.localhost}/professionals?name=${name}`
+        : `${constants.localhost}/user/professionals`;
+    axios.get(url).then((response) => {
+      let order = [];
+      const db = response.data;
+      // //*******************FILTER BY RATE***************//
+      let aux = db.filter((e) => {
+        if (rate === undefined || !rate[0]) {
+          return e;
+        } else {
+          // for(let i=0; i<rate.length; i++){
+          // }
+        }
+      });
+      // //*******************FILTER BY location***************//
 
-        // }
-      }
-    })
-    // //*******************FILTER BY location***************//
-
-
-
-    // //*******************FILTER BY professions***************//
-    let aux2 = aux.filter(e => {
-      if(professions === undefined || !professions[0]){
-        return e
-      }else{
-        for(let i=0; i < professions.length; i++){
-          for(let j=0; j < e.Professional.Professions.length; j++){
-            if(professions[i] ===  e.Professional.Professions[j].name){
-              return e
+      // //*******************FILTER BY professions***************//
+      let aux2 = aux.filter((e) => {
+        if (professions === undefined || !professions[0]) {
+          return e;
+        } else {
+          for (let i = 0; i < professions.length; i++) {
+            for (let j = 0; j < e.Professional.Professions.length; j++) {
+              if (professions[i] === e.Professional.Professions[j].name) {
+                return e;
+              }
             }
           }
         }
-      }
-    })
-      
-      let c = []
+      });
+
+      let c = [];
       // //*******************FILTER BY filterWithActivity***************//
-      if(filterWithActivity === true){
-        c.push(true)
-        order = aux2.filter(e =>{
-          if(e.Professional.SpecificTechnicalActivities.length > 0){
-            return e
+      if (filterWithActivity === true) {
+        c.push(true);
+        order = aux2.filter((e) => {
+          if (e.Professional.SpecificTechnicalActivities.length > 0) {
+            return e;
           }
-        })
-      }else{
+        });
+      } else {
         order = aux2;
       }
-      
-    dispatch({
-      type:CLIENTS_FILTERED,
-      payload: order
-  })
-  })
-}
 
-export const orderProfessionals = (name) => async  dispatch => {        
+      dispatch({
+        type: CLIENTS_FILTERED,
+        payload: order,
+      });
+    });
+  };
 
+export const orderProfessionals = (name) => async (dispatch) => {
   let url = name  ?  `${ constants.localhost }/clientNeeds/need?name=${name}`:`${ constants.localhost }/clientNeeds/all`
   axios.get(url)
   .then(response => {
@@ -493,12 +497,71 @@ export const orderProfessionals = (name) => async  dispatch => {
       payload: db
     })
   })
-}
+};
 
-export const searchBar = name =>{
+export const userLogin = (user) => async (dispatch) => {
+  try {
+    const result = await axios.post(`${constants.localhost}/user/login`, user);
+    dispatch({
+      type: USER_LOGIN,
+      payload: result,
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const searchBar = (name) => {
   return {
     type: SEARCHBAR,
     payload: name,
+  };
+};
+
+// editar publicaciones del cliente
+export function putClientNeeds(data) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.put(`${constants.localhost}/clientNeeds/${data.userId}`, data);
+      console.log("put-clientneed",response.data)
+      dispatch({
+        type: PUT_CLIENT_NEEDS,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error.message);
+    };
+  };
+}; 
+
+//editar usuario
+export function putUser(data) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.put(`${constants.localhost}/user/updateUser/${data.id}`, data);
+      console.log("put-user",response.data)
+      dispatch({
+        type: PUT_USER,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error.message);
+    };
+  };
+};
+
+// get a las ofertas profesionales de las necesidades de los clientes
+export function getOffersToSpecificClientNeed(id) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(`${constants.localhost}/professsionalOffer/need/${id}`);
+      dispatch({
+        type: GET_OFFERS_OF_CLIENT_NEED,
+        payload: response,
+      });
+    } catch (error) {
+      console.log(error.message);
+    };
   };
 }
 

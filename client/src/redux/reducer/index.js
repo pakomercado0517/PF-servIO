@@ -25,7 +25,11 @@ import {
   OFFER_IN_NEED_BY_ID,
   CREATE_PREFERENCE,
   CREATE_TECNICAL_ACTIVITY,
-  EXISTENT_USER
+  EXISTENT_USER,
+  USER_LOGIN,
+  PUT_CLIENT_NEEDS,
+  PUT_USER,
+  GET_OFFERS_OF_CLIENT_NEED,
 } from '../actions'
 
 
@@ -49,8 +53,12 @@ const initialState = {
   clientsFilter:[],
   professionalsFilter:[],
   searchbar:'',
+  loginDetail: [],
+  putClientNeed:[],
+  putUser:[],
+  offersOfClientNeed:[],
   offerInNeedById : [],
-  z:false
+  z:false,
 };
 
 function rootReducer( state = initialState, { type, payload } ) {
@@ -185,6 +193,26 @@ function rootReducer( state = initialState, { type, payload } ) {
               ...state,
               z: payload
           };
+        case PUT_CLIENT_NEEDS:
+                return {
+                    ...state,
+                    putClientNeed: payload
+                };
+        case PUT_USER:
+                return {
+                    ...state,
+                    putUser: payload
+                };
+        case GET_OFFERS_OF_CLIENT_NEED:
+                return {
+                    ...state,
+                    offersOfClientNeed: payload
+                };
+        case USER_LOGIN:
+            return {
+                ...state,
+                loginDetail: payload,
+            };
         default:
             return state;
   };
