@@ -22,11 +22,12 @@ import {
     CLIENTS_FILTERED,
     PROFESSIONAL_FILTERED,
     ORDER_DATA_CLIENT,
+    USER_LOGIN,
     PUT_CLIENT_NEEDS,
     PUT_USER,
     GET_OFFERS_OF_CLIENT_NEED,
-  OFFER_IN_NEED_BY_ID,
-  CREATE_PREFERENCE
+    OFFER_IN_NEED_BY_ID,
+    CREATE_PREFERENCE
 
 } from '../actions'
 
@@ -51,6 +52,7 @@ const initialState = {
     clientsFilter:[],
     professionalsFilter:[],
     searchbar:'',
+    loginDetail: [],
     putClientNeed:[],
     putUser:[],
     offersOfClientNeed:[],
@@ -186,6 +188,11 @@ function rootReducer( state = initialState, { type, payload } ) {
                 ...state,
                 clientsFilter: payload
             };
+       case USER_LOGIN:
+      return {
+        ...state,
+        loginDetail: payload,
+      };
       case OFFER_IN_NEED_BY_ID:
         return {
             ...state,
