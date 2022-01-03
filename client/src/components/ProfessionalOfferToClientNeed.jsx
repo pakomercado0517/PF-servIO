@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import { useSelector, useDispatch, connect } from 'react-redux'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import Swal from 'sweetalert2'
 import s from './styles/ProfessionalOfferToClientNeed.module.css'
 import { useNavigate } from 'react-router-dom'
-import { newProfessionalOffer, getDetailsClientNeed } from '../redux/actions/index'
+import { newProfessionalOffer } from '../redux/actions/index'
 
 
 export const ProfessionalOfferToClientNeed = (props) => {

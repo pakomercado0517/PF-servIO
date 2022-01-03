@@ -13,21 +13,25 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
   const [switcheo, setSwitcheo] = useGlobalStorage("switcheo", "professional")
   const [ login ] = useGlobalStorage("globalUser", "")
   const pageNumbers = [];
-console.log(login.professional)
+// console.log(login.professional)
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
     pageNumbers.push(i);
+    // console.log(pageNumbers)
   }
-
+  const reset = () => paginate(1)
   function moodRender(e){
+    reset()
     if(e === 'btnradio2') {
       dispatch(changeSwitch(true))
       setSwitcheo('professional')
       setstate('professional')
+      
     } 
     if (e === 'btnradio1') {
       dispatch(changeSwitch(false))
       setSwitcheo('user')
       setstate('user')
+      
     }
   }
 
@@ -35,7 +39,7 @@ console.log(login.professional)
     <div className='pagination'>
 
             <div 
-              class="btn-group" 
+              className="btn-group" 
               role="group" 
               aria-label="Basic radio toggle button group"
             >

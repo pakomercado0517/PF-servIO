@@ -1,57 +1,73 @@
-import React/*, { useEffect }*/ from 'react'
+import React /*, { useEffect, useState }*/ from 'react'
+// import axios from 'axios'
 import { useSelector } from 'react-redux'
-import { /*NavLink,*/ useParams } from 'react-router-dom'
+import { /*NavLink,*/ useNavigate, useParams } from 'react-router-dom'
 // import { getByUserId, getSpecificActivitiesById } from '../redux/actions/index'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
-import { StarRating } from '../components/StarRating'
-
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
+// import { StarRating } from '../components/StarRating'
+// import Swal from 'sweetalert2'
 import s from './styles/ProfessionalSpecificActivity.module.css'
-import { useGlobalStorage } from '../hooks/useGlobalStorage'
+// import { useGlobalStorage } from '../hooks/useGlobalStorage'
+// import { GrConsole } from 'react-icons/gr'
 
 
-function ProfessionalSpecificActivity() {
-  
-  const [cart, setCart] = useGlobalStorage("cart", [])
-  const [ globalUserGlobalStorage ] = useGlobalStorage("globalUser", [])
-  
-  const {id}= useParams()
-  let ranked= 3;
-  const professional = useSelector((state) => state.user[0])
-  // console.log('1 - professional',professional)
-  
-  const specificActivities = useSelector((state) => state.specificActivitiesById)
-  // console.log('2 - specificActivities la posta',specificActivities)
+function ProfessionalSpecificActivityEdit() {
 
-  const activityById = specificActivities.indexOf(
-                        specificActivities.find(activity => activity.id == id))
+    const {id}= useParams()
+    console.log('id',id)
+    // const ranked= 3;
+    // const navigate = useNavigate()
 
-  const activity = specificActivities[activityById]
-  console.log('3 - activity',activity)
+    const professional = useSelector((state) => state.user[0])
+    console.log('1 - professional',professional)
 
-  function addToCart(){
-    const exist = cart.filter(el => el.name === activity?.name )
-        const notExist = cart.filter(el => el.name !== activity?.name )
-        if ( exist[0] ){
-            exist[0].count +=1;
-            setCart([
-                ...notExist,
-                ...exist
-            ])
-        } else {
-            setCart([
-                ...cart,
-                {
-                    name: activity?.name,
-                    description: activity?.description,
-                    price: activity?.price,
-                    count: 1
-                }
-            ])
-        }
-  }
+    // const [input, setInput] = useState({
+    //     name: activity.name,
+    //     price: activity.price,
+    //     photo: activity.image,
+    //     materials: activity.materials,
+    //     description: activity.description,
+    //     guarantee: activity.guarantee,
+    //     guarantee_time: activity.guarantee_time,
+    //     // duration: activity.duration,
+    //     professional_id: activity.professional_id,
+    //     id: activity.id
+    // })
 
-  return (
+    // console.log('input',input)
+
+    // function onChangeForm(e){
+    //     setInput({
+    //         ...input,
+    //         [e.target.name]: e.target.value
+    //     })
+    // }
+
+    // const serviceEdit = async (e) =>{
+    //     e.preventDefault()
+    //     console.log('input',input)
+    //     try{
+    //         const res = await axios.put(`http://localhost:3001/TecnicalsActivities/${input.id}`, input)
+    //         console.log('res',res)
+            
+    //         Swal.fire({
+    //             icon: 'success',
+    //             title: 'Publicacion editada!',
+    //             showConfirmButton: true,
+    //             // timer: 1500
+    //         })
+    //         navigate('/professional/services')
+
+      
+    //     }
+    //     catch(error){
+    //         console.log(error.message)
+    //     }
+    // }
+
+
+    return (
     <div>
       <div className={s.container_ativity}>
 
@@ -59,19 +75,19 @@ function ProfessionalSpecificActivity() {
         <div className={s.activity_banner}>
         {/* |----Profile Photo...----------------------------------------| */}
 
-        <div className={s.professional_img}>
+        {/* <div className={s.professional_img}>
           <img src={professional?.photo} className={s.p_image}/>
-        </div>
+        </div> */}
 
           {/* |--------Float card...----------------------------------------| */}
 
         <div className={s.professional_floatCard}>
 
-            <div className={s.floatCard_title}>
+            {/* <div className={s.floatCard_title}>
               <h3>{`${professional?.first_name} ${professional?.last_name}`}</h3>
-            </div>
+            </div> */}
 
-            <div className={s.floatCard_body}>
+            {/* <div className={s.floatCard_body}>
               
               <p className={s.floatCard_p}>{`@${professional?.user_name}`}</p>
               <p className={s.floatCard_p}>
@@ -83,13 +99,13 @@ function ProfessionalSpecificActivity() {
                 <strong>Teléfono: </strong>
                 <span className={s.floatCard_span}>{professional?.phone}</span>
               </p>
-            </div>
+            </div> */}
 
           </div>
 
           {/* |---------------------------Show Professions...--------------| */}
 
-          <div className={s.professional_showProfessions} >
+          {/* <div className={s.professional_showProfessions} >
             <div><h3 className={s.professions_title}>{`Profesion :`}</h3></div>
             <div className={s.professions_container}>
               {
@@ -105,11 +121,11 @@ function ProfessionalSpecificActivity() {
                 })
               }
             </div>
-          </div>
+          </div> */}
         </div>
         {/* |-------------------------------body--------------------------------------| */}
 
-        <div className={s.activity_body}>
+        {/* <div className={s.activity_body}>
 
             <h2 className='body-title'>{activity?.name}</h2>
             <div className={s.description_card}>
@@ -121,15 +137,15 @@ function ProfessionalSpecificActivity() {
 
             </div>
 
-        </div>
+        </div> */}
 
-        <hr className={s.line}/>
+        {/* <hr className={s.line}/> */}
 
         <div className={s.activity_body}>
           <h3>Detalles</h3>
         </div>
         
-        <div className={s.details_components}>
+        {/* <div className={s.details_components}>
           
           <span className={s.materials}>
             <span>Garantia:</span>
@@ -141,14 +157,14 @@ function ProfessionalSpecificActivity() {
             <span>{ activity?.guarantee_time } días</span>
           </span>
 
-        </div>
+        </div> */}
 
         
         {/* <div className={s.activity_body}>
           <h3>Detalles</h3>
         </div> */}
         
-        <div className={s.details_components}>
+        {/* <div className={s.details_components}>
           
           <span className={s.materials}>
             <span>Materiales incluidos:</span>
@@ -160,7 +176,7 @@ function ProfessionalSpecificActivity() {
             <span>{activity?.price}</span>
           </span>
 
-        </div>
+        </div> */}
         {/* |-----------------------------buttons-----------------------| */}
 
         <div className={s.buttons_list}>
@@ -173,8 +189,8 @@ function ProfessionalSpecificActivity() {
               Volver
             </span>
           </div>
-{/*         
-        {
+        
+        {/* {
           globalUserGlobalStorage?.id === professional?.id ?
           <div className="mx-4">
           
@@ -199,18 +215,14 @@ function ProfessionalSpecificActivity() {
 
           {/* no pude meter el carrito -------------------- */}
 
-          {
-            globalUserGlobalStorage?.id !== professional?.id ?
-            <div className={s.a_button}>
-              <span
-                className={s.link_button}
-                onClick={ addToCart } 
-              >
-                Agregar carrito
-              </span>
-            </div>
-            :<></>
-          }
+          {/* <div className={s.a_button}>
+            <span
+              className={s.link_button}
+              // onClick={ addToCart } 
+            >
+              Agregar carrito
+            </span>
+          </div> */}
 
           {/* <div className={s.a_button}>
             <NavLink to='#' className={s.link_button}>Contratar</NavLink>
@@ -222,4 +234,4 @@ function ProfessionalSpecificActivity() {
   )
 }
 
-export default ProfessionalSpecificActivity
+export default ProfessionalSpecificActivityEdit

@@ -15,7 +15,6 @@ import { useGlobalStorage } from '../hooks/useGlobalStorage'
 export default function ServiceHistory() {
 
     const dispatch = useDispatch()
-    const state = useSelector(state => state)
     const { id } = useParams()
     const clientNeeds = useSelector(state => state.clientNeedById)
     const user = useGlobalStorage("globalUser", "")
@@ -28,7 +27,9 @@ export default function ServiceHistory() {
     return (
         <div className={ s.container }>
             <div>
-                <h2>Historial de Servicios</h2>
+                <h2
+                    className="text-center mt-3 border-bottom"
+                >Historial de Servicios</h2>
             </div>
             <div>
                 {/* DATOS DE SERVICIOS SOLICITADOS */}
@@ -44,7 +45,7 @@ export default function ServiceHistory() {
                             location={ el.location }
                             photo={ el.photo }
                             UserId={ el.UserId }
-                            date={ el.updatedAt }
+                            date={ el.updatedAt.split("T")[0] }
                             />
 
                         )

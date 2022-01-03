@@ -24,9 +24,9 @@ export default function Login() {
     const dispatch = useDispatch()
 
     const [errors, setErrors] = useState({});
-    const [globalUser, setGlobalUser] = useGlobalStorage("globalUser", "");
+    const [, setGlobalUser] = useGlobalStorage("globalUser", "");
     const [localUser, setLocalUser] = useLocalStorage("localUser", "");
-    const [ switcheo, setSwitcheo] = useGlobalStorage("switcheo", "")
+    const [, setSwitcheo] = useGlobalStorage("switcheo", "")
     const validate = (input) => {
         let errors = {};
         if (!input.email) {
@@ -96,6 +96,35 @@ export default function Login() {
         }
     }
 
+    
+    useEffect( ()=> {
+        
+        async function getUser() {
+        const glbUser= localUser
+        const activeStorage= ()=> {
+            if(glbUser) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Logged in',
+                    showConfirmButton: false,
+                    timer: 2500
+                })
+                navigate('/')
+            }
+        }
+        try {
+            let result= await axios.get('http://localhost:3001/user/getUser')
+            console.log('resulllt', result.data[0])
+            await setGlobalUser(result.data[0].data)
+            await setLocalUser(result.data[0].data)
+            await activeStorage()
+            console.log('globaluser', glbUser)
+        } catch (error) {
+            console.log('errorrrrrr', error)
+
+        }}
+        getUser()
+    },[])
 
     // useEffect( async () => {
     //     const result= await axios.get('http://localhost:3001/user/getGoogleUser')
@@ -120,6 +149,7 @@ export default function Login() {
     //     }
     //     return result
     // },[])
+
 
 
     useEffect(() => {
@@ -149,7 +179,7 @@ export default function Login() {
                         </label>
                     </div>
 
-                    <div clasName="row mb-2">
+                    <div className="row mb-2">
                         <input
                             className={`form-control && ${errors.password && 'danger'}`}
                             type="password"
@@ -203,9 +233,19 @@ export default function Login() {
                         <p>O inicia con:</p>
 
                         <a 
-                            type="button" 
-                            className="btn btn-lg btn-google btn-block text-uppercase btn-outline" href="http://localhost:3001/user/auth/google/login">
+                            type="button"
+                            className="btn btn-lg btn-google  text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/google">
                             <img src="https://img.icons8.com/color/40/000000/google-logo.png" alt="google"/> 
+                        </a>
+                        <a 
+                            type="button"
+                            className="btn btn-lg btn-github text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/github">
+                            <img src="https://img.icons8.com/material-rounded/48/000000/github.png" alt='github'/>
+                        </a>
+                        <a 
+                            type="button"
+                            className="btn btn-lg btn-facebook text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/facebook">
+                            <img src="https://img.icons8.com/fluency/48/000000/facebook.png" alt='facebook'/>
                         </a>
                     </div>
 

@@ -18,6 +18,7 @@ import EditUser from './pages/EditUser';
 import { OffersToSpecificClientsNeeds } from './pages/OffersToSpecificClientsNeeds';
 import ServiceHistory from './pages/ServiceHistory';
 import { ClientSpecificNeedEdit } from './components/ClientSpecificNeedEdit';
+import ProfessionalSpecificActivityEdit from './pages/ProfessionalSpecificActivityEdit';
 
 
 function App() {
@@ -46,6 +47,10 @@ function App() {
         <Route
           exact path="/professional/:idProfessional/SpecificActivity/:id"
           element={<ProfessionalSpecificActivity />}
+        />
+        <Route
+          exact path="/professional/activity/edit/:id"
+          element={<ProfessionalSpecificActivityEdit />}
         />
         <Route
           exact path="/client/need/:id"

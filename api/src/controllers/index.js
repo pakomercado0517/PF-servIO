@@ -1001,6 +1001,24 @@ module.exports = {
     }
   },
 
+  githubAuth: async (req, res) => {
+    const user = req.user._json;
+    const name = user.name.split(" ");
+    const findUser = await User.findOne({ where: { email: user.login } });
+    if (findUser) {
+      res.redirect("http://localhost:3000/login");
+    } else {
+      User.create({
+        first_name: user.name[0],
+        last_name: user.name[1],
+        email: user.login,
+        photo: user.avatar_url,
+        professional: false,
+      });
+      res.redirect("http://localhost:3000/login");
+    }
+  },
+
 
   getOffersByUserId: async (req, res) => {
     const id = req.params.id

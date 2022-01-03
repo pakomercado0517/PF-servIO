@@ -46,20 +46,6 @@ export default function DetailsClientNeed() {
               </div>
           </div>
 
-          {/* |---------------------------Show Professions...----------------------------------------| */}
-
-          {/* <div className={s.professional_showProfessions} >
-            <div><h3 className={s.professions_title}>Profesiones:</h3></div>
-            <div className={s.professions_container}> */}
-              {
-              // user[0]?.Professional.Professions.map(el=> {
-              //   return(
-              //     <div className={s.profession}>{"Hola"}</div>
-              //   )
-              //   })
-              }
-            {/* </div> */}
-          {/* </div> */}
         </div>
         {/* |-------------------------------body--------------------------------------| */}
 
@@ -85,7 +71,12 @@ export default function DetailsClientNeed() {
 
         <div className={s.buttons_list}>
           <div className={s.a_button}>
-            <NavLink className={s.link_button} to={`/clients/${user[0]?.id}`}>Volver</NavLink>
+            <span 
+              className={s.link_button} 
+              onClick={()=>{window.history.back()}}
+            >
+              Volver
+            </span>
           </div>
 
  {/* --si es cliente renderiza boton "editar publicacion" y "ver ofertas" ------| */}
@@ -95,16 +86,24 @@ export default function DetailsClientNeed() {
             globalUserGlobalStorage?.professional === false ?
           <>
             <div className={s.a_button}>
-              <NavLink className={s.link_button} to={`/client/${user[0]?.id}/edit/${detailsClientNeed?.id}`}>Editar</NavLink> 
-                {/* className={s.link_button} 
-                onClick={showModalFormCLient}  */}
               
-              
-              
+              <NavLink 
+                className={s.link_button} 
+                to={`/client/${user[0]?.id}/edit/${detailsClientNeed?.id}`}
+              >
+                Editar
+              </NavLink>
+
             </div>
 
             <div className={s.a_button}>
-            <NavLink className={s.link_button} to={`/client/offerToNeed/${detailsClientNeed?.id}`}>Ver Ofertas</NavLink>
+            <NavLink 
+              className={s.link_button} 
+              to={`/client/offerToNeed/${detailsClientNeed?.id}`}
+            >
+              Ver Ofertas
+            </NavLink>
+            
             </div>
           </>
           :

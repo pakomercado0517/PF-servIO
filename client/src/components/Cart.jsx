@@ -1,27 +1,26 @@
 import React, { useState, useEffect } from 'react'
 // css
 import s from './styles/Cart.module.css'
-//Componentes
+// Componentes
 import CardCart from './CardCart'
 // Hooks
 import { useGlobalStorage } from '../hooks/useGlobalStorage'
 import useScript from '../hooks/useScript'
-
+// AXIOS
 import axios from 'axios'
-// import { useMercadoPago } from '../hooks/useMercadoPago'
 
-// require('dotenv').config();
 const { REACT_APP_ACCESS_PUBLIC } = process.env;
+
 
 export default function Cart() {
     let mp;
     const { MercadoPago } = useScript(
         "https://sdk.mercadopago.com/js/v2",
         "MercadoPago"
-    );
-    
+        );
+        
     useEffect(() => {
-        if(MercadoPago){
+            if(MercadoPago){
             mp = new MercadoPago( REACT_APP_ACCESS_PUBLIC ,{
                 locale: 'es-AR'
             });
@@ -79,7 +78,7 @@ export default function Cart() {
             document.getElementById("cho-container").disabled = true
         });
     }
-    const [cart, setCart] = useGlobalStorage("cart", [])
+    const [cart, ] = useGlobalStorage("cart", [])
     const [total, settotal] = useState(0)
 
     useEffect(() => {

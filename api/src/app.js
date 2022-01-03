@@ -9,6 +9,8 @@ const Strategy = require("passport-local").Strategy;
 
 require("./config/passport")(passport);
 require("./config/googleConfig");
+require("./config/githubConfig");
+require("./config/facebookConfig");
 require("./db.js");
 const server = express();
 
@@ -25,7 +27,7 @@ server.use(
     saveUninitialized: false,
     cookie: {
       maxAge: 7200000, //2 hours
-      httpOnly: false,
+      httpOnly: true,
     },
   })
 );

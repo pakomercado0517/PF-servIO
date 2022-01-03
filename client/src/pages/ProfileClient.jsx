@@ -10,6 +10,7 @@ import CardClientNeed from '../components/CardClientNeed';
 // import CardReview from '../components/CardReview';
 
 import s from './styles/ProfileClient.module.css'
+import { ClientSpecificNeed } from '../components/ClientSpecificNeed';
 
 
 export default function ProfileClient(){
@@ -23,14 +24,15 @@ export default function ProfileClient(){
     useEffect(()=>{
         dispatch(getByAccountId(idClient))
         dispatch(getClientNeedsById(idClient))
-    },[ dispatch, idClient ])
+    },[ dispatch, idClient,  ])
 
 
-    useEffect(()=>{
-    },[state])
+    // useEffect(()=>{
+    // },[state, clientNeeds])
 
     return (
         <div className={ s.div_principal }>
+            <ClientSpecificNeed/>
             <div className={ s.div_inicio  }></div>
 
             <div className={ s.div_photo  }>
@@ -54,14 +56,19 @@ export default function ProfileClient(){
                 {/* CARDS DE SOLICITUDES HECHAS */}
 
                 <div className={ s.reviews }>
-                    <h4>Últimas Solicitudes</h4>
-                    <Link to="/service-history">
-                        <button>Ver todas</button>
+                    <h4 className="">Últimas Solicitudes</h4>
+
+                    <Link to={`/service-history/${idClient}`}>
+                        <button className="btn btn-outline-info">Ver todas</button>
                     </Link>
+                    
                     <div className={ s.reviews_container }>
                         { clientNeeds.map( clientNeed => {
                             return (
-                                <Link to={`/client/need/${clientNeed.id}`} key={clientNeed.id}>
+                                <Link 
+                                    to={`/client/need/${clientNeed.id}`}
+                                    key={clientNeed.id}
+                                >
                                     <CardClientNeed
                                         name={ clientNeed.name }
                                         description={ clientNeed.description }

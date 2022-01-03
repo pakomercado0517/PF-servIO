@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
-import { showFormClientNeed } from '../redux/actions'
+import { showFormClientNeed, getClientNeedsById } from '../redux/actions'
 import Swal from 'sweetalert2'
 import s from './styles/ClientSpecificNeed.module.css'
 import { useNavigate } from "react-router-dom";
@@ -28,6 +28,7 @@ export const ClientSpecificNeed = () => {
 
     const postNeed = async (e) =>{
         e.preventDefault()
+        console.log(input)
         try {
             await axios.post('http://localhost:3001/clientNeeds', input)
 
@@ -37,8 +38,8 @@ export const ClientSpecificNeed = () => {
                 showConfirmButton: true,
                 // timer: 1500
             })
-            const fondo = document.getElementById("fondo-form-client-need")
-            fondo.style.top = "-100vh"
+            dispatch(showFormClientNeed("notshow"))
+            dispatch(getClientNeedsById(user.id))
             
             stateReset()
 
@@ -51,9 +52,9 @@ export const ClientSpecificNeed = () => {
 
     function stateReset() {
         setInput({
+            ...input,
             name:'',
             description:'',
-            status: ''
         })
     }
 

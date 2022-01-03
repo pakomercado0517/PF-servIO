@@ -2,39 +2,38 @@ const { Router } = require("express");
 const router = Router();
 const mercadopago = require('mercadopago')
 
-const { ACCESS_TOKEN } = process.env;
+const { ACCESS_TOKEN_MERCADO_PAGO } = process.env;
 mercadopago.configure({
-	access_token: ACCESS_TOKEN,
+	access_token: ACCESS_TOKEN_MERCADO_PAGO,
 });
 
-router.post('/', (req, res, next) =>{
+router.post('/', (req, res) =>{
   console.log(req.body.items)
-  console.log("aqui")
     let preference = {
         items: req.body.items,
-        payer: {
-            name: "Juan",
-            surname: "Lopez",
-            email: "user@email.com",
-            phone: {
-                area_code: "11",
-                number: "4444-4444"
-            },
-            identification: {
-                type: "DNI",
-                number: "12345678"
-            },
-            address: {
-                street_name: "Street",
-                street_number: 123,
-                zip_code: "5700"
-            }
-        },
-        back_urls: {
-          success: "http://localhost:3001/create_preference/succes",
-          failure: "http://localhost:3001/create_preference/failure",
-          pending: "http://localhost:3001/create_preference/pending"
-      },
+        // payer: {
+        //     name: "Juan",
+        //     surname: "Lopez",
+        //     email: "user@email.com",
+        //     phone: {
+        //         area_code: "11",
+        //         number: 4444-4444
+        //     },
+        //     identification: {
+        //         type: "DNI",
+        //         number: "12345678"
+        //     },
+        //     address: {
+        //         street_name: "Street",
+        //         street_number: 123,
+        //         zip_code: "5700"
+        //     }
+        // },
+      //   back_urls: {
+      //     success: "http://localhost:3001/create_preference/succes",
+      //     failure: "http://localhost:3001/create_preference/failure",
+      //     pending: "http://localhost:3001/create_preference/pending"
+      // },
       };
       
       mercadopago.preferences.create(preference)
@@ -49,23 +48,19 @@ router.post('/', (req, res, next) =>{
       });
 })
 
-router.get('/', (req, res) =>{
-  res.send({message: "si entra"})
-})
-
 router.get('/succes', (req, res) =>{
   console.log(req.query)
-  res.redirect("http://localhost:3000/")
+  res.redirect("https://localhost:3000/")
 })
 
 router.get('/pending', (req, res) =>{
   console.log(req.query)
-  res.redirect("http://localhost:3000/")
+  res.redirect("https://localhost:3000/")
 })
 
 router.get('/failure', (req, res) =>{
   console.log(req.query)
-  res.redirect("http://localhost:3000/cart")
+  res.redirect("https://localhost:3000/cart")
 })
 
 module.exports= router;
