@@ -7,8 +7,6 @@ import {getAllProfessionalOffers,
         getOffersToSpecificClientNeed 
     } from '../redux/actions'
 
-    import axios from 'axios';
-
 import styles from './styles/OffersToSpecificClientsNeeds.module.css'
 
 export const OffersToSpecificClientsNeeds = () => {
@@ -17,39 +15,16 @@ export const OffersToSpecificClientsNeeds = () => {
     const { id } = useParams();
     const dispatch = useDispatch()
     const detailsClientNeed = useSelector(state => state.detailsClientNeed)
-    
-    const getOffers = useSelector(state => state.offersOfClientNeed)
-    // console.log('getOffers', getOffers)
-    
+    const getOffers = useSelector(state => state.offersOfClientNeed)    
     
     useEffect(() => {
         dispatch(getDetailsClientNeed(id))
-        // dispatch(getAllProfessionalOffers())
+        dispatch(getAllProfessionalOffers())
         dispatch(getOffersToSpecificClientNeed(id))
     
     if (getOffers.data === "No offers found") return setOffers([])
     setOffers(getOffers.data)
-    }, [])
-    console.log(getOffers.data)
-
-
-
-    // useEffect(() => {
-        // async function getOffers(){
-        //     const data = await axios.get("http://localhost:3001/professsionalOffer/need/" + id)
-            // if (data.data === "No offers found") return setOffers([])
-            // setOffers(data.data)
-            // console.log(data.data)
-        // }
-        // getOffers()
-    // }, [])
-
-
-    // useEffect(()=> {
-        // dispatch(getAllProfessionalOffers())
-        // dispatch(getDetailsClientNeed(id))
-    // }, []);
-
+    }, []);
 
     return (
         <div className={styles.container}>
