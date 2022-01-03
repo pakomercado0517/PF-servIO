@@ -1,42 +1,42 @@
 const professions = [
     {
-        name: "Pintor",
+        name: "pintor",
     },
     {
-        name: "Carpintero",
+        name: "carpintero",
     },
     {
-        name: "Albañil",
+        name: "albañil",
     },
     {
-        name: "Electricista",
+        name: "electricista",
     },
     {
-        name: "Plomero",
+        name: "plomero",
     },
     {
-        name: "Herrero",
+        name: "herrero",
     },
     {
-        name: "Cerrajero",
+        name: "cerrajero",
     },
     {
-        name: "Tapicero",
+        name: "tapicero",
     },
     {
-        name: "Gasista",
+        name: "gasista",
     },
     {
-        name: "Sastre",
+        name: "sastre",
     },
     {
-        name: "Soldador",
+        name: "soldador",
     },
     {
-        name: "Niñera",
+        name: "niñera",
     },
     {
-        name: "Cuidados mayores", 
+        name: "cuidadosMayores", 
     },
 ]
 
