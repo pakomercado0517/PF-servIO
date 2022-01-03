@@ -20,6 +20,15 @@ function isLoggedIn(req, res, next) {
 // router.post("/", userFunctions.newUser);
 router.post(
   "/",
+  async(req, res, next) =>  {
+    const { email } = req.body
+    let user = await User.findOne({where:{email}})
+    if(user) {
+      res.status(200).send({message: 'Usuario existente'})
+    }else{
+      next()
+    }
+  },
   passport.authenticate("local-signup", {
     // failureRedirect: "/user/register",
     failureFlash: true,
@@ -28,7 +37,7 @@ router.post(
     // res.redirect(`/user/${req.user.id}`);
     res
       .status(200)
-      .json({ message: "Register completed!", result: req.user?.id });
+      .send({message: 'Usuario creado'});
     next();
     (req, res) => {
       res.redirect(`/user/${req.user.id}`);
@@ -50,6 +59,21 @@ router.post(
     });
   }
 );
+
+router.get('/created/:email', async (req, res)=>{
+  const { email } = req.params
+  if(email) {
+      // res.send(email)
+      let user = await User.findOne({where:{ email }})
+      // res.send(user)
+  if(!user) {
+    res.send(true)
+  }else{
+    res.send(false)
+  }
+  }
+
+})
 
 router.get("/getGoogleUser", async (req, res, next) => {
   res.json(googleData);
