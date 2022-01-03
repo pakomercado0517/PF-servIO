@@ -499,16 +499,12 @@ export const orderProfessionals = (name) => async (dispatch) => {
   })
 };
 
-export const userLogin = (user) => async (dispatch) => {
-  try {
+export const userLogin = user => async dispatch => {  
     const result = await axios.post(`${constants.localhost}/user/login`, user);
     dispatch({
       type: USER_LOGIN,
       payload: result,
     });
-  } catch (error) {
-    console.log(error.message);
-  }
 };
 
 export const searchBar = (name) => {
@@ -603,3 +599,12 @@ export const existentUser = email => async  dispatch => {
     payload: response.data,
   });
 }
+
+export const login = user => async  dispatch => {
+  const response = await axios.post(`${constants.localhost}/user/login`, user);
+  dispatch ({
+    type: EXISTENT_USER,
+    payload: response.data,
+  });
+}
+

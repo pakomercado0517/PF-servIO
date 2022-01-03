@@ -12,7 +12,8 @@ import { useGlobalStorage } from '../hooks/useGlobalStorage';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
 export default function Login() {
-
+  const a = useSelector(state => state)
+  console.log('a ',a)
     const user = useSelector(state => state.user)
     const loginDetail = useSelector(state => state.loginDetail)
     const navigate = useNavigate()
@@ -24,7 +25,7 @@ export default function Login() {
     const dispatch = useDispatch()
 
     const [errors, setErrors] = useState({});
-    const [, setGlobalUser] = useGlobalStorage("globalUser", "");
+    const [globalUser, setGlobalUser] = useGlobalStorage("globalUser", "");
     const [localUser, setLocalUser] = useLocalStorage("localUser", "");
     const [, setSwitcheo] = useGlobalStorage("switcheo", "")
     const validate = (input) => {
@@ -57,27 +58,26 @@ export default function Login() {
             [e.target.name]: e.target.value
         });
     };
-    // console.log(setInput)
+    // console.log(setInput) 
 
-    // useEffect(() => {
-    //     dispatch(userLogin(input))
-    // },[])
+    useEffect(() => {
+        dispatch(userLogin(input))
+    },[input])
     
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
             // const post = await axios.post('http://localhost:3001/user/login', input)
-            dispatch(userLogin(input))
+            // dispatch(userLogin(input))
+
             // dispatch(getByUserId(loginDetail.data.data.id))
-            console.log('loginDetail:', loginDetail)
+            // console.log('loginDetail:', loginDetail)
             // console.log('post login status',post.statusText)
             // console.log('post login data',post.data)
             // console.log('post login data',post.data.id)
-
-            if( loginDetail.statusText === 'OK') {
-                setGlobalUser(loginDetail.data.data)
                 setLocalUser(loginDetail.data.data)
-
+                setGlobalUser(loginDetail.data.data)
+                console.log(input)
                 if(loginDetail.data.data.professional) {
                     setSwitcheo("user")
                 } else {
@@ -90,7 +90,7 @@ export default function Login() {
                     timer: 2500
                 })
                 navigate('/')
-            }
+            
         } catch (error) {
             console.log(error)
             Swal.fire({
