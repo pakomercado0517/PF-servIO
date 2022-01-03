@@ -22,7 +22,8 @@ import {
   CLIENTS_FILTERED,
   PROFESSIONAL_FILTERED,
   ORDER_DATA_CLIENT,
-  OFFER_IN_NEED_BY_ID
+  OFFER_IN_NEED_BY_ID,
+  CREATE_PREFERENCE
 } from '../actions'
 
 
@@ -165,6 +166,11 @@ function rootReducer( state = initialState, { type, payload } ) {
         return {
             ...state,
             offerInNeedById: payload
+        };
+      case CREATE_PREFERENCE:
+        return {
+            ...state,
+            message: payload
         };
         default:
             return state;

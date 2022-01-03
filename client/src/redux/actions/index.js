@@ -34,7 +34,8 @@ export const DATA_FILTERED = 'DATA_FILTERED';
 export const CLIENTS_FILTERED ='CLIENTS_FILTERED';
 export const PROFESSIONAL_FILTERED ='PROFESSIONAL_FILTERED'
 export const ORDER_DATA_CLIENT ='ORDER_DATA_CLIENT';
-export const OFFER_IN_NEED_BY_ID = 'OFFER_IN_NEED_BY_ID'
+export const OFFER_IN_NEED_BY_ID = 'OFFER_IN_NEED_BY_ID';
+export const CREATE_PREFERENCE = 'CREATE_PREFERENCE';
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers () {
     
@@ -500,7 +501,7 @@ export const searchBar = name =>{
 }
 
 export const offerInNeedById =  id => async dispatch =>{
-  const data = await axios.get(`http://localhost:3001/professsionalOffer/need/${id}`)
+  const data = await axios.get(`${ constants.localhost }/professsionalOffer/need/${id}`)
   if (data.data === "No offers found") {
     dispatch ({
       type: OFFER_IN_NEED_BY_ID,
@@ -512,5 +513,13 @@ export const offerInNeedById =  id => async dispatch =>{
       payload: data.data,
   }); 
   }
+}
 
+export const createPreference = (data) => async  dispatch => {
+
+  const response = await axios.post(`${ constants.localhost }/create_preference`,data)
+  dispatch ({
+    type: CREATE_PREFERENCE,
+    payload: response,
+});
 }
