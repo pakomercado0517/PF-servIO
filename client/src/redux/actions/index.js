@@ -43,6 +43,8 @@ export const PUT_USER = 'PUT_USER';
 export const GET_OFFERS_OF_CLIENT_NEED = 'GET_OFFERS_OF_CLIENT_NEED'
 export const OFFER_IN_NEED_BY_ID = 'OFFER_IN_NEED_BY_ID';
 export const CREATE_PREFERENCE = 'CREATE_PREFERENCE';
+export const CREATE_TECNICAL_ACTIVITY = 'CREATE_TECNICAL_ACTIVITY';
+export const EXISTENT_USER = 'EXISTENT_USER'
 
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers () {
@@ -579,10 +581,25 @@ export const offerInNeedById =  id => async dispatch =>{
 }
 
 export const createPreference = (data) => async  dispatch => {
-
   const response = await axios.post(`${ constants.localhost }/create_preference`,data)
   dispatch ({
     type: CREATE_PREFERENCE,
     payload: response,
-});
+  });
+}
+
+export const createTecnicalActivity = (data) => async  dispatch => {
+  const response = await axios.post(`${ constants.localhost }/TecnicalsActivities`,data)
+  dispatch ({
+    type: CREATE_TECNICAL_ACTIVITY,
+    payload: response,
+  });
+}
+
+export const existentUser = email => async  dispatch => {
+  const response = await axios.get(`${ constants.localhost }/user/created/${email}`)
+  dispatch ({
+    type: EXISTENT_USER,
+    payload: response.data,
+  });
 }

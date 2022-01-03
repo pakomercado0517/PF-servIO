@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
-import { showFormProfessionalOffer } from '../redux/actions'
+import { showFormProfessionalOffer, createTecnicalActivity } from '../redux/actions'
 import {useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
 import s from './styles/ProfessionalServiceOffer.module.css'
@@ -12,6 +11,8 @@ export const ProfessionalServiceOffer = () => {
     const navigate = useNavigate()
     const modal = useSelector(state => state.modalProfessionalsOffer)
     const user = useSelector(state => state.globalUserGlobalStorage)
+    const a = useSelector(state => state)
+    console.log(a)
 
     const [form, setForm] = useState({
         name: "", //ok en db
@@ -25,7 +26,8 @@ export const ProfessionalServiceOffer = () => {
         // professionalId: "",
         userId: user?.id,
     })
-
+    const boolean = form.name !== '' && form.description !== '' && form.photo !== '' && form.materials && form.price !== '' && form.guarantee && form.guarantee_time !== '' && form.job_time !== ''
+    console.log(boolean, form)
     function onChangeForm(e) {
         setForm({
             ...form,
@@ -37,7 +39,7 @@ export const ProfessionalServiceOffer = () => {
         setForm({
             name: "",
             description: "",
-            photo: "",
+            photo: "foyo",
             materials: "",
             price: "",
             guarantee: "",
@@ -49,9 +51,8 @@ export const ProfessionalServiceOffer = () => {
     const postNeed = async (e) =>{
         e.preventDefault()
         try {
-
-            const post = await axios.post('http://localhost:3001/TecnicalsActivities', form);
-            console.log('post 58',post)
+          if(boolean === true){
+            dispatch(createTecnicalActivity(form))
 
             const fondo = document.getElementById("fondo-form-Professional-offer")
             fondo.style.top = "-100vh"
@@ -66,6 +67,16 @@ export const ProfessionalServiceOffer = () => {
             stateReset();
             navigate(`/professional/${user.id}`);
 
+          }else{
+            Swal.fire({
+              icon: 'error',
+              title: 'Por favor rellene todos los campos',
+              showConfirmButton: true,
+              // timer: 500,
+              showCloseButton: true
+          });
+          }
+            
         } catch (error) {
             console.error("message: ", error)
         }
@@ -127,6 +138,7 @@ return (
                                 type="file"
                                 name='photo'
                                 accept="image/png, image/jpeg"
+                                onChange={ e=> onChangeForm(e) }
                             />
                         </div>
 
@@ -183,7 +195,7 @@ return (
                                     type="radio" 
                                     name="materials"
                                     value='false'
-                                    onChange={ e=> onChangeForm(e) }
+                                    onChange={ onChangeForm }
                                     /> No {`    `}
                             </div>
                         </div>
@@ -249,7 +261,8 @@ return (
 
                     <button
                         type="submit"
-                        className={ "btn btn-primary btn-lg btn-block mt-4"}
+                        className={ boolean === true ? "btn btn-primary btn-lg btn-block mt-4" : s.hide}
+                        
                         >
                         Crear Actividad
                     </button>
