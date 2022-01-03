@@ -24,7 +24,8 @@ import {
   ORDER_DATA_CLIENT,
   OFFER_IN_NEED_BY_ID,
   CREATE_PREFERENCE,
-  CREATE_TECNICAL_ACTIVITY
+  CREATE_TECNICAL_ACTIVITY,
+  EXISTENT_USER
 } from '../actions'
 
 
@@ -48,7 +49,8 @@ const initialState = {
   clientsFilter:[],
   professionalsFilter:[],
   searchbar:'',
-  offerInNeedById : []
+  offerInNeedById : [],
+  z:false
 };
 
 function rootReducer( state = initialState, { type, payload } ) {
@@ -106,7 +108,7 @@ function rootReducer( state = initialState, { type, payload } ) {
       case NEW_USER:
           return {
               ...state,
-              message: payload,
+              a: payload,
           };
       case NEW_CLIENT_NEED:
           return {
@@ -177,6 +179,11 @@ function rootReducer( state = initialState, { type, payload } ) {
           return {
               ...state,
               message: payload
+          };
+        case EXISTENT_USER:
+          return {
+              ...state,
+              z: payload
           };
         default:
             return state;

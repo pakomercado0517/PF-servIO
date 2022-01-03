@@ -7,13 +7,14 @@ import axios from 'axios'
 import s from './styles/Register.module.css'
 import { CgOptions } from 'react-icons/cg';
 
-import { filterProfessions } from '../redux/actions';
+import { filterProfessions, newUser, existentUser } from '../redux/actions';
 
 export default function Crear() {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
-
+    const user = useSelector(state => state)
+    console.log(user)
     const { professionsName } = useSelector(state => state)
     const[errors, setErrors] = useState({
         firstName:"",
@@ -36,10 +37,15 @@ export default function Crear() {
         city:'',
         profession:[],
     })
-    
+    console.log(details.email)
     useEffect(() => {
-        dispatch(filterProfessions())      
+        dispatch(filterProfessions())  
     }, [dispatch])
+
+    useEffect(() => {
+      dispatch(existentUser(details.email))  
+  }, [dispatch, details.email])
+  
     
     useEffect(() => {
         if (!buttonSubmit) {
@@ -147,26 +153,31 @@ export default function Crear() {
             phone: "123456789", 
             photo: "Hola", 
             verified: "true", 
-            certification_name:"oiasfjmqw",
-            certification_img:"qpoejsc.png",
+            certification_name:"N/A",
+            certification_img:"noimg.png",
             status: "no sabe no contesta", 
         }
         try{
-            const user = await axios.post(`http://localhost:3001/user/`, obj)
-            console.log('user',user)
-            
-            Swal.fire({
+            dispatch(newUser(obj))
+            console.log(user)
+            if(user.message.message === 'Usuario existente' || user.z === false){
+              Swal.fire({
+                  title: 'Error',
+                  text: user.message.message,
+                  icon: 'error',
+                  confirmButtonText: 'OK'
+              });
+            }else{
+              Swal.fire({
                 title: 'Registro exitoso',
                 text: 'Ahora puedes iniciar sesión',
                 icon: 'success',
                 confirmButtonText: 'Aceptar'
-
-            });
-            navigate('/login')
-            
+              });
+              navigate('/login')
+            } 
         }catch(error){
             console.log(error)
-
         }
         
     }
