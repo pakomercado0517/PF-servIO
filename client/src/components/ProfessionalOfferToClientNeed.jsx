@@ -1,27 +1,37 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import Swal from 'sweetalert2'
+import { useNavigate, useParams } from 'react-router-dom'
+import { getDetailsClientNeed, newProfessionalOffer } from '../redux/actions/index'
+import { useGlobalStorage } from '../hooks/useGlobalStorage'
 import s from './styles/ProfessionalOfferToClientNeed.module.css'
-import { useNavigate } from 'react-router-dom'
-import { newProfessionalOffer } from '../redux/actions/index'
 
 
 export const ProfessionalOfferToClientNeed = (props) => {
-    const navigate = useNavigate()
 
-    const professional = useSelector((state) => state.globalUserGlobalStorage)
+    const navigate = useNavigate()
+    const { detailsClientNeed } = useSelector((state) => state)
+    const [professional, ] = useGlobalStorage("globalUser", "")
+    console.log(detailsClientNeed)
+
+    const { idClientNeed } = useParams();
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getDetailsClientNeed(idClientNeed))
+    }, [])
 
     let actualId = parseInt(window.location.pathname.slice(31))
     const [form, setform] = useState({
         description: "",
-        price: 0,
-        duration: 0,
+        price: "",
+        duration: "",
         materials:true,
-        guarantee_time: 0,
+        guarantee_time: "",
         ClientNeedId: actualId,
         UserId: professional.id,
     })
-    console.log(form)
+
     function onChangeForm(e) {
         setform({
             ...form,
@@ -31,33 +41,63 @@ export const ProfessionalOfferToClientNeed = (props) => {
 
     const postNeed =  (e) =>{
         e.preventDefault()
+        if (form.description === "" || form.price === "" || form.duration === "" || form.guarantee_time === "" || form.materials === "") {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops...',
+                text: 'Por favor, rellená todos los campos',
+            })
+        } else {
+            
         try {
-
             const offer = {
-              description: form.description,
-              price: parseInt(form.price),
-              duration: parseInt(form.duration),
-              materials: form.materials,
-              guarantee_time: parseInt(form.guarantee_time),
-              ClientNeedId: form.ClientNeedId,
-              UserId: form.UserId,
-              name: props.name
+                description: form.description,
+                price: parseInt(form.price),
+                duration: parseInt(form.duration),
+                materials: form.materials,
+                guarantee_time: parseInt(form.guarantee_time),
+                ClientNeedId: form.ClientNeedId,
+                UserId: form.UserId,
+                name: detailsClientNeed?.name
             }
             newProfessionalOffer(offer)
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Oferta enviada!',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
+            Swal.fire({
+                icon: 'success',
+                title: 'Oferta enviada!',
+                showConfirmButton: false,
+                timer: 1500
+            })
 
-            // console.log('offer', offer)
-            
             navigate('/')
             
         } catch (error) {
             console.error(error)
         }
+        }
+
+        // funcion para que el boton subtmit este cancelado hasta que se llenen todos los campos
+        // if (form.description === "" || form.price === "" || form.duration === "" || form.guarantee_time === "") {
+        //     Swal.fire({
+        //         icon: 'error',
+        //         title: 'Algo salió mal!',
+        //         showConfirmButton: false,
+        //         timer: 1500
+        //     })
+        // } else {
+        //     try {
+        //         const offer = {
+
+
+
+        // const [ submitButton, setSubmitButton ] = useState(true)
+        // const [ submitButton, setSubmitButton ] = useState(true);
+
+        // useEffect(() => {
+        //     offer
+        //         ? setSubmitButton( false )
+        //         : setSubmitButton( true );
+        //     }, [ offer ]);
+
     };
   //   function onReset(){
   //     setform({
@@ -95,16 +135,31 @@ export const ProfessionalOfferToClientNeed = (props) => {
     return (
         <>
             <div className={ s.container }>
-
+                
                 <div className={s.container_form}>
+
+                    <div className="d-flex flex-row-reverse bd-highlight">
+                        <button 
+                        className="text-center btn btn-warning" 
+                        onClick={()=>{window.history.back()}}
+                        >
+                            Volver
+                        </button>
+                    </div>
                     <form onSubmit={postNeed}  action="">
+                                
+
                         <div className="row">
                             <div className={"col-12" && s.container_filter}>
-                                <h1>Realizá tu oferta!</h1>
+                                <h1
+                                    className="text-center"
+                                    >
+                                    Enviá tu Presupuesto!
+                                </h1>
 
                                 <div className="form-group mb-2">
                                     <label
-                                        className="mb-2"
+                                        className="mb-3 mx-2"
                                         forhtml="exampleFormControlTextarea1">
                                         Descripción del servicio
                                     </label>
@@ -121,8 +176,8 @@ export const ProfessionalOfferToClientNeed = (props) => {
                                     </textarea>
                                 </div>
 
-                                <div className="">
-                                    ¿Incluye material?   
+                                <div className="mb-3 mt-3 text-center">
+                                    ¿Incluye material?{" "}   
                                     <input
                                         className="input"
                                         type="radio" 
@@ -138,9 +193,18 @@ export const ProfessionalOfferToClientNeed = (props) => {
                                         onChange={ e=> onChangeForm(e) }
                                     /> No
                                 </div>
-                                <div className="row mt-2">
+                                <div className="row mt-1 mb-1">
+                                    <div className="col-6 text-center">
+                                    Días de garantía
+                                    </div>
+                                    <div className="col-6 text-center">
+                                    Tiempo estimado de trabajo
+                                    </div>
+                                </div>
+                                <div className="row mt-1 mb-1">
 
                                 <div className="col input-group mb-2">
+                                    
                                     <input
                                         type="number"
                                         name='guarantee_time'
@@ -153,8 +217,26 @@ export const ProfessionalOfferToClientNeed = (props) => {
                                     
                                 </div>
 
-                                <div className="col input-group mb-2">
-                                    <span class="input-group-text">$</span>
+                                <div className="col input-group mb-2 ">
+                                    {/* <span className="input-group-text">$</span> */}
+                                    <input
+                                        type="number"
+                                        name='duration'
+                                        value={ form.duration }
+                                        onChange={ onChangeForm }
+                                        className="form-control"
+                                        placeholder="Tiempo estimado de trabajo"
+                                        />
+                                </div>
+                                </div>
+                                <div 
+                                    className="mt-2 mb-2 mx-5"
+                                >
+                                    Precio
+                                    </div>
+                                <div className="row mt-2">
+                                <div className="col input-group">
+                                    <span className="input-group-text">$</span>
                                     <input
                                         type="number"
                                         name='price'
@@ -166,14 +248,12 @@ export const ProfessionalOfferToClientNeed = (props) => {
                                         />
                                 </div>
                                 </div>
-                                
                             </div>
                         </div>
                         <div className="row">
-                        <button
-                            // onClick={postNeed} 
+                        <button 
                             type="submit"
-                            className={` "btn btn-primary btn-lg btn-block" s.container_filterButton`}
+                            className={` "btn btn-primary btn-lg btn-block" s.container_filterButton mt-3 mb-3`}
                         >
                             Enviar Oferta
                         </button>

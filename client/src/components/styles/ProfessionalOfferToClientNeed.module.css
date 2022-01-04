@@ -24,9 +24,9 @@
 .container_form {
     position: relative;
     background-color: rgb(196, 89, 89);
-    padding: 50px;
+    padding: 40px;
     border-radius: 10px;
     box-shadow: 1px 1px 5px black;
-    height: 70vh;
+    height: 80vh;
     width: 60vw;
 }

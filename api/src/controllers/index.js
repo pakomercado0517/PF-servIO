@@ -359,51 +359,6 @@ module.exports = {
       res.send("Pleas Login");
     }
   },
-  //CONDICIONAR QUE SOLO PUEDAN OFERTAR PROFESIONALES
-  newProfessionalOffer: async (req, res) => {
-    const {
-      name,
-      description,
-      price,
-      duration,
-      materials,
-      guarantee_time,
-      ClientNeedId,
-      UserId,
-    } = req.body;
-
-    const user = await User.findOne({ where: { id: UserId } });
-
-    try {
-      if (user) {
-        if (user.professional === false) {
-          res.status(400).send("Only Professionals can make an offer");
-        } else {
-          const newOffert = await ProfessionalOffer.create({
-            name,
-            description,
-            price,
-            duration,
-            materials,
-            guarantee_time,
-          });
-          let clientNeeds = await ClientNeed.findAll({
-            where: { id: ClientNeedId },
-          });
-          let offert = await Professional.findAll({
-            where: { UserId },
-          });
-          await newOffert.setProfessional(offert[0]);
-          await newOffert.setClientNeed(clientNeeds[0]);
-          res.status(200).send(newOffert);
-        }
-      } else {
-        res.send("user does not exist");
-      }
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  },
 
   getAllUsers: async (req, res) => {
     try {
@@ -573,6 +528,57 @@ module.exports = {
     });
     res.status(200).send(professions);
   },
+  // ************ PROFESSIONAL OFFERS
+
+  //CONDICIONAR QUE SOLO PUEDAN OFERTAR PROFESIONALES
+  newProfessionalOffer: async (req, res) => {
+    const {
+      name,
+      description,
+      price,
+      duration,
+      materials,
+      guarantee_time,
+      ClientNeedId,
+      UserId,
+    } = req.body;
+
+    const user = await User.findOne({ where: { id: UserId } });
+
+    try {
+      if (user) {
+        if (user.professional === false) {
+          res.status(400).send("Only Professionals can make an offer");
+        } else {
+          const newOffert = await ProfessionalOffer.create({
+            name,
+            description,
+            price,
+            duration,
+            materials,
+            guarantee_time,
+          });
+          let clientNeeds = await ClientNeed.findAll({
+            where: { id: ClientNeedId },
+          });
+          // let offert = await Professional.findAll({
+          //   where: { UserId },
+          // });
+          let setuser = await User.findAll({
+            where: { id: UserId },
+          });
+          await newOffert.setUser(setuser[0])
+          // await newOffert.setProfessional(offert[0]);
+          await newOffert.setClientNeed(clientNeeds[0]);
+          res.status(200).send(newOffert);
+        }
+      } else {
+        res.send("user does not exist");
+      }
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
+  },
 
   getAllPorfessionalOffers: async (req, res) => {
     try {
@@ -625,6 +631,32 @@ module.exports = {
       res.status(404).send(err.message);
     }
   },
+  
+  getOffersByUserId: async (req, res) => {
+    const id = req.params.id
+    try{
+      
+      // const professional = await Professional.findOne({where: {UserId: id}})
+      // const ProfessionalId = professional.id
+
+      const offers = await ProfessionalOffer.findAll({ where: { UserId: id }})
+      res.send(offers)
+
+    }catch(error){
+      console.log(error)
+    }
+  },
+
+  deleteOfferById: async (req, res) => {
+    const id = req.params.id;
+    const offer = await ProfessionalOffer.findOne({ where: { id } });
+    offer.destroy();
+    res.send(
+      `La oferta ha sido eliminada.`
+    );
+  },
+
+  // ************ USER
 
   updateProfile: async (req, res) => {
     const {
@@ -1018,21 +1050,4 @@ module.exports = {
       res.redirect("http://localhost:3000/login");
     }
   },
-
-
-  getOffersByUserId: async (req, res) => {
-    const id = req.params.id
-    try{
-      
-      const professional = await Professional.findOne({where: {UserId: id}})
-      const ProfessionalId = professional.id
-
-      const offers = await ProfessionalOffer.findAll({ where: { ProfessionalId }})
-      res.send(offers)
-
-    }catch(error){
-      console.log(error)
-    }
-  }
-
 };

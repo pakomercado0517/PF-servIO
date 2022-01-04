@@ -2,8 +2,7 @@ import React, {useEffect, useState} from 'react';
 import s from './styles/EditUser.module.css';
 import {useGlobalStorage} from '../hooks/useGlobalStorage';
 import { useDispatch, useSelector } from "react-redux";
-import { filterProfessions } from '../redux/actions';
-import axios from 'axios';
+import { filterProfessions, putUser } from '../redux/actions';
 import Swal from 'sweetalert2';
 import {storage} from '../firebase/firebase'
 import {ref, uploadBytesResumable, getDownloadURL} from '@firebase/storage'
@@ -121,7 +120,6 @@ export default function EditCliente() {
 
     const uploadImage= async (e) => {
         const file= e.target.files[0]
-        // console.log('fileeeeeeeee', file)
         await uploadFile(file)
     }
 
@@ -131,6 +129,7 @@ export default function EditCliente() {
         try{
             let prof= profession.toString()
             let newData= {
+                id: globalUser.id,
                 firstName: details.firstName,
                 lastName: details.lastName,
                 email: details.email,
@@ -140,7 +139,9 @@ export default function EditCliente() {
                 profession:prof,
                 photo: details.photo
             }
-            await axios.put(`http://localhost:3001/user/updateUser/${globalUser.id}`,  newData)
+
+            dispatch(putUser(newData))
+
             const obj = {
                 ...globalUser,
                 first_name:details.firstName,
@@ -151,9 +152,7 @@ export default function EditCliente() {
                 professional: details.professional,
                 profession:prof,
                 photo: details.photo,
-            }
-
-            // 
+            };
 
             setGlobalUser(obj)
 
@@ -316,8 +315,7 @@ export default function EditCliente() {
                 </div>
 
                 <div className={s.container_edilt_form_input_img} >
-                    {/* <label htmlFor="imageFile">Selecciona alguna imágen (png):</label><br/> */}
-                    <label>Selecciona alguna imágen (png):</label><br/>
+                    <label htmlFor="imageFile">Selecciona alguna imágen (png):</label><br/>
                     <div className={s.div_file}>
                         <p className={s.text}>Elegir archivo</p>
                         <input className={s.btn_enviar} 
@@ -329,6 +327,11 @@ export default function EditCliente() {
                         /> 
                     </div>
                     <span>Uploaded {progress} % </span>
+                    {
+                        progress === 100
+                        ? <img src={details.photo} className={s.img_profile}/>
+                        : ""
+                    }
                 </div>
 
                 {

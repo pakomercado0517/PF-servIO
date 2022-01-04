@@ -1,101 +1,136 @@
-.container{
-    display: flex;
-    height: 100vh; 
+.container {
+  display: flex;
+  height: 100vh;
 }
 
-.container_registro_titulo{
-    position: relative;
-    top: 20px;
-    width: 70vw;
+.container_registro_titulo {
+  position: relative;
+  top: 20px;
+  width: 70vw;
 }
 
-.container_registro_titulo h2{
-    text-align: center;
+.container_registro_titulo h2 {
+  text-align: center;
 }
 
-.container_img{
-    background-color: aqua;
-    display: grid;
-    align-content: space-around;
-    width: 30vw;
+.container_img {
+  background-color: aqua;
+  display: grid;
+  align-content: space-around;
+  width: 30vw;
 }
 
-.container_img p{
-    color: #505050;
-    font-size: 25px;
-    font-weight: 100;
-    padding: 2em;
+.container_img p {
+  color: #505050;
+  font-size: 25px;
+  font-weight: 100;
+  padding: 2em;
 }
 
-.container_registro{
-    width: 70vw;
+.container_registro {
+  width: 70vw;
 }
 
-.container_registro_form{
-    display: flex;
-    flex-wrap: wrap;
-    position: relative;
-    top: -10px;
-    padding: 50px;
+.container_registro_form {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  top: -10px;
+  padding: 50px;
 }
 
-.container_registro_form h4{
-    margin-top: 40px;
+.container_registro_form h4 {
+  margin-top: 40px;
 }
 
-
-.container_registro_form_input{
-    width: 30%;
-    margin: 10px;
+.container_registro_form_input {
+  width: 30%;
+  margin: 10px;
 }
 
-.container_registro_form_check{
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
+.container_registro_form_check {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
 }
 
-.container_registro_form_check input{
-    margin-left: 15px;
+.container_registro_form_check input {
+  margin-left: 15px;
 }
 
-.container_registro_form_button{
-    position: absolute;
-    display: flex;
-    bottom: -10vh;
-    width: 100%;
+.container_registro_form_button {
+  position: absolute;
+  display: flex;
+  bottom: -10vh;
+  width: 100%;
 }
 
-.buttonSubmit{
-    display: inline-block;
-    width: 400px;
-    max-height: 45px;
-    margin: auto;
+.buttonSubmit {
+  display: inline-block;
+  width: 400px;
+  max-height: 45px;
+  margin: auto;
 }
 
 .error {
-    position: absolute;
-    color: rgb(240, 23, 23);
+  position: absolute;
+  color: rgb(240, 23, 23);
 }
 
-.container_registro_form_oficio{
-    margin-top: 20px;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
+.container_registro_form_oficio {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
 }
-.container_registro_form_oficio_span{
-    display: flex;
-    flex-direction: column;
-    width: 10%;
-    position: absolute;
+.container_registro_form_oficio_span {
+  display: flex;
+  flex-direction: column;
+  width: 10%;
+  position: absolute;
 }
 
-.container_registro_form_oficio_span p{
-    padding: 0px;
-    margin: 0px;
-    font-size: 15px;
-    color: rgb(0, 230, 0);
+.container_registro_form_oficio_span p {
+  padding: 0px;
+  margin: 0px;
+  font-size: 15px;
+  color: rgb(0, 230, 0);
+}
+
+.container_edilt_form_input_img {
+  width: 50%;
+  margin: 10px;
+}
+
+.div_file {
+  position: relative;
+  padding: 8px;
+  margin: 15px;
+  width: 150px;
+  background-color: #505050;
+  border-radius: 5px;
+}
+
+.text {
+  text-align: center;
+  color: white;
+  margin: 0px;
+}
+
+.btn_enviar {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  width: 100%;
+  opacity: 0;
+}
+
+.img_profile {
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
 }
 
 /* .conteiner_registro_titulo img{
