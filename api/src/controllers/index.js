@@ -390,10 +390,14 @@ module.exports = {
           let clientNeeds = await ClientNeed.findAll({
             where: { id: ClientNeedId },
           });
-          let offert = await Professional.findAll({
-            where: { UserId },
+          // let offert = await Professional.findAll({
+          //   where: { UserId },
+          // });
+          let setuser = await User.findAll({
+            where: { id: UserId },
           });
-          await newOffert.setProfessional(offert[0]);
+          await newOffert.setUser(setuser[0])
+          // await newOffert.setProfessional(offert[0]);
           await newOffert.setClientNeed(clientNeeds[0]);
           res.status(200).send(newOffert);
         }
@@ -1024,10 +1028,10 @@ module.exports = {
     const id = req.params.id
     try{
       
-      const professional = await Professional.findOne({where: {UserId: id}})
-      const ProfessionalId = professional.id
+      // const professional = await Professional.findOne({where: {UserId: id}})
+      // const ProfessionalId = professional.id
 
-      const offers = await ProfessionalOffer.findAll({ where: { ProfessionalId }})
+      const offers = await ProfessionalOffer.findAll({ where: { UserId: id }})
       res.send(offers)
 
     }catch(error){

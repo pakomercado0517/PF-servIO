@@ -64,6 +64,10 @@ Professional.belongsTo(User);
 User.hasMany(ClientReview);
 ClientReview.belongsTo(User);
 
+//Relacion User - ProfessionalOffer
+User.hasMany(ProfessionalOffer);
+ProfessionalOffer.belongsTo(User);
+
 //*************************************RELACIONES Profesional****************************************************************
 
 //Relacion Profesional - profesion
@@ -79,8 +83,8 @@ Professional.hasMany(SpecificTechnicalActivity);
 SpecificTechnicalActivity.belongsTo(Professional);
 
 //Relacion Profesional - ProfessionalOffer
-Professional.hasMany(ProfessionalOffer);
-ProfessionalOffer.belongsTo(Professional);
+// Professional.hasMany(ProfessionalOffer);
+// ProfessionalOffer.belongsTo(Professional);
 
 //Relacion Profesional - ClientReview
 Professional.hasMany(ClientReview);

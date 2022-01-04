@@ -110,7 +110,7 @@ export default function ServiceHistory() {
                                     description={ el.description }
                                     price={ el.price }
                                     // photo={ el.photo }
-                                    ProfessionalId= { el.ProfessionalId }
+                                    UserId= { el.UserId }
                                     date={ el.updatedAt.split("T")[0] }
                                     />
 
