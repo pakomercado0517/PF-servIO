@@ -3,8 +3,6 @@
     justify-content: space-around;
 }
 
-
-
 .sutTitulo{
     position: absolute;
     width: 100%;
@@ -42,5 +40,17 @@
 }
 
 .fin p{
+    color: #828282;
+}
+
+.contacto_integrante_img{
+    display: flex;
+}
+
+.contacto_integrante_img img{
+    margin: 0.5em;
+}
+
+.contacto_integrante p{
     color: #828282;
 }
