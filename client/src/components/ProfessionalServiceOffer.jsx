@@ -17,7 +17,7 @@ export const ProfessionalServiceOffer = () => {
     const [form, setForm] = useState({
         name: "", //ok en db
         description: "", // ok en db
-        photo: "", //ok en db
+        photo: "photo", //ok en db
         materials: "", // boolean ok en db
         price: "", // ok en db
         guarantee: "",  // ok en db
@@ -113,6 +113,16 @@ return (
     <div id='fondo-form-Professional-offer' className={s.container}>
         <div className={s.container_background} onClick={hideFormProfessionalOffer}></div>
         <div className={s.container_form}>
+
+            <div className="d-flex flex-row-reverse bd-highlight">
+                <button 
+                className="text-center btn btn-warning" 
+                onClick={()=>{window.history.back()}}
+                >
+                    Volver
+                </button>
+            </div>
+            
             <form onSubmit={postNeed} action="">
                 <div className="row mb-4">
                 <div>
