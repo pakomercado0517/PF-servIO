@@ -41,6 +41,7 @@ export const USER_LOGIN = "USER_LOGIN";
 export const PUT_CLIENT_NEEDS = 'PUT_CLIENT_NEEDS';
 export const PUT_USER = 'PUT_USER';
 export const GET_OFFERS_OF_CLIENT_NEED = 'GET_OFFERS_OF_CLIENT_NEED'
+export const GET_OFFERS_BY_USER_ID = 'GET_OFFERS_BY_USER_ID'
 export const OFFER_IN_NEED_BY_ID = 'OFFER_IN_NEED_BY_ID';
 export const CREATE_PREFERENCE = 'CREATE_PREFERENCE';
 export const CREATE_TECNICAL_ACTIVITY = 'CREATE_TECNICAL_ACTIVITY';
@@ -105,6 +106,22 @@ export function getAllProfessionals() {
 
       dispatch({
         type: GET_ALL_PROFESSIONALS,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+}
+// trae todas las ofertas de un profesional en particular
+export function getOffersById(id) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(
+        `${constants.localhost}/professsionalOffer/all/${id}`
+      );
+      dispatch({
+        type: GET_OFFERS_BY_USER_ID,
         payload: response.data,
       });
     } catch (error) {

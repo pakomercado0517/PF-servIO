@@ -1,29 +1,31 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector, useDispatch} from 'react-redux';
+
 import s from './styles/CardServiceHistory.module.css'
+
 // import { offerInNeedById } from '../redux/actions' <-----comentado por ima
+
 import notFoundImg from '../img/not_found_img.svg'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
+
+const { REACT_APP_HOST } = process.env;
 
 
 export default function CardServiceHistory(props) {
     // const offer = useSelector(state => state.offerInNeedById) <-----comentado por ima
     const [offer, setOffers] = useState([])  
     const navigate = useNavigate()
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const { id } = props
     useEffect(() => {
     //   dispatch(offerInNeedById(id)) <-----comentado por ima
         async function getOffers(){
-          
-            const data = await axios.get("http://localhost:3001/professsionalOffer/need/" + props.id)
+            const data = await axios.get(`${REACT_APP_HOST}/professsionalOffer/need/${props.id}`)
             if (data.data === "No offers found") return setOffers([])
             setOffers(data.data)
         }
         getOffers()
     }, [])
-    console.log(offer, props)
     function nav(e){
         console.log(e.target.name)
         if(e.target.name === "offers" ) return navigate(`/client/offerToNeed/${id}`)
@@ -33,7 +35,6 @@ export default function CardServiceHistory(props) {
     return (
       
         <div className={ s.container }>
-          {console.log(offer)}
             {/* FECHA DE STATUS */}
             <div className={ s.container_fecha }>
                 <h5>{ props.date }</h5>
