@@ -8,6 +8,9 @@ import s from './styles/Register.module.css'
 import { CgOptions } from 'react-icons/cg';
 
 import { filterProfessions, newUser, existentUser } from '../redux/actions';
+import {storage} from '../firebase/firebase'
+import {ref, uploadBytesResumable, getDownloadURL} from '@firebase/storage'
+import logo from '../img/ServIO.svg'
 
 export default function Crear() {
 
@@ -35,8 +38,10 @@ export default function Crear() {
         professionalCase:false,
         professional: "false",
         city:'',
+        photo: logo,
         profession:[],
     })
+    const [progress, setProgress] = useState(0)
     console.log(details.email)
     useEffect(() => {
         dispatch(filterProfessions())  
@@ -151,7 +156,6 @@ export default function Crear() {
             ...details,
             profession: details.profession.join(),
             phone: "123456789", 
-            photo: "Hola", 
             verified: "true", 
             certification_name:"N/A",
             certification_img:"noimg.png",
@@ -215,6 +219,32 @@ export default function Crear() {
             })
             e.target.style.background = "#b0b0b0"
         }
+    }
+
+    const uploadFile= (file) => {
+        if(!file) return 
+        const storageRef= ref(storage, `/files/${file.name}`)
+        const uploadTask = uploadBytesResumable(storageRef, file)
+
+        uploadTask.on('state_changed', (snapshot) => {
+            const prog= Math.round((snapshot.bytesTransferred / snapshot.totalBytes) *100)
+            setProgress(prog)
+        }, (err)=> console.log(err),
+        ()=> {
+            getDownloadURL(uploadTask.snapshot.ref).then(url=> {
+                console.log('url', url);
+                setDetails({
+                    ...details,
+                    photo: url
+                });
+            })
+        }
+        )
+    }
+
+    const uploadImage= async (e) => {
+        const file= e.target.files[0]
+        await uploadFile(file)
     }
 
     return (
@@ -361,6 +391,25 @@ export default function Crear() {
                             {details.profession?.map((el, i) => {
                                 return <p key={ "p" + i}> { el } </p>
                             })}
+                        </div>
+                        <div className={s.container_edilt_form_input_img} >
+                            <label htmlFor="imageFile">Selecciona alguna imágen (png):</label><br/>
+                            <div className={s.div_file}>
+                                <p className={s.text}>Elegir archivo</p>
+                                <input className={s.btn_enviar} 
+                                    type="file"  
+                                    // accept=".png" 
+                                    name="photo"
+                                    // multiple
+                                    onChange={uploadImage}
+                                /> 
+                            </div>
+                            <span>Uploaded {progress} % </span>
+                            {
+                                progress === 100
+                                ? <img src={details.photo} className={s.img_profile}/>
+                                : ""
+                            }
                         </div>
                     </div>
                     <div className={ s.container_registro_form_button }>

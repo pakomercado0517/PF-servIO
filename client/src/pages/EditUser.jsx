@@ -315,8 +315,7 @@ export default function EditCliente() {
                 </div>
 
                 <div className={s.container_edilt_form_input_img} >
-                    {/* <label htmlFor="imageFile">Selecciona alguna imágen (png):</label><br/> */}
-                    <label>Selecciona alguna imágen (png):</label><br/>
+                    <label htmlFor="imageFile">Selecciona alguna imágen (png):</label><br/>
                     <div className={s.div_file}>
                         <p className={s.text}>Elegir archivo</p>
                         <input className={s.btn_enviar} 
@@ -328,6 +327,11 @@ export default function EditCliente() {
                         /> 
                     </div>
                     <span>Uploaded {progress} % </span>
+                    {
+                        progress === 100
+                        ? <img src={details.photo} className={s.img_profile}/>
+                        : ""
+                    }
                 </div>
 
                 {
