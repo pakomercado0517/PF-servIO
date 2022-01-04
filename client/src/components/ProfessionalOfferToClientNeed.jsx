@@ -12,7 +12,7 @@ export const ProfessionalOfferToClientNeed = (props) => {
     const navigate = useNavigate()
     const { detailsClientNeed } = useSelector((state) => state)
     const [professional, ] = useGlobalStorage("globalUser", "")
-    console.log(detailsClientNeed)
+    // console.log(detailsClientNeed)
 
     const { idClientNeed } = useParams();
     const dispatch = useDispatch()
@@ -26,7 +26,7 @@ export const ProfessionalOfferToClientNeed = (props) => {
         description: "",
         price: "",
         duration: "",
-        materials:true,
+        materials:"",
         guarantee_time: "",
         ClientNeedId: actualId,
         UserId: professional.id,
@@ -72,32 +72,8 @@ export const ProfessionalOfferToClientNeed = (props) => {
             
         } catch (error) {
             console.error(error)
-        }
-        }
-
-        // funcion para que el boton subtmit este cancelado hasta que se llenen todos los campos
-        // if (form.description === "" || form.price === "" || form.duration === "" || form.guarantee_time === "") {
-        //     Swal.fire({
-        //         icon: 'error',
-        //         title: 'Algo salió mal!',
-        //         showConfirmButton: false,
-        //         timer: 1500
-        //     })
-        // } else {
-        //     try {
-        //         const offer = {
-
-
-
-        // const [ submitButton, setSubmitButton ] = useState(true)
-        // const [ submitButton, setSubmitButton ] = useState(true);
-
-        // useEffect(() => {
-        //     offer
-        //         ? setSubmitButton( false )
-        //         : setSubmitButton( true );
-        //     }, [ offer ]);
-
+        };
+        };
     };
   //   function onReset(){
   //     setform({
@@ -110,10 +86,10 @@ export const ProfessionalOfferToClientNeed = (props) => {
   //       // UserId: professional.id,
   //       UserId: 30,
   //     })
-      
+
   // }
   //   function onSubmit(){
-      
+
   //     if(!stateFilled){
   //         props.newProfessionalOffer(
   //             {
@@ -130,12 +106,12 @@ export const ProfessionalOfferToClientNeed = (props) => {
   //     }else{
   //         alert('Please fill all the fields')
   //     }
-      
+
   // }
     return (
         <>
             <div className={ s.container }>
-                
+                {/* <div> */}
                 <div className={s.container_form}>
 
                     <div className="d-flex flex-row-reverse bd-highlight">
@@ -154,7 +130,7 @@ export const ProfessionalOfferToClientNeed = (props) => {
                                 <h1
                                     className="text-center"
                                     >
-                                    Enviá tu Presupuesto!
+                                        Enviá tu Presupuesto!
                                 </h1>
 
                                 <div className="form-group mb-2">
