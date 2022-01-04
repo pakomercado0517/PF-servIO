@@ -256,7 +256,20 @@ module.exports = {
             },
           ],
           where: { professional: true },
-          where: { first_name: { [Sequelize.Op.iLike]: `%${name}%` } },
+          where: { 
+            [Sequelize.Op.or]:[
+              {
+                first_name: { 
+                  [Sequelize.Op.iLike]: `%${name}%` 
+                }
+              } , 
+              {
+                last_name: { 
+                  [Sequelize.Op.iLike]: `%${name}%` 
+                }
+              }  
+            ]
+          }
         });
         res.status(200).send(professional);
       }
