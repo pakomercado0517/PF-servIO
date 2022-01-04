@@ -1,15 +1,25 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import Swal from 'sweetalert2'
 import s from './styles/ProfessionalOfferToClientNeed.module.css'
-import { useNavigate } from 'react-router-dom'
-import { newProfessionalOffer } from '../redux/actions/index'
+import { useNavigate, useParams } from 'react-router-dom'
+import { getDetailsClientNeed, newProfessionalOffer } from '../redux/actions/index'
+import { useGlobalStorage } from '../hooks/useGlobalStorage'
 
 
 export const ProfessionalOfferToClientNeed = (props) => {
-    const navigate = useNavigate()
 
-    const professional = useSelector((state) => state.globalUserGlobalStorage)
+    const navigate = useNavigate()
+    const { detailsClientNeed } = useSelector((state) => state)
+    const [professional, ] = useGlobalStorage("globalUser", "")
+    console.log(detailsClientNeed)
+
+    const { idClientNeed } = useParams();
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getDetailsClientNeed(idClientNeed))
+    }, [])
 
     let actualId = parseInt(window.location.pathname.slice(31))
     const [form, setform] = useState({
@@ -21,7 +31,7 @@ export const ProfessionalOfferToClientNeed = (props) => {
         ClientNeedId: actualId,
         UserId: professional.id,
     })
-    console.log(form)
+
     function onChangeForm(e) {
         setform({
             ...form,
@@ -41,18 +51,16 @@ export const ProfessionalOfferToClientNeed = (props) => {
               guarantee_time: parseInt(form.guarantee_time),
               ClientNeedId: form.ClientNeedId,
               UserId: form.UserId,
-              name: props.name
+              name: detailsClientNeed?.name
             }
             newProfessionalOffer(offer)
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Oferta enviada!',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
+            Swal.fire({
+                icon: 'success',
+                title: 'Oferta enviada!',
+                showConfirmButton: false,
+                timer: 1500
+            })
 
-            // console.log('offer', offer)
-            
             navigate('/')
             
         } catch (error) {
