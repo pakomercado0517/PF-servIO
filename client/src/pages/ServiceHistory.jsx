@@ -1,27 +1,26 @@
 import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom'
 
 import s from './styles/ServiceHistory.module.css'
 
 import CardServiceHistory from '../components/CardServiceHistory.jsx'
+import CardOfferToClientNeed from '../components/CardOfferToClientNeed'
 
-import { useSelector, useDispatch } from 'react-redux'
-
-import { useParams } from 'react-router-dom'
-
-import { getClientNeedsById } from '../redux/actions'
-
+import { getClientNeedsById, getOffersById } from '../redux/actions'
 import { useGlobalStorage } from '../hooks/useGlobalStorage'
 
 export default function ServiceHistory() {
 
     const dispatch = useDispatch()
     const { id } = useParams()
-    const clientNeeds = useSelector(state => state.clientNeedById)
+    const { clientNeedById, offersByUserId } = useSelector(state => state)
     const user = useGlobalStorage("globalUser", "")
-
+    console.log(offersByUserId)
 
     useEffect(()=>{
         dispatch(getClientNeedsById(id))
+        dispatch(getOffersById(id))
     },[ dispatch, id ])
 
     return (
@@ -34,7 +33,7 @@ export default function ServiceHistory() {
             <div>
                 {/* DATOS DE SERVICIOS SOLICITADOS */}
                 {
-                    clientNeeds?.map((el,index) => {
+                    clientNeedById?.map((el,index) => {
                         return (
                             <CardServiceHistory
                             key={ el.id + index }
@@ -63,7 +62,26 @@ export default function ServiceHistory() {
                     </div>
 
                     <div>
-                        {/* DATOS DE TRABAJOS REALIZADOS http://localhost:3001/professsionalOffer/all/1 */}
+                        {/* DATOS DE TRABAJOS REALIZADOS http://localhost:3001/professsionalOffer/all/id */}
+                        {
+                            offersByUserId?.map((el,index) => {
+                                return (
+                                    <CardOfferToClientNeed
+                                    key={ el.id + index }
+                                    id= { el.id }
+                                    name={ el.name }
+                                    guarantee_time={ el.guarantee_time }
+                                    duration={ el.duration }
+                                    description={ el.description }
+                                    price={ el.price }
+                                    // photo={ el.photo }
+                                    ProfessionalId= { el.ProfessionalId }
+                                    date={ el.updatedAt.split("T")[0] }
+                                    />
+
+                                )
+                            })
+                        }  
                     </div>
 
                 </> : <></>
