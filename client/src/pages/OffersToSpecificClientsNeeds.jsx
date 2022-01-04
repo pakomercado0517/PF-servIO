@@ -17,19 +17,12 @@ export const OffersToSpecificClientsNeeds = () => {
     const dispatch = useDispatch()
     const detailsClientNeed = useSelector(state => state.detailsClientNeed)
     const getOffers = useSelector(state => state.offersOfClientNeed)    
-    
-    console.log("detailsClientNeed", detailsClientNeed)
-
     const professionals = useSelector(state => state.professionals)
-    console.log("professionals", professionals)
-
-    console.log("offers",offers)
 
     useEffect(() => {
         dispatch(getDetailsClientNeed(id))
         dispatch(getAllProfessionalOffers())
         dispatch(getOffersToSpecificClientNeed(id))
-        // hacer un dispatch de todos los profesionales
         dispatch(getAllProfessionals())
     
     if (getOffers.data === "No offers found") return setOffers([])

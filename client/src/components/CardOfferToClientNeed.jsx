@@ -11,7 +11,6 @@ const { REACT_APP_HOST } = process.env;
 
 export default function CardOfferToClientNeed(props) {
 
-    console.log("props",props)
     const [user, ] = useGlobalStorage("globalUser", "")
     const [cart, setCart] = useGlobalStorage("cart", [])
 
