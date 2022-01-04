@@ -83,7 +83,9 @@ export const ClientSpecificNeed = () => {
                     <form onSubmit={postNeed}>
                         <div className="row">
                             <div className={"col-12" && s.container_filter}>
-                                <h1>Solicitá tu servicio</h1>
+                                <h1
+                                className="text-center"
+                                >Solicitá tu servicio</h1>
                                 <div className="input-group mb-3">
                                     <input
                                         type="text"
@@ -98,7 +100,9 @@ export const ClientSpecificNeed = () => {
 
                                 <div className="form-group">
                                     <label
-                                        htmlFor="exampleFormControlTextarea1">
+                                        htmlFor="exampleFormControlTextarea1"
+                                        className="text-muted mb-1"
+                                    >
                                         Descripción del servicio
                                     </label>
                                     <textarea
@@ -113,13 +117,14 @@ export const ClientSpecificNeed = () => {
                                     </textarea>
                                 </div>
                             </div>
-                        </div>
                         <button
                             type="submit"
-                            className={` "btn btn-primary btn-lg btn-block" s.container_filterButton`}
-                        >
+                            className="btn btn-primary btn-lg mt-3"
+                            >
                             Enviar Solicitud
                         </button>
+
+                        </div>
                     </form>
                 </div>
 

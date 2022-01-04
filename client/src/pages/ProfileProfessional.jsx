@@ -6,9 +6,10 @@ import CardReview from '../components/CardReview';
 import CardParticularService from '../components/CardParticularService';
 import star from '../img/star.svg'
 import { useSelector, useDispatch } from 'react-redux';
-import { getByUserId, getSpecificActivitiesById } from '../redux/actions';
+import { getAllUsers, getByUserId, getSpecificActivitiesById } from '../redux/actions';
 import { NavLink } from 'react-router-dom';
 import s from './styles/ProfileProfessional.module.css'
+import { StarRating } from '../components/StarRating';
 
 
 export default function ProfileProfessional( ){
@@ -18,8 +19,11 @@ export default function ProfileProfessional( ){
     const professional = useSelector((state) => state?.user[0])
     const { globalUserGlobalStorage } = useSelector(state => state)
     const specificActivities = useSelector((state) => state?.specificActivitiesById)
-    console.log('professional',professional)
-    
+    // console.log('professional',professional)
+
+    const allUsers = useSelector( (state) => state?.allUsers)
+    // console.log('allUsers',allUsers)
+
     const [state, setstate] = useState({
         login: false,
         seeAllReview: true,
@@ -29,6 +33,7 @@ export default function ProfileProfessional( ){
     useEffect(()=>{
         dispatch(getByUserId(id))
         dispatch(getSpecificActivitiesById(id))
+        dispatch(getAllUsers())
     },[dispatch,id])
 
     function newStateReview(){
@@ -51,7 +56,7 @@ return (
             
             <div>
                 <img 
-                    src={ professional?.photo } 
+                    src={ professional?.photo ? professional.photo : 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200'} 
                     className={ s.container_details_photo }
                     alt="foto"
                     />
@@ -65,7 +70,11 @@ return (
                     {professional?.profession}
                 </h2>
                 <h5>
-                    {professional?.state + ' ' + professional?.city}
+                    {
+                        professional?.state ? professional.state + ', ' : '' 
+                        // + professional?.city ? professional.city : ''
+                        // + professional?.city === null ? '' : professional.city
+                    }
                 </h5>
                 <div>
                     <div>
@@ -163,16 +172,29 @@ return (
         </div>
         <h4>Reviews</h4>
         <div className={ s.container_cards }>
-            <div className={ state.seeAllReview? s.container_cards_first:s.container_cards_first_all }>
-                <CardReview/>
-                <CardReview/>
-                <CardReview/>
-                <CardReview/>
-                <CardReview/>
-                <CardReview/>
-                <CardReview/>
-                <CardReview/>
-                <CardReview/>
+            <div 
+                className={ professional?.Professional.ClientReviews ? 
+                            s.container_cards_first :
+                            s.container_cards_first_all 
+                        }
+            >
+
+            {
+                professional?.Professional.ClientReviews && professional?.Professional.ClientReviews.map((el) =>
+                    (
+                        <CardReview
+                            id={ el.id }
+                            key={ el.id }
+                            photo={ el.UserId ? allUsers.find(el2 => el2.id === el.UserId)?.photo : '' }
+                            name= { el.UserId ? allUsers.find(el2 => el2.id === el.UserId)?.first_name + ' ' + allUsers.find(el2 => el2.id === el.UserId)?.last_name : '' }
+                            description= { el.comment }
+                            score={<StarRating stars={ el.score } />}
+                            score={ el.score }
+                            
+                            />
+                    )
+                )
+            }
             </div>
             <div className={ state.seeAllReview?s.container_cards_second:s.container_cards_second_all }>
                 <BsArrowRightCircle onClick={ newStateReview } size="50px"/>
