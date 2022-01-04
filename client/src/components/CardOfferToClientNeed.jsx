@@ -4,11 +4,20 @@ import s from './styles/CardOfferToClientNeed.module.css'
 
 import { useGlobalStorage } from '../hooks/useGlobalStorage'
 
+import { useDispatch } from 'react-redux'
+import { getOffersById } from '../redux/actions'
+
+import Swal from 'sweetalert2'
+import axios from 'axios'
+
+const { REACT_APP_HOST } = process.env;
+
 export default function CardOfferToClientNeed(props) {
 
     const [user, ] = useGlobalStorage("globalUser", "")
     const [cart, setCart] = useGlobalStorage("cart", [])
-    console.log(user)
+
+    const dispatch = useDispatch()
 
     function addToCart(){
         const exist = cart.filter(el => el.name === props.name )
@@ -29,6 +38,35 @@ export default function CardOfferToClientNeed(props) {
                     count: 1
                 }
             ])
+        }
+    }
+
+    async function deleteOffer() {
+        try {
+            const data = await axios.delete(`${REACT_APP_HOST}/professsionalOffer/${props.id}`)
+            if (data.data === "La oferta ha sido eliminada."){
+                Swal.fire({
+                    icon: 'success',
+                    title: 'La oferta ha sido eliminada con exito!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                dispatch(getOffersById(user.id))
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Algo salió mal!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Algo salió mal!',
+                showConfirmButton: false,
+                timer: 1500
+            })
         }
     }
 
@@ -53,7 +91,7 @@ export default function CardOfferToClientNeed(props) {
                 {
                     (user.id !== props.UserId) ?
                         <div className={s.container_buttons}>
-                            <button name="offers" type="button" class="btn btn-outline-danger">
+                            <button name="offers" type="button" className="btn btn-outline-danger">
                                 Rechazar
                             </button>
                             <button onClick={ addToCart } name="details" className='btn btn-outline-success'>
@@ -62,7 +100,7 @@ export default function CardOfferToClientNeed(props) {
                             {/* <button name="details" className='btn btn-outline-success'>Contratar</button> */}
                         </div> :
                         <div className={s.container_buttons}>
-                            <button name="offers" type="button" class="btn btn-outline-danger">
+                            <button name="offers" type="button" className="btn btn-outline-danger" onClick={deleteOffer}>
                                 Eliminar
                             </button>
                         </div>
