@@ -53,7 +53,7 @@ export default function footer() {
                     <a href="https://www.linkedin.com/in/guillermo-de-la-mora/" target="_blank">
                         <img src={linkedin} alt='img'></img>
                     </a>
-                    <a href=""  target="_blank">
+                    <a href="https://github.com/guillermodlmv"  target="_blank">
                         <img src={github} alt='img'></img>
                     </a>
                 </div>
