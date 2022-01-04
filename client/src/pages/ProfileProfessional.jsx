@@ -146,7 +146,7 @@ return (
             <div className={ state.seeAllServices?s.container_cards_first:s.container_cards_first_all }>
                 {
                     specificActivities && specificActivities === 'There are not specifical Activities' && (
-                        <h3>Este profesional no cargo actividades especificas</h3>
+                        <h5>Este profesional no cargó actividades específicas</h5>
                     )
                 }
                 {
@@ -172,7 +172,11 @@ return (
         </div>
         <h4>Reviews</h4>
         <div className={ s.container_cards }>
-            <div 
+
+            {
+                professional?.Professional.ClientReviews.length > 0 ?
+
+                <div 
                 className={ professional?.Professional.ClientReviews ? 
                             s.container_cards_first :
                             s.container_cards_first_all 
@@ -196,6 +200,10 @@ return (
                 )
             }
             </div>
+            :
+                <h5>Este profesional no tiene reviews</h5>
+            }
+
             <div className={ state.seeAllReview?s.container_cards_second:s.container_cards_second_all }>
                 <BsArrowRightCircle onClick={ newStateReview } size="50px"/>
             </div>
