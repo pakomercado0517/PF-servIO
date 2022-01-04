@@ -75,6 +75,9 @@ export default function CardOfferToClientNeed(props) {
         <div className={ s.container }>
             <div className={s.container_date}>
                 <p>fecha de creacion de oferta: {props.date}</p>
+                <spam>
+                    {/* <button onClick={() => deleteOffer()}>Eliminar</button> */}
+                </spam>
             </div>
             <div className={s.container_description}>
                 {/* img */}
