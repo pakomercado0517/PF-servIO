@@ -1,18 +1,37 @@
 import React from 'react'
+import { StarRating } from './StarRating'
 
 import s from './styles/CardReview.module.css'
 
-export default function CardReview() {
+export default function CardReview( props ) {
+
+    // console.log( "props card review",props)
+
     return (
         <div className={ s.container }>
             <div className= { s.container_info }>
-                <div className={ s.container_info_photo }>
-                </div>
-                <span>Pepe aguilar</span>
+
+                <img 
+                    className={ s.container_info_photo }
+                    src={ props.photo } 
+                    alt="" 
+                />
+
+                <span
+                    className="text-center"
+                > { props.name } </span>
+
             </div>
-            <div className={ s.photo }>
+
+            <div className="text-center" >
+                <StarRating stars={ props.score } />
+                Calificacion: {` `}{ props.score}/5
+
             </div>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Asperiores assumenda ratione, tenetur modi odit doloremque dolorum iure ut, inventore ad, odio corporis earum repellendus repudiandae laboriosam adipisci est iusto voluptate.</p>
+            <p className="text-center">
+                { props.description }
+            </p>
+
         </div>
     )
-}
+};
