@@ -10,7 +10,7 @@ import { BsCart2 } from 'react-icons/bs'
 import Search from './Search';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { showFormClientNeed } from '../redux/actions'
+import { showFormClientNeed, deleteLogin } from '../redux/actions'
 // CSS
 import s from './styles/NavBar.module.css'
 // Hooks
@@ -38,13 +38,13 @@ export default function NavBar() {
             method: 'POST'
         })
         .then(response => {
+          window.location.replace('/')
             console.log('logout responseee', response)
             localStorage.clear()
-            window.location.replace('/')
-            setGlobalUser(null)
-            setLocalUser(null)
+            setGlobalUser('')
+            setLocalUser('')
+            deleteLogin()
         })
-        
     }
 
     return (

@@ -46,7 +46,8 @@ export const OFFER_IN_NEED_BY_ID = 'OFFER_IN_NEED_BY_ID';
 export const CREATE_PREFERENCE = 'CREATE_PREFERENCE';
 export const CREATE_TECNICAL_ACTIVITY = 'CREATE_TECNICAL_ACTIVITY';
 export const EXISTENT_USER = 'EXISTENT_USER'
-
+export const GOOGLE_LOGIN = 'GOOGLE_LOGIN'
+export const DELETE_LOGIN = 'DELETE_LOGIN'
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers () {
     
@@ -617,11 +618,18 @@ export const existentUser = email => async  dispatch => {
   });
 }
 
-export const login = user => async  dispatch => {
-  const response = await axios.post(`${constants.localhost}/user/login`, user);
+
+export const googleLogin = () => async  dispatch => {
+  const response = await axios.get(`${constants.localhost}/user/getUser`);
   dispatch ({
-    type: EXISTENT_USER,
+    type: GOOGLE_LOGIN,
     payload: response.data,
   });
 }
 
+export const deleteLogin = () => async  dispatch => {
+  dispatch ({
+    type: DELETE_LOGIN,
+    payload: [],
+  });
+}

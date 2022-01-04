@@ -884,7 +884,8 @@ module.exports = {
     });
 
     if (!usuario) {
-      req.flash("error", "No valido"), res.redirect("/reestablecer/");
+      // req.flash("error", "No valido"), 
+      res.redirect("/reestablecer/");
     }
 
     //haashear el nuevo password para
