@@ -45,6 +45,7 @@ export const OffersToSpecificClientsNeeds = () => {
                                 name={el.name || "algun servicio"}
                                 id={el.id}
                                 guarantee_time={el.guarantee_time}
+                                duration={ el.duration }
                                 materials={el.materials}
                                 ProfessionalId={el.ProfessionalId}
                                 price={el.price}
