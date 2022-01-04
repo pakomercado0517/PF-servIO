@@ -570,7 +570,7 @@ export function getOffersToSpecificClientNeed(id) {
       const response = await axios.get(`${constants.localhost}/professsionalOffer/need/${id}`);
       dispatch({
         type: GET_OFFERS_OF_CLIENT_NEED,
-        payload: response,
+        payload: response.data,
       });
     } catch (error) {
       console.log(error.message);

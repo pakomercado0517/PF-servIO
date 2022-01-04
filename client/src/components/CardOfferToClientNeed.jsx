@@ -42,11 +42,12 @@ export default function CardOfferToClientNeed(props) {
                 <img src={props.photo} alt="img" className={s.avatar_img}/>
                 {/* Description */}
                 <div>
-                    <p>descripcion:{props.description}</p>
-                    <p>finalizado en {props.duration} días</p>
-                    <p>duracion de la garantia:{props.guarantee_time} días</p>
-                    <p>incluye materiales?{props.materials === true ? 'si' : 'no'}</p>
-                    <p>precio:${props.price}</p>
+                    <p>Titulo: {props.name}</p>
+                    <p>Descripcion: {props.description}</p>
+                    <p>Finalizado en {props.duration} días</p>
+                    <p>Duración de la garantia: {props.guarantee_time} días</p>
+                    <p>Incluye materiales?{props.materials === true ? 'si' : 'no'}</p>
+                    <p>Precio: ${props.price}</p>
                 </div>
                 {/* buttons */}
                 {
@@ -55,7 +56,7 @@ export default function CardOfferToClientNeed(props) {
                             <button name="offers" type="button" class="btn btn-outline-danger">
                                 Rechazar
                             </button>
-                            <button onClick={addToCart} name="details" className='btn btn-outline-success'>
+                            <button onClick={ addToCart } name="details" className='btn btn-outline-success'>
                                 Agregar al carrito
                             </button>
                             {/* <button name="details" className='btn btn-outline-success'>Contratar</button> */}

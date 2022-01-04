@@ -23,7 +23,7 @@ export const OffersToSpecificClientsNeeds = () => {
         dispatch(getOffersToSpecificClientNeed(id))
     
     if (getOffers.data === "No offers found") return setOffers([])
-    setOffers(getOffers.data)
+    setOffers(getOffers)
     }, []);
 
     return (
