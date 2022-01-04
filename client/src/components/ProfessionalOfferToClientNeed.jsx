@@ -41,17 +41,24 @@ export const ProfessionalOfferToClientNeed = (props) => {
 
     const postNeed =  (e) =>{
         e.preventDefault()
+        if (form.description === "" || form.price === "" || form.duration === "" || form.guarantee_time === "" || form.materials === "") {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops...',
+                text: 'Por favor, rellená todos los campos',
+            })
+        } else {
+            
         try {
-
             const offer = {
-              description: form.description,
-              price: parseInt(form.price),
-              duration: parseInt(form.duration),
-              materials: form.materials,
-              guarantee_time: parseInt(form.guarantee_time),
-              ClientNeedId: form.ClientNeedId,
-              UserId: form.UserId,
-              name: detailsClientNeed?.name
+                description: form.description,
+                price: parseInt(form.price),
+                duration: parseInt(form.duration),
+                materials: form.materials,
+                guarantee_time: parseInt(form.guarantee_time),
+                ClientNeedId: form.ClientNeedId,
+                UserId: form.UserId,
+                name: detailsClientNeed?.name
             }
             newProfessionalOffer(offer)
             Swal.fire({
@@ -66,6 +73,21 @@ export const ProfessionalOfferToClientNeed = (props) => {
         } catch (error) {
             console.error(error)
         }
+        }
+
+        // funcion para que el boton subtmit este cancelado hasta que se llenen todos los campos
+        // if (form.description === "" || form.price === "" || form.duration === "" || form.guarantee_time === "") {
+        //     Swal.fire({
+        //         icon: 'error',
+        //         title: 'Algo salió mal!',
+        //         showConfirmButton: false,
+        //         timer: 1500
+        //     })
+        // } else {
+        //     try {
+        //         const offer = {
+
+
 
         // const [ submitButton, setSubmitButton ] = useState(true)
         // const [ submitButton, setSubmitButton ] = useState(true);
@@ -113,15 +135,27 @@ export const ProfessionalOfferToClientNeed = (props) => {
     return (
         <>
             <div className={ s.container }>
-
+                
                 <div className={s.container_form}>
+
+                    <div className="d-flex flex-row-reverse bd-highlight">
+                        <button 
+                        className="text-center btn btn-warning" 
+                        onClick={()=>{window.history.back()}}
+                        >
+                            Volver
+                        </button>
+                    </div>
                     <form onSubmit={postNeed}  action="">
+                                
+
                         <div className="row">
                             <div className={"col-12" && s.container_filter}>
                                 <h1
                                     className="text-center"
-                                >
-                                    Enviá tu Presupuesto!</h1>
+                                    >
+                                    Enviá tu Presupuesto!
+                                </h1>
 
                                 <div className="form-group mb-2">
                                     <label
@@ -219,7 +253,7 @@ export const ProfessionalOfferToClientNeed = (props) => {
                         <div className="row">
                         <button 
                             type="submit"
-                            className={` "btn btn-primary btn-lg btn-block" s.container_filterButton mt-4 mb-3`}
+                            className={` "btn btn-primary btn-lg btn-block" s.container_filterButton mt-3 mb-3`}
                         >
                             Enviar Oferta
                         </button>
