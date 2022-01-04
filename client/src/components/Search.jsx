@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 // import { FiSearch } from 'react-icons/fi'
-// import s from './styles/Search.module.css'
+import s from './styles/Search.module.css'
 import { useDispatch, useSelector } from 'react-redux';
 import {searchByName, getAllProfessionals, searchBar } from '../redux/actions'
 // import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
+
 
 const Search = () => {
   const [switcheo2] = useGlobalStorage("switcheo", null)
@@ -38,8 +39,8 @@ const Search = () => {
     // }
 
     return (
-        <div>
-            <div style={{width: 280}}>
+        <div className={s.search}>
+            <div style={{width: 300}}>
                     {/* <ReactSearchAutocomplete
                         items={display}
                         // onSearch={handleName}
@@ -69,13 +70,14 @@ const Search = () => {
                             //   placeholderColor: "grey",
                         }}
                     /> */}
+                    
                     <input
-                type="text"
-                placeholder={switcheo2 === 'professional' ? "Busca un tecnico": 'Busca trabajo'}
-                value={name}
-                onChange={e => {setName(e.target.value)}}
-                // className={style.input}
-            />
+                        type="text"
+                        placeholder={ switcheo2 === 'professional' ? "Busca un tecnico": 'Busca trabajo'}
+                        value={name}
+                        onChange={e => {setName(e.target.value)}}
+                        className={s.input}
+                    />
                 </div>
         </div>
     )
