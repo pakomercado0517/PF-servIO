@@ -4,6 +4,7 @@ import img1 from '../img/nosotros1.svg';
 import img2 from '../img/nosotros2.svg';
 import img3 from '../img/preguntas.svg';
 // import FiChevronDown from 'react-icons/fa';
+import Footer from '../components/Footer';
 
 export default function nosotros() {
 
@@ -14,7 +15,7 @@ export default function nosotros() {
             <div className={s.conteiner}>
                 <div className={s.conteiner_titulo}>
                     <h2>¿Que hacemos en ServIO? </h2>
-                    <p>Basado en la necesidad de evolucionar la forma en que se realizan las 
+                    <p className='animate__animated animate__backInRight'>Basado en la necesidad de evolucionar la forma en que se realizan las 
                         operaciones de contratación , a través de la plataforma Servio te 
                         facilitamos la tarea de buscar profesionales en diferentes rubros, 
                         como ser plomeros, electricistas, personal doméstico, etc. Te brindamos 
@@ -22,7 +23,7 @@ export default function nosotros() {
                         trabajo. Si eres profesional te brindamos la posibilidad de publicar tus 
                         servicios a través de nuestra plataforma para que posibles clientes puedan 
                         contratarte.</p>
-                    <img src={img1} alt="" />
+                    <img src={img1} alt=""  className='animate__animated animate__backInLeft'/>
                 </div>
                 <div className={s.conteiner_titulo_2}>
                     <h3>¿Cómo funciona ServIO  para los usuarios?</h3>
@@ -32,13 +33,14 @@ export default function nosotros() {
                         Encontrar fácil y rápidamente al profesional adecuado. Evitar riesgos 
                         asociados con permitir el ingreso de personas desconocidas al hogar.
                         Pagar un precio justo, sin sorpresas ni sobre costos.</p>
-                        <img src={img2} alt="" />
+                        <img src={img2} alt="" className='animate__animated animate__bounceIn animate__delay-2s' />
                 </div>
                 <div className={s.conteiner_preguntas}>
                     <h3>Preguntas Frecuentes</h3>
-                    <img src={img3} alt="" />
+                    <img src={img3} alt="" className="animate__animated animate__zoomInDown animate__delay-4s" />
                     
-                </div>    
+                </div>
+                <div className={s.conteiner_deslizable_container}>  
                 <div className={s.conteiner_deslizable}>
                     <h5>¿Tiene algún costo el uso de  la plataforma?</h5>
                     <button>V</button>
@@ -123,9 +125,10 @@ export default function nosotros() {
                         una consulta.
                     </p>
                 </div>
-            
+                </div>  
             </div>
             
+            <Footer/>
         </div>
     )
 }

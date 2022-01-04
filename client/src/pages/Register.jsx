@@ -37,6 +37,7 @@ export default function Crear() {
         profession:[],
     })
     
+    console.log(details)
     useEffect(() => {
         dispatch(filterProfessions())      
     }, [dispatch])
