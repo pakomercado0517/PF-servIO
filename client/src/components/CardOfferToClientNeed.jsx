@@ -14,6 +14,7 @@ const { REACT_APP_HOST } = process.env;
 
 export default function CardOfferToClientNeed(props) {
 
+    console.log("props",props)
     const [user, ] = useGlobalStorage("globalUser", "")
     const [cart, setCart] = useGlobalStorage("cart", [])
 
@@ -73,18 +74,22 @@ export default function CardOfferToClientNeed(props) {
     return (
         <div className={ s.container }>
             <div className={s.container_date}>
-                <p>fecha de creacion de oferta:{props.date}</p>
+                <p>fecha de creacion de oferta: {props.date}</p>
             </div>
             <div className={s.container_description}>
                 {/* img */}
-                <img src={props.photo} alt="img" className={s.avatar_img}/>
+                <img 
+                    src={props.photo? props.photo : "https://www.gravatar.com/avatar/205e460b479e2e5b48aec06610c08d50?s=400&r=pg&d=mm"} 
+                    alt="img" 
+                    className={s.avatar_img}
+                />
                 {/* Description */}
                 <div>
                     <p>Titulo: {props.name}</p>
                     <p>Descripcion: {props.description}</p>
                     <p>Finalizado en {props.duration} días</p>
                     <p>Duración de la garantia: {props.guarantee_time} días</p>
-                    <p>Incluye materiales?{props.materials === true ? 'si' : 'no'}</p>
+                    <p>Incluye materiales?{props.materials === true ? ' si' : ' no'}</p>
                     <p>Precio: ${props.price}</p>
                 </div>
                 {/* buttons */}
