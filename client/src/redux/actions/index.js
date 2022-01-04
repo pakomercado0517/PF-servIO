@@ -54,7 +54,7 @@ export function getAllUsers () {
     return async function (dispatch) {
         
         try {
-            const response = await axios.get(`${ constants.localhost }/allUsers`)
+            const response = await axios.get(`${ constants.localhost }/user/all`)
             dispatch({
                 type: GET_ALL_USERS,
                 payload: response.data

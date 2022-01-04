@@ -1,6 +1,7 @@
 import {
     NEW_USER,
     NEW_CLIENT_NEED,
+    GET_ALL_USERS,
     GET_ALL_NEEDS,
     GET_ALL_CLIENT_NEEDS,
     GET_ALL_PROFESSIONALS,
@@ -39,6 +40,7 @@ import {
 
 
 const initialState = {
+    allUsers: [],
     professionals: [],
     user: [],
     clientNeeds: [],
@@ -68,6 +70,11 @@ const initialState = {
 
 function rootReducer(state = initialState, { type, payload }) {
     switch (type) {
+        case GET_ALL_USERS:
+            return {
+                ...state,
+                allUsers: payload
+            }
         case GET_ALL_PROFESSIONALS:
             return {
                 ...state,
