@@ -1,8 +1,6 @@
 .conteiner{
     display: flex;
     flex-direction: column;
-    
-
 }
 
 .conteiner_titulo{
@@ -14,12 +12,12 @@
 .conteiner_titulo h2{
     grid-column: 1 / 3;
     grid-row: 1;
-    margin-right: 3em;
+    margin: 1.5em 3em;
     float: right;
-    color: #707070;
+    color: #6C63FF;
     font-weight:900;
     justify-self: center;
-    font-size: 2rem;
+    font-size: 2.5rem;
     letter-spacing: 0.2em;
     
     
@@ -28,7 +26,7 @@
 .conteiner_titulo p{
     grid-column: 2 / 3;
     grid-row: 1 / 3;
-    margin: 8em 2em;    
+    margin: 10em 2em;    
     color: #707070;
     font-weight:700;
     
@@ -53,6 +51,7 @@
     grid-column: 1 / 3;
     grid-row: 1 / 3;
     justify-self: center;
+    color: #6C63FF ;
 }
 
 .conteiner_titulo_2 p{
@@ -80,6 +79,7 @@
 .conteiner_preguntas h3{
     justify-self: center;
     font-size: 2rem;
+    color: #6C63FF ;
 }
 
 .conteiner_preguntas img{
@@ -87,17 +87,26 @@
     justify-self: center;
 }
 
+.conteiner_deslizable_container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 2em;
+}
+
+
 .conteiner_deslizable h5{
     display: inline;
     font-weight:700;
     font-size: 1.5em;
     margin-left:  2em;
     color: #707070;
+    align-items: center;
 }
 
 .conteiner_deslizable button{
   margin-left: 1em;
-  color: aqua;
+  color: #6C63FF ;
   border: none;
   background-color: #ffffff;
   font-weight:1000;
@@ -111,5 +120,9 @@
 
 .conteiner_deslizable:hover p{
     display: block;
-    margin: 3em 3em;
+    margin: 2em 2em;
+    border: 3px solid #6C63FF;
+    box-shadow: 0px 0px 10px 0px #564ef8 inset;
+    padding: 1em;
+    
 }

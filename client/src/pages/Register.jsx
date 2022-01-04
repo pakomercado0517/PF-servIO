@@ -41,8 +41,10 @@ export default function Crear() {
         photo: logo,
         profession:[],
     })
+
     const [progress, setProgress] = useState(0)
     console.log(details.email)
+
     useEffect(() => {
         dispatch(filterProfessions())  
     }, [dispatch])
