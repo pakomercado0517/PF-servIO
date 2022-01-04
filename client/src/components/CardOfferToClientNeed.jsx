@@ -51,7 +51,7 @@ export default function CardOfferToClientNeed(props) {
                 </div>
                 {/* buttons */}
                 {
-                    (user.id !== props.ProfessionalId) ?
+                    (user.id !== props.UserId) ?
                         <div className={s.container_buttons}>
                             <button name="offers" type="button" class="btn btn-outline-danger">
                                 Rechazar
