@@ -1,14 +1,11 @@
 import React from 'react'
-
-import s from './styles/CardOfferToClientNeed.module.css'
-
 import { useGlobalStorage } from '../hooks/useGlobalStorage'
-
 import { useDispatch } from 'react-redux'
 import { getOffersById } from '../redux/actions'
-
 import Swal from 'sweetalert2'
 import axios from 'axios'
+
+import s from './styles/CardOfferToClientNeed.module.css'
 
 const { REACT_APP_HOST } = process.env;
 
@@ -83,6 +80,7 @@ export default function CardOfferToClientNeed(props) {
                 {/* img */}
                 <img 
                     src={props.photo? props.photo : "https://www.gravatar.com/avatar/205e460b479e2e5b48aec06610c08d50?s=400&r=pg&d=mm"} 
+                    // src={ props.photo }
                     alt="img" 
                     className={s.avatar_img}
                 />

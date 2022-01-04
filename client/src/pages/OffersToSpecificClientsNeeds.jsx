@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom';
 import CardOfferToClientNeed from '../components/CardOfferToClientNeed';
 import {getAllProfessionalOffers, 
+        getAllProfessionals, 
         getDetailsClientNeed, 
         getOffersToSpecificClientNeed 
     } from '../redux/actions'
@@ -17,10 +18,19 @@ export const OffersToSpecificClientsNeeds = () => {
     const detailsClientNeed = useSelector(state => state.detailsClientNeed)
     const getOffers = useSelector(state => state.offersOfClientNeed)    
     
+    console.log("detailsClientNeed", detailsClientNeed)
+
+    const professionals = useSelector(state => state.professionals)
+    console.log("professionals", professionals)
+
+    console.log("offers",offers)
+
     useEffect(() => {
         dispatch(getDetailsClientNeed(id))
         dispatch(getAllProfessionalOffers())
         dispatch(getOffersToSpecificClientNeed(id))
+        // hacer un dispatch de todos los profesionales
+        dispatch(getAllProfessionals())
     
     if (getOffers.data === "No offers found") return setOffers([])
     setOffers(getOffers)
@@ -51,6 +61,7 @@ export const OffersToSpecificClientsNeeds = () => {
                                 price={el.price}
                                 date={el.updatedAt.split("T")[0]}
                                 description={el.description}
+                                photo={ el.UserId ? professionals.find(el2 => el2.id === el.UserId)?.photo : '' }
                             />
                         )
                     })
