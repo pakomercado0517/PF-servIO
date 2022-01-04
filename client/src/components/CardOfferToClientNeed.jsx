@@ -4,14 +4,25 @@ import s from './styles/CardOfferToClientNeed.module.css'
 
 import { useGlobalStorage } from '../hooks/useGlobalStorage'
 
+import { useDispatch } from 'react-redux'
+import { getOffersById } from '../redux/actions'
+
+import Swal from 'sweetalert2'
+import axios from 'axios'
+
+const { REACT_APP_HOST } = process.env;
+
 export default function CardOfferToClientNeed(props) {
 
+    console.log("props",props)
+    const [user, ] = useGlobalStorage("globalUser", "")
     const [cart, setCart] = useGlobalStorage("cart", [])
+
+    const dispatch = useDispatch()
 
     function addToCart(){
         const exist = cart.filter(el => el.name === props.name )
         const notExist = cart.filter(el => el.name !== props.name )
-        console.log("exists: ", exist)
         if ( exist[0] ){
             exist[0].count +=1;
             setCart([
@@ -31,30 +42,74 @@ export default function CardOfferToClientNeed(props) {
         }
     }
 
+    async function deleteOffer() {
+        try {
+            const data = await axios.delete(`${REACT_APP_HOST}/professsionalOffer/${props.id}`)
+            if (data.data === "La oferta ha sido eliminada."){
+                Swal.fire({
+                    icon: 'success',
+                    title: 'La oferta ha sido eliminada con exito!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                dispatch(getOffersById(user.id))
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Algo salió mal!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Algo salió mal!',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
+    }
+
     return (
         <div className={ s.container }>
             <div className={s.container_date}>
-                <p>fecha de creacion de oferta:{props.date}</p>
+                <p>fecha de creacion de oferta: {props.date}</p>
             </div>
             <div className={s.container_description}>
                 {/* img */}
-                <img src={props.photo} alt="img" className={s.avatar_img}/>
+                <img 
+                    src={props.photo? props.photo : "https://www.gravatar.com/avatar/205e460b479e2e5b48aec06610c08d50?s=400&r=pg&d=mm"} 
+                    alt="img" 
+                    className={s.avatar_img}
+                />
                 {/* Description */}
                 <div>
-                    <p>descripcion:{props.description}</p>
-                    <p>finalizado en {props.duration} días</p>
-                    <p>duracion de la garantia:{props.guarantee_time} días</p>
-                    <p>incluye materiales?{props.materials === true ? 'si' : 'no'}</p>
-                    <p>precio:${props.price}</p>
+                    <p>Titulo: {props.name}</p>
+                    <p>Descripcion: {props.description}</p>
+                    <p>Finalizado en {props.duration} días</p>
+                    <p>Duración de la garantia: {props.guarantee_time} días</p>
+                    <p>Incluye materiales?{props.materials === true ? ' si' : ' no'}</p>
+                    <p>Precio: ${props.price}</p>
                 </div>
                 {/* buttons */}
-                <div className={ s.container_buttons }>
-                        <button name="offers" type="button" class="btn btn-outline-danger">
-                        Rechazar
-                        </button>
-                    <button onClick={ addToCart } name="details" className='btn btn-outline-success'>Agregar al carrito</button>
-                    {/* <button name="details" className='btn btn-outline-success'>Contratar</button> */}
-                </div>
+                {
+                    (user.id !== props.UserId) ?
+                        <div className={s.container_buttons}>
+                            <button name="offers" type="button" className="btn btn-outline-danger">
+                                Rechazar
+                            </button>
+                            <button onClick={ addToCart } name="details" className='btn btn-outline-success'>
+                                Agregar al carrito
+                            </button>
+                            {/* <button name="details" className='btn btn-outline-success'>Contratar</button> */}
+                        </div> :
+                        <div className={s.container_buttons}>
+                            <button name="offers" type="button" className="btn btn-outline-danger" onClick={deleteOffer}>
+                                Eliminar
+                            </button>
+                        </div>
+                }
             </div>
         </div>
     )

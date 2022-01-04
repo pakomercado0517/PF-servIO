@@ -23,7 +23,7 @@ export const OffersToSpecificClientsNeeds = () => {
         dispatch(getOffersToSpecificClientNeed(id))
     
     if (getOffers.data === "No offers found") return setOffers([])
-    setOffers(getOffers.data)
+    setOffers(getOffers)
     }, []);
 
     return (
@@ -34,25 +34,26 @@ export const OffersToSpecificClientsNeeds = () => {
 
             {
                 getOffers.data === "No offers found" ?
-                <h1>No hay ofertas para esta necesidad</h1>
-                
-                :
-                
-                offers?.map((el,index) => {
-                    // console.log(offers)
-                    return (
-                        <CardOfferToClientNeed
-                        key={ index + id }
-                        name={ el.name || "algun servicio" }
-                        id={ el.id }
-                        guarantee_time={ el.guarantee_time }
-                        materials={ el.materials }
-                        price={ el.price }
-                        date={ el.updatedAt.split("T")[0] }
-                        description={ el.description }
-                        />
-                    )
-                })
+                    <h1>No hay ofertas para esta necesidad</h1>
+
+                    :
+
+                    offers?.map((el, index) => {
+                        return (
+                            <CardOfferToClientNeed
+                                key={index + id}
+                                name={el.name || "algun servicio"}
+                                id={el.id}
+                                guarantee_time={el.guarantee_time}
+                                duration={ el.duration }
+                                materials={el.materials}
+                                ProfessionalId={el.ProfessionalId}
+                                price={el.price}
+                                date={el.updatedAt.split("T")[0]}
+                                description={el.description}
+                            />
+                        )
+                    })
             }
 
         </div>
