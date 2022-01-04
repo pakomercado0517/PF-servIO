@@ -1,24 +1,12 @@
+.search{
+    margin-left: auto;
+    margin-right: auto;
+}
 
-.container__input{
-    display: flex;
-    
-    align-items:flex-start;
-    justify-content: space-around;
+.input{
+    color: #707070;
     background-color: rgba(128, 128, 128, 0.068);
-    max-width: 60%;
-    height: 30px;
-    border-radius: 5px;
-    color: #707070;
-    padding-left: 5px;
-    /* margin-right: 5%; */
-} 
+    border-radius: 1em;
+    text-align: center;
+}
 
-.container__input--text{
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    background-color: transparent;
-    font-family: 'Poppins', sans-serif;
-    color: #707070;
-    width: 80%;
-} 

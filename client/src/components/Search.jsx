@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef  } from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 // import { FiSearch } from 'react-icons/fi'
 import s from './styles/Search.module.css'
@@ -7,70 +7,78 @@ import {searchByName, getAllProfessionals, searchBar } from '../redux/actions'
 // import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
 
+
 const Search = () => {
   const [switcheo2] = useGlobalStorage("switcheo", null)
-    const needs = useSelector(state => state.professionalsFilter)
-    const professionals = useSelector(state => state.clientsFilter)
-    console.log(professionals)
+    // const display = useSelector(state => state.professionals)
     const dispatch = useDispatch()
     const[name, setName]= useState('')
-    // console.log(name)
-    const autocompleteProfessionals = () => {
-      let filtered = [];
-      for(let i = 0; i < needs.length; i++){
-        if(filtered.indexOf(needs[i].name) === -1){
-          filtered.push(needs[i].name);
-        }
-      }
-      return filtered
-    }
+    console.log(name)
+    // useEffect(()=>{
+    //     if (input.name) {
+    //         dispatch(searchByName(input.name))
+    //     } else {
+    //         dispatch(getAllProfessionals())
+    //     }
+    // }, [dispatch, input])
 
-    const autocompleteNeeds = () => {
-      let filtered = [];
-      for(let i = 0; i < professionals.length; i++){
-        if(filtered.indexOf(professionals[i].first_name) === -1){
-          filtered.push(professionals[i].first_name)
-        }
-      }
-      return filtered
-    }
-    const autocomplete = switcheo2 === 'professional' ? autocompleteNeeds().slice(0,6) : autocompleteProfessionals().slice(0,6)
-    console.log(autocomplete)
-    // console.log(autocompleteNeeds())
-    // console.log(autocompleteProfessionals())
     useEffect(() => {
       dispatch(searchBar(name))
-      autocompleteNeeds()
-      autocompleteProfessionals()
     },[name])
 
+    // //* BORRAR EL ESTADO CUANDO EL INPUT ESTA SIENDO BORRANDO
+    // function handleName (e) {
+    //     setInput({...input, name:e.target.value})
+    // }
 
+    // function clearInput () {
+    //     setInput("")
+    // }
+    // function selectedOption(item){
+    //     setInput({...input, name: item.first_name})
+    // }
 
     return (
-        <div>
-            <div >
-              <input
-                type="text"
-                placeholder={switcheo2 === 'professional' ? "    Busca un tecnico": '    Busca trabajo'}
-                value={name}
-                onChange={e => {setName(e.target.value)}}
-                className={s.input}
-              />
-              <div>
-
-                {
-                name !== '' ?
-                autocomplete.map((e, index) =>{
-                  if(e !== undefined || e !== null) {
-                    return (<button onClick={() => setName(e)} key={ "auto" + index} >{e}</button>)
-                  }
-                }):<p></p>
-                
-                }
-
-              </div>
+        <div className={s.search}>
+            <div style={{width: 300}}>
+                    {/* <ReactSearchAutocomplete
+                        items={display}
+                        // onSearch={handleName}
+                        setSearchString={handleName}
+                        onClear={clearInput}
+                        inputSearchString={input.name}
+                        onSelect={selectedOption}
+                        fuseOptions={{ keys: ["first_name", "last_name", "city", "state"] }}
+                        //* PODER HACER UNA BUSQUEDA DE LOS DEMAS CAMPOS
+                        resultStringKeyName="first_name"
+                        // resultStringKeyName="last_name"
+                        // resultStringKeyName="city"
+                        // resultStringKeyName="state"
+                        placeholder='Busca un tecnico/servicio'
+                        styling={{
+                            height: "35px",
+                            border: "0px",
+                            borderRadius: "5px",
+                            //   backgroundColor: "white",
+                            //   boxShadow: "rgba(32, 33, 36, 0.28) 0px 1px 6px 0px",
+                            //   hoverBackgroundColor: "#eee",
+                            //   color: "#212121",
+                            fontSize: "14px",
+                            fontFamily: "Poppins",
+                            //   iconColor: "grey",
+                            //   lineColor: "rgb(232, 234, 237)",
+                            //   placeholderColor: "grey",
+                        }}
+                    /> */}
+                    
+                    <input
+                        type="text"
+                        placeholder={ switcheo2 === 'professional' ? "Busca un tecnico": 'Busca trabajo'}
+                        value={name}
+                        onChange={e => {setName(e.target.value)}}
+                        className={s.input}
+                    />
                 </div>
-                
         </div>
     )
 }

@@ -49,18 +49,28 @@ export default function NavBar() {
 
     return (
         <div className={s.navbar}>
-
-            <div className={s.container__logo}>
-                <img src={logo} alt="Logo" />
+            <div className={s.navbar_logo_serch}>
+                <div className={s.container__logo}>
+                    <img src={logo} alt="Logo" />
+                </div>
+                <Search />
             </div>
 
             <div className={s.container__elements}>
-
-                <Search />
                 <div className={s.container__navigate}>
 
                     <NavLink to='/' className={s['container__inicio--btn']}   >Inicio</NavLink>
                     <NavLink to='/nosotros' className={s['container__inicio--btn']}>Sobre Nosotros</NavLink>
+
+                    {/* CREAR PUBLICACIÓN */}
+                    <div 
+                        className={s.show__presentation}
+                        onClick={showModalFormCLient}
+                        style={{cursor:"pointer"}}
+                    >
+                        <CgOptions />
+                        <span>Crear publicacion</span>
+                    </div>
 
                     {/* CARRITO */}
 
@@ -73,172 +83,163 @@ export default function NavBar() {
                         </div>
                     </NavLink>
 
-                    {/* CREAR PUBLICACIÓN */}
-
-                    <div 
-                        className={s.show__presentation}
-                        onClick={showModalFormCLient}
-                        style={{cursor:"pointer"}}
-                    >
-                        <CgOptions />
-                        <span>Crear publicacion</span>
-                    </div>
                 </div>
+            </div>
+            <div className={s.session_container}>
+                    {login ?
+                        <>
+                            <div className={s.session}>
+                                <NavLink to={`/clients/${login?.id}`}>
+                                    <MdAccountCircle className={s.iconLogin} />
+                                    <span className={s.session_name}>{login?.first_name + ' '} </span>
+                                </NavLink>
 
+                                {login && !login.professional ?
 
-                {login ?
-                    <>
-                        <div className={s.session}>
-                            <NavLink to={`/clients/${login?.id}`}>
-                                <MdAccountCircle className={s.iconLogin} />
-                                <span className={s.session_name}>{login?.first_name + ' '} </span>
-                            </NavLink>
+        // ------------------------------Opciones Perfil cliente------------------------------- //
 
-                            {login && !login.professional ?
-
-    // ------------------------------Opciones Perfil cliente------------------------------- //
-
-                                <div className='dropdown'>
-                                    <button
-                                        className="btn btn-secondary dropdown-toggle"
-                                        id="dropdownMenuButton1"
-                                        data-bs-toggle="dropdown"
-                                        type="button"
-                                        aria-expanded="false">
-                                    </button>
-                                    
-                                    <ul
-                                        className="dropdown-menu"
-                                        aria-labelledby="dropdownMenuButton1"
-                                    >
-
-                                        <li>
-                                            <span className={s.dropdown_item + " dropdown-item"} >
-                                                Perfil Cliente
-                                            </span>
-                                        </li>
+                                    <div className='dropdown'>
+                                        <button
+                                            className="btn btn-secondary dropdown-toggle"
+                                            id="dropdownMenuButton1"
+                                            data-bs-toggle="dropdown"
+                                            type="button"
+                                            aria-expanded="false">
+                                        </button>
                                         
-                                        <NavLink to={`/clients/${login?.id}`}>
+                                        <ul
+                                            className="dropdown-menu"
+                                            aria-labelledby="dropdownMenuButton1"
+                                        >
+
                                             <li>
-                                                <span className={s.dropdown_item + " dropdown-item"}>
-                                                        Ver mi Perfil
+                                                <span className={s.dropdown_item + " dropdown-item"} >
+                                                    Perfil Cliente
                                                 </span>
                                             </li>
-                                        </NavLink>
+                                            
+                                            <NavLink to={`/clients/${login?.id}`}>
+                                                <li>
+                                                    <span className={s.dropdown_item + " dropdown-item"}>
+                                                            Ver mi Perfil
+                                                    </span>
+                                                </li>
+                                            </NavLink>
 
-                                        <li>
-                                            <NavLink to='editUser'>
+                                            <li>
+                                                <NavLink to='editUser'>
+                                                    <span className={s.dropdown_item + " dropdown-item"} >
+                                                        Editar Perfil
+                                                    </span>
+                                                </NavLink>
+                                            </li>
+                                            
+                                            <li>
+                                                <NavLink to={"/service-history/" + login.id}>
+                                                    <span className={s.dropdown_item + " dropdown-item"} >
+                                                        Servicios Solicitados
+                                                    </span>
+                                                </NavLink>
+                                            </li>
+                                            <li>
+                                                <NavLink to="/cart">
+                                                    <span className={s.dropdown_item + " dropdown-item"} 
+                                                        >Carrito
+                                                    </span>
+                                                </NavLink>
+                                            </li>
+                                            
+                                            <li>
+                                                <NavLink to='editUser'>
+                                                    <span 
+                                                        className={s.dropdown_item + " dropdown-item"} 
+                                                        >
+                                                        Registrate como profesional
+                                                        </span>
+                                                </NavLink>
+                                            </li>
+                                            
+                                            <li>
+                                                <span
+                                                    className={s.dropdown_item + " dropdown-item"}
+                                                    onClick={logout}
+                                                    >
+                                                    Cerrar sesión</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    :
+    // ------------------------------Opciones Perfil Tecnico---------------------------------
+
+                                    <div className='dropdown'>
+                                        <button
+                                            className="btn btn-secondary dropdown-toggle"
+                                            id="dropdownMenuButton1"
+                                            data-bs-toggle="dropdown"
+                                            type="button"
+                                            aria-expanded="false"
+                                        >
+                                        </button>
+
+                                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
+                                            
+                                            <li>
+                                                <NavLink to={`/professional/${stateTotalRedux.globalUserGlobalStorage.id}`}>
                                                 <span className={s.dropdown_item + " dropdown-item"} >
-                                                    Editar Perfil
+                                                    Perfil Profesional
                                                 </span>
-                                            </NavLink>
-                                        </li>
-                                        
-                                        <li>
-                                            <NavLink to={"/service-history/" + login.id}>
-                                                <span className={s.dropdown_item + " dropdown-item"} >
-                                                    Servicios Solicitados
-                                                </span>
-                                            </NavLink>
-                                        </li>
-                                        <li>
-                                            <NavLink to="/cart">
-                                                <span className={s.dropdown_item + " dropdown-item"} 
-                                                    >Carrito
-                                                </span>
-                                            </NavLink>
-                                        </li>
-                                        
-                                        <li>
-                                            <NavLink to='editUser'>
+                                                </NavLink>
+                                            </li>
+                                            
+                                            <li>
+                                                <NavLink to='editUser'>
+                                                    <span className={s.dropdown_item + " dropdown-item"} >Editar Perfil
+                                                    </span>
+                                                </NavLink>
+                                            </li>
+                                            
+                                            <li>
+                                                <NavLink to='ProfessionalServiceOffer' >
+                                                    <span className={s.dropdown_item + " dropdown-item"} 
+                                                        >Agregá tu Servicio Profesional
+                                                    </span>
+                                                </NavLink>
+                                            </li>
+                                            
+                                            <li>
+                                                <NavLink to="/cart">
+                                                    <span className={s.dropdown_item + " dropdown-item"} 
+                                                        >Carrito
+                                                    </span>
+                                                </NavLink>
+                                            </li>
+
+                                            <li>
+                                                <NavLink to={"/service-history/" + login.id}>
+                                                    <span className={s.dropdown_item + " dropdown-item"} >
+                                                        Historial de Trabajos y Servicios
+                                                    </span>
+                                                </NavLink>
+                                            </li>
+                                            
+                                            <li>
                                                 <span 
                                                     className={s.dropdown_item + " dropdown-item"} 
-                                                    >
-                                                    Registrate como profesional
-                                                    </span>
-                                            </NavLink>
-                                        </li>
-                                        
-                                        <li>
-                                            <span
-                                                className={s.dropdown_item + " dropdown-item"}
-                                                onClick={logout}
-                                                >
-                                                Cerrar sesión</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                                :
-// ------------------------------Opciones Perfil Tecnico---------------------------------
-
-                                <div className='dropdown'>
-                                    <button
-                                        className="btn btn-secondary dropdown-toggle"
-                                        id="dropdownMenuButton1"
-                                        data-bs-toggle="dropdown"
-                                        type="button"
-                                        aria-expanded="false"
-                                    >
-                                    </button>
-
-                                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
-                                        
-                                        <li>
-                                            <NavLink to={`/professional/${stateTotalRedux.globalUserGlobalStorage.id}`}>
-                                            <span className={s.dropdown_item + " dropdown-item"} >
-                                                Perfil Profesional
-                                            </span>
-                                            </NavLink>
-                                        </li>
-                                        
-                                        <li>
-                                            <NavLink to='editUser'>
-                                                <span className={s.dropdown_item + " dropdown-item"} >Editar Perfil
+                                                    onClick={logout}
+                                                        >Cerrar sesion
                                                 </span>
-                                            </NavLink>
-                                        </li>
-                                        
-                                        <li>
-                                            <NavLink to='ProfessionalServiceOffer' >
-                                                <span className={s.dropdown_item + " dropdown-item"} 
-                                                    >Agregá tu Servicio Profesional
-                                                </span>
-                                            </NavLink>
-                                        </li>
-                                        
-                                        <li>
-                                            <NavLink to="/cart">
-                                                <span className={s.dropdown_item + " dropdown-item"} 
-                                                    >Carrito
-                                                </span>
-                                            </NavLink>
-                                        </li>
+                                            </li>
 
-                                        <li>
-                                            <NavLink to={"/service-history/" + login.id}>
-                                                <span className={s.dropdown_item + " dropdown-item"} >
-                                                    Historial de Trabajos y Servicios
-                                                </span>
-                                            </NavLink>
-                                        </li>
-                                        
-                                        <li>
-                                            <span 
-                                                className={s.dropdown_item + " dropdown-item"} 
-                                                onClick={logout}
-                                                    >Cerrar sesion
-                                            </span>
-                                        </li>
-
-                                    </ul>
-                                </div>
-                            }
-                        </div>
-                    </>
-                    : 
-                    <></>
-                }
-            </div>
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                        </>
+                        : 
+                        <></>
+                    }
+                </div>
+            
         </div>
     )
 };
