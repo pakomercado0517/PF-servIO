@@ -57,6 +57,10 @@ module.exports = (sequelize) => {
         type: DataTypes.BOOLEAN,
         // allowNull: false
       },
+      rate: {
+        type: DataTypes.FLOAT,
+        // allowNull: false
+      },
       token: DataTypes.STRING,
       expiracion: DataTypes.DATE 
     },
