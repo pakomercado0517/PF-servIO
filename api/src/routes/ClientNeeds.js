@@ -8,5 +8,6 @@ router.get('/:id', needFunctions.getNeedsById)
 router.put('/:id', needFunctions.updateNeed)
 router.post('/', needFunctions.newSpecificalNeed)
 router.get('/need/:id', needFunctions.getById )
+router.delete('/:id', needFunctions.deleteNeedById )
 
 module.exports= router;

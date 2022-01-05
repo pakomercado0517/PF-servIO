@@ -308,50 +308,6 @@ module.exports = {
     }
   },
 
-  newSpecificalNeed: async (req, res) => {
-    const {
-      name,
-      description,
-      location,
-      //   price,
-      //   duration,
-      //   guarantee_time,
-      userId,
-    } = req.body;
-    try {
-      if (userId) {
-        const newNeed = await ClientNeed.create({
-          name,
-          description,
-          status: "in offer",
-          location,
-          //   price,
-          //   duration,
-          //   guarantee_time,
-        });
-
-        let allUsers = await User.findAll({
-          where: {
-            id: parseInt(userId),
-          },
-        });
-
-        await newNeed.setUser(allUsers[0]);
-        let userWithNeed = await User.findAll({
-          where: {
-            id: parseInt(userId),
-          },
-          include: [{ model: ClientNeed }],
-        });
-        res.status(200).send(newNeed);
-      } else {
-        res.status(400).send("Please login");
-      }
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  },
-
   newTechnicalActivity: async (req, res) => {
     const {
       name,
@@ -531,7 +487,7 @@ module.exports = {
       res.status(400).send(error.message);
     }
   },
-
+  
   getByActivityName: async (req, res) => {
     try {
       const activities = await SpecificTechnicalActivity.findAll({
@@ -548,18 +504,7 @@ module.exports = {
       res.status(400).send(error.message);
     }
   },
-
-  getAllNeeds: async (req, res) => {
-    try {
-      const needs = await ClientNeed.findAll({
-        include: [{ model: User }, { model: ProfessionalOffer }],
-      });
-      res.status(200).send(needs);
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  },
-
+  
   getAllProfessions: async (req, res) => {
     const professions = await Profession.findAll({
       include: [
@@ -571,8 +516,179 @@ module.exports = {
     });
     res.status(200).send(professions);
   },
-  // ************ PROFESSIONAL OFFERS
 
+  // ************ CLIENT NEEDS
+  
+  getAllNeeds: async (req, res) => {
+    try {
+      const needs = await ClientNeed.findAll({
+        include: [{ model: User }, { model: ProfessionalOffer }],
+      });
+      res.status(200).send(needs);
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
+  },
+
+  getNeedByName: async (req, res) => {
+    try {
+      const need = await ClientNeed.findAll({
+        include: [{ model: User }],
+        where: { name: { [Sequelize.Op.iLike]: `%${req.query.name}%` } },
+      });
+      res.status(200).send(need);
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
+  },
+
+  getNeedsById: async (req, res) => {
+    const id = req.params.id;
+    try {
+      if (id > 0) {
+        const needs = await ClientNeed.findAll({
+          where: { UserId: id },
+        });
+        if (needs) {
+          res.status(200).send(needs);
+        } else {
+          res.status(200).send("User does not have any need");
+        }
+      } else {
+        res.status(200).send("Please insert an id");
+      }
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
+  },
+
+  // newSpecificalNeed: async (req, res) =>{
+  //     const {name, description, location} = req.body
+  //     const newNeed = await ClientNeed.create({
+  //         name,
+  //         description,
+  //         location,
+  //         status: 'in offer'
+  //     })
+  //     res.send(newNeed)
+  // },
+  // getByProfessionName: async (req, res) =>{
+  //     const {profession} = req.body
+  //     const professionalArr = profession.split(',')
+  //     try {
+  //         const professionals = await Professional.findAll({
+  //             include:[{
+  //                 model: Profession
+  //             }],
+  //         })
+
+  getById: async (req, res) => {
+    const id = req.params.id;
+    if (id) {
+      const need = await ClientNeed.findOne({
+        where: {
+          id,
+        },
+      });
+      res.status(200).send(need);
+    } else {
+      res.status(400).send("Please insert an id");
+    }
+  },
+
+  newSpecificalNeed: async (req, res) => {
+    const {
+      name,
+      description,
+      location,
+      //   price,
+      //   duration,
+      //   guarantee_time,
+      userId,
+    } = req.body;
+    try {
+      if (userId) {
+        const newNeed = await ClientNeed.create({
+          name,
+          description,
+          status: "in offer",
+          location,
+          //   price,
+          //   duration,
+          //   guarantee_time,
+        });
+
+        let allUsers = await User.findAll({
+          where: {
+            id: parseInt(userId),
+          },
+        });
+
+        await newNeed.setUser(allUsers[0]);
+        let userWithNeed = await User.findAll({
+          where: {
+            id: parseInt(userId),
+          },
+          include: [{ model: ClientNeed }],
+        });
+        res.status(200).send(newNeed);
+      } else {
+        res.status(400).send("Please login");
+      }
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
+  },
+
+  updateNeed: async (req, res) => {
+    const {
+      name,
+      description,
+      location,
+      status, //   price,//   duration,//   guarantee_time
+    } = req.body;
+    const id = req.params.id;
+    try {
+      const need = await ClientNeed.findOne({
+        where: { id },
+      });
+
+      if (need) {
+        need.name = name ? name : need.name;
+        need.description = description ? description : need.description;
+        need.location = location ? location : need.location;
+        if (
+          status === "done" ||
+          status === "in progress" ||
+          status === "in offer"
+        ) {
+          need.status = status;
+        } else {
+          need.status = need.status;
+        }
+
+        await need.save();
+
+        res.status(200).send(need);
+      } else {
+        res.status(400).send("Inserta Id de necesidad existente");
+      }
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
+  },
+
+  deleteNeedById: async (req, res) => {
+    const id = req.params.id;
+    const need = await ClientNeed.findOne({ where: { id } });
+    need.destroy();
+    res.send(
+      "La necesidad especifica ha sido eliminada."
+    );
+  },
+
+  // ************ PROFESSIONAL OFFERS
+  
   //CONDICIONAR QUE SOLO PUEDAN OFERTAR PROFESIONALES
   newProfessionalOffer: async (req, res) => {
     const {
@@ -807,72 +923,7 @@ module.exports = {
       res.status(400).send(error.message);
     }
   },
-  getNeedsById: async (req, res) => {
-    const id = req.params.id;
-    try {
-      if (id > 0) {
-        const needs = await ClientNeed.findAll({
-          where: { UserId: id },
-        });
-        if (needs) {
-          res.status(200).send(needs);
-        } else {
-          res.status(200).send("User does not have any need");
-        }
-      } else {
-        res.status(200).send("Please insert an id");
-      }
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  },
-
-  getById: async (req, res) => {
-    const id = req.params.id;
-    if (id) {
-      const need = await ClientNeed.findOne({
-        where: {
-          id,
-        },
-      });
-      res.status(200).send(need);
-    } else {
-      res.status(400).send("Please insert an id");
-    }
-  },
-  // newSpecificalNeed: async (req, res) =>{
-  //     const {name, description, location} = req.body
-  //     const newNeed = await ClientNeed.create({
-  //         name,
-  //         description,
-  //         location,
-  //         status: 'in offer'
-  //     })
-  //     res.send(newNeed)
-  // },
-  // getByProfessionName: async (req, res) =>{
-  //     const {profession} = req.body
-  //     const professionalArr = profession.split(',')
-  //     try {
-  //         const professionals = await Professional.findAll({
-  //             include:[{
-  //                 model: Profession
-  //             }],
-  //         })
-
-  getById: async (req, res) => {
-    const id = req.params.id;
-    if (id) {
-      const need = await ClientNeed.findOne({
-        where: {
-          id,
-        },
-      });
-      res.status(200).send(need);
-    } else {
-      res.status(400).send("Please insert an id");
-    }
-  },
+  
   enviarToken: async (req, res) => {
     const { email } = req.body;
     const usuario = await User.findOne({ where: { email } });
@@ -989,44 +1040,6 @@ module.exports = {
     next();
   },
 
-  updateNeed: async (req, res) => {
-    const {
-      name,
-      description,
-      location,
-      status, //   price,//   duration,//   guarantee_time
-    } = req.body;
-    const id = req.params.id;
-    try {
-      const need = await ClientNeed.findOne({
-        where: { id },
-      });
-
-      if (need) {
-        need.name = name ? name : need.name;
-        need.description = description ? description : need.description;
-        need.location = location ? location : need.location;
-        if (
-          status === "done" ||
-          status === "in progress" ||
-          status === "in offer"
-        ) {
-          need.status = status;
-        } else {
-          need.status = need.status;
-        }
-
-        await need.save();
-
-        res.status(200).send(need);
-      } else {
-        res.status(400).send("Inserta Id de necesidad existente");
-      }
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  },
-
   updateActivity: async (req, res) => {
     const {
       name,
@@ -1061,17 +1074,6 @@ module.exports = {
       } else {
         res.status(400).send("Inserta Id de actividad existente");
       }
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  },
-  getNeedByName: async (req, res) => {
-    try {
-      const need = await ClientNeed.findAll({
-        include: [{ model: User }],
-        where: { name: { [Sequelize.Op.iLike]: `%${req.query.name}%` } },
-      });
-      res.status(200).send(need);
     } catch (error) {
       res.status(400).send(error.message);
     }

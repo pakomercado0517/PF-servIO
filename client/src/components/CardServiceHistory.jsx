@@ -2,23 +2,32 @@ import React, { useEffect, useState } from 'react'
 
 import s from './styles/CardServiceHistory.module.css'
 
+import Swal from 'sweetalert2'
+
+import { useDispatch } from 'react-redux'
+
 // import { offerInNeedById } from '../redux/actions' <-----comentado por ima
 
 import notFoundImg from '../img/not_found_img.svg'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
+import { getClientNeedsById } from '../redux/actions'
 
 const { REACT_APP_HOST } = process.env;
 
 
 export default function CardServiceHistory(props) {
     // const offer = useSelector(state => state.offerInNeedById) <-----comentado por ima
+
     const [offer, setOffers] = useState([])  
     const navigate = useNavigate()
     const [ user, ]= useGlobalStorage("globalUser", "")
-    // const dispatch = useDispatch();
+
+    const dispatch = useDispatch();
+
     const { id } = props
+
     useEffect(() => {
     //   dispatch(offerInNeedById(id)) <-----comentado por ima
         async function getOffers(){
@@ -34,8 +43,33 @@ export default function CardServiceHistory(props) {
         if(e.target.name === "details" ) return navigate(`/client/need/${id}`)
     }
 
-    function deleteNeed() {
-        
+    async function deleteNeed() {
+        try {
+            const data = await axios.delete(`${REACT_APP_HOST}/clientNeeds/${props.id}`)
+            if (data.data === "La necesidad especifica ha sido eliminada."){
+                Swal.fire({
+                    icon: 'success',
+                    title: 'La necesidad especifica ha sido eliminada con exito!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                dispatch(getClientNeedsById(user.id))
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Algo salió mal!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Algo salió mal!',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
     }
 
     return (
