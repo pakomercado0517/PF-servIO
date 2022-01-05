@@ -18,6 +18,7 @@ export default function ServiceHistory() {
     const { id } = useParams()
     const { clientNeedById, offersByUserId } = useSelector(state => state)
     const user = useGlobalStorage("globalUser", "")
+    console.log(clientNeedById)
 
     useEffect(()=>{
         dispatch(getClientNeedsById(id))
