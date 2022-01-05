@@ -35,6 +35,7 @@ import {
     GOOGLE_LOGIN,
     DELETE_LOGIN,
     CITIES,
+    SWITCH_MODAL_CART,
     RESET_PASSWORD,
     VALIDAR_TOKEN,
     NEW_PASSWORD
@@ -71,6 +72,7 @@ const initialState = {
     z: false,
     googleLogin : [],
     cities:[],
+    modalCart: "",
     resetPassword: [],
     validarToken : false,
 };
@@ -268,6 +270,11 @@ function rootReducer(state = initialState, { type, payload }) {
         ...state,
         message: payload,
       };
+    case SWITCH_MODAL_CART:
+        return {
+            ...state,
+            modalCart: payload,
+        };
     default:
         return state;
   };

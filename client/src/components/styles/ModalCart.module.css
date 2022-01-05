@@ -1,0 +1,37 @@
+.container {
+    display: flex;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0px;
+    left: 0px;
+    position: fixed;
+    z-index: 50;
+    transition: all 800ms;
+}
+
+.container_background {
+    background-color: rgba(77, 77, 77, 0.329);
+    position: absolute;
+    height: 100vh;
+    cursor: pointer;
+    width: 100vw;
+}
+
+.container_form {
+    position: relative;
+    background-color: white;
+    border-radius: 50px;
+    width: 70vw;
+    height: 50vh;
+    z-index: 51;
+    margin: auto;
+    padding: 50px;
+    padding-top: 70px;
+}
+
+.container_buttons {
+    margin: 70px;
+    display: flex;
+    justify-content: space-around;
+}

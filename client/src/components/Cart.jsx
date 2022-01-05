@@ -3,16 +3,22 @@ import React, { useState, useEffect } from 'react'
 import s from './styles/Cart.module.css'
 // Componentes
 import CardCart from './CardCart'
-// Hooks
+import ModalCart from './ModalCart'
+// Hooks and redux
 import { useGlobalStorage } from '../hooks/useGlobalStorage'
 import useScript from '../hooks/useScript'
+import { useDispatch } from 'react-redux'
 // AXIOS
 import axios from 'axios'
+import { switchModalCart } from '../redux/actions'
 
 const { REACT_APP_ACCESS_PUBLIC } = process.env;
 
 
 export default function Cart() {
+
+    const dispatch = useDispatch()
+
     let mp;
     const { MercadoPago } = useScript(
         "https://sdk.mercadopago.com/js/v2",
@@ -38,6 +44,10 @@ export default function Cart() {
                 label: 'Comprar Ahora', // Change the payment button text (optional)
             }
         });
+    }
+
+    function showForm(){
+        dispatch(switchModalCart("show"))
     }
 
     async function axiosMP(){
@@ -79,6 +89,7 @@ export default function Cart() {
         });
     }
     const [cart, ] = useGlobalStorage("cart", [])
+    const [user, ] = useGlobalStorage("globalUser", [])
     const [total, settotal] = useState(0)
 
     useEffect(() => {
@@ -89,41 +100,44 @@ export default function Cart() {
     }, [cart])
 
     return (
-        <div className={s.container}>
-            <div className={s.container_list}>
-                <div className={ s.container_list_cards }>
-                    {
-                        cart.map((el, index) =>{
-                            return (
-                                <CardCart
-                                key={ "cart" + index }
-                                name= { el.name }
-                                description= { el.description }
-                                guarantee= { el.guarantee }
-                                guarantee_time= { el.guarantee_time }
-                                materials= { el.materials }
-                                duration= { el.duration }
-                                photo= { el.photo }
-                                price= { el.price }
-                                count= { el.count }
-                                />
-                            )
-                        })
-                    }
+        <>
+            <ModalCart email={user.email} />
+            <div className={s.container}>
+                <div className={s.container_list}>
+                    <div className={s.container_list_cards}>
+                        {
+                            cart.map((el, index) => {
+                                return (
+                                    <CardCart
+                                        key={"cart" + index}
+                                        name={el.name}
+                                        description={el.description}
+                                        guarantee={el.guarantee}
+                                        guarantee_time={el.guarantee_time}
+                                        materials={el.materials}
+                                        duration={el.duration}
+                                        photo={el.photo}
+                                        price={el.price}
+                                        count={el.count}
+                                    />
+                                )
+                            })
+                        }
+                    </div>
                 </div>
-            </div>
-            <div className={ s.container_totalDetails }>
+                <div className={s.container_totalDetails}>
 
-            </div>
-            <div className={s.container_buttons}>
-                <div class="alert alert-warning" role="alert">
-                    <span>Total:  { total }</span>
                 </div>
-                <button id='checkout_button' className={ s.container_buttons_button + ' btn btn-success' } onClick={ axiosMP }> Continuar Compra</button>
-                <div id='cho-container'></div>
+                <div className={s.container_buttons}>
+                    <div class="alert alert-warning" role="alert">
+                        <span>Total:  {total}</span>
+                    </div>
+                    <button id='checkout_button' className={s.container_buttons_button + ' btn btn-success'} onClick={showForm}> Continuar Compra</button>
+                    <div id='cho-container'></div>
+                </div>
+                <div className='shopping-cart'></div>
+                <div className='container_payment'></div>
             </div>
-            <div className='shopping-cart'></div>
-            <div className='container_payment'></div>
-        </div>
+        </>
     )
 }

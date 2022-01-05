@@ -49,6 +49,7 @@ export const EXISTENT_USER = 'EXISTENT_USER'
 export const GOOGLE_LOGIN = 'GOOGLE_LOGIN'
 export const DELETE_LOGIN = 'DELETE_LOGIN'
 export const CITIES = 'CITIES'
+export const SWITCH_MODAL_CART = 'SWITCH_MODAL_CART'
 export const RESET_PASSWORD = 'RESET_PASSWORD'
 export const VALIDAR_TOKEN = 'VALIDAR_TOKEN'
 export const NEW_PASSWORD = 'NEW_PASSWORD'
@@ -337,6 +338,14 @@ export function filterProfessions() {
 export function setToGlobalStorage(data) {
   return {
     type: GLOBAL_LOCAL_STORAGE,
+    payload: data,
+  };
+}
+
+// funcion para manejar datos del localStorage globalmente
+export function switchModalCart(data) {
+  return {
+    type: SWITCH_MODAL_CART,
     payload: data,
   };
 }
