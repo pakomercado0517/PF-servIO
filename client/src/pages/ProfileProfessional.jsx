@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { BsArrowRightCircle } from 'react-icons/bs'
-import { BsArrowLeftCircle } from 'react-icons/bs'
+import { useParams, NavLink } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import CardReview from '../components/CardReview';
 import CardParticularService from '../components/CardParticularService';
-import star from '../img/star.svg'
-import { useSelector, useDispatch } from 'react-redux';
-import { getAllUsers, getByUserId, getSpecificActivitiesById } from '../redux/actions';
-import { NavLink } from 'react-router-dom';
-import s from './styles/ProfileProfessional.module.css'
+import { ClientSpecificNeed } from '../components/ClientSpecificNeed';
 import { StarRating } from '../components/StarRating';
+import CardClientNeed from '../components/CardClientNeed';
+import { getAllUsers, 
+        getByUserId, 
+        getClientNeedsById, 
+        getSpecificActivitiesById } from '../redux/actions';
+import { BsArrowRightCircle } from 'react-icons/bs'
+import { BsArrowLeftCircle } from 'react-icons/bs'
+import { GrLocation } from 'react-icons/gr';
+    import star from '../img/star.svg'
+import s from './styles/ProfileProfessional.module.css'
 
 
 export default function ProfileProfessional( ){
@@ -18,11 +23,15 @@ export default function ProfileProfessional( ){
     const dispatch= useDispatch();
     const professional = useSelector((state) => state?.user[0])
     const { globalUserGlobalStorage } = useSelector(state => state)
-    const specificActivities = useSelector((state) => state?.specificActivitiesById)
-    console.log('professional',professional)
-
+    const specificActivities = useSelector((state) => state?.specificActivitiesById)    
     const allUsers = useSelector( (state) => state?.allUsers)
-    // console.log('allUsers',allUsers)
+    const clientNeeds = useSelector(state => state.clientNeedById)
+
+    console.log('1 - allUsers',allUsers)
+    console.log('2 - professional',professional)
+    console.log('3 - globalUserGlobalStorage',globalUserGlobalStorage)
+    console.log('4 - specificActivities',specificActivities)
+    console.log('5 - clientNeeds',clientNeeds)
 
     const [state, setstate] = useState({
         login: false,
@@ -34,6 +43,7 @@ export default function ProfileProfessional( ){
         dispatch(getByUserId(id))
         dispatch(getSpecificActivitiesById(id))
         dispatch(getAllUsers())
+        dispatch(getClientNeedsById(id))
     },[dispatch,id])
 
     function newStateReview(){
@@ -51,7 +61,7 @@ export default function ProfileProfessional( ){
 
 return (
     <div className={ s.container }>
-    
+        <ClientSpecificNeed/>
         <div className={s.container_details}>
             
             <div>
@@ -62,31 +72,46 @@ return (
                     />
             </div>
             
-            <div className={ s.container_details_text }>
+            <div className={ s.div_titul }>
+            
                 <h1>
                     {professional?.first_name + ' ' + professional?.last_name}
                 </h1>
+            <p>
+                <span>
+                {professional?.user_name? 
+                    `Username: @${professional?.user_name}` : <></>}
+                </span>
+            </p>
+
+            {
+                professional?.state && professional?.city ?
+                <p>
+                    <span>
+                        Locacion: <GrLocation/>
+                        {professional?.state ? professional.state + ', ' : ''}
+                        {professional?.city ? professional.city : ''}
+                    </span>
+                </p>
+                : <></>
+            }
+            {
+                professional?.phone ?
+                <p>Teléfono: <span>{ professional?.phone }</span> </p>
+                : <></>
+            }
+            {
+                professional?.email ?
+                <p>Email: <span>{ professional?.email }</span></p>
+                : <></>
+            }
                 <h2>
                     {professional?.profession}
                 </h2>
-                <h5>
-                    {
-                        professional?.state ? professional.state + ', ' : '' 
-                    }
-                    {
-                        professional?.city ? professional.city : ''
-                        
-                    }
-                </h5>
                 <div>
-                    <div>
-                        <img src={ star } alt="" />
-                        <img src={ star } alt="" />
-                        <img src={ star } alt="" />
-                        <img src={ star } alt="" />
-                        <img src={ star } alt="" />
-                    </div>
+                    <StarRating stars={ 3 } />
                 </div>
+        
             </div>
             
             <div className={s.professional_showProfessions} >
@@ -96,20 +121,24 @@ return (
                 </div>
         
             <div className={s.professions_container}>
-                { professional?.Professional?.Professions?.map(el=> {
-                    return(
-                        <div 
-                            className='profession'
-                            key={el.id}
-                        >
-                            {/* {el.name} */}
-                            {
-                                el.name.slice(0,1).toUpperCase() + el.name.slice(1)
+                { 
+                    professional?.Professional?.Professions?.length > 0 ?
+                    professional?.Professional?.Professions.map( (profession) => {
+                        return (
+                            <div 
+                                className='text-center'
+                                key={profession.id}
+                            >
+                                <h5>
+                                    {profession.name?.slice(0,1).toUpperCase() + profession.name.slice(1)}
+                                </h5>
+                            </div>
+                        )
+                    })
+                    :
+                    <h4>No hay profesiones registradas</h4>
+                }
 
-                            }
-                        </div>
-                    )
-                })}
             </div>
 
             </div>
@@ -147,42 +176,82 @@ return (
             : <></>
 
         }
+{/*---------------- servicios particulares ofrecidos por el profesional ---------*/}
 
         <div className={ s.container_cards }>
-            <div 
-                className={ state.seeAllServices?s.container_cards_first:s.container_cards_first_all }>
-                {
-                    specificActivities && 
-                    specificActivities === 'There are not specifical Activities' && (
-                        <h5>Este profesional no cargó actividades específicas</h5>)
-                }
-                {
-                    specificActivities && 
-                    specificActivities !== 'There are not specifical Activities' && specificActivities.map((el) => 
-                        (
-                            <CardParticularService
+
+            <div className="">
+                {   specificActivities && 
+                    specificActivities === 'There are not specifical Activities' ?
+
+                    <h4>No hay servicios registrados</h4>
+                    :
+                    <>
+                        {
+                            specificActivities.map( (el) => {
+                                return (
+                                    <CardParticularService
                                     id={el.id}
                                     key={el.id}
                                     name= { el.name }
                                     description= { el.description }
                                     price= { el.price }
                                     />
-                        )
-                    )
+                                    )
+                                })
+                        }
+                    </>
                 }
             </div>
-            <div className={ state.seeAllServices?s.container_cards_second:s.container_cards_second_all }>
+
+            <div>
+
+                {
+                    globalUserGlobalStorage?.id === professional?.id ?
+                    <div className={ s.reviews_container }>
+                        { clientNeeds.map( clientNeed => {
+                            return (
+                                <NavLink 
+                                    to={`/client/need/${clientNeed.id}`}
+                                    key={clientNeed.id}
+                                >
+                                    <CardClientNeed
+                                        name={ clientNeed.name }
+                                        description={ clientNeed.description }
+                                        photo={ clientNeed.photo }
+                                    />
+                                </NavLink>
+                            )
+                        })}
+                    </div>
+                    : <></>
+
+
+
+                }
+
+            </div>
+
+
+
+
+            {/* <div className={ state.seeAllServices?s.container_cards_second:s.container_cards_second_all }>
                 <BsArrowRightCircle onClick={ newStateServices } size="50px"/>
-            </div>
-            <div className={ state.seeAllServices?s.container_cards_second_all:s.container_cards_second }>
+            </div> */}
+
+            {/* <div className={ state.seeAllServices?s.container_cards_second_all:s.container_cards_second }>
                 <BsArrowLeftCircle onClick={ newStateServices } size="50px"/>
-            </div>
+            </div> */}
+
         </div>
+
+        {/* // ----------------------reseñas--------------------- */}
+
         <h4>Reviews</h4>
         <div className={ s.container_cards }>
 
             {
-                professional?.Professional.ClientReviews.length > 0 ?
+                professional?.Professional?.ClientReviews?.length > 0 ?
 
                 <div 
                 className={ professional?.Professional.ClientReviews ? 
@@ -192,7 +261,7 @@ return (
             >
 
             {
-                professional?.Professional.ClientReviews && professional?.Professional.ClientReviews.map((el) =>
+                professional?.Professional?.ClientReviews && professional?.Professional.ClientReviews?.map((el) =>
                     (
                         <CardReview
                             id={ el.id }
@@ -206,7 +275,7 @@ return (
                     )
                 )
             }
-            </div>
+                </div>
             :
                 <h5>Este profesional no tiene reviews</h5>
             }
