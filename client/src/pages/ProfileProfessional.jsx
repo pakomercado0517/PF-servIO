@@ -201,6 +201,7 @@ return (
                                     materials= { el.materials }
                                     photo= { el.photo !== "url_qui" ? el.photo : "" }
                                     price= { el.price }
+                                    type="specific technical activity"
                                     />
                                     )
                                 })

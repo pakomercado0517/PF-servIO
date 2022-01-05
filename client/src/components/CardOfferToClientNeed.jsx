@@ -37,7 +37,9 @@ export default function CardOfferToClientNeed(props) {
                     duration: props.duration,
                     photo: props.photo ? props.photo : "https://www.gravatar.com/avatar/205e460b479e2e5b48aec06610c08d50?s=400&r=pg&d=mm",
                     materials: props.materials,
-                    count: 1
+                    count: 1,
+                    type: "offer",
+                    id: props.id
                 }
             ])
         }
