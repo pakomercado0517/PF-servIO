@@ -7,6 +7,7 @@ import s from './styles/CardServiceHistory.module.css'
 import notFoundImg from '../img/not_found_img.svg'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
+import { useGlobalStorage } from '../hooks/useGlobalStorage';
 
 const { REACT_APP_HOST } = process.env;
 
@@ -15,6 +16,7 @@ export default function CardServiceHistory(props) {
     // const offer = useSelector(state => state.offerInNeedById) <-----comentado por ima
     const [offer, setOffers] = useState([])  
     const navigate = useNavigate()
+    const [ user, ]= useGlobalStorage("globalUser", "")
     // const dispatch = useDispatch();
     const { id } = props
     useEffect(() => {
@@ -30,6 +32,10 @@ export default function CardServiceHistory(props) {
         console.log(e.target.name)
         if(e.target.name === "offers" ) return navigate(`/client/offerToNeed/${id}`)
         if(e.target.name === "details" ) return navigate(`/client/need/${id}`)
+    }
+
+    function deleteNeed() {
+        
     }
 
     return (
@@ -91,6 +97,13 @@ export default function CardServiceHistory(props) {
                         (props.status === "finished") ? <button className='btn btn-outline-secondary'>Calificar Técnico</button>:<></>
                     }
                     <button onClick={nav} name="details" className='btn btn-outline-secondary'>Ver Detalles</button>
+                    {
+                        (props.UserId === user.id) ? 
+                        <button name="offers" type="button" className="btn btn-outline-danger" onClick={deleteNeed}>
+                            Eliminar
+                        </button>
+                        :<></>
+                    }
                 </div>
             </div>
         </div>
