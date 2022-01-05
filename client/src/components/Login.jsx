@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate, useLocation  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
 import axios from 'axios'
 import logo from '../img/ServIO.svg';
@@ -7,34 +7,26 @@ import logo from '../img/ServIO.svg';
 import { useDispatch, useSelector } from 'react-redux';
 
 import s from './styles/Login.module.css'
-import { userLogin, googleLogin } from '../redux/actions';
+import { userLogin } from '../redux/actions';
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
-export default  function Login() {
-  const x = async () =>{
-    let result = await axios.get('http://localhost:3001/user/getUser')
-    return result
-  }
-  const google = x()
-  const a = useSelector(state => state)
-  const [c , setC] = useState(true)
-  console.log('a ',a)
+export default function Login() {
+
     const user = useSelector(state => state.user)
     const loginDetail = useSelector(state => state.loginDetail)
-    const googleLoginDetail = useSelector(state => state.googleLogin)
     const navigate = useNavigate()
     const [ input, setInput ] = useState({
         email: '',
         password: '',
     });
+
     const dispatch = useDispatch()
+
     const [errors, setErrors] = useState({});
-    const [globalUser, setGlobalUser] = useGlobalStorage("globalUser", "");
+    const [, setGlobalUser] = useGlobalStorage("globalUser", "");
     const [localUser, setLocalUser] = useLocalStorage("localUser", "");
     const [, setSwitcheo] = useGlobalStorage("switcheo", "")
-
-
     const validate = (input) => {
         let errors = {};
         if (!input.email) {
@@ -65,37 +57,27 @@ export default  function Login() {
             [e.target.name]: e.target.value
         });
     };
-    // console.log(setInput) 
+    // console.log(setInput)
 
-    useEffect(() => {
-        dispatch(userLogin(input))
-    },[ input ]);
-
-  // useEffect(() => {
-  //   dispatch(googleLogin())
-  //   if(a){
-      
-  //     console.log(useLocation().pathname);
-  //   }
-  //     // setC(true)
-  // },[setC]);
-
-  // useEffect(() => {
-  //   googleLogin2()
-  //     // setC(true)
-  // },[]);
-
-  // useEffect(() => {
-  //   googleLogin2()
-  // },[c]);
-
-console.log(c)
-    const handleSubmit =  (e) => {
+    // useEffect(() => {
+    //     dispatch(userLogin(input))
+    // },[])
+    
+    const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-                setLocalUser(loginDetail.data.data)
+            // const post = await axios.post('http://localhost:3001/user/login', input)
+            dispatch(userLogin(input))
+            // dispatch(getByUserId(loginDetail.data.data.id))
+            console.log('loginDetail:', loginDetail)
+            // console.log('post login status',post.statusText)
+            // console.log('post login data',post.data)
+            // console.log('post login data',post.data.id)
+
+            if( loginDetail.statusText === 'OK') {
                 setGlobalUser(loginDetail.data.data)
-                console.log(input)
+                setLocalUser(loginDetail.data.data)
+
                 if(loginDetail.data.data.professional) {
                     setSwitcheo("user")
                 } else {
@@ -108,7 +90,7 @@ console.log(c)
                     timer: 2500
                 })
                 navigate('/')
-            
+            }
         } catch (error) {
             console.log(error)
             Swal.fire({
@@ -121,29 +103,8 @@ console.log(c)
         }
     }
 
-    // const googleLogin2 = async () =>{
-    //   try {
-    //     // let result = await axios.get('http://localhost:3001/user/getUser')
-    //     setGlobalUser(googleLoginDetail[0].data)
-    //     setLocalUser(googleLoginDetail[0].data)
-        
-          
-    //       if(globalUser !== []){
-    //           Swal.fire({
-    //           icon: 'success',
-    //           title: 'Logged in',
-    //           showConfirmButton: false,
-    //           timer: 2500
-    //           })
-    //       navigate('/')
-    //       }
-        
-      
-    // } catch (error) {
-
-    // }
-    // }
-    useEffect(  async ()=> {
+    
+    useEffect( async ()=> {
         const glbUser= localUser
         const activeStorage= ()=> {
             if(glbUser) {
@@ -157,7 +118,7 @@ console.log(c)
             }
         }
         try {
-            let result = await axios.get('http://localhost:3001/user/getUser')
+            let result= await axios.get('http://localhost:3001/user/getUser')
             console.log('resulllt', result.data[0])
             setGlobalUser(result.data[0].data)
             setLocalUser(result.data[0].data)
@@ -275,14 +236,12 @@ console.log(c)
                         <p>¿Aún no te registras? <a href="/register">Registrate!</a></p>
                         <p>O inicia con:</p>
 
-                        <a  
-                        // onClick={() => googleLogin2()}
+                        <a 
                             type="button"
                             className="btn btn-lg btn-google  text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/google">
                             <img src="https://img.icons8.com/color/40/000000/google-logo.png" alt="google"/> 
                         </a>
-                        <a  
-                        // onClick={() => setC(!c)}
+                        <a 
                             type="button"
                             className="btn btn-lg btn-github text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/github">
                             <img src="https://img.icons8.com/material-rounded/48/000000/github.png" alt='github'/>
@@ -301,4 +260,3 @@ console.log(c)
         </div>  
     )
 }
-
