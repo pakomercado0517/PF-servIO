@@ -434,10 +434,24 @@ module.exports = {
           },
         ],
       });
-      const rate = professionals.filter((r) => {
-        return r;
+      const rate = professionals.map((r) => {
+        if(r.Professional.ClientReviews !== []){
+          let userRate = 0
+                for(let i = 0 ; i < r.Professional.ClientReviews.length; i++){
+                    userRate +=  parseInt(r.Professional.ClientReviews[i].score)
+                }
+                let average = userRate / r.Professional.ClientReviews.length
+                // let userRate2 = {userRate : average}
+                r.rate = average
+                return r;
+        }else{
+          // let userRate2 = {userRate : 0}
+          r.rate = 0
+          return r;
+        }
+        
       });
-      res.status(200).send(professionals);
+      res.status(200).send(rate);
     } catch (error) {
       res.status(400).send(error.message);
     }
