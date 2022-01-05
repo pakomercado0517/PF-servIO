@@ -12,7 +12,7 @@
     border-radius: 1em ;
     border-color: #0dcaf0;
     text-align: center;
-    
+    z-index: 1;
 }
 
 .input_btn{
@@ -22,3 +22,12 @@
     color: #707070;
 }
 
+.btn{
+  background-color: transparent;
+  border: none;
+  margin-left: -10%;
+  position: inherit;
+} 
+.btn:hover{
+  color: #0dcaf0;
+} 
