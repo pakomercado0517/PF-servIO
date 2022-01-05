@@ -50,6 +50,9 @@ export const GOOGLE_LOGIN = 'GOOGLE_LOGIN'
 export const DELETE_LOGIN = 'DELETE_LOGIN'
 export const CITIES = 'CITIES'
 export const SWITCH_MODAL_CART = 'SWITCH_MODAL_CART'
+export const RESET_PASSWORD = 'RESET_PASSWORD'
+export const VALIDAR_TOKEN = 'VALIDAR_TOKEN'
+export const NEW_PASSWORD = 'NEW_PASSWORD'
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers () {
     
@@ -655,5 +658,30 @@ export const cities = () => async dispatch => {
   dispatch ({
     type: CITIES,
     payload:city.data
+  })
+}
+
+
+export const resetPassword = (email) => async dispatch => {
+  let city = await axios.post(`${constants.localhost}/User/reestablecer/`, email);
+  dispatch ({
+    type: RESET_PASSWORD,
+    payload:city
+  })
+}
+
+export const validarToken = (token) => async dispatch => {
+  let validate = await axios.get(`${constants.localhost}/user/reestablecer/${token}`);
+  dispatch ({
+    type: VALIDAR_TOKEN,
+    payload:validate
+  })
+}
+
+export const newPassword = (password, token) => async dispatch => {
+  let validate = await axios.put(`${constants.localhost}/user/reestablecer/${token}`, password);
+  dispatch ({
+    type: NEW_PASSWORD,
+    payload:validate
   })
 }
