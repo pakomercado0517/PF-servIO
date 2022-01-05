@@ -7,7 +7,7 @@ import s from './styles/ServiceHistory.module.css'
 import CardServiceHistory from '../components/CardServiceHistory.jsx'
 import CardOfferToClientNeed from '../components/CardOfferToClientNeed'
 
-import { getClientNeedsById, getOffersById } from '../redux/actions'
+import { getAllProfessionals, getClientNeedsById, getOffersById } from '../redux/actions'
 import { useGlobalStorage } from '../hooks/useGlobalStorage'
 
 export default function ServiceHistory() {
@@ -16,12 +16,13 @@ export default function ServiceHistory() {
 
     const dispatch = useDispatch()
     const { id } = useParams()
-    const { clientNeedById, offersByUserId } = useSelector(state => state)
+    const { professionals, clientNeedById, offersByUserId } = useSelector(state => state)
     const user = useGlobalStorage("globalUser", "")
     console.log(clientNeedById)
 
     useEffect(()=>{
         dispatch(getClientNeedsById(id))
+        dispatch(getAllProfessionals())
         dispatch(getOffersById(id))
     },[ dispatch, id ])
 
@@ -110,8 +111,9 @@ export default function ServiceHistory() {
                                     duration={ el.duration }
                                     description={ el.description }
                                     price={ el.price }
-                                    // photo={ el.photo }
+                                    photo={ el.UserId ? professionals.find(el2 => el2.id === el.UserId)?.photo : '' }
                                     UserId= { el.UserId }
+                                    status={ el.status }
                                     date={ el.updatedAt.split("T")[0] }
                                     />
 

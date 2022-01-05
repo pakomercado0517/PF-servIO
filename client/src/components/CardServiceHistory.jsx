@@ -20,9 +20,9 @@ const { REACT_APP_HOST } = process.env;
 export default function CardServiceHistory(props) {
     // const offer = useSelector(state => state.offerInNeedById) <-----comentado por ima
 
+    const [ user, ]= useGlobalStorage("globalUser", "")
     const [offer, setOffers] = useState([])  
     const navigate = useNavigate()
-    const [ user, ]= useGlobalStorage("globalUser", "")
 
     const dispatch = useDispatch();
 

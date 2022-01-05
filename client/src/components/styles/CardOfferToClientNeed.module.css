@@ -14,9 +14,18 @@
 
 .container_date{
     display: flex;
+    justify-content: space-around;
     flex-direction: row;
     border-bottom: 1px solid #db9999;    
     margin: 5px;
+}
+
+.container_date span{
+    background-color: rgba(201, 201, 201, 0.548);
+    border-radius: 5px;
+    text-align: center;
+    padding: 5px;
+    height: 80%;
 }
 
 .container_description{

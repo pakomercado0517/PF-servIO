@@ -110,9 +110,9 @@ export default function CardOfferToClientNeed(props) {
         <div className={ s.container }>
             <div className={s.container_date}>
                 <p>fecha de creacion de oferta: {props.date}</p>
-                <spam>
-                    {/* <button onClick={() => deleteOffer()}>Eliminar</button> */}
-                </spam>
+                <span>
+                    Estado: { props.status }
+                </span>
             </div>
             <div className={s.container_description}>
                 {/* img */}
@@ -142,10 +142,18 @@ export default function CardOfferToClientNeed(props) {
                                 Agregar al carrito
                             </button>
                             {/* <button name="details" className='btn btn-outline-success'>Contratar</button> */}
-                        </div> :
+                        </div> : (props.status !== "rejected") ?
                         <div className={s.container_buttons}>
                             <button name="offers" type="button" className="btn btn-outline-danger" onClick={deleteOffer}>
                                 Eliminar
+                            </button>
+                        </div> : 
+                        <div className={ s.container_buttons }>
+                            <span>
+                                Lo siento! La oferta ha sido rechazada.
+                            </span>
+                            <button name="offers" type="button" className="btn btn-outline-danger" onClick={deleteOffer}>
+                                Aceptar
                             </button>
                         </div>
                 }
