@@ -33,7 +33,7 @@ export default function CardServiceHistory(props) {
         async function getOffers(){
             const data = await axios.get(`${REACT_APP_HOST}/professsionalOffer/need/${props.id}`)
             if (data.data === "No offers found") return setOffers([])
-            setOffers(data.data)
+            setOffers(data.data.filter(el => el.status !== "rejected"))
         }
         getOffers()
     }, [])
