@@ -471,9 +471,9 @@ module.exports = {
         }else{
           users.rate = 0
         }
-        
+
       await users.save() 
-      res.status(200).send(users);
+      res.status(200).send([users]);
 
       } else {
         res.status(200).send("El usuario no existe.");
