@@ -33,6 +33,9 @@
 /* Details */
 
 .container_details{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
     background-color: rgb(185, 136, 136);
     width: 50%;
     height: 200px;

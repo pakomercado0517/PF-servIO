@@ -195,6 +195,11 @@ return (
                                     key={el.id}
                                     name= { el.name }
                                     description= { el.description }
+                                    guarantee_time= { el.guarantee_time }
+                                    guarantee= { el.guarantee }
+                                    duration= { el.job_time }
+                                    materials= { el.materials }
+                                    photo= { el.photo !== "url_qui" ? el.photo : "" }
                                     price= { el.price }
                                     />
                                     )
