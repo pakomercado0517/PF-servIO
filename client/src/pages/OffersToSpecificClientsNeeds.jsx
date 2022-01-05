@@ -15,9 +15,7 @@ export const OffersToSpecificClientsNeeds = () => {
     const [offers, setOffers] = useState([])
     const { id } = useParams();
     const dispatch = useDispatch()
-    const detailsClientNeed = useSelector(state => state.detailsClientNeed)
-    const getOffers = useSelector(state => state.offersOfClientNeed)    
-    const professionals = useSelector(state => state.professionals)
+    const { professionals, offersOfClientNeed, detailsClientNeed} = useSelector(state => state)
 
     useEffect(() => {
         dispatch(getDetailsClientNeed(id))
@@ -25,9 +23,12 @@ export const OffersToSpecificClientsNeeds = () => {
         dispatch(getOffersToSpecificClientNeed(id))
         dispatch(getAllProfessionals())
     
-    if (getOffers.data === "No offers found") return setOffers([])
-    setOffers(getOffers)
     }, []);
+
+    useEffect(() => {
+        if (offersOfClientNeed === "No offers found") return setOffers([])
+        setOffers(offersOfClientNeed)
+    }, [offersOfClientNeed])
 
     return (
         <div className={styles.container}>
@@ -36,7 +37,7 @@ export const OffersToSpecificClientsNeeds = () => {
             <h4>{ detailsClientNeed.description}</h4>
 
             {
-                getOffers.data === "No offers found" ?
+                offersOfClientNeed === "No offers found" ?
                     <h1>No hay ofertas para esta necesidad</h1>
 
                     :
