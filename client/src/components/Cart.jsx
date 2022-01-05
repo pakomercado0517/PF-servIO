@@ -99,6 +99,11 @@ export default function Cart() {
                                 key={ "cart" + index }
                                 name= { el.name }
                                 description= { el.description }
+                                guarantee= { el.guarantee }
+                                guarantee_time= { el.guarantee_time }
+                                materials= { el.materials }
+                                duration= { el.duration }
+                                photo= { el.photo }
                                 price= { el.price }
                                 count= { el.count }
                                 />
@@ -111,8 +116,10 @@ export default function Cart() {
 
             </div>
             <div className={s.container_buttons}>
-                <span>Total: { total }</span>
-                <button id='checkout_button' className={ 'btn btn-success' } onClick={ axiosMP }> Continuar Compra</button>
+                <div class="alert alert-warning" role="alert">
+                    <span>Total:  { total }</span>
+                </div>
+                <button id='checkout_button' className={ s.container_buttons_button + ' btn btn-success' } onClick={ axiosMP }> Continuar Compra</button>
                 <div id='cho-container'></div>
             </div>
             <div className='shopping-cart'></div>
