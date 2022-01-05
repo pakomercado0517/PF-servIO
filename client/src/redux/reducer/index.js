@@ -33,7 +33,8 @@ import {
     GET_OFFERS_OF_CLIENT_NEED,
     GET_OFFERS_BY_USER_ID,
     GOOGLE_LOGIN,
-    DELETE_LOGIN
+    DELETE_LOGIN,
+    CITIES
 } from '../actions'
 
 
@@ -65,7 +66,8 @@ const initialState = {
     offerInNeedById: [],
     offersByUserId: [],
     z: false,
-    googleLogin : []
+    googleLogin : [],
+    cities:[]
 };
 
 function rootReducer(state = initialState, { type, payload }) {
@@ -241,6 +243,11 @@ function rootReducer(state = initialState, { type, payload }) {
               loginDetail: payload,
               googleLogin: payload,
             };
+            case CITIES:
+              return {
+                ...state,
+                cities: payload,
+              };
         default:
             return state;
     };

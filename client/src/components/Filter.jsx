@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
-import { filterProfessions, filterClients, orderProfessionals } from '../redux/actions';
+import { filterProfessions, filterClients, orderProfessionals, cities } from '../redux/actions';
 import s from './styles/Filter.module.css'
 import starRating from './StarRating.jsx'
 import starFilled from '../img/starFilled.PNG'
@@ -10,22 +10,26 @@ export  function Filter(){
   const [switcheo2] = useGlobalStorage("switcheo", null)
   const dispatch = useDispatch();
   const oficio = useSelector((state) => state.professionsName)
+  const ciudades = useSelector(state => state.cities)
   const switchState = useSelector((state) => state.switch)
   const search = useSelector((state) => state.searchbar)
   const [profession, setProfession] = useState([])
   const [details, setDetails] = useState({
     profession: [],
     filterWithActivity: false,
-    calificacionMinima:''
+    calificacionMinima:'',
+    ciudad : ''
 })
-console.log(details)
+console.log(ciudades)
   useEffect(() => {
     dispatch(filterProfessions())
   },[profession])
 
   useEffect(() => {
-    dispatch(filterClients(search,details.calificacionMinima,[], profession, true, details.filterWithActivity ))
+    dispatch(cities())
+    dispatch(filterClients(search,details.calificacionMinima,details.ciudad, profession, true, details.filterWithActivity ))
     dispatch(orderProfessionals(search,[],[], profession, true, details.filterWithActivity ))
+    
   },[profession, details, switchState, search,switcheo2])
 
   function changeProfession(event){
@@ -39,6 +43,9 @@ console.log(details)
   };
   function changeRate(event){
     setDetails(() =>({...details, calificacionMinima: event.target.value}));
+  }
+  function changeCity(event){
+    setDetails(() =>({...details, ciudad: event.target.value}));
   }
   const onlyOffers = () =>{
     setDetails(() => ({...details, filterWithActivity: !details.filterWithActivity}))
@@ -56,6 +63,26 @@ console.log(details)
               >
               <option value=''>Filtrar por Profesion</option>
               {oficio?.map(e =>
+                <option
+                  key={e}
+                  type= "button"
+                  value={e}
+                  name="profession"
+                  style={{cursor:"pointer"}}
+                  id={e}
+                >
+                  {e}
+                </option>              
+              )}
+            </select>
+            <select 
+                className="border-1 mx-2 btn btn-primary bg-info" 
+                onChange={changeCity} 
+                id='profession'
+                key='profession'
+              >
+              <option value=''>Filtrar por Ciudad</option>
+              {ciudades?.map(e =>
                 <option
                   key={e}
                   type= "button"

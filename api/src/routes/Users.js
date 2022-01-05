@@ -176,6 +176,7 @@ router.get("/logged", userFunctions.loginTestPassport);
 router.get("/perfil", userFunctions.getUser);
 router.get("/all", userFunctions.getAllUsers);
 router.get("/common", userFunctions.getAllCommonUsers);
+router.get("/city", userFunctions.getAllCities);
 router.get("/professionals", userFunctions.getAllProfessionals);
 router.get("/:id", userFunctions.getByUserId);
 router.delete("/:id", userFunctions.deleteByUserId);
