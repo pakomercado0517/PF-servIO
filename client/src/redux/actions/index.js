@@ -48,6 +48,7 @@ export const CREATE_TECNICAL_ACTIVITY = 'CREATE_TECNICAL_ACTIVITY';
 export const EXISTENT_USER = 'EXISTENT_USER'
 export const GOOGLE_LOGIN = 'GOOGLE_LOGIN'
 export const DELETE_LOGIN = 'DELETE_LOGIN'
+export const CITIES = 'CITIES'
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers () {
     
@@ -460,11 +461,10 @@ export const filterClients =
       const db = response.data;
       // //*******************FILTER BY RATE***************//
       let aux = db.filter((e) => {
-        if (rate === undefined || !rate[0]) {
+        if (rate === undefined || !rate) {
           return e;
-        } else {
-          // for(let i=0; i<rate.length; i++){
-          // }
+        } else if(rate < e.rate) {
+          return e
         }
       });
       // //*******************FILTER BY location***************//
@@ -496,10 +496,17 @@ export const filterClients =
       } else {
         order = aux2;
       }
-
+      // //*******************FILTER BY location***************//
+      let orderByLocation = order.filter(e => {
+        if(!location ){
+          return e
+        }else if(e.city === location){
+            return e
+        }
+      })
       dispatch({
         type: CLIENTS_FILTERED,
-        payload: order,
+        payload: orderByLocation,
       });
     });
   };
@@ -632,4 +639,12 @@ export const deleteLogin = () => async  dispatch => {
     type: DELETE_LOGIN,
     payload: [],
   });
+}
+
+export const cities = () => async dispatch => {
+  let city = await axios.get(`${constants.localhost}/user/city`);
+  dispatch ({
+    type: CITIES,
+    payload:city.data
+  })
 }

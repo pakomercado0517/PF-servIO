@@ -43,7 +43,7 @@ const CardProfessional = (props) => {
                 
                 <div className={s.subtitleTech}>
                     <MdLoyalty/>
-                    <span>{props.calificationTech}</span>
+                    <span>{props.calificationTech ? props.calificationTech +'/5' : '0/5' }</span>
                 </div>
                 
             </div>

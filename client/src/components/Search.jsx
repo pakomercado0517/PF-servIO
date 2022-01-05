@@ -3,7 +3,7 @@ import { useState } from 'react'
 // import { FiSearch } from 'react-icons/fi'
 import s from './styles/Search.module.css'
 import { useDispatch, useSelector } from 'react-redux';
-import {searchByName, getAllProfessionals, searchBar } from '../redux/actions'
+import { searchBar } from '../redux/actions'
 // import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
 
@@ -19,7 +19,7 @@ const Search = () => {
     const[autoNeeds, setAutoNeeds]= useState([])
     const[autoProfessionals, setautoProfessionals]= useState([])
     // const[name, setName]= useState('')
-    // console.log(name)
+    console.log(name)
 
     const autocompleteProfessionals = () => {
       let filtered = [];
@@ -55,9 +55,13 @@ const Search = () => {
     useEffect(() => {
       dispatch(searchBar(name))
     },[name])
+
+    const reset = () => {
+      console.log('a')
+    }
     useEffect(() => {
       setName('')
-    },[switcheo2])
+    },[switcheo2, reset()])
 
     useEffect(() => {
       if(end === false) {
@@ -70,6 +74,8 @@ const Search = () => {
       setName(e.target.value)
       setEnd(false)
     }
+
+    console.log(end)
     return (
         <div className={s.search}>
             <div>
@@ -80,6 +86,7 @@ const Search = () => {
                     onChange={e => onChange(e)}
                     className={s.input}
                 />
+                <input type='button' className={s.btn} onSubmit={ reset } value='x'/>
                 <div>
 
                     {
