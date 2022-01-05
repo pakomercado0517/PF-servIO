@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: 'Poppins';
+  font-family: "Poppins";
   /* , BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif; */
@@ -9,6 +9,11 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.leaflet-container {
+  width: 400px;
+  height: 200px;
 }
