@@ -34,7 +34,8 @@ import {
     GET_OFFERS_BY_USER_ID,
     GOOGLE_LOGIN,
     DELETE_LOGIN,
-    CITIES
+    CITIES,
+    SWITCH_MODAL_CART
 } from '../actions'
 
 
@@ -67,7 +68,8 @@ const initialState = {
     offersByUserId: [],
     z: false,
     googleLogin : [],
-    cities:[]
+    cities:[],
+    modalCart: "",
 };
 
 function rootReducer(state = initialState, { type, payload }) {
@@ -239,15 +241,20 @@ function rootReducer(state = initialState, { type, payload }) {
           };
           case DELETE_LOGIN:
             return {
-              ...state,
-              loginDetail: payload,
-              googleLogin: payload,
+                ...state,
+                loginDetail: payload,
+                googleLogin: payload,
             };
-            case CITIES:
-              return {
+        case CITIES:
+            return {
                 ...state,
                 cities: payload,
-              };
+            };
+        case SWITCH_MODAL_CART:
+            return {
+                ...state,
+                modalCart: payload,
+            };
         default:
             return state;
     };
