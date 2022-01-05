@@ -1108,4 +1108,14 @@ module.exports = {
       res.redirect("http://localhost:3000/login");
     }
   },
+  getAllCities : async (req, res) =>{
+    const users = await User.findAll({})
+    let cities = []
+    users.map(e => {
+      if(cities.indexOf(e.city) === -1) cities.push(e.city)
+    })
+
+    res.send(cities)
+  }
 };
+
