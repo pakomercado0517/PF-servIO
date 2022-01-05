@@ -1,5 +1,5 @@
 import React from 'react'
-import s from './styles/Search.module.css'
+import s from './styles/StarRating.module.css'
 
 export function StarRating({stars}) {
   const maxStars= 5
