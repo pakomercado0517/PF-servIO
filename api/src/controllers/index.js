@@ -256,7 +256,7 @@ module.exports = {
               include: [{ model: Profession }],
             },
           ],
-          where: { professional: true },
+          // where: { professional: true },
           where: { 
             [Sequelize.Op.or]:[
               {
@@ -272,7 +272,8 @@ module.exports = {
             ]
           }
         });
-        res.status(200).send(professional);
+        let newProfessional = professional.filter(e => e.professional === true)
+        res.status(200).send(newProfessional);
         }else{
           let nombre = name.split(' ')[0]
           let apellido = name.split(' ')[1]
@@ -283,7 +284,7 @@ module.exports = {
                 include: [{ model: Profession }],
               },
             ],
-            where: { professional: true },
+            // where: { professional: true },
             where: { 
               [Sequelize.Op.or]:[
                 {
@@ -299,7 +300,8 @@ module.exports = {
               ]
             }
           });
-          res.status(200).send(professional);
+          let newProfessional = professional.filter(e => e.professional === true)
+          res.status(200).send(newProfessional);
         }
         
       }
