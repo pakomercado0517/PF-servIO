@@ -154,7 +154,7 @@ export default function Home(){
                             workTech={ professional.Professional?.Professions}
                             locationTech={professional.state + ', ' + professional.city}
                             //* PENDIENTE DATA DEL CALIFICATION
-                            calificationTech={'calification: 5/5'}/>
+                            calificationTech={professional.rate}/>
                     )) : <h1>No hay mas resultados</h1>
                 }
 
