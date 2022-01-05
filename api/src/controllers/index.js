@@ -256,7 +256,7 @@ module.exports = {
               include: [{ model: Profession }],
             },
           ],
-          where: { professional: true },
+          // where: { professional: true },
           where: { 
             [Sequelize.Op.or]:[
               {
@@ -272,7 +272,8 @@ module.exports = {
             ]
           }
         });
-        res.status(200).send(professional);
+        let newProfessional = professional.filter(e => e.professional === true)
+        res.status(200).send(newProfessional);
         }else{
           let nombre = name.split(' ')[0]
           let apellido = name.split(' ')[1]
@@ -283,7 +284,7 @@ module.exports = {
                 include: [{ model: Profession }],
               },
             ],
-            where: { professional: true },
+            // where: { professional: true },
             where: { 
               [Sequelize.Op.or]:[
                 {
@@ -299,7 +300,8 @@ module.exports = {
               ]
             }
           });
-          res.status(200).send(professional);
+          let newProfessional = professional.filter(e => e.professional === true)
+          res.status(200).send(newProfessional);
         }
         
       }
@@ -361,10 +363,30 @@ module.exports = {
 
   getAllUsers: async (req, res) => {
     try {
+      
       const users = await User.findAll({
-        include: [{ model: Professional }],
+      
+        include: [
+              { model: ClientReview },
+            ],
       });
-      res.status(200).send(users);
+      const rate = users.map((r) => {
+        if(r.ClientReviews !== []){
+          let userRate = 0
+                for(let i = 0 ; i < r.ClientReviews.length; i++){
+                    userRate +=  parseInt(r.ClientReviews[i].score)
+                }
+                let average = Math.round(userRate / r.ClientReviews.length * 100) / 100
+                r.rate = average
+                return r;
+        }else{
+          r.rate = 0
+          return r;
+        }
+        
+      });
+      res.status(200).send(rate);
+      
     } catch (error) {
       res.status(400).send(error.message);
     }
@@ -434,21 +456,25 @@ module.exports = {
         where: { id: { [Op.eq]: id } },
       });
       if (user[0]) {
-        user = await User.findAll({
-          where: { id: { [Op.eq]: id } },
-          //include: [{ model: Professional, include: [{ model: Profession },{model: ClientReview}, {model: SpecificTechnicalActivity}] }],
-          include: [
-            {
-              model: Professional,
-              include: [
-                { model: Profession },
-                { model: ClientReview },
-                { model: SpecificTechnicalActivity },
-              ],
-            },
-          ],
-        });
-        res.status(200).send(user);
+
+        const users = await User.findOne({
+        where: { id },
+        include: [ { model: ClientReview } ],
+      });
+        if( users.ClientReviews.length > 0 ) {
+          let userRate = 0
+                for(let i = 0 ; i < users.ClientReviews.length; i++){
+                    userRate +=  parseInt(users.ClientReviews[i].score)
+                }
+                let average = Math.round(userRate / users.ClientReviews.length * 100) / 100
+                users.rate = average
+        }else{
+          users.rate = 0
+        }
+        
+      await users.save() 
+      res.status(200).send(users);
+
       } else {
         res.status(200).send("El usuario no existe.");
       }
@@ -605,7 +631,8 @@ module.exports = {
         },
       });
       res.status(200).send(need);
-    } else {
+    }
+     else {
       res.status(400).send("Please insert an id");
     }
   },
