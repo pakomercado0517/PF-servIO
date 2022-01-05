@@ -730,6 +730,7 @@ module.exports = {
             duration,
             materials,
             guarantee_time,
+            status: "in offer"
           });
           let clientNeeds = await ClientNeed.findAll({
             where: { id: ClientNeedId },
@@ -827,6 +828,42 @@ module.exports = {
     res.send(
       `La oferta ha sido eliminada.`
     );
+  },
+
+  updateOffer: async (req, res) => {
+    const {
+      name,
+      description,
+      price,
+      duration,
+      materials,
+      guarantee_time,
+      ClientNeedId,
+      UserId,
+      status,
+    } = req.body;
+
+    const id = req.params.id;
+
+    try {
+      await ProfessionalOffer.update(
+        {
+          name,
+          description,
+          price,
+          duration,
+          materials,
+          guarantee_time,
+          ClientNeedId,
+          UserId,
+          status,
+        },
+        { where: { id } }
+      );
+      res.send("updated");
+    } catch (error) {
+      res.send(error.message);
+    }
   },
 
   // ************ USER
