@@ -5,7 +5,7 @@ import s from './styles/CardReview.module.css'
 
 export default function CardReview( props ) {
 
-    // console.log( "props card review",props)
+    console.log( "props card review",props)
 
     return (
         <div className={ s.container }>
@@ -25,11 +25,9 @@ export default function CardReview( props ) {
 
             <div className="text-center" >
                 <StarRating stars={ props.score } />
-                Calificacion: {` `}{ props.score}/5
-
             </div>
             <p className="text-center">
-                { props.description }
+                {`" `}{ props.description }{` "`}
             </p>
 
         </div>

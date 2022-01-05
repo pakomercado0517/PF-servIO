@@ -19,7 +19,7 @@ export default function ProfileProfessional( ){
     const professional = useSelector((state) => state?.user[0])
     const { globalUserGlobalStorage } = useSelector(state => state)
     const specificActivities = useSelector((state) => state?.specificActivitiesById)
-    // console.log('professional',professional)
+    console.log('professional',professional)
 
     const allUsers = useSelector( (state) => state?.allUsers)
     // console.log('allUsers',allUsers)
@@ -72,8 +72,10 @@ return (
                 <h5>
                     {
                         professional?.state ? professional.state + ', ' : '' 
-                        // + professional?.city ? professional.city : ''
-                        // + professional?.city === null ? '' : professional.city
+                    }
+                    {
+                        professional?.city ? professional.city : ''
+                        
                     }
                 </h5>
                 <div>
@@ -192,7 +194,7 @@ return (
                             photo={ el.UserId ? allUsers.find(el2 => el2.id === el.UserId)?.photo : '' }
                             name= { el.UserId ? allUsers.find(el2 => el2.id === el.UserId)?.first_name + ' ' + allUsers.find(el2 => el2.id === el.UserId)?.last_name : '' }
                             description= { el.comment }
-                            score={<StarRating stars={ el.score } />}
+                            // score={<StarRating stars={ el.score } />}
                             score={ el.score }
                             
                             />
