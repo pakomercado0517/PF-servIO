@@ -49,7 +49,13 @@ export default function CardOfferToClientNeed(props) {
                     showConfirmButton: false,
                     timer: 1500
                 })
-                dispatch(getOffersById(user.id))
+            } else if (data === "La oferta ya ha sido eliminada o no existe") {
+                Swal.fire({
+                    icon: 'error',
+                    title: data,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -58,6 +64,7 @@ export default function CardOfferToClientNeed(props) {
                     timer: 1500
                 })
             }
+            dispatch(getOffersById(user.id))
         } catch (error) {
             Swal.fire({
                 icon: 'error',
@@ -110,9 +117,9 @@ export default function CardOfferToClientNeed(props) {
         <div className={ s.container }>
             <div className={s.container_date}>
                 <p>fecha de creacion de oferta: {props.date}</p>
-                <spam>
-                    {/* <button onClick={() => deleteOffer()}>Eliminar</button> */}
-                </spam>
+                <span>
+                    Estado: { props.status }
+                </span>
             </div>
             <div className={s.container_description}>
                 {/* img */}
@@ -142,10 +149,18 @@ export default function CardOfferToClientNeed(props) {
                                 Agregar al carrito
                             </button>
                             {/* <button name="details" className='btn btn-outline-success'>Contratar</button> */}
-                        </div> :
+                        </div> : (props.status !== "rejected") ?
                         <div className={s.container_buttons}>
                             <button name="offers" type="button" className="btn btn-outline-danger" onClick={deleteOffer}>
                                 Eliminar
+                            </button>
+                        </div> : 
+                        <div className={ s.container_buttons }>
+                            <span>
+                                Lo siento! La oferta ha sido rechazada.
+                            </span>
+                            <button name="offers" type="button" className="btn btn-outline-danger" onClick={deleteOffer}>
+                                Aceptar
                             </button>
                         </div>
                 }

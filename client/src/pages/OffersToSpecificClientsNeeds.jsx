@@ -45,7 +45,7 @@ export const OffersToSpecificClientsNeeds = () => {
                         return (
                             <CardOfferToClientNeed
                                 key={index + id}
-                                name={el.name || "algun servicio"}
+                                name={ el.name }
                                 id={el.id}
                                 clientNeed={ id }
                                 guarantee_time={el.guarantee_time}
@@ -56,6 +56,7 @@ export const OffersToSpecificClientsNeeds = () => {
                                 date={el.updatedAt.split("T")[0]}
                                 description={el.description}
                                 photo={ el.UserId ? professionals.find(el2 => el2.id === el.UserId)?.photo : '' }
+                                status= { el.status }
                             />
                         )
                     })
