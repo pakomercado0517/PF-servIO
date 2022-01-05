@@ -86,16 +86,24 @@ export default function NavBar() {
             </div>
             <div className={s.session_container}>
                     {login ?
+
+
                         <>
                             <div className={s.session}>
-                                <NavLink to={`/clients/${login?.id}`}>
+                                {/* <NavLink to={`/clients/${stateTotalRedux.globalUserGlobalStorage.id}`}>
                                     <MdAccountCircle className={s.iconLogin} />
                                     <span className={s.session_name}>{login?.first_name + ' '} </span>
-                                </NavLink>
+                                </NavLink> */}
 
                                 {login && !login.professional ?
 
-        // ------------------------------Opciones Perfil cliente------------------------------- //
+        // --------Opciones Perfil cliente------------------------------- //
+
+                                    <>
+                                    <NavLink to={`/clients/${stateTotalRedux.globalUserGlobalStorage.id}`}>
+                                        <MdAccountCircle className={s.iconLogin} />
+                                        <span className={s.session_name}>{login?.first_name + ' '} </span>
+                                    </NavLink>
 
                                     <div className='dropdown'>
                                         <button
@@ -111,11 +119,11 @@ export default function NavBar() {
                                             aria-labelledby="dropdownMenuButton1"
                                         >
 
-                                            <li>
+                                            {/* <li>
                                                 <span className={s.dropdown_item + " dropdown-item"} >
                                                     Perfil Cliente
                                                 </span>
-                                            </li>
+                                            </li> */}
                                             
                                             <NavLink to={`/clients/${login?.id}`}>
                                                 <li>
@@ -167,9 +175,14 @@ export default function NavBar() {
                                             </li>
                                         </ul>
                                     </div>
+                                    </>
                                     :
-    // ------------------------------Opciones Perfil Tecnico---------------------------------
-
+    // -----------Opciones Perfil Tecnico---------------------------------
+                                    <>
+                                    <NavLink to={`/professional/${stateTotalRedux.globalUserGlobalStorage.id}`}>
+                                        <MdAccountCircle className={s.iconLogin} />
+                                        <span className={s.session_name}>{login?.first_name + ' '} </span>
+                                    </NavLink>
                                     <div className='dropdown'>
                                         <button
                                             className="btn btn-secondary dropdown-toggle"
@@ -184,38 +197,47 @@ export default function NavBar() {
                                             
                                             <li>
                                                 <NavLink to={`/professional/${stateTotalRedux.globalUserGlobalStorage.id}`}>
-                                                <span className={s.dropdown_item + " dropdown-item"} >
-                                                    Perfil Profesional
-                                                </span>
+                                                    <span className={s.dropdown_item + " dropdown-item"} >
+                                                        Ver Perfil
+                                                    </span>
                                                 </NavLink>
                                             </li>
                                             
                                             <li>
                                                 <NavLink to='editUser'>
-                                                    <span className={s.dropdown_item + " dropdown-item"} >Editar Perfil
+                                                    <span 
+                                                        className={s.dropdown_item + " dropdown-item"} 
+                                                    >
+                                                        Editar Perfil
                                                     </span>
                                                 </NavLink>
                                             </li>
                                             
                                             <li>
                                                 <NavLink to='ProfessionalServiceOffer' >
-                                                    <span className={s.dropdown_item + " dropdown-item"} 
-                                                        >Agregá tu Servicio Profesional
+                                                    <span 
+                                                        className={s.dropdown_item + " dropdown-item"} 
+                                                    >
+                                                        Agregá tu Servicio Profesional
                                                     </span>
                                                 </NavLink>
                                             </li>
                                             
                                             <li>
                                                 <NavLink to="/cart">
-                                                    <span className={s.dropdown_item + " dropdown-item"} 
-                                                        >Carrito
+                                                    <span 
+                                                        className={s.dropdown_item + " dropdown-item"} 
+                                                    >
+                                                        Carrito
                                                     </span>
                                                 </NavLink>
                                             </li>
 
                                             <li>
                                                 <NavLink to={"/service-history/" + login.id}>
-                                                    <span className={s.dropdown_item + " dropdown-item"} >
+                                                    <span 
+                                                        className={s.dropdown_item + " dropdown-item"}
+                                                    >
                                                         Historial de Trabajos y Servicios
                                                     </span>
                                                 </NavLink>
@@ -225,12 +247,14 @@ export default function NavBar() {
                                                 <span 
                                                     className={s.dropdown_item + " dropdown-item"} 
                                                     onClick={logout}
-                                                        >Cerrar sesion
+                                                >
+                                                    Cerrar sesion
                                                 </span>
                                             </li>
 
                                         </ul>
                                     </div>
+                                    </>
                                 }
                             </div>
                         </>
