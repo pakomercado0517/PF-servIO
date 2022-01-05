@@ -5,6 +5,9 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const enviarEmail = require("../handlers/email");
 const crypto = require("crypto");
+const saltRounds = 10;
+const myPlaintextPassword = 's0/\/\P4$$w0rD';
+const someOtherPlaintextPassword = 'not_bacon';
 var juice = require("juice");
 // @ts-ignore
 const {
@@ -272,6 +275,8 @@ module.exports = {
             ]
           }
         });
+
+        let newProfessional = professional.filter(e => e.professional === true)
         res.status(200).send(professional);
         }else{
           let nombre = name.split(' ')[0]
@@ -976,7 +981,7 @@ module.exports = {
     const { email } = req.body;
     const usuario = await User.findOne({ where: { email } });
     if (!usuario) {
-      res.send("No existe esa cuenta");
+      res.send({ message : "No existe esa cuenta" });
     } else {
       usuario.token = crypto.randomBytes(20).toString("hex");
       usuario.expiracion = Date.now() + 3600000;
@@ -985,7 +990,7 @@ module.exports = {
       await usuario.save();
 
       //url de reset
-      const resetUrl = `http://${req.headers.host}/user/reestablecer/${usuario.token}`;
+      const resetUrl = `http://localhost:3000/forget-password/${usuario.token}`;
 
       //Enviar correo con el token
 
@@ -998,7 +1003,7 @@ module.exports = {
         archivo: `<h2>Restablecer Password</h2><p>Hola, has solicitado reestablecer tu password, haz click en el siguiente enlace para reestablecerlo, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${resetUrl} >Resetea tu password</a><p>Si no puedes acceder a este enlace, visita ${resetUrl}</p><div/>`,
       });
       // res.redirect('/iniciar-sesion'/)
-      res.send("Se envio un mensaje a tu correo");
+      res.send({message: "Se envio un mensaje a tu correo"});
     }
   },
 
@@ -1010,12 +1015,15 @@ module.exports = {
     });
 
     if (!usuario) {
-      res.send("Token invalido");
+      res.send(false);
+    }else{
+      res.send(true);
     }
-    res.send({ estado: "valido", token: req.params.token });
+    
   },
 
   actualizarPassword: async (req, res) => {
+    // const {password} = req.body
     const usuario = await User.findOne({
       where: {
         token: req.params.token,
@@ -1027,20 +1035,25 @@ module.exports = {
 
     if (!usuario) {
       // req.flash("error", "No valido"), 
-      res.redirect("/reestablecer/");
-    }
-
-    //haashear el nuevo password para
-    usuario.password = bcrypt.hashSync(
-      req.body.password,
-      bcrypt.genSaltSync(10)
-    );
-    usuario.token = null;
-    usuario.expiracion = null;
+      res.send("INVALIDO");
+    }else{
+      //haashear el nuevo password para
+      bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
+        usuario.password = hash;
+        
+        // Store hash in your password DB.
+    });
+      // let pass = await bcrypt.hash(req.body.password, 10);
+      // usuario.password = pass;
+      usuario.token = null;
+      usuario.expiracion = null;
 
     //guardar nuevo password
     await usuario.save();
-    res.send("Tu password se ha modificado correctamente");
+    res.send('contra cambiada');
+    }
+
+    
   },
 
   deleteByUserId: async (req, res) => {

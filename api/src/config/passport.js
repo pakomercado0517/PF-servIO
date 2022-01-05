@@ -61,7 +61,7 @@ module.exports = (passport) => {
             email: email,
             password: pass,
             first_name: firstName,
-            last_name: lastName,
+            last_name: lastName, 
             phone,
             city,
             state,
