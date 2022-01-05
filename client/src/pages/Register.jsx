@@ -11,7 +11,6 @@ import { filterProfessions, newUser, existentUser } from '../redux/actions';
 import {storage} from '../firebase/firebase'
 import {ref, uploadBytesResumable, getDownloadURL} from '@firebase/storage'
 import logo from '../img/ServIO.svg'
-import ViewMap from '../components/ViewMap';
 import {MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet'
 import {OpenStreetMapProvider} from 'leaflet-geosearch'
 import L from 'leaflet'
