@@ -20,10 +20,11 @@
 
 .container_buttons{
     display: flex;
+    justify-content: space-around;
+    height: 70px;
 }
 
 .container_buttons_button{
-    width: 30vw;
-    margin: auto;
+    height: 70%;
 }
 
