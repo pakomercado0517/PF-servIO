@@ -71,7 +71,6 @@ export default function NavBar() {
                         <CgOptions />
                         <span>Crear publicacion</span>
                     </div>
-
                     {/* CARRITO */}
 
                     <NavLink className={ s.container__elements_cart } to='/Cart'>
