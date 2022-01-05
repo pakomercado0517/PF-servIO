@@ -14,7 +14,7 @@ export  function Filter(){
     profession: [],
     filterWithActivity: false,
 })
-
+console.log(profession)
   useEffect(() => {
     dispatch(filterProfessions())
   },[profession])
@@ -28,7 +28,7 @@ export  function Filter(){
 
     setDetails(() =>({...details, profession: event.target.value}));
     if(profession.indexOf(event.target.value) === -1){
-      setProfession([...profession, event.target.value])
+      setProfession([event.target.value])
     }else{
       let index = profession.indexOf(event.target.value)
       setProfession([...profession.slice(0, index).concat(...profession.slice(index+1, profession.length))])
