@@ -22,12 +22,11 @@ export const OffersToSpecificClientsNeeds = () => {
         dispatch(getAllProfessionalOffers())
         dispatch(getOffersToSpecificClientNeed(id))
         dispatch(getAllProfessionals())
-    
     }, []);
 
     useEffect(() => {
         if (offersOfClientNeed === "No offers found") return setOffers([])
-        setOffers(offersOfClientNeed)
+        setOffers(offersOfClientNeed.filter(el => el.status !== "rejected"))
     }, [offersOfClientNeed])
 
     return (
@@ -37,7 +36,7 @@ export const OffersToSpecificClientsNeeds = () => {
             <h4>{ detailsClientNeed.description}</h4>
 
             {
-                offersOfClientNeed === "No offers found" ?
+                !offers[0] === "No offers found" ?
                     <h1>No hay ofertas para esta necesidad</h1>
 
                     :
@@ -48,6 +47,7 @@ export const OffersToSpecificClientsNeeds = () => {
                                 key={index + id}
                                 name={el.name || "algun servicio"}
                                 id={el.id}
+                                clientNeed={ id }
                                 guarantee_time={el.guarantee_time}
                                 duration={ el.duration }
                                 materials={el.materials}

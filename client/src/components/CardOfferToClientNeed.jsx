@@ -1,7 +1,7 @@
 import React from 'react'
 import { useGlobalStorage } from '../hooks/useGlobalStorage'
 import { useDispatch } from 'react-redux'
-import { getOffersById } from '../redux/actions'
+import { getOffersById, getOffersToSpecificClientNeed } from '../redux/actions'
 
 import Swal from 'sweetalert2'
 import axios from 'axios'
@@ -68,6 +68,44 @@ export default function CardOfferToClientNeed(props) {
         }
     }
 
+    async function updateOffer() {
+        let obj = {
+            name: props.name,
+            description: props.description,
+            price: props.price,
+            duration: props.duration,
+            materials: props.materials,
+            guarantee_time: props.guarantee_time,
+            status: "rejected",
+        }
+        try {
+            const data = await axios.put(`${REACT_APP_HOST}/professsionalOffer/${props.id}`, obj)
+            if (data.data === "updated"){
+                Swal.fire({
+                    icon: 'success',
+                    title: 'La oferta ha sido rechazada con exito!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                dispatch(getOffersToSpecificClientNeed(props.clientNeed))
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Algo salió mal!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Algo salió mal!',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
+    }
+
     return (
         <div className={ s.container }>
             <div className={s.container_date}>
@@ -97,7 +135,7 @@ export default function CardOfferToClientNeed(props) {
                 {
                     (user.id !== props.UserId) ?
                         <div className={s.container_buttons}>
-                            <button name="offers" type="button" className="btn btn-outline-danger">
+                            <button onClick={ updateOffer } name="offers" type="button" className="btn btn-outline-danger">
                                 Rechazar
                             </button>
                             <button onClick={ addToCart } name="details" className='btn btn-outline-success'>

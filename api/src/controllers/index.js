@@ -838,8 +838,6 @@ module.exports = {
       duration,
       materials,
       guarantee_time,
-      ClientNeedId,
-      UserId,
       status,
     } = req.body;
 
@@ -854,8 +852,6 @@ module.exports = {
           duration,
           materials,
           guarantee_time,
-          ClientNeedId,
-          UserId,
           status,
         },
         { where: { id } }
