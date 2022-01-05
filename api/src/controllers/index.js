@@ -248,7 +248,8 @@ module.exports = {
         });
         res.status(200).send(professional);
       } else {
-        const professional = await User.findAll({
+        if(name.split(' ').length === 1){
+          const professional = await User.findAll({
           include: [
             {
               model: Professional,
@@ -272,6 +273,35 @@ module.exports = {
           }
         });
         res.status(200).send(professional);
+        }else{
+          let nombre = name.split(' ')[0]
+          let apellido = name.split(' ')[1]
+          const professional = await User.findAll({
+            include: [
+              {
+                model: Professional,
+                include: [{ model: Profession }],
+              },
+            ],
+            where: { professional: true },
+            where: { 
+              [Sequelize.Op.or]:[
+                {
+                  first_name: { 
+                    [Sequelize.Op.iLike]: `%${nombre}%` 
+                  }
+                } , 
+                {
+                  last_name: { 
+                    [Sequelize.Op.iLike]: `%${apellido}%` 
+                  }
+                }  
+              ]
+            }
+          });
+          res.status(200).send(professional);
+        }
+        
       }
     } catch (error) {
       res.status(400).send(error.message);

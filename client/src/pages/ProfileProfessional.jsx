@@ -102,7 +102,11 @@ return (
                             className='profession'
                             key={el.id}
                         >
-                            {el.name}
+                            {/* {el.name} */}
+                            {
+                                el.name.slice(0,1).toUpperCase() + el.name.slice(1)
+
+                            }
                         </div>
                     )
                 })}
@@ -145,14 +149,16 @@ return (
         }
 
         <div className={ s.container_cards }>
-            <div className={ state.seeAllServices?s.container_cards_first:s.container_cards_first_all }>
+            <div 
+                className={ state.seeAllServices?s.container_cards_first:s.container_cards_first_all }>
                 {
-                    specificActivities && specificActivities === 'There are not specifical Activities' && (
-                        <h5>Este profesional no cargó actividades específicas</h5>
-                    )
+                    specificActivities && 
+                    specificActivities === 'There are not specifical Activities' && (
+                        <h5>Este profesional no cargó actividades específicas</h5>)
                 }
                 {
-                    specificActivities && specificActivities !== 'There are not specifical Activities' && specificActivities.map((el) => 
+                    specificActivities && 
+                    specificActivities !== 'There are not specifical Activities' && specificActivities.map((el) => 
                         (
                             <CardParticularService
                                     id={el.id}
@@ -194,7 +200,6 @@ return (
                             photo={ el.UserId ? allUsers.find(el2 => el2.id === el.UserId)?.photo : '' }
                             name= { el.UserId ? allUsers.find(el2 => el2.id === el.UserId)?.first_name + ' ' + allUsers.find(el2 => el2.id === el.UserId)?.last_name : '' }
                             description= { el.comment }
-                            // score={<StarRating stars={ el.score } />}
                             score={ el.score }
                             
                             />

@@ -15,7 +15,12 @@ const Search = () => {
     console.log(professionals)
     const dispatch = useDispatch()
     const[name, setName]= useState('')
+    const[end, setEnd]= useState(false)
+    const[autoNeeds, setAutoNeeds]= useState([])
+    const[autoProfessionals, setautoProfessionals]= useState([])
+    // const[name, setName]= useState('')
     // console.log(name)
+
     const autocompleteProfessionals = () => {
       let filtered = [];
       for(let i = 0; i < needs.length; i++){
@@ -23,28 +28,48 @@ const Search = () => {
           filtered.push(needs[i].name);
         }
       }
-      return filtered
+      setAutoNeeds(filtered)
     }
 
     const autocompleteNeeds = () => {
       let filtered = [];
       for(let i = 0; i < professionals.length; i++){
         if(filtered.indexOf(professionals[i].first_name) === -1){
-          filtered.push(professionals[i].first_name)
+          filtered.push(professionals[i].first_name + " " + professionals[i].last_name)
         }
       }
-      return filtered
+      setautoProfessionals(filtered)
+      
     }
-    const autocomplete = switcheo2 === 'professional' ? autocompleteNeeds().slice(0,6) : autocompleteProfessionals().slice(0,6)
+
+    const onClick = (e) => {
+      setName(e)
+      setEnd(true)
+      setAutoNeeds([])
+      setautoProfessionals([])
+    }
+    const autocomplete = switcheo2 === 'professional' ? autoProfessionals.slice(0,6) : autoNeeds.slice(0,6)
     console.log(autocomplete)
     // console.log(autocompleteNeeds())
     // console.log(autocompleteProfessionals())
     useEffect(() => {
       dispatch(searchBar(name))
-      autocompleteNeeds()
-      autocompleteProfessionals()
     },[name])
+    useEffect(() => {
+      setName('')
+    },[switcheo2])
 
+    useEffect(() => {
+      if(end === false) {
+        autocompleteNeeds()
+      autocompleteProfessionals()
+      }
+      
+    },[name])
+    const onChange = (e) => {
+      setName(e.target.value)
+      setEnd(false)
+    }
     return (
         <div className={s.search}>
             <div>
@@ -52,7 +77,7 @@ const Search = () => {
                     type="text"
                     placeholder={switcheo2 === 'professional' ? "    Busca un tecnico": '    Busca trabajo'}
                     value={name}
-                    onChange={e => {setName(e.target.value)}}
+                    onChange={e => onChange(e)}
                     className={s.input}
                 />
                 <div>
@@ -61,7 +86,7 @@ const Search = () => {
                         name !== '' ?
                         autocomplete.map((e, index) =>{
                             if(e !== undefined || e !== null) {
-                            return (<button className={s.input_btn} onClick={() => setName(e)} key={ "auto" + index} >{e}</button>)
+                            return (<button className={s.input_btn} onClick={()=> onClick(e)} key={ "auto" + index} >{e}</button>)
                             }
                         }):<p></p>
                         
