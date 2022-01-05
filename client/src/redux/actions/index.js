@@ -460,11 +460,10 @@ export const filterClients =
       const db = response.data;
       // //*******************FILTER BY RATE***************//
       let aux = db.filter((e) => {
-        if (rate === undefined || !rate[0]) {
+        if (rate === undefined || !rate) {
           return e;
-        } else {
-          // for(let i=0; i<rate.length; i++){
-          // }
+        } else if(rate < e.rate) {
+          return e
         }
       });
       // //*******************FILTER BY location***************//
