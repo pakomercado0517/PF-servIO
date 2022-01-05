@@ -49,7 +49,13 @@ export default function CardOfferToClientNeed(props) {
                     showConfirmButton: false,
                     timer: 1500
                 })
-                dispatch(getOffersById(user.id))
+            } else if (data === "La oferta ya ha sido eliminada o no existe") {
+                Swal.fire({
+                    icon: 'error',
+                    title: data,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -58,6 +64,7 @@ export default function CardOfferToClientNeed(props) {
                     timer: 1500
                 })
             }
+            dispatch(getOffersById(user.id))
         } catch (error) {
             Swal.fire({
                 icon: 'error',

@@ -824,9 +824,10 @@ module.exports = {
   deleteOfferById: async (req, res) => {
     const id = req.params.id;
     const offer = await ProfessionalOffer.findOne({ where: { id } });
+    if (!offer) return res.send("La oferta ya ha sido eliminada o no existe")
     offer.destroy();
     res.send(
-      `La oferta ha sido eliminada.`
+      "La oferta ha sido eliminada."
     );
   },
 

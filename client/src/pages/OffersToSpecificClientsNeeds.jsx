@@ -56,6 +56,7 @@ export const OffersToSpecificClientsNeeds = () => {
                                 date={el.updatedAt.split("T")[0]}
                                 description={el.description}
                                 photo={ el.UserId ? professionals.find(el2 => el2.id === el.UserId)?.photo : '' }
+                                status= { el.status }
                             />
                         )
                     })
