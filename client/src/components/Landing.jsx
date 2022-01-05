@@ -3,6 +3,9 @@ import styles from './styles/Landing.module.css';
 import img from '../img/brooke-cagle-tLG2hcpITZE-unsplash.jpg';
 import { NavLink } from 'react-router-dom';
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
+import  albañil from '../img/albañil.svg';
+import electricista from '../img/electricista1.png';
+import plomero from '../img/plomero.svg';
 
 export default function Landing() {
     // const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
@@ -13,7 +16,7 @@ export default function Landing() {
         <div className={ styles.div_principal }>
             <div className={ styles.div_principal__first }>
                 <span className={styles.landing__title}>servIO</span>
-                <p className={styles.landing__subtitle}>busca servicios profesionales desde la plataforma con seguridad y eficacia desde la comodidad de tu hogar... Crea tu necesidad!!
+                <p className={styles.landing__subtitle}>Busca servicios profesionales desde la plataforma con seguridad y eficacia desde la comodidad de tu hogar... Crea tu necesidad!!
                 </p>
                 { !(login && !login.proffesional) ? <div className={ styles.div_principal__first__buttons }>
                     <NavLink to="/login" style={{textDecoration: 'none'}}>
@@ -27,7 +30,19 @@ export default function Landing() {
                 
             </div>
             <div className={ styles.div_principal__second }>
-                <img src={ img } className={ styles.div_principal__second__img } alt="" />
+                <div class={styles.slider}>
+                    <ul>
+                        <li>
+                            <img src={albañil}/>
+                        </li>
+                        <li>
+                            <img src={electricista}/>
+                        </li>
+                        <li>
+                            <img src={plomero}/>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     )
