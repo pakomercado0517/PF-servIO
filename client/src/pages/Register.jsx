@@ -251,7 +251,7 @@ export default function Crear(props) {
 
                     </div>
                     <div className={s.container_registro_form_input}>
-                        <label>Nombre:</label>
+                        <label>Nombre:(*)</label>
                         <input
                             className='form-control'
                             type='text'
@@ -263,7 +263,7 @@ export default function Crear(props) {
 
                     </div>
                     <div className={s.container_registro_form_input}>
-                        <label>Apellido:</label>
+                        <label>Apellido:(*)</label>
                         <input
                             className='form-control'
                             type='text'
@@ -277,7 +277,7 @@ export default function Crear(props) {
 
                     </div>
                     <div className={s.container_registro_form_input}>
-                        <label>e-mail:</label>
+                        <label>E-mail:(*)</label>
                         <input
                             className='form-control'
                             type='email'
@@ -291,7 +291,7 @@ export default function Crear(props) {
 
                     </div>
                     <div className={s.container_registro_form_input}>
-                        <label>DNI:</label>
+                        <label>DNI:(*)</label>
                         <input
                             className='form-control'
                             type='text'
@@ -317,7 +317,7 @@ export default function Crear(props) {
                     </div>
 
                     <div className={s.container_registro_form_input}>
-                        <label>Password:</label>
+                        <label>Password:(*)</label>
                         <input
                             className='form-control'
                             type='text'
@@ -332,7 +332,7 @@ export default function Crear(props) {
                     </div>
 
                     <div className={s.container_registro_form_input}>
-                        <label>repeat password:</label>
+                        <label>repeat password:(*)</label>
                         <input
                             className='form-control'
                             type='text'
