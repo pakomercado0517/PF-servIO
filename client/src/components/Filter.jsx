@@ -24,7 +24,7 @@ console.log(ciudades)
   useEffect(() => {
     dispatch(filterProfessions())
   },[profession])
-
+console.log(switchState)
   useEffect(() => {
     dispatch(cities())
     dispatch(filterClients(search,details.calificacionMinima,details.ciudad, profession, true, details.filterWithActivity ))
@@ -56,7 +56,7 @@ console.log(ciudades)
         <starRating/>
         {/* <img src={starFilled}/> */}
             <select 
-                className="border-1 mx-2 btn btn-primary bg-info" 
+                className= {switcheo2 === 'professional' ? "border-1 mx-2 btn btn-primary bg-info" :s.hide}
                 onChange={changeProfession} 
                 id='profession'
                 key='profession'
@@ -76,7 +76,7 @@ console.log(ciudades)
               )}
             </select>
             <select 
-                className="border-1 mx-2 btn btn-primary bg-info" 
+                className= {switcheo2 === 'professional' ? "border-1 mx-2 btn btn-primary bg-info" : s.hide}
                 onChange={changeCity} 
                 id='profession'
                 key='profession'
@@ -96,7 +96,7 @@ console.log(ciudades)
               )}
             </select>
             <select 
-              className="border-1 mx-2 btn btn-primary bg-info" 
+              className= {switcheo2 === 'professional' ? "border-1 mx-2 btn btn-primary bg-info" :s.hide}
               onChange={changeRate} 
               id='profession'
               key='profession'
@@ -109,7 +109,7 @@ console.log(ciudades)
 
             </select>
             <input
-              className="border-1 mx-2 btn btn-primary bg-info" 
+              className={switcheo2 === 'professional' ? "border-1 mx-2 btn btn-primary bg-info" :s.hide}
               key="offers"
               type='button' 
               value='Solo tecnicos con ofertas'
