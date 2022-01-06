@@ -7,10 +7,14 @@ import Swal from 'sweetalert2'
 import { useDispatch, useSelector } from 'react-redux'
 import { switchModalCart } from '../redux/actions'
 import { useGlobalStorage } from '../hooks/useGlobalStorage'
+import useScript from '../hooks/useScript'
+
 
 import axios from 'axios'
 
-const { REACT_APP_HOST } = process.env
+const { REACT_APP_HOST, REACT_APP_ACCESS_PUBLIC } = process.env
+
+var mp;
 
 export default function ModalCart(props) {
 
@@ -24,6 +28,100 @@ export default function ModalCart(props) {
     useEffect(() => {
         dispatch(switchModalCart("notShow"))
     }, [])
+
+    // MERCADO PAGO FUNCTIONS
+
+    const { MercadoPago } = useScript(
+        "https://sdk.mercadopago.com/js/v2",
+        "MercadoPago"
+        );
+    
+    useEffect(() => {
+            if(MercadoPago){
+            mp = new MercadoPago( REACT_APP_ACCESS_PUBLIC ,{
+                locale: 'es-AR'
+            });
+        }
+    }, [MercadoPago])
+
+    
+    function createCheckoutButton(preferenceId){
+        console.log(preferenceId)
+        mp.checkout({
+            preference: {
+                id: preferenceId
+            },
+            render: {
+                container: '#cho-container', // Class name where the payment button will be displayed
+                label: 'Finalizar Compra', // Change the payment button text (optional)
+            }
+        });
+    }
+
+    
+    async function axiosMP(idTransaction){
+        let request;
+        if(cart[0]){
+            request = cart.map(el =>{
+                return {
+                    title: el.name,
+                    unit_price: el.price,
+                    quantity: el.count
+                }
+            })
+        } else {
+            request = [{
+                title: "",
+                unit_price: 0,
+                quantity: 0,
+            }]
+        }
+        const message  = await axios.post("http://localhost:3001/create_preference", {
+            items: request,
+            // payer: {
+            //     name: user.first_name,
+            //     surname: user.last_name,
+            //     email: user.email,
+            //     phone: {
+            //         area_code: "54",
+            //         number: user.phone
+            //     },
+            //     identification: {
+            //         type: "DNI",
+            //         number: "12345678"
+            //     },
+            //     address: {
+            //         street_name: cart[0].location,
+            //         street_number: 123,
+            //         zip_code: "5700"
+            //     }
+            // },
+            back_urls: {
+                success: "http://localhost:3001/create_preference/succes",
+                failure: "http://localhost:3001/create_preference/failure",
+                pending: "http://localhost:3001/create_preference/pending"
+            },
+            statement_descriptor: "ServIO",
+            external_reference: ""+ idTransaction,
+        })
+        .then(function(response) {
+            return response.data;
+        })
+        .then(function(preference) {
+            createCheckoutButton(preference.id);
+            document.getElementById("checkout_button").style.display = "none";
+            // document.getElementsByClassName("shopping-cart").fadeOut(500);
+            // $(".shopping-cart").fadeOut(500);
+            // setTimeout(() => {
+                //     // document.getElementsByClassName("container_payment").show(500).fadeIn();
+                //     // $(".container_payment").show(500).fadeIn();
+                // }, 500);
+            })
+            .catch(function() {
+            alert("Unexpected error");
+            document.getElementById("cho-container").disabled = true
+        });
+    }
 
     async function handleSubmit() {
     
@@ -45,10 +143,15 @@ export default function ModalCart(props) {
             if(data.message === "Created successfuly") {
                 Swal.fire({
                     icon: 'success',
-                    title: 'La pretición se creo con exito!, ahora solo debes pagar con mercado pago',
+                    title: 'La pretición se creo con exito!, ahora solo debes finalizar la compra con mercado pago',
                     showConfirmButton: true,
                     timer: 8500
                 })
+
+                await axiosMP( data.id )
+
+                dispatch(switchModalCart("notShow"))
+
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -104,7 +207,9 @@ export default function ModalCart(props) {
                     <button onClick={ back } className={ "btn btn-secondary"}>Volver</button>
                     <button onClick={ handleSubmit } className={ "btn btn-success" }>Confirmar</button>
                 </div>
+                {/* <div id='cho-container'></div> */}
             </div>
+            {/* <div className='container_payment'></div> */}
         </div>
     )
 }
