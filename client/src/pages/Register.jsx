@@ -9,13 +9,10 @@ import s from './styles/Register.module.css'
 import { CgOptions } from 'react-icons/cg';
 
 import { filterProfessions, newUser, existentUser } from '../redux/actions';
-import {storage} from '../firebase/firebase'
-import {ref, uploadBytesResumable, getDownloadURL} from '@firebase/storage'
 import logo from '../img/ServIO.svg'
-import {MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet'
-import {OpenStreetMapProvider} from 'leaflet-geosearch'
-import L from 'leaflet'
-import "leaflet/dist/leaflet.css";
+import MapView from '../components/MapView'
+import UploadImage from '../components/UploadImage'
+
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -41,6 +38,7 @@ const LocationMarker = ({position}) => {
 
 export default function Crear() {
     const [globalUser, ] = useGlobalStorage("globalUser", "")
+
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const user = useSelector(state => state)
@@ -56,6 +54,7 @@ export default function Crear() {
     });
     const [buttonSubmit, setbuttonSubmit] = useState(false)
     const [details, setDetails] = useState({
+        userName: '',
         firstName:'',
         lastName: '',
         email: '',
@@ -67,15 +66,10 @@ export default function Crear() {
         city:'',
         photo: logo,
         profession:[],
+        phone:"",
     })
 
-    const [progress, setProgress] = useState(0)
-    const [geosearch, setGeosearch] = useState("")
-    const [cityInfo, setCityInfo] = useState("")
-    const [positions, setPositions] = useState({
-        lat: 19.3910038,
-        lng: -99.2837001,
-    })
+    
 
     useEffect(() => {
         dispatch(filterProfessions())  
@@ -189,7 +183,6 @@ export default function Crear() {
             // userName: "Alejandrito2",
             ...details,
             profession: details.profession.join(),
-            phone: "123456789", 
             verified: "true", 
             certification_name:"N/A",
             certification_img:"noimg.png",
@@ -256,80 +249,13 @@ export default function Crear() {
         }
     }
 
-    const uploadFile= (file) => {
-        if(!file) return 
-        const storageRef= ref(storage, `/files/${file.name}`)
-        const uploadTask = uploadBytesResumable(storageRef, file)
+    
 
-        uploadTask.on('state_changed', (snapshot) => {
-            const prog= Math.round((snapshot.bytesTransferred / snapshot.totalBytes) *100)
-            setProgress(prog)
-        }, (err)=> console.log(err),
-        ()=> {
-            getDownloadURL(uploadTask.snapshot.ref).then(url=> {
-                console.log('url', url);
-                setDetails({
-                    ...details,
-                    photo: url
-                });
-            })
-        }
-        )
-    }
-
-    const uploadImage= async (e) => {
-        const file= e.target.files[0]
-        await uploadFile(file)
-    }
-    const provider= new OpenStreetMapProvider();
-    const handleSearch= (e)=> {
-        e.preventDefault();
-        setGeosearch(e.target.value);
-        if(e.target.value.length >= 8) {
-        //Use the provider...
-
-        provider.search({ query: geosearch }).then(res=> {
-            const $positions= res[0].bounds[0]
-            setPositions({lat:$positions[0], lng: $positions[1]})
-            const citi= cityInfo.split(',')
-            setCityInfo(res[0].label)
-            setDetails({
-                ...details,
-                city: `${citi[2]}, ${citi[citi.length - 1]}`,
-            })
-        })
-        }
-    }
-
-    const searchCity= ()=> {
-        navigator.geolocation.getCurrentPosition( function(position){
-        setPositions({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-        })
-        setGeosearch(`${positions.lng} ${positions.lat}`)
-        }, function(error){
-        console.log(error)
-        },
-        {
-            enableHighAccuracy: true
-        }
-        )
-    }
-
-    useEffect(() => {
-        provider.search({ query: `${positions.lat} ${positions.lng}` }).then(res => {
-        const citi= cityInfo.split(',')
-        setCityInfo(res[0].label)
-        setDetails({
-            ...details,
-            city: `${citi[2]}, ${citi[citi.length -1]}`,
-        })
-    })
-}, [positions, cityInfo])
+    console.log('photo:', details.photo)
 
     return (
         <div className={ s.container} >
+
           {/* { globalUser === '' ?
             <> */}
               <div className={ s.container_img }>
@@ -352,6 +278,7 @@ export default function Crear() {
                               onChange={(e) => handleChange(e)}
                           />
                           {errors.firstName && <p className={ s.error }>{ errors.firstName }</p>}
+
 
                       </div>
                       <div className={s.container_registro_form_input}>
@@ -395,7 +322,20 @@ export default function Crear() {
                               <p className={ s.error }>{errors.dni}</p>
                           )}
 
-                      </div>
+
+                    </div>
+                    <div className={s.container_registro_form_input}>
+                        <label>Número de teléfono:</label>
+                        <input
+                            className='form-control'
+                            type='text'
+                            value={details.phone}
+                            name='phone'
+                            onChange={(e) => handleChange(e)}
+                        />
+
+                    </div>
+
 
                       <div className={s.container_registro_form_input}>
                           <label>Password:</label>
@@ -430,6 +370,7 @@ export default function Crear() {
 
                       <h4>¿Buscas ofrecer o contratar un servicio?</h4>
                       <h5>Registrate como profesional o cliente!</h5>
+
 
                       <div className={s.container_registro_form_check}>
                           <label>Profesional:<input
@@ -517,3 +458,4 @@ export default function Crear() {
         </div>
   )
 }
+
