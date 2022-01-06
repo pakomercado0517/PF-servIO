@@ -27,11 +27,12 @@ export default function ProfileProfessional( ){
     const allUsers = useSelector( (state) => state?.allUsers)
     const clientNeeds = useSelector(state => state.clientNeedById)
 
-    console.log('1 - allUsers',allUsers)
-    console.log('2 - professional',professional)
-    console.log('3 - globalUserGlobalStorage',globalUserGlobalStorage)
-    console.log('4 - specificActivities',specificActivities)
-    console.log('5 - clientNeeds',clientNeeds)
+    // console.log('1 - allUsers',allUsers)
+    // console.log('2 - professional',professional)
+    // console.log('3 - globalUserGlobalStorage',globalUserGlobalStorage)
+    // console.log('4 - specificActivities',specificActivities)
+    // console.log('5 - clientNeeds',clientNeeds)
+    // console.log('6 - client reviews', professional)
 
     const [state, setstate] = useState({
         login: false,
@@ -40,10 +41,10 @@ export default function ProfileProfessional( ){
     })
 
     useEffect(()=>{
+        dispatch(getClientNeedsById(id))
         dispatch(getByUserId(id))
         dispatch(getSpecificActivitiesById(id))
         dispatch(getAllUsers())
-        dispatch(getClientNeedsById(id))
     },[dispatch,id])
 
     function newStateReview(){
@@ -95,7 +96,7 @@ return (
                 </p>
                 : <></>
             }
-            {
+            {/* {
                 professional?.phone ?
                 <p>Teléfono: <span>{ professional?.phone }</span> </p>
                 : <></>
@@ -104,12 +105,10 @@ return (
                 professional?.email ?
                 <p>Email: <span>{ professional?.email }</span></p>
                 : <></>
-            }
-                <h2>
-                    {professional?.profession}
-                </h2>
+            } */}
+                
                 <div>
-                    <StarRating stars={ 3 } />
+                    <StarRating stars={ professional?.rate } />
                 </div>
         
             </div>
@@ -241,13 +240,13 @@ return (
 
 
 
-            {/* <div className={ state.seeAllServices?s.container_cards_second:s.container_cards_second_all }>
+            <div className={ state.seeAllServices?s.container_cards_second:s.container_cards_second_all }>
                 <BsArrowRightCircle onClick={ newStateServices } size="50px"/>
-            </div> */}
+            </div>
 
-            {/* <div className={ state.seeAllServices?s.container_cards_second_all:s.container_cards_second }>
+            <div className={ state.seeAllServices?s.container_cards_second_all:s.container_cards_second }>
                 <BsArrowLeftCircle onClick={ newStateServices } size="50px"/>
-            </div> */}
+            </div>
 
         </div>
 
@@ -257,17 +256,14 @@ return (
         <div className={ s.container_cards }>
 
             {
-                professional?.Professional?.ClientReviews?.length > 0 ?
+                professional?.Professional?.ClientReviews?.length  ?
 
                 <div 
-                className={ professional?.Professional.ClientReviews ? 
-                            s.container_cards_first :
-                            s.container_cards_first_all 
-                        }
-            >
+                className="">
 
             {
-                professional?.Professional?.ClientReviews && professional?.Professional.ClientReviews?.map((el) =>
+                professional?.Professional?.ClientReviews && 
+                professional?.Professional?.ClientReviews?.map((el) =>
                     (
                         <CardReview
                             id={ el.id }

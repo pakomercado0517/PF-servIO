@@ -42,12 +42,12 @@ export const ClientSpecificNeed = () => {
             dispatch(getClientNeedsById(user.id))
             
             stateReset()
-            
+
             user.professional ? 
                 navigate('/professional/'+ user.id) : 
                 navigate('/clients/'+ user.id)
 
-        } catch ( error ) {
+            } catch ( error ) {
             console.log( error.message )
         }
     }

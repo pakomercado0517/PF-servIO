@@ -464,14 +464,24 @@ module.exports = {
 
         const users = await User.findOne({
         where: { id },
-        include: [ { model: ClientReview } ],
+        include: [
+            {
+              model: Professional,
+              include: [
+                { model: Profession },
+                { model: ClientReview },
+                { model: SpecificTechnicalActivity },
+              ],
+            },
+          ],
       });
-        if( users.ClientReviews.length > 0 ) {
+      console.log(users.Professional)
+        if( users.Professional.ClientReviews.length ) {
           let userRate = 0
-                for(let i = 0 ; i < users.ClientReviews.length; i++){
-                    userRate +=  parseInt(users.ClientReviews[i].score)
+                for(let i = 0 ; i < users.Professional.ClientReviews.length; i++){
+                    userRate +=  parseInt(users.Professional.ClientReviews[i].score)
                 }
-                let average = Math.round(userRate / users.ClientReviews.length * 100) / 100
+                let average = Math.round(userRate / users.Professional.ClientReviews.length * 100) / 100
                 users.rate = average
         }else{
           users.rate = 0
