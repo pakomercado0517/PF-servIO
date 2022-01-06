@@ -43,9 +43,9 @@ export default function CardCart(props) {
             <div className={s.container_buttons}>
                     <span>${props.price}</span>
                     <span>cant: {props.count}</span>
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <button name="add" type="button" class="btn btn-outline-success" onClick={changeCount}>add</button>
-                        <button name="less" type="button" class="btn btn-outline-danger" onClick={changeCount}>less</button>
+                    <div className="btn-group" role="group" aria-label="Basic example">
+                        <button name="add" type="button" className="btn btn-outline-success" onClick={changeCount}>add</button>
+                        <button name="less" type="button" className="btn btn-outline-danger" onClick={changeCount}>less</button>
                     </div>
             </div>
             <button onClick={ deleteItem } className={ s.container_buttonRemove + " btn-close" } aria-label="Close"></button>

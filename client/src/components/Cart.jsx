@@ -129,7 +129,7 @@ export default function Cart() {
 
                 </div>
                 <div className={s.container_buttons}>
-                    <div class="alert alert-warning" role="alert">
+                    <div className="alert alert-warning" role="alert">
                         <span>Total:  {total}</span>
                     </div>
                     <button id='checkout_button' className={s.container_buttons_button + ' btn btn-success'} onClick={showForm}> Continuar Compra</button>
