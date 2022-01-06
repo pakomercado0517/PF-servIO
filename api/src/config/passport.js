@@ -28,7 +28,7 @@ module.exports = (passport) => {
       },
       async (req, email, password, done) => {
         const {
-          // userName,
+          userName,
           firstName,
           lastName,
           // email,
@@ -60,10 +60,11 @@ module.exports = (passport) => {
 
           let pass = await bcrypt.hash(password, 10);
           let newUser = await User.create({
+            user_name: userName,
             email: email,
             password: pass,
             first_name: firstName,
-            last_name: lastName, 
+            last_name: lastName,
             phone,
             city,
             state,

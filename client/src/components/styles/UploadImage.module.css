@@ -1,0 +1,6 @@
+.showImage {
+  width: 155px;
+  height: 150px;
+  border-radius: 100%;
+  border: 2px solid green;
+}
