@@ -40,13 +40,13 @@ export default function ModalCart(props) {
             <div className={ s.container_form }>
                 <form>
                     <div className="mb-3 row">
-                        <label for="staticEmail" className="col-sm-2 col-form-label">Email</label>
+                        <label htmlFor="staticEmail" className="col-sm-2 col-form-label">Email</label>
                         <div className="col-sm-10">
-                            <input type="text" readonly className="form-control-plaintext" id="staticEmail" value={ props.email } />
+                            <input type="text" readOnly className="form-control-plaintext" id="staticEmail" defaultValue={ props.email } />
                         </div>
                     </div>
                     <div className="mb-3 row">
-                        <label for="inputPassword" className="col-sm-2 col-form-label">Dirección</label>
+                        <label htmlFor="inputPassword" className="col-sm-2 col-form-label">Dirección</label>
                         <div className="col-sm-10">
                             <input value={ input } type="text" className="form-control" id="inputPassword" onChange={ (e) => setinput(e.target.value ) } />
                         </div>
