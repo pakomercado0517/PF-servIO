@@ -1,6 +1,6 @@
 import React from 'react';
 // Router-dom
-import { NavLink} from 'react-router-dom';
+import { NavLink , useNavigate } from 'react-router-dom';
 // Imagenes e iconos
 import { CgOptions } from 'react-icons/cg';
 import { MdAccountCircle } from 'react-icons/md';
@@ -19,7 +19,7 @@ import { useLocalStorage } from '../hooks/useLocalStorage';
 
 
 export default function NavBar() {
-
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const [login, setGlobalUser] = useGlobalStorage("globalUser", "")
     const [cart] = useGlobalStorage("cart", "")
@@ -32,19 +32,17 @@ export default function NavBar() {
         
     }
     
-    function logout() {
+    async function logout() {
         setSwitcheo("professional")
-        fetch('http://localhost:3001/user/logout',{
+        await fetch('http://localhost:3001/user/logout',{
             method: 'POST'
-        })
-        .then(response => {
-            console.log('logout responseee', response)
-            localStorage.clear()
-            window.location.replace('/')
+        })      
+            // console.log('logout responseee', response)
+            navigate('/')
+            localStorage.clear()            
             setGlobalUser(null)
             setLocalUser(null)
-        })
-        
+
     }
 
     return (

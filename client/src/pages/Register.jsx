@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {useNavigate } from "react-router-dom";
 
+import { useGlobalStorage } from '../hooks/useGlobalStorage'
 import Swal from 'sweetalert2'
 import axios from 'axios'
 import s from './styles/Register.module.css'
@@ -12,7 +13,31 @@ import logo from '../img/ServIO.svg'
 import MapView from '../components/MapView'
 import UploadImage from '../components/UploadImage'
 
-export default function Crear(props) {
+
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+    iconUrl: require('leaflet/dist/images/marker-icon.png'),
+    shadowUrl: require('leaflet/dist/images/marker-shadow.png')
+});
+
+const LocationMarker = ({position}) => {
+  const map= useMap()
+  map.flyTo([position.lat, position.lng], 15)
+  const markerMove= (e)=> {
+    e.preventDefault()
+  }
+  // draggable={true} autoPan={true}
+  return position.lat === 0 && position.lng === 0 ? null : (
+    <Marker position={[position.lat, position.lng]} >
+      <Popup>You are here</Popup>
+    </Marker>
+  )
+}
+
+export default function Crear() {
+    const [globalUser, ] = useGlobalStorage("globalUser", "")
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -230,79 +255,73 @@ export default function Crear(props) {
 
     return (
         <div className={ s.container} >
-            <div className={ s.container_img }>
-                <p>
-                    Sé parte de nuestra plataforma, registrate ya y disfruta!
-                </p>
-            </div>
-            <div className={ s.container_registro }>
-                <div className={s.container_registro_titulo}>
-                    <h2>Crea tu Usuario</h2>
-                </div>
-                <form className={ s.container_registro_form } onSubmit={(e) => handleSubmit(e)}>
-                    <div className={s.container_registro_form_input}>
-                        <label>Crea un Username:</label>
-                        <input
-                            className='form-control'
-                            type='text'
-                            value={details.userName}
-                            name='userName'
-                            onChange={(e) => handleChange(e)}
-                        />
 
-                    </div>
-                    <div className={s.container_registro_form_input}>
-                        <label>Nombre:</label>
-                        <input
-                            className='form-control'
-                            type='text'
-                            value={details.firstName}
-                            name='firstName'
-                            onChange={(e) => handleChange(e)}
-                        />
-                        {errors.firstName && <p className={ s.error }>{ errors.firstName }</p>}
+          {/* { globalUser === '' ?
+            <> */}
+              <div className={ s.container_img }>
+                  <p>
+                      Sé parte de nuestra plataforma, registrate ya y disfruta!
+                  </p>
+              </div>
+              <div className={ s.container_registro }>
+                  <div className={s.container_registro_titulo}>
+                      <h2>Crea tu Usuario</h2>
+                  </div>
+                  <form className={ s.container_registro_form } onSubmit={(e) => handleSubmit(e)}>
+                      <div className={s.container_registro_form_input}>
+                          <label>Nombre:</label>
+                          <input
+                              className='form-control'
+                              type='text'
+                              value={details.firstName}
+                              name='firstName'
+                              onChange={(e) => handleChange(e)}
+                          />
+                          {errors.firstName && <p className={ s.error }>{ errors.firstName }</p>}
 
-                    </div>
-                    <div className={s.container_registro_form_input}>
-                        <label>Apellido:</label>
-                        <input
-                            className='form-control'
-                            type='text'
-                            value={details.lastName}
-                            name='lastName'
-                            onChange={(e) => handleChange(e)}
-                        />
-                        {errors.lastName && (
-                            <p className={ s.error }>{errors.lastName}</p>
-                        )}
 
-                    </div>
-                    <div className={s.container_registro_form_input}>
-                        <label>e-mail:</label>
-                        <input
-                            className='form-control'
-                            type='email'
-                            value={details.email}
-                            name='email'
-                            onChange={(e) => handleChange(e)}
-                        />
-                        {errors.email && (
-                            <p className={ s.error }>{errors.email}</p>
-                        )}
+                      </div>
+                      <div className={s.container_registro_form_input}>
+                          <label>Apellido:</label>
+                          <input
+                              className='form-control'
+                              type='text'
+                              value={details.lastName}
+                              name='lastName'
+                              onChange={(e) => handleChange(e)}
+                          />
+                          {errors.lastName && (
+                              <p className={ s.error }>{errors.lastName}</p>
+                          )}
 
-                    </div>
-                    <div className={s.container_registro_form_input}>
-                        <label>DNI:</label>
-                        <input
-                            className='form-control'
-                            type='text'
-                            value={details.dni}
-                            name='dni'
-                            onChange={(e) => handleChange(e)}
-                        />
-                        {errors.dni && (
-                            <p className={ s.error }>{errors.dni}</p>
-                        )}
+                      </div>
+                      <div className={s.container_registro_form_input}>
+                          <label>e-mail:</label>
+                          <input
+                              className='form-control'
+                              type='email'
+                              value={details.email}
+                              name='email'
+                              onChange={(e) => handleChange(e)}
+                          />
+                          {errors.email && (
+                              <p className={ s.error }>{errors.email}</p>
+                          )}
+
+                      </div>
+                      <div className={s.container_registro_form_input}>
+                          <label>DNI:</label>
+                          <input
+                              className='form-control'
+                              type='text'
+                              value={details.dni}
+                              name='dni'
+                              onChange={(e) => handleChange(e)}
+                          />
+                          {errors.dni && (
+                              <p className={ s.error }>{errors.dni}</p>
+                          )}
+
 
                     </div>
                     <div className={s.container_registro_form_input}>
@@ -317,97 +336,126 @@ export default function Crear(props) {
 
                     </div>
 
-                    <div className={s.container_registro_form_input}>
-                        <label>Password:</label>
-                        <input
-                            className='form-control'
-                            type='text'
-                            value={details.password}
-                            name='password'
-                            onChange={(e) => handleChange(e)}
-                        />
-                        {errors.password && (
-                            <p className={ s.error }>{errors.password}</p>
-                        )}
 
-                    </div>
+                      <div className={s.container_registro_form_input}>
+                          <label>Password:</label>
+                          <input
+                              className='form-control'
+                              type='text'
+                              value={details.password}
+                              name='password'
+                              onChange={(e) => handleChange(e)}
+                          />
+                          {errors.password && (
+                              <p className={ s.error }>{errors.password}</p>
+                          )}
 
-                    <div className={s.container_registro_form_input}>
-                        <label>repeat password:</label>
-                        <input
-                            className='form-control'
-                            type='text'
-                            value={details.repeatPassword}
-                            name='repeatPassword'
-                            onChange={(e) => handleChange(e)}
-                        />
-                        {errors.repeatPassword && (
-                            <p className={ s.error }>{errors.repeatPassword}</p>
-                        )}
+                      </div>
 
-                    </div>
+                      <div className={s.container_registro_form_input}>
+                          <label>repeat password:</label>
+                          <input
+                              className='form-control'
+                              type='text'
+                              value={details.repeatPassword}
+                              name='repeatPassword'
+                              onChange={(e) => handleChange(e)}
+                          />
+                          {errors.repeatPassword && (
+                              <p className={ s.error }>{errors.repeatPassword}</p>
+                          )}
+
+                      </div>
 
 
-                    <h4>¿Buscas ofrecer o contratar un servicio?</h4>
-                    <h5>Registrate como profesional o cliente!</h5>
+                      <h4>¿Buscas ofrecer o contratar un servicio?</h4>
+                      <h5>Registrate como profesional o cliente!</h5>
 
-                    <div className={s.container_registro_form_check}>
-                        <label>Profesional:<input
-                            type='checkbox'
-                            id="checkboxProfessional"
-                            value='professional'
-                            checked={details.professionalCase}
-                            onChange={(e) => handleCheck(e)}
-                        /></label>
-                        <br />
-                        <label>Cliente:<input
-                            type='checkbox'
-                            id="checkboxClient"
-                            checked={!details.professionalCase}
-                            value='cliente'
-                            onChange={(e) => handleCheck(e)}
-                        /></label>
-                        
-                    </div>
-                    <div className={s.container_registro_form_oficio}>
-                        {
-                            details.professionalCase ? (
-                                <>
-                                    <label>Seleccona tu Oficio:</label>
-                                    <div className='dropdown'>
-                                        <button className="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false" ><CgOptions />Elegir oficio</button>
-                                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
-                                            {
-                                                professionsName.map((el, index) => {
-                                                    return (
-                                                        <li key={"li" + index}><span className="dropdown-item" id={el} onClick={handleSelect}>{el}</span></li>
-                                                    )
-                                                })
-                                            }
-                                        </ul>
-                                    </div>
-                                </>
-                            ) : (<></>)
-                        }
-                        
-                        <div className={ s.container_registro_form_oficio_span }>
-                            {details.profession?.map((el, i) => {
-                                return <p key={ "p" + i}> { el } </p>
-                            })}
-                        </div>
-                        <div className={s.container_edilt_form_input_img} >
-                            <label htmlFor="imageFile">Selecciona alguna imágen:</label><br/>
-                            <UploadImage details={details} onChange={handleChange} />
-                        </div>
-                    </div>
-                    <div className={ s.container_registro_form_button }>
-                        <button id='buttonSubmit' type='submit' className={"btn btn-success " + s.buttonSubmit}>Registrarse</button>
-                    </div>
-                    <div className={s.mapView}>
-                        <MapView  details={details} onChange={handleChange}/>
-                    </div>
-                </form>
-            </div>
+
+                      <div className={s.container_registro_form_check}>
+                          <label>Profesional:<input
+                              type='checkbox'
+                              id="checkboxProfessional"
+                              value='professional'
+                              checked={details.professionalCase}
+                              onChange={(e) => handleCheck(e)}
+                          /></label>
+                          <br />
+                          <label>Cliente:<input
+                              type='checkbox'
+                              id="checkboxClient"
+                              checked={!details.professionalCase}
+                              value='cliente'
+                              onChange={(e) => handleCheck(e)}
+                          /></label>
+                          
+                      </div>
+                      <div className={s.container_registro_form_oficio}>
+                          {
+                              details.professionalCase ? (
+                                  <>
+                                      <label>Seleccona tu Oficio:</label>
+                                      <div className='dropdown'>
+                                          <button className="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false" ><CgOptions />Elegir oficio</button>
+                                          <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
+                                              {
+                                                  professionsName.map((el, index) => {
+                                                      return (
+                                                          <li key={"li" + index}><span className="dropdown-item" id={el} onClick={handleSelect}>{el}</span></li>
+                                                      )
+                                                  })
+                                              }
+                                          </ul>
+                                      </div>
+                                  </>
+                              ) : (<></>)
+                          }
+                          
+                          <div className={ s.container_registro_form_oficio_span }>
+                              {details.profession?.map((el, i) => {
+                                  return <p key={ "p" + i}> { el } </p>
+                              })}
+                          </div>
+                          <div className={s.container_edilt_form_input_img} >
+                              <label htmlFor="imageFile">Selecciona alguna imágen (png):</label><br/>
+                              <div className={s.div_file}>
+                                  <p className={s.text}>Elegir archivo</p>
+                                  <input className={s.btn_enviar} 
+                                      type="file"  
+                                      // accept=".png" 
+                                      name="photo"
+                                      // multiple
+                                      onChange={uploadImage}
+                                  /> 
+                              </div>
+                              <span>Uploaded {progress} % </span>
+                              {
+                                  progress === 100
+                                  ? <img src={details.photo} className={s.img_profile}/>
+                                  : ""
+                              }
+                          </div>
+                      </div>
+                      <div className={ s.container_registro_form_button }>
+                          <button id='buttonSubmit' type='submit' className={"btn btn-success " + s.buttonSubmit}>Registrarse</button>
+                      </div>
+                      <div>
+                          <p className='btn btn-primary' onClick={searchCity}>Mostrar ubicación actual</p>
+                          <p>O </p>
+                          <label for="formsearch">Busca tu ciudad</label>
+                          <input type='text' class='formsearch' name='city' onChange={handleSearch} placeholder='Ingresa tu ciudad'/>
+                          <MapContainer center={[positions.lat, positions.lng]} zoom={15} scrollWheelZoom={false} >
+                              <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' />
+                              <LocationMarker position={positions}/>
+                          </MapContainer>
+                      </div>
+                  </form>
+              </div>
+            {/* </>
+            : 
+            window.location.assign("/")
+            } */}
         </div>
-    )
+  )
 }
+
