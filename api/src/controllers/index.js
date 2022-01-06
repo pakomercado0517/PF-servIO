@@ -24,153 +24,153 @@ const {
 const e = require("express");
 
 module.exports = {
-  // newUser: async (req, res) => {
-  //   const {
-  //     // userName,
-  //     firstName,
-  //     lastName,
-  //     email,
-  //     phone,
-  //     city,
-  //     // state,
-  //     photo,
-  //     dni,
-  //     password,
-  //     verified,
-  //     professional,
-  //     certification_name,
-  //     certification_img,
-  //     status,
-  //     profession,
-  //   } = req.body;
-  //   console.log(req.body);
+  newUser: async (req, res) => {
+    const {
+      // userName,
+      firstName,
+      lastName,
+      email,
+      phone,
+      city,
+      // state,
+      photo,
+      dni,
+      password,
+      verified,
+      professional,
+      certification_name,
+      certification_img,
+      status,
+      profession,
+    } = req.body;
+    console.log(req.body);
 
-  //   error = [];
+    error = [];
 
-  //   // if(!userName || !firstName || !lastName || !email || !phone || !city || !state  || !dniFront|| !dniBack || !password || !password2 ){
-  //   //     error.push({message: 'Please enter all the required fields'})
-  //   // }
-  //   // if(password.length < 6){
-  //   //     error.push({message: 'Password should be at least 6 characters'})
-  //   // }
-  //   // if(password !== password2){
-  //   //     error.push({message: 'The password do not match'})
-  //   // }
+    // if(!userName || !firstName || !lastName || !email || !phone || !city || !state  || !dniFront|| !dniBack || !password || !password2 ){
+    //     error.push({message: 'Please enter all the required fields'})
+    // }
+    // if(password.length < 6){
+    //     error.push({message: 'Password should be at least 6 characters'})
+    // }
+    // if(password !== password2){
+    //     error.push({message: 'The password do not match'})
+    // }
 
-  //   const users = await User.findAll({
-  //     include: [{ model: Professional }],
-  //   });
+    const users = await User.findAll({
+      include: [{ model: Professional }],
+    });
 
-  //   users.map((e) => {
-  //     if (e.email === email) {
-  //       error.push("Email already in use");
-  //     }
-  //     // if(e.userName === userName){
-  //     //     error.push( 'User already in use')
-  //     // }
-  //   });
+    users.map((e) => {
+      if (e.email === email) {
+        error.push("Email already in use");
+      }
+      // if(e.userName === userName){
+      //     error.push( 'User already in use')
+      // }
+    });
 
-  //   if (error.length > 0) {
-  //     res.send(error);
-  //   } else {
-  //     try {
-  //       let hashedPassword = await bcrypt.hash(password, 10);
-  //       let newUser = await User.create({
-  //         // user_name: userName,
-  //         first_name: firstName,
-  //         last_name: lastName,
-  //         email,
-  //         phone: phone ? phone : 00000000,
-  //         city,
-  //         // state,
-  //         photo: photo ? photo : "",
-  //         dni,
-  //         // dni_back:dniBack ? dniBack : '',
-  //         password: hashedPassword,
-  //         verified: verified ? verified : false,
-  //         professional,
-  //       });
+    if (error.length > 0) {
+      res.send(error);
+    } else {
+      try {
+        let hashedPassword = await bcrypt.hash(password, 10);
+        let newUser = await User.create({
+          // user_name: userName,
+          first_name: firstName,
+          last_name: lastName,
+          email,
+          phone: phone ? phone : 00000000,
+          city,
+          // state,
+          photo: photo ? photo : "",
+          dni,
+          // dni_back:dniBack ? dniBack : '',
+          password: hashedPassword,
+          verified: verified ? verified : false,
+          professional,
+        });
 
-  //       if (professional === "true") {
-  //         let newProfessional = await Professional.create({
-  //           // certification_name:certification_name ? certification_name: '',
-  //           // certification_img:certification_img ? certification_img : '',
-  //           // status : status ? status : 'normal',
-  //           certification_name: "",
-  //           certification_img: "",
-  //           status: "normal",
-  //         });
-  //         let professions = profession.toLowerCase();
-  //         if (typeof professions === "string") {
-  //           professions = professions.split(",");
-  //         }
+        if (professional === "true") {
+          let newProfessional = await Professional.create({
+            // certification_name:certification_name ? certification_name: '',
+            // certification_img:certification_img ? certification_img : '',
+            // status : status ? status : 'normal',
+            certification_name: "",
+            certification_img: "",
+            status: "normal",
+          });
+          let professions = profession.toLowerCase();
+          if (typeof professions === "string") {
+            professions = professions.split(",");
+          }
 
-  //         const allProfessions = await Profession.findAll({
-  //           where: {
-  //             name: {
-  //               [Op.in]: Array.isArray(professions)
-  //                 ? professions
-  //                 : [professions],
-  //             },
-  //           },
-  //         });
+          const allProfessions = await Profession.findAll({
+            where: {
+              name: {
+                [Op.in]: Array.isArray(professions)
+                  ? professions
+                  : [professions],
+              },
+            },
+          });
 
-  //         await newProfessional.setProfessions(allProfessions);
-  //         await newUser.setProfessional(newProfessional);
-  //       }
-  //       res
-  //         .status(200)
-  //         .send(
-  //           `You are now registered, ${
-  //             firstName + " " + lastName
-  //           } please log in`
-  //         );
-  //     } catch (error) {
-  //       res.status(400).send(error.message);
-  //     }
-  //   }
-  // },
+          await newProfessional.setProfessions(allProfessions);
+          await newUser.setProfessional(newProfessional);
+        }
+        res
+          .status(200)
+          .send(
+            `You are now registered, ${
+              firstName + " " + lastName
+            } please log in`
+          );
+      } catch (error) {
+        res.status(400).send(error.message);
+      }
+    }
+  },
 
-  // login: async (req, res) => {
-  //   try {
-  //     const { email, password } = req.body;
+  login: async (req, res) => {
+    try {
+      const { email, password } = req.body;
 
-  //     const user = await User.findAll({
-  //       where: { email },
-  //     });
+      const user = await User.findAll({
+        where: { email },
+      });
 
-  //     let userType = "";
-  //     if (user.length < 1) {
-  //       res.status(200).send("Mail doesn't exist");
-  //     }
-  //     if (user[0].professional === true) {
-  //       userType = "Professional";
-  //     } else {
-  //       userType = "Client";
-  //     }
+      let userType = "";
+      if (user.length < 1) {
+        res.status(200).send("Mail doesn't exist");
+      }
+      if (user[0].professional === true) {
+        userType = "Professional";
+      } else {
+        userType = "Client";
+      }
 
-  //     if (user.length > 0) {
-  //       bcrypt.compare(password, user[0].password, (err, isMatch) => {
-  //         if (err) {
-  //           res.status(200).send("error");
-  //           throw err;
-  //         }
-  //         if (isMatch) {
-  //           req.session.userId = user[0].id;
-  //           let obj = { message: "Logged", cookies: req.session, userType };
-  //           return res.send(obj);
-  //         } else {
-  //           res.send("Wrong passWord");
-  //         }
-  //       });
-  //     }
-  //     if (user.length < 0) {
-  //       res.status(200).send("Something is wrong");
-  //     }
-  //   } catch (error) {
-  //     // res.status(400).send(error.message)/
-  //   }
-  // },
+      if (user.length > 0) {
+        bcrypt.compare(password, user[0].password, (err, isMatch) => {
+          if (err) {
+            res.status(200).send("error");
+            throw err;
+          }
+          if (isMatch) {
+            req.session.userId = user[0].id;
+            let obj = { message: "Logged", cookies: req.session, userType };
+            return res.send(obj);
+          } else {
+            res.send("Wrong passWord");
+          }
+        });
+      }
+      if (user.length < 0) {
+        res.status(200).send("Something is wrong");
+      }
+    } catch (error) {
+      // res.status(400).send(error.message)/
+    }
+  },
   loginTest: async (req, res) => {
     if (req.session.userId) {
       res.send(true);
@@ -457,10 +457,10 @@ module.exports = {
   getByUserId: async (req, res) => {
     try {
       const id = req.params.id;
-      let user = await User.findAll({
-        where: { id: { [Op.eq]: id } },
+      let user = await User.findOne({
+        where: { id },
       });
-      if (user[0]) {
+      if (user) {
 
         const users = await User.findOne({
         where: { id },

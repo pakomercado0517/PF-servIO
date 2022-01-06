@@ -124,6 +124,7 @@ module.exports = (passport) => {
         try {
           const user = await User.findOne({ where: { email: email } });
           if (!user) return done(null, false);
+          if (user.verified === false) return done(null, false);
           let pass = await bcrypt.compare(password, user.password);
           console.log("pass:", pass);
           if (!pass) return done(null, false);
