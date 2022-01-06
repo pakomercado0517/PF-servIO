@@ -358,6 +358,8 @@ module.exports = {
       data
     } = req.body
 
+    console.log(data)
+
     const dataSpecificTechnicalActivity = data.filter( el => el.type === "specific technical activity" )
     const dataOffer = data.filter( el => el.type === "offer" )
 
@@ -375,6 +377,7 @@ module.exports = {
           status: "pending to pay",
           SpecificTechnicalActivityId: el.specificTechnicalActivityId,
           location: el.location,
+          UserId: el.UserId
         }
       })
 
@@ -401,7 +404,7 @@ module.exports = {
           guarantee: el.guarantee,
           guarantee_time: el.guarantee_time,
           job_time: el.duration,
-          ProfessionalId: el.professionalId,
+          ProfessionalId: el.ProfessionalId,
           type: "specific",
         }
       })
@@ -430,12 +433,12 @@ module.exports = {
     // Create transaction finaly
 
     try {
-      const newTransaction = await Transactions.create({
+      const { dataValues } = await Transactions.create({
         data,
         status: "pending to pay"
       })
       res.send({
-        ...newTransaction,
+        ...dataValues,
         message: "Created successfuly"
       })
     } catch (error) {

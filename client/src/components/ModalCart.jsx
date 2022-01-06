@@ -2,12 +2,21 @@ import React, { useState, useEffect } from 'react'
 
 import s from './styles/ModalCart.module.css'
 
+import Swal from 'sweetalert2'
+
 import { useDispatch, useSelector } from 'react-redux'
 import { switchModalCart } from '../redux/actions'
+import { useGlobalStorage } from '../hooks/useGlobalStorage'
+
+import axios from 'axios'
+
+const { REACT_APP_HOST } = process.env
 
 export default function ModalCart(props) {
 
     const [input, setinput] = useState("")
+    const [cart, setCart] = useGlobalStorage("cart", "")
+    const [user, ] = useGlobalStorage("globalUser", "")
 
     const dispatch = useDispatch()
     const { modalCart } = useSelector(state => state)
@@ -16,7 +25,46 @@ export default function ModalCart(props) {
         dispatch(switchModalCart("notShow"))
     }, [])
 
-    function handleSubmit() {
+    async function handleSubmit() {
+    
+        // SETEO EL CARRITO
+        const newData = cart.map( el => {
+            return {
+                ...el,
+                location: input,
+                UserId: user.id
+            }
+        })
+        setCart(newData)
+
+        try {
+            const { data } = await axios.post( REACT_APP_HOST+"/Transactions/", {
+                data: cart
+            })
+
+            if(data.message === "Created successfuly") {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'La pretición se creo con exito!, ahora solo debes pagar con mercado pago',
+                    showConfirmButton: true,
+                    timer: 8500
+                })
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Algo fallo, revisa los datos',
+                    showConfirmButton: true,
+                    timer: 3500
+                })
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Algo fallo, revisa los datos',
+                showConfirmButton: true,
+                timer: 3500
+            })
+        }
 
     }
 
