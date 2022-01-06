@@ -9,20 +9,40 @@ export default function ForgetPassword() {
   const dispatch = useDispatch()
   const [email, setEmail] = useState('')
   const [submit2, setsubmit2] = useState(true)
-  const a = useSelector(state => state)
+  const a = useSelector(state => state.resetPassword.data)
   console.log(a)
-  
+  const navigate = useNavigate()
+
   const handleChange = (e) =>{
     setEmail(e.target.value)
   }
 
   const onSubmit = () => {
     setsubmit2(!submit2)
+    if(a.message === 'Se envio un mensaje a tu correo'){
+      navigate('/')
+      Swal.fire({
+        icon: 'success',
+        title: a.message,
+        showConfirmButton: true,
+        // timer: 1500,
+        showCloseButton: true
+    });
+    }else{
+      Swal.fire({
+        icon: 'error',
+        title: a.message,
+        showConfirmButton: true,
+        // timer: 1500,
+        showCloseButton: true
+    });
+    }
+    
   }
 
   useEffect(() => {
     dispatch(resetPassword({email}))
-  },[submit2])
+  },[email])
 
   console.log(email)
   return (
@@ -31,7 +51,7 @@ export default function ForgetPassword() {
             <div >
                 <h2>Recupera tu Password</h2>
             </div>
-            <form>
+            <form onSubmit={() => onSubmit()}>
                 <div >
                     <label>Por favor inserta tu correo:</label>
                     <input

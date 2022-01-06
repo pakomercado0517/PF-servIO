@@ -23,13 +23,27 @@ export default function ResetPassword() {
   const {token} = useParams()
   console.log(token)
 
-  const onSubmit = () => {
+  const onSubmit =  () => {
     if(password.password1 === password.password2){
-      dispatch(newPassword(password.password1.toString(), token))
+      dispatch( newPassword(password.password1.toString(), token))
+      navigate('/login')
+      Swal.fire({
+        icon: 'success',
+        title: 'Se ha modificado la contraseña correctamente, por favor Inicia Sesion',
+        showConfirmButton: true,
+        // timer: 1500,
+        showCloseButton: true
+    });
     }else{
-      alert('Los password no coinciden')
-    }
+      Swal.fire({
+        icon: 'error',
+        title:'Los password no coinciden',
+        showConfirmButton: true,
+        // timer: 1500,
+        showCloseButton: true
+    });
   }
+}
 
   useEffect(() => {
     dispatch(validarToken(token))
@@ -44,7 +58,7 @@ export default function ResetPassword() {
             <div >
                 <h2>Reestablece Password</h2>
             </div>
-            <form>
+            <form onSubmit={() => onSubmit()}>
                 <div >
                     <label>Por favor inserta tu Password</label>
                     <input

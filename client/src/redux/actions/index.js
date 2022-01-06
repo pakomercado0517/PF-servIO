@@ -654,14 +654,18 @@ export const cities = () => async dispatch => {
 
 
 export const resetPassword = (email) => async dispatch => {
-  let city = await axios.post(`${constants.localhost}/User/reestablecer/`, email);
+  if(email) {
+    let city = await axios.post(`${constants.localhost}/User/reestablecer/`, email);
   dispatch ({
     type: RESET_PASSWORD,
     payload:city
   })
+  }
+  
 }
 
 export const validarToken = (token) => async dispatch => {
+
   let validate = await axios.get(`${constants.localhost}/user/reestablecer/${token}`);
   dispatch ({
     type: VALIDAR_TOKEN,

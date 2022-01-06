@@ -66,7 +66,7 @@ export const ProfessionalServiceOffer = () => {
             });
             stateReset();
             navigate(`/professional/${user.id}`);
-
+ 
           }else{
             Swal.fire({
               icon: 'error',

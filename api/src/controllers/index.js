@@ -979,32 +979,37 @@ module.exports = {
   
   enviarToken: async (req, res) => {
     const { email } = req.body;
-    const usuario = await User.findOne({ where: { email } });
-    if (!usuario) {
-      res.send({ message : "No existe esa cuenta" });
-    } else {
-      usuario.token = crypto.randomBytes(20).toString("hex");
-      usuario.expiracion = Date.now() + 3600000;
+    if(email) {
+        const usuario = await User.findOne({ where: { email } });
+      if (!usuario) {
+        res.send({ message : "No existe esa cuenta" });
+      } else {
+        usuario.token = crypto.randomBytes(20).toString("hex");
+        usuario.expiracion = Date.now() + 3600000;
 
-      //guardarlos en la base de datos
-      await usuario.save();
+        //guardarlos en la base de datos
+        await usuario.save();
 
-      //url de reset
-      const resetUrl = `http://localhost:3000/forget-password/${usuario.token}`;
+        //url de reset
+        const resetUrl = `http://localhost:3000/forget-password/${usuario.token}`;
 
-      //Enviar correo con el token
+        //Enviar correo con el token
 
-      // console.log(resetUrl)
+        // console.log(resetUrl)
 
-      await enviarEmail.enviar({
-        usuario,
-        subject: "Password Reset",
-        resetUrl,
-        archivo: `<h2>Restablecer Password</h2><p>Hola, has solicitado reestablecer tu password, haz click en el siguiente enlace para reestablecerlo, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${resetUrl} >Resetea tu password</a><p>Si no puedes acceder a este enlace, visita ${resetUrl}</p><div/>`,
-      });
-      // res.redirect('/iniciar-sesion'/)
-      res.send({message: "Se envio un mensaje a tu correo"});
+        await enviarEmail.enviar({
+          usuario,
+          subject: "Password Reset",
+          resetUrl,
+          archivo: `<h2>Restablecer Password</h2><p>Hola, has solicitado reestablecer tu password, haz click en el siguiente enlace para reestablecerlo, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${resetUrl} >Resetea tu password</a><p>Si no puedes acceder a este enlace, visita ${resetUrl}</p><div/>`,
+        });
+        // res.redirect('/iniciar-sesion'/)
+        res.send({message: "Se envio un mensaje a tu correo"});
+      }
+    }else{
+      res.send({message: "Envia un email valido"})
     }
+    
   },
 
   validarToken: async (req, res) => {
