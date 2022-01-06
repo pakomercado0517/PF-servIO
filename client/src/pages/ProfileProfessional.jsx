@@ -86,12 +86,12 @@ return (
             </p>
 
             {
-                professional?.state && professional?.city ?
+                professional?.state || professional?.city ?
                 <p>
                     <span>
                         Locacion: <GrLocation/>
-                        {professional?.state ? professional.state + ', ' : ''}
-                        {professional?.city ? professional.city : ''}
+                        {professional?.city ? professional.city + ' ': ''}
+                        {professional?.state ? professional.state : ''}
                     </span>
                 </p>
                 : <></>
@@ -100,12 +100,12 @@ return (
                 professional?.phone ?
                 <p>Teléfono: <span>{ professional?.phone }</span> </p>
                 : <></>
-            }
+            } */}
             {
                 professional?.email ?
-                <p>Email: <span>{ professional?.email }</span></p>
+                <p><span>{ professional?.email }</span></p>
                 : <></>
-            } */}
+            }
                 
                 <div>
                     <StarRating stars={ professional?.rate } />
@@ -116,7 +116,7 @@ return (
             <div className={s.professional_showProfessions} >
         
                 <div>
-                    <h3 className={s.professions_title}>Profesiones:</h3>
+                    <h3 className={s.professions_title}>Profesion(es):</h3>
                 </div>
         
             <div className={s.professions_container}>
@@ -154,7 +154,7 @@ return (
                 ) : <></>
             }
         </div>
-        <h4>Servicios particulares</h4>
+        <h4>Servicios Ofrecidos</h4>
 
             {/* si su usuario visita su perfil profesional ==> opcion para agregar servicio */}
         {
@@ -183,7 +183,7 @@ return (
                 {   specificActivities && 
                     specificActivities === 'There are not specifical Activities' ?
 
-                    <h4>No hay servicios registrados</h4>
+                    <h6>No hay servicios registrados</h6>
                     :
                     <>
                         {
@@ -279,7 +279,7 @@ return (
             }
                 </div>
             :
-                <h5>Este profesional no tiene reviews</h5>
+                <h6>Este profesional no tiene reviews</h6>
             }
 
             <div className={ state.seeAllReview?s.container_cards_second:s.container_cards_second_all }>
@@ -300,8 +300,6 @@ return (
                 ) : <></>
             }
         </div>
-    </div>   
-    
-        
+    </div>
 )
 }
