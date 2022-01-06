@@ -21,6 +21,7 @@ import { ClientSpecificNeedEdit } from './components/ClientSpecificNeedEdit';
 import ProfessionalSpecificActivityEdit from './pages/ProfessionalSpecificActivityEdit';
 import ForgetPassword from './pages/ForgetPassword';
 import ResetPassword from './pages/ResetPassword';
+import ActivateAccount from './pages/ActivateAccount';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route exact path="/nosotros" element={<Nosotros />} />
         <Route exact path="/login" element={<Login />} />
+        <Route exact path="/activate/:token" element={<ActivateAccount />} />
         <Route exact path="/forget-password" element={<ForgetPassword />} />
         <Route exact path="/forget-password/:token" element={<ResetPassword />} />
         <Route exact path="/register" element={<Register />} />

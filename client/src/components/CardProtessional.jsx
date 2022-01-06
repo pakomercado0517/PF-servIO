@@ -4,7 +4,7 @@ import {NavLink} from 'react-router-dom'
 
 const CardProfessional = (props) => {
     return ( 
-        <div className={s.professionalCard}>
+        <div className={s.professionalCard} key={ props.idTech + props.subtitleTech}>
             
             <NavLink 
                 to={`/professional/${props.idTech}`} 

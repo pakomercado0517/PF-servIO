@@ -2,6 +2,8 @@ const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
 const { User, Professional, Profession } = require("../db");
 const { Op } = require("sequelize");
+const crypto = require("crypto");
+
 
 module.exports = (passport) => {
   passport.serializeUser((user, done) => {
@@ -67,8 +69,10 @@ module.exports = (passport) => {
             city,
             state,
             photo,
-            verified,
+            verified: false,
             professional,
+            token:crypto.randomBytes(20).toString("hex"),
+            expiracion : Date.now() + 3600000
             // certificacion_name,
             // certification_img,
             // status,
@@ -84,6 +88,9 @@ module.exports = (passport) => {
           if (typeof profession === "string") {
             professions = professions.split(",");
           }
+          
+          
+
           let allProfessions = await Profession.findAll({
             where: {
               name: {
