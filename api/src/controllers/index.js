@@ -382,7 +382,6 @@ module.exports = {
       const arrayOfClientNeeds = dataSpecificTechnicalActivity.map(el => {
         return {
           name: el.name,
-          price: el.price,
           photo: el.photo,
           description: el.description,
           status: "pending to pay",
@@ -416,18 +415,18 @@ module.exports = {
 
       // Turn every offer to Specific Technical Activity with "specific" vs "general" status
 
-      const newSpecificTechnicalActivities = dataOffer.map(el => {
+      const updateClientNeeds = dataOffer.map(el => {
         return {
           name: el.name,
-          price: el.price,
           photo: el.photo,
           description: el.description,
           status: "pending to pay",
           SpecificTechnicalActivityId: el.id,
+          id: el.ClientNeedId,
         }
       })
 
-      const updateClientNeeds = dataOffer.map(el => {
+      const newSpecificTechnicalActivities = dataOffer.map(el => {
         return {
           name: el.name,
           price: el.price,
@@ -437,6 +436,7 @@ module.exports = {
           guarantee_time: el.guarantee_time,
           job_time: el.duration,
           proffessionalId: el.professionalId,
+          type: "specific",
         }
       })
 
@@ -444,14 +444,12 @@ module.exports = {
 
 
       try {
+        await ClientNeed.bulkCreate(updateClientNeeds, { updateOnDuplicate: ["name", "description", "status", "photo", "SpecificTechnicalActivityId"] })
         await SpecificTechnicalActivity.bulkCreate(newSpecificTechnicalActivities)
-        await ClientNeed.bulkCreate(updateClientNeeds, { updateOnDuplicate: ["name", "price", "description"] })
       } catch (error) {
         res.status(400).send(error.message);
       }
     }
-
-
   },
 
   getAllTransactions: async (req, res) => {
