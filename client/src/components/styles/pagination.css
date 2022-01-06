@@ -4,6 +4,7 @@
     justify-content: flex-end;
     padding-right: 20px;
     padding-left: 15px;
+    
 }
 
 .page-link{
@@ -13,3 +14,4 @@
 .hide{
   display: none;
 }
+

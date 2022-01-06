@@ -26,24 +26,21 @@ const CardProfessional = (props) => {
             <div>
             
                 <div className={s.subtitleTech}>
-                    <MdBusinessCenter/>
                     <div className={s.subtitleTech_1}>
                         {props.workTech?.map((e, index) => 
                         <span key={ e + index }>
-                            {e.name}
+                            <MdBusinessCenter/> {e.name}
                         </span>
                         )}
                     </div>
                 </div>
                 
                 <div className={s.subtitleTech}>
-                    <MdLocationOn/>
-                    <span>{props.locationTech}</span>
+                    <span> <MdLocationOn/> {props.locationTech}</span>
                 </div>
                 
                 <div className={s.subtitleTech}>
-                    <MdLoyalty/>
-                    <span>{props.calificationTech ? props.calificationTech +'/5' : '0/5' }</span>
+                    <span> <MdLoyalty/> {props.calificationTech ? props.calificationTech +'/5' : '0/5' }</span>
                 </div>
                 
             </div>
