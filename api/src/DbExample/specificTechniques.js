@@ -84,6 +84,7 @@ const tecsMap = tecs.map((el) => {
     job_time: el.job_time,
     description: el.description,
     ProfessionalId: el.ProfessionalId,
+    type: "general",
   };
 });
 module.exports = { tecsMap };

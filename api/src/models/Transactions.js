@@ -9,5 +9,12 @@ module.exports = (sequelize) => {
             primaryKey: true,
             autoIncrement: true,
         },
+        data: {
+            type: DataTypes.ARRAY(DataTypes.JSON)
+        },
+        status: {
+            type: DataTypes.ENUM,
+            values: ["pending to pay", "approved", "rejected", "pending to approve"],
+        }
     }, {});
 }
