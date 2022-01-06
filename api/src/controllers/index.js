@@ -353,7 +353,6 @@ module.exports = {
 
   // ******** TRANSACTIONS
 
-  //COMENTAR QUE SE REQUIERE INPUT DIRECTO DE IDS DE USUARIOS
   newTransaction: async (req, res) => {
     const {
       data
@@ -362,30 +361,20 @@ module.exports = {
     const dataSpecificTechnicalActivity = data.filter( el => el.type === "specific technical activity" )
     const dataOffer = data.filter( el => el.type === "offer" )
 
+    // News ClientNeed
+
     if (dataSpecificTechnicalActivity[0]) {
 
-      // received object 
-      // el = {
-            // id
-            // name,
-            // price,
-            // photo,
-            // materials,
-            // guarantee,
-            // guarantee_time,
-            // duration,
-            // professionalId,
-            // UserId,
-      // }
-
       // Create a ClientNeed to every SpecificTechnicalActivity
+
       const arrayOfClientNeeds = dataSpecificTechnicalActivity.map(el => {
         return {
           name: el.name,
           photo: el.photo,
           description: el.description,
           status: "pending to pay",
-          SpecificTechnicalActivityId: el.id,
+          SpecificTechnicalActivityId: el.specificTechnicalActivityId,
+          location: el.location,
         }
       })
 
@@ -396,35 +385,12 @@ module.exports = {
       }
     }
 
+    // News SpecificTechnicalActivity and Update ClientNeeds
+
     if (dataOffer[0]) {
+      console.log("offer")
 
-      // received object (offers)
-
-      // el = {
-            // name,
-            // price,
-            // photo,
-            // materials,
-            // guarantee,
-            // guarantee_time,
-            // duration,
-            // professionalId,
-            // UserId,
-            // ClientNeedId,
-      // }
-
-      // Turn every offer to Specific Technical Activity with "specific" vs "general" status
-
-      const updateClientNeeds = dataOffer.map(el => {
-        return {
-          name: el.name,
-          photo: el.photo,
-          description: el.description,
-          status: "pending to pay",
-          SpecificTechnicalActivityId: el.id,
-          id: el.ClientNeedId,
-        }
-      })
+      // Turn every offer to news Specific Technical Activity with "specific" vs "general" status
 
       const newSpecificTechnicalActivities = dataOffer.map(el => {
         return {
@@ -435,20 +401,45 @@ module.exports = {
           guarantee: el.guarantee,
           guarantee_time: el.guarantee_time,
           job_time: el.duration,
-          proffessionalId: el.professionalId,
+          ProfessionalId: el.professionalId,
           type: "specific",
         }
       })
 
       // Update, for every offer, one ClientNeed with status "pending to pay" that was related with their Specific Technical Activity
 
-
       try {
-        await ClientNeed.bulkCreate(updateClientNeeds, { updateOnDuplicate: ["name", "description", "status", "photo", "SpecificTechnicalActivityId"] })
-        await SpecificTechnicalActivity.bulkCreate(newSpecificTechnicalActivities)
+        const newActivites = await SpecificTechnicalActivity.bulkCreate(newSpecificTechnicalActivities)
+        const updateClientNeeds = dataOffer.map((el, index) => {
+          return {
+            id: el.ClientNeedId,
+            name: el.name,
+            photo: el.photo,
+            description: el.description,
+            status: "pending to pay",
+            SpecificTechnicalActivityId: newActivites[index].id,
+            location: el.location,
+          }
+        })
+        await ClientNeed.bulkCreate(updateClientNeeds, { updateOnDuplicate: ["name", "description", "status", "photo", "SpecificTechnicalActivityId", "location"] })
       } catch (error) {
         res.status(400).send(error.message);
       }
+    }
+
+    // Create transaction finaly
+
+    try {
+      const newTransaction = await Transactions.create({
+        data,
+        status: "pending to pay"
+      })
+      res.send({
+        ...newTransaction,
+        message: "Created successfuly"
+      })
+    } catch (error) {
+      res.status(400).send(error.message);
     }
   },
 
@@ -620,6 +611,9 @@ module.exports = {
             include: [{ model: Profession }],
             include: [{ model: User }],
           },
+          {
+            model: ClientNeed
+          }
         ],
       });
       res.status(200).send(activities);

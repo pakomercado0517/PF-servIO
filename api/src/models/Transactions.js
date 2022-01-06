@@ -11,6 +11,10 @@ module.exports = (sequelize) => {
         },
         data: {
             type: DataTypes.ARRAY(DataTypes.JSON)
+        },
+        status: {
+            type: DataTypes.ENUM,
+            values: ["pending to pay", "approved", "rejected", "pending to approve"],
         }
     }, {});
 }

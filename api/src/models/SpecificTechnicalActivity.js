@@ -36,7 +36,7 @@ module.exports = (sequelize) => {
         type: DataTypes.TEXT,
       },
       type: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM,
         values: ["specific", "general"],
       },
     },
