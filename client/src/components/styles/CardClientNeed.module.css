@@ -1,9 +1,15 @@
+:root{
+    --color-transition:#5ed4ee;
+    --color-fondo: white;
+    --color-letra: rgb(14, 13, 13);
+}
+
 .container {
     display: inline-block;
     min-width: 200px;
     height: 300px;
     width: 200px;
-    background-color: rgb(212, 212, 212);
+    background-color: var(--color-fondo);
     border-radius: 10px;
     padding: 5px;
     margin: 5px 15px;
@@ -14,7 +20,7 @@
     /* min-width: 220px; */
     /* width: 220px;
     height: 320px; */
-    box-shadow: 1px 1px 12px rgb(65, 65, 65);
+    box-shadow: 1px 1px 12px var(--color-transition);
 }
 
 .container p {
