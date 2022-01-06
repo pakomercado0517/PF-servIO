@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getAllUsers, 
-        getByUserId, 
-        getClientNeedsById, 
-        getSpecificActivitiesById } from '../redux/actions';
 import CardReview from '../components/CardReview';
 import CardParticularService from '../components/CardParticularService';
 import { ClientSpecificNeed } from '../components/ClientSpecificNeed';
 import { StarRating } from '../components/StarRating';
 import CardClientNeed from '../components/CardClientNeed';
+import { getAllUsers, 
+        getByUserId, 
+        getClientNeedsById, 
+        getSpecificActivitiesById } from '../redux/actions';
 import { BsArrowRightCircle } from 'react-icons/bs'
 import { BsArrowLeftCircle } from 'react-icons/bs'
 import { GrLocation } from 'react-icons/gr';
-
+    import star from '../img/star.svg'
 import s from './styles/ProfileProfessional.module.css'
 
 
@@ -27,13 +27,18 @@ export default function ProfileProfessional( ){
     const allUsers = useSelector( (state) => state?.allUsers)
     const clientNeeds = useSelector(state => state.clientNeedById)
 
+    // console.log('1 - allUsers',allUsers)
+    // console.log('2 - professional',professional)
+    // console.log('3 - globalUserGlobalStorage',globalUserGlobalStorage)
+    // console.log('4 - specificActivities',specificActivities)
+    // console.log('5 - clientNeeds',clientNeeds)
+    // console.log('6 - client reviews', professional)
+
     const [state, setstate] = useState({
         login: false,
         seeAllReview: true,
         seeAllServices: true,
     })
-
-    // console.log('1-professional', professional)
 
     useEffect(()=>{
         dispatch(getClientNeedsById(id))
@@ -70,30 +75,21 @@ return (
             
             <div className={ s.div_titul }>
             
-            {
-                professional?.name || professional?.last_name ?
                 <h1>
                     {professional?.first_name + ' ' + professional?.last_name}
                 </h1>
-                : <></>
-            }
-
-            {
-                professional?.user_name?
-                    <p>
-                        <span>
-                            @{professional?.user_name} 
-                        </span>
-                    </p>
-                : <></>
-            }
-
+            <p>
+                <span>
+                {professional?.user_name? 
+                    `Username: @${professional?.user_name}` : <></>}
+                </span>
+            </p>
 
             {
                 professional?.state || professional?.city ?
                 <p>
                     <span>
-                        <GrLocation/>
+                        Locacion: <GrLocation/>
                         {professional?.city ? professional.city + ' ': ''}
                         {professional?.state ? professional.state : ''}
                     </span>
@@ -111,38 +107,39 @@ return (
                 : <></>
             }
                 
-            {
-                professional?.rate !== null ?
                 <div>
                     <StarRating stars={ professional?.rate } />
                 </div>
-                : <></>
-            }
         
             </div>
             
             <div className={s.professional_showProfessions} >
         
-                <h3 className={s.professions_title}>Profesion(es):</h3>
-                
-                <div className={s.professions_container}>
-                    { 
-                        professional?.Professional?.Professions?.length > 0 ?
-                        professional?.Professional?.Professions.map( (profession) => {
-                            return (
-                                <div 
-                                    className='text-center'
-                                    key={profession.id}
-                                >
-                                    <h5>
-                                        {profession.name?.slice(0,1).toUpperCase() + profession.name.slice(1)}
-                                    </h5>
-                                </div>
-                            )
-                        })
-                        : <h4>No hay profesiones registradas</h4>
-                    }
+                <div>
+                    <h3 className={s.professions_title}>Profesion(es):</h3>
                 </div>
+        
+            <div className={s.professions_container}>
+                { 
+                    professional?.Professional?.Professions?.length > 0 ?
+                    professional?.Professional?.Professions.map( (profession) => {
+                        return (
+                            <div 
+                                className='text-center'
+                                key={profession.id}
+                            >
+                                <h5>
+                                    {profession.name?.slice(0,1).toUpperCase() + profession.name.slice(1)}
+                                </h5>
+                            </div>
+                        )
+                    })
+                    :
+                    <h4>No hay profesiones registradas</h4>
+                }
+
+            </div>
+
             </div>
 {/* revisar opcion solicitar presupuesto => state.login no existe mas(?) -- @fer */}
             {
@@ -261,23 +258,25 @@ return (
             {
                 professional?.Professional?.ClientReviews?.length  ?
 
-                <div>
-                {
-                    professional?.Professional?.ClientReviews && 
-                    professional?.Professional?.ClientReviews?.map((el) =>
-                        (
-                            <CardReview
-                                id={ el.id }
-                                key={ el.id }
-                                photo={ el.UserId ? allUsers.find(el2 => el2.id === el.UserId)?.photo : '' }
-                                name= { el.UserId ? allUsers.find(el2 => el2.id === el.UserId)?.first_name + ' ' + allUsers.find(el2 => el2.id === el.UserId)?.last_name : '' }
-                                description= { el.comment }
-                                score={ el.score }
-                                
-                                />
-                        )
+                <div 
+                className="">
+
+            {
+                professional?.Professional?.ClientReviews && 
+                professional?.Professional?.ClientReviews?.map((el) =>
+                    (
+                        <CardReview
+                            id={ el.id }
+                            key={ el.id }
+                            photo={ el.UserId ? allUsers.find(el2 => el2.id === el.UserId)?.photo : '' }
+                            name= { el.UserId ? allUsers.find(el2 => el2.id === el.UserId)?.first_name + ' ' + allUsers.find(el2 => el2.id === el.UserId)?.last_name : '' }
+                            description= { el.comment }
+                            score={ el.score }
+                            
+                            />
                     )
-                }
+                )
+            }
                 </div>
             :
                 <h6>Este profesional no tiene reviews</h6>
