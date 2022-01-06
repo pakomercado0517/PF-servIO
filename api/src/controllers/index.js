@@ -470,7 +470,7 @@ module.exports = {
             },
           ],
       });
-      console.log(users.Professional)
+
         if( users.Professional.ClientReviews.length ) {
           let userRate = 0
                 for(let i = 0 ; i < users.Professional.ClientReviews.length; i++){
