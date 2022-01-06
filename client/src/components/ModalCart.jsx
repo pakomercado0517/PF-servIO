@@ -4,10 +4,13 @@ import s from './styles/ModalCart.module.css'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { switchModalCart } from '../redux/actions'
+import { useGlobalStorage } from '../hooks/useGlobalStorage'
 
 export default function ModalCart(props) {
 
     const [input, setinput] = useState("")
+    const [cart, setCart] = useGlobalStorage("cart", "")
+    const [user, ] = useGlobalStorage("globalUser", "")
 
     const dispatch = useDispatch()
     const { modalCart } = useSelector(state => state)
@@ -17,6 +20,16 @@ export default function ModalCart(props) {
     }, [])
 
     function handleSubmit() {
+    
+        // SETEO EL CARRITO
+        const newData = cart.map( el => {
+            return {
+                ...el,
+                location: input,
+                UserId: user.id
+            }
+        })
+        setCart(newData)
 
     }
 

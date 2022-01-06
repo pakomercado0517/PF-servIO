@@ -83,7 +83,7 @@ export default function Cart() {
                     number: "12345678"
                 },
                 address: {
-                    street_name: "Street",
+                    street_name: cart[0].location,
                     street_number: 123,
                     zip_code: "5700"
                 }

@@ -47,7 +47,7 @@ export const OffersToSpecificClientsNeeds = () => {
                                 key={index + id}
                                 name={ el.name }
                                 id={el.id}
-                                clientNeed={ id }
+                                ClientNeedId={ id }
                                 guarantee_time={el.guarantee_time}
                                 duration={ el.duration }
                                 materials={el.materials}
