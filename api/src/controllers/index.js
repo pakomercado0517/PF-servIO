@@ -358,6 +358,8 @@ module.exports = {
       data
     } = req.body
 
+    console.log(data)
+
     const dataSpecificTechnicalActivity = data.filter( el => el.type === "specific technical activity" )
     const dataOffer = data.filter( el => el.type === "offer" )
 
