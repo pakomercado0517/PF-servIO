@@ -19,6 +19,7 @@ export default function Cart() {
 
     const dispatch = useDispatch()
 
+
     let mp;
     const { MercadoPago } = useScript(
         "https://sdk.mercadopago.com/js/v2",
@@ -67,8 +68,33 @@ export default function Cart() {
                 quantity: 0,
             }]
         }
-        await axios.post("http://localhost:3001/create_preference",{
-            items: request
+        await axios.post("http://localhost:3001/create_preference", {
+            items: request,
+            payer: {
+                name: user.first_name,
+                surname: user.last_name,
+                email: user.email,
+                phone: {
+                    area_code: "54",
+                    number: user.phone
+                },
+                identification: {
+                    type: "DNI",
+                    number: "12345678"
+                },
+                address: {
+                    street_name: "Street",
+                    street_number: 123,
+                    zip_code: "5700"
+                }
+            },
+            back_urls: {
+                success: "http://localhost:3001/create_preference/succes",
+                failure: "http://localhost:3001/create_preference/failure",
+                pending: "http://localhost:3001/create_preference/pending"
+            },
+            statement_descriptor: "MINEGOCIO",
+            external_reference: "idTransaction",
         })
         .then(function(response) {
             return response.data;
@@ -89,7 +115,7 @@ export default function Cart() {
         });
     }
     const [cart, ] = useGlobalStorage("cart", [])
-    const [user, ] = useGlobalStorage("globalUser", [])
+    const [user, ] = useGlobalStorage("globalUser", "")
     const [total, settotal] = useState(0)
 
     useEffect(() => {
@@ -133,6 +159,7 @@ export default function Cart() {
                         <span>Total:  {total}</span>
                     </div>
                     <button id='checkout_button' className={s.container_buttons_button + ' btn btn-success'} onClick={showForm}> Continuar Compra</button>
+                    <button id='checkout_button' className={s.container_buttons_button + ' btn btn-success'} onClick={axiosMP}>Compra</button>
                     <div id='cho-container'></div>
                 </div>
                 <div className='shopping-cart'></div>
