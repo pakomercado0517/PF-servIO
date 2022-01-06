@@ -1065,7 +1065,7 @@ module.exports = {
   },
 
   actualizarPassword: async (req, res) => {
-    // const {password} = req.body
+    const {password} = req.body
     const usuario = await User.findOne({
       where: {
         token: req.params.token,
@@ -1076,20 +1076,22 @@ module.exports = {
     });
 
     if (!usuario) {
-      // req.flash("error", "No valido"), 
+      // req.flash("error", "No valido"),  
       res.send("INVALIDO");
     }else{
       //haashear el nuevo password para
-      bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
-        usuario.password = hash;
-        
-        // Store hash in your password DB.
-    });
-      // let pass = await bcrypt.hash(req.body.password, 10);
-      // usuario.password = pass;
+      // bcrypt.genSalt(10,(err,salt) => {
+      //   bcrypt.hash(password, salt , (err, hash) =>{
+      //        if(err) throw (err);
+     
+      //        usuario.password=hash;
+      //        usuario.save();
+      //   });
+      //   });
+      usuario.password = bcrypt.hashSync(Object.keys((req.body))[0], bcrypt.genSaltSync(10));
       usuario.token = null;
       usuario.expiracion = null;
-
+      console.log(Object.keys((req.body))[0])
     //guardar nuevo password
     await usuario.save();
     res.send('contra cambiada');

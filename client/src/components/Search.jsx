@@ -12,14 +12,14 @@ const Search = () => {
     const [switcheo2] = useGlobalStorage("switcheo", null)
     const needs = useSelector(state => state.professionalsFilter)
     const professionals = useSelector(state => state.clientsFilter)
-    console.log(professionals)
+    // console.log(professionals)
     const dispatch = useDispatch()
     const[name, setName]= useState('')
     const[end, setEnd]= useState(false)
     const[autoNeeds, setAutoNeeds]= useState([])
     const[autoProfessionals, setautoProfessionals]= useState([])
     // const[name, setName]= useState('')
-    console.log(name)
+    // console.log(name)
 
     const autocompleteProfessionals = () => {
       let filtered = [];
@@ -49,7 +49,7 @@ const Search = () => {
       setautoProfessionals([])
     }
     const autocomplete = switcheo2 === 'professional' ? autoProfessionals.slice(0,6) : autoNeeds.slice(0,6)
-    console.log(autocomplete)
+    // console.log(autocomplete)
     // console.log(autocompleteNeeds())
     // console.log(autocompleteProfessionals())
     useEffect(() => {
@@ -57,7 +57,7 @@ const Search = () => {
     },[name])
 
     const reset = () => {
-      console.log('a')
+      // console.log('a')
     }
     useEffect(() => {
       setName('')
@@ -75,7 +75,7 @@ const Search = () => {
       setEnd(false)
     }
 
-    console.log(end)
+    // console.log(end)
     return (
         <div className={s.search}>
             <div>
