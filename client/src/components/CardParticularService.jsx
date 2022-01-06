@@ -35,7 +35,11 @@ export default function CardParticularService(props) {
                 {
                     name: props.name,
                     description: props.description,
-                    price: props.price,
+                    guarantee: props.guarantee,
+                    guarantee_time: props.guarantee_time,
+                    duration: props.duration,
+                    photo: props.photo ? props.photo : "https://www.gravatar.com/avatar/205e460b479e2e5b48aec06610c08d50?s=400&r=pg&d=mm",
+                    materials: props.materials,
                     count: 1
                 }
             ])
