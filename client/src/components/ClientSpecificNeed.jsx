@@ -29,7 +29,7 @@ export const ClientSpecificNeed = () => {
         e.preventDefault()
         console.log(input)
         try {
-            dispatch(newEspecificalNeed(input))
+            await dispatch(newEspecificalNeed(input))
             // await axios.post('http://localhost:3001/clientNeeds', input) <----COMENTADO POR GUILLE
 
             Swal.fire({
