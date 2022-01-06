@@ -16,7 +16,8 @@ export default function ResetPassword() {
 
   // const token = useSelector(state => state.validarToken)
   const a = useSelector(state => state.validarToken)
-  console.log(password)
+  const b = useSelector(state => state.message)
+  console.log(b)
   // const handleChange = (e) =>{
   //   setEmail(e.target.value)
   // }
@@ -25,7 +26,8 @@ export default function ResetPassword() {
 
   const onSubmit =  () => {
     if(password.password1 === password.password2){
-      dispatch( newPassword(password.password1.toString(), token))
+      let newPass= password.password1.toString()
+      dispatch( newPassword(newPass, token))
       navigate('/login')
       Swal.fire({
         icon: 'success',

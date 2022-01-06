@@ -3,14 +3,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import {useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
 import s from './styles/ForgetPassword.module.css'
-import { resetPassword } from '../redux/actions';
+import { resetPassword, existentUser } from '../redux/actions';
 export default function ForgetPassword() {
+  
   // const navigate = useNavigate()
   const dispatch = useDispatch()
   const [email, setEmail] = useState('')
   const [submit2, setsubmit2] = useState(true)
   const a = useSelector(state => state.resetPassword.data)
-  console.log(a)
+  // console.log(a)
+  // dispatch(existentUser(email))
+  const z = useSelector(state => state.z)
+  // console.log(z, submit2)
   const navigate = useNavigate()
 
   const handleChange = (e) =>{
@@ -18,33 +22,37 @@ export default function ForgetPassword() {
   }
 
   const onSubmit = () => {
-    setsubmit2(!submit2)
-    if(a.message === 'Se envio un mensaje a tu correo'){
-      navigate('/')
+    setsubmit2(z)
+    console.log(z === false)
+    if(z === false){
+      dispatch(resetPassword({email}))
       Swal.fire({
         icon: 'success',
-        title: a.message,
+        title: 'Se ha enviado un correo para reestablecer Password',
         showConfirmButton: true,
-        // timer: 1500,
+        timer: 1500,
         showCloseButton: true
     });
+      navigate('/')
+      
     }else{
       Swal.fire({
         icon: 'error',
-        title: a.message,
+        title: 'Correo no registrado',
         showConfirmButton: true,
-        // timer: 1500,
+        timer: 1500,
         showCloseButton: true
     });
     }
     
   }
-
   useEffect(() => {
-    dispatch(resetPassword({email}))
-  },[email])
+    
+    dispatch(existentUser(email))
+  },[email,onSubmit])
 
-  console.log(email)
+
+
   return (
     <div>
         <div >
@@ -61,7 +69,7 @@ export default function ForgetPassword() {
                         onChange={(e) => handleChange(e)}
                     />
                 </div>
-                <input type='button' value='Recuperar Password' onClick={() => onSubmit()}/>
+                <input type='button' value='Recuperar Password' onClick={onSubmit}/>
             </form>
         </div>
     </div>
