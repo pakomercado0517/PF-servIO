@@ -11,15 +11,16 @@ import CardClientNeed from '../components/CardClientNeed';
 
 import s from './styles/ProfileClient.module.css'
 import { ClientSpecificNeed } from '../components/ClientSpecificNeed';
+import { useGlobalStorage } from '../hooks/useGlobalStorage';
 
 
 export default function ProfileClient(){
-
+  const [globalUser,setGlobalUser ] = useGlobalStorage("globalUser", "")
     const dispatch = useDispatch()
     const state = useSelector(state => state)
     const {idClient} = useParams()
     const clientNeeds = useSelector(state => state.clientNeedById)
-
+    console.log(globalUser)
 
     useEffect(()=>{
         dispatch(getByAccountId(idClient))
@@ -36,19 +37,19 @@ export default function ProfileClient(){
             <div className={ s.div_inicio  }></div>
 
             <div className={ s.div_photo  }>
-            { !(state.account[0]?.photo ==="Hola") ? <img src={ state.account[0]?.photo } alt="" />:
+            { !(state.account[0]?.photo ==="Hola") ? <img src={ globalUser?.photo } alt="" />:
                 <MdAccountCircle className={ s.div_photo_perfil }/>
             }
             </div>
             <div className={ s.div_info  }>
                 <div className={ s.div_tiulo}>
-                    <h3>{ state.account[0]?.first_name + " " + state.account[0]?.last_name }</h3>
+                    <h3>{ globalUser?.first_name + " " + globalUser?.last_name }</h3>
                     <Link className={ s.linkEdit } to="/">
                         <FaRegEdit size="40px" className={ s.logoEdit }>
                         </FaRegEdit>
                     </Link>
                 </div>
-                <p>Username: <span>{state.account[0]?.user_name? state.account[0]?.user_name:  state.account[0]?.first_name}</span></p>
+                <p>Username: <span>{globalUser?.user_name? state.account[0]?.user_name:  state.account[0]?.first_name}</span></p>
                 <p>Localidad: <span>{state.account[0]?.city? state.account[0]?.city: "Buenos Aires, Argentina"}</span> <GrLocation></GrLocation></p>
                 <p>Teléfono: <span>{ state.account[0]?.phone }</span> </p>
                 <p>Email: <span>{ state.account[0]?.email }</span></p>
