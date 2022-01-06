@@ -1,45 +1,30 @@
 import React, {useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {NavLink, useParams} from 'react-router-dom'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faPhoneAlt} from '@fortawesome/free-solid-svg-icons'
 import {StarRating} from '../components/StarRating'
 import { getAllUsers, getByUserId, getDetailsClientNeed } from '../redux/actions'
+
 import s from './styles/DetailsClientNeed.module.css'
 
 export default function DetailsClientNeed() {
 
   const { id } = useParams()
   const dispatch = useDispatch()
-  const professional = useSelector((state) => state?.user[0])
   const clientNeed = useSelector((state) => state?.detailsClientNeed)
-  // const user = useSelector((state) => state?.allUsers)
+  const user = useSelector((state) => state?.allUsers)
   const detailsClientNeed = useSelector((state) => state?.detailsClientNeed)
   const globalUserGlobalStorage = useSelector(state => state.globalUserGlobalStorage)
-
-  let ranked = 2
-  
-
+  const ProfessionalId = detailsClientNeed.UserId
+  const professionalFilter = user.filter(user => user.id === ProfessionalId)
+  const professional = professionalFilter[0]
 
   useEffect(()=> {
     dispatch(getDetailsClientNeed(id))
-    // dispatch(getAllUsers())
-  }, [ dispatch, id,  ])
+    dispatch(getAllUsers())
+  }, [ dispatch, id ])
   
-  useEffect(()=> {
-    dispatch(getByUserId(detailsClientNeed.UserId))
-  }, [ dispatch, detailsClientNeed ])
-    
-  const state = useSelector(state => state)
+  // console.log('6- professional',professional)
   
-  console.log('1-clientNeed', clientNeed)
-  console.log('2-detailsClientNeed', detailsClientNeed)
-  console.log('3-user id', detailsClientNeed.UserId)
-  // console.log('4 -user', user)
-  console.log('5-state', state)
-  console.log('6- professional',professional)
-
-
   return (
     <div>
       <div className={s.container_ativity}>
@@ -79,7 +64,7 @@ export default function DetailsClientNeed() {
                 <div>
                     <StarRating stars={ professional?.rate } />
                 </div>
-                : <></>
+                : <><StarRating stars={ 0 } /></>
               }
 
               </div>

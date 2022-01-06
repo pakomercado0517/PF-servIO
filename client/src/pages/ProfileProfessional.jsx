@@ -33,7 +33,7 @@ export default function ProfileProfessional( ){
         seeAllServices: true,
     })
 
-    console.log('1-professional', professional)
+    // console.log('1-professional', professional)
 
     useEffect(()=>{
         dispatch(getClientNeedsById(id))
