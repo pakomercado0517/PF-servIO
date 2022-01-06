@@ -1,0 +1,15 @@
+.container_map {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.geoButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.searchText {
+  margin-right: 15px;
+}

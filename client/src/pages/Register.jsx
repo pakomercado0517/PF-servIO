@@ -8,37 +8,11 @@ import s from './styles/Register.module.css'
 import { CgOptions } from 'react-icons/cg';
 
 import { filterProfessions, newUser, existentUser } from '../redux/actions';
-import {storage} from '../firebase/firebase'
-import {ref, uploadBytesResumable, getDownloadURL} from '@firebase/storage'
 import logo from '../img/ServIO.svg'
-import {MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet'
-import {OpenStreetMapProvider} from 'leaflet-geosearch'
-import L from 'leaflet'
-import "leaflet/dist/leaflet.css";
+import MapView from '../components/MapView'
+import UploadImage from '../components/UploadImage'
 
-delete L.Icon.Default.prototype._getIconUrl;
-
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-    iconUrl: require('leaflet/dist/images/marker-icon.png'),
-    shadowUrl: require('leaflet/dist/images/marker-shadow.png')
-});
-
-const LocationMarker = ({position}) => {
-  const map= useMap()
-  map.flyTo([position.lat, position.lng], 15)
-  const markerMove= (e)=> {
-    e.preventDefault()
-  }
-  // draggable={true} autoPan={true}
-  return position.lat === 0 && position.lng === 0 ? null : (
-    <Marker position={[position.lat, position.lng]} >
-      <Popup>You are here</Popup>
-    </Marker>
-  )
-}
-
-export default function Crear() {
+export default function Crear(props) {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -55,6 +29,7 @@ export default function Crear() {
     });
     const [buttonSubmit, setbuttonSubmit] = useState(false)
     const [details, setDetails] = useState({
+        userName: '',
         firstName:'',
         lastName: '',
         email: '',
@@ -66,15 +41,10 @@ export default function Crear() {
         city:'',
         photo: logo,
         profession:[],
+        phone:"",
     })
 
-    const [progress, setProgress] = useState(0)
-    const [geosearch, setGeosearch] = useState("")
-    const [cityInfo, setCityInfo] = useState("")
-    const [positions, setPositions] = useState({
-        lat: 19.3910038,
-        lng: -99.2837001,
-    })
+    
 
     useEffect(() => {
         dispatch(filterProfessions())  
@@ -188,7 +158,6 @@ export default function Crear() {
             // userName: "Alejandrito2",
             ...details,
             profession: details.profession.join(),
-            phone: "123456789", 
             verified: "true", 
             certification_name:"N/A",
             certification_img:"noimg.png",
@@ -254,77 +223,9 @@ export default function Crear() {
         }
     }
 
-    const uploadFile= (file) => {
-        if(!file) return 
-        const storageRef= ref(storage, `/files/${file.name}`)
-        const uploadTask = uploadBytesResumable(storageRef, file)
+    
 
-        uploadTask.on('state_changed', (snapshot) => {
-            const prog= Math.round((snapshot.bytesTransferred / snapshot.totalBytes) *100)
-            setProgress(prog)
-        }, (err)=> console.log(err),
-        ()=> {
-            getDownloadURL(uploadTask.snapshot.ref).then(url=> {
-                console.log('url', url);
-                setDetails({
-                    ...details,
-                    photo: url
-                });
-            })
-        }
-        )
-    }
-
-    const uploadImage= async (e) => {
-        const file= e.target.files[0]
-        await uploadFile(file)
-    }
-    const provider= new OpenStreetMapProvider();
-    const handleSearch= (e)=> {
-        e.preventDefault();
-        setGeosearch(e.target.value);
-        if(e.target.value.length >= 8) {
-        //Use the provider...
-
-        provider.search({ query: geosearch }).then(res=> {
-            const $positions= res[0].bounds[0]
-            setPositions({lat:$positions[0], lng: $positions[1]})
-            const citi= cityInfo.split(',')
-            setCityInfo(res[0].label)
-            setDetails({
-                ...details,
-                city: `${citi[2]}, ${citi[citi.length - 1]}`,
-            })
-        })
-        }
-    }
-
-    const searchCity= ()=> {
-        navigator.geolocation.getCurrentPosition( function(position){
-        setPositions({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-        })
-        setGeosearch(`${positions.lng} ${positions.lat}`)
-        }, function(error){
-        console.log(error)
-        },
-        {
-            enableHighAccuracy: true
-        }
-        )
-    }
-
-    useEffect(() => {
-        provider.search({ query: `${positions.lat} ${positions.lng}` }).then(res => {
-        const citi= cityInfo.split(',')
-        setCityInfo(res[0].label)
-        setDetails({
-            ...details,
-            city: `${citi[2]}, ${citi[citi.length -1]}`,
-        })
-    })
-}, [positions, cityInfo])
+    console.log('photo:', details.photo)
 
     return (
         <div className={ s.container} >
@@ -338,6 +239,17 @@ export default function Crear() {
                     <h2>Crea tu Usuario</h2>
                 </div>
                 <form className={ s.container_registro_form } onSubmit={(e) => handleSubmit(e)}>
+                    <div className={s.container_registro_form_input}>
+                        <label>Crea un Username:</label>
+                        <input
+                            className='form-control'
+                            type='text'
+                            value={details.userName}
+                            name='userName'
+                            onChange={(e) => handleChange(e)}
+                        />
+
+                    </div>
                     <div className={s.container_registro_form_input}>
                         <label>Nombre:</label>
                         <input
@@ -390,6 +302,17 @@ export default function Crear() {
                         {errors.dni && (
                             <p className={ s.error }>{errors.dni}</p>
                         )}
+
+                    </div>
+                    <div className={s.container_registro_form_input}>
+                        <label>Número de teléfono:</label>
+                        <input
+                            className='form-control'
+                            type='text'
+                            value={details.phone}
+                            name='phone'
+                            onChange={(e) => handleChange(e)}
+                        />
 
                     </div>
 
@@ -472,37 +395,15 @@ export default function Crear() {
                             })}
                         </div>
                         <div className={s.container_edilt_form_input_img} >
-                            <label htmlFor="imageFile">Selecciona alguna imágen (png):</label><br/>
-                            <div className={s.div_file}>
-                                <p className={s.text}>Elegir archivo</p>
-                                <input className={s.btn_enviar} 
-                                    type="file"  
-                                    // accept=".png" 
-                                    name="photo"
-                                    // multiple
-                                    onChange={uploadImage}
-                                /> 
-                            </div>
-                            <span>Uploaded {progress} % </span>
-                            {
-                                progress === 100
-                                ? <img src={details.photo} className={s.img_profile}/>
-                                : ""
-                            }
+                            <label htmlFor="imageFile">Selecciona alguna imágen:</label><br/>
+                            <UploadImage details={details} onChange={handleChange} />
                         </div>
                     </div>
                     <div className={ s.container_registro_form_button }>
                         <button id='buttonSubmit' type='submit' className={"btn btn-success " + s.buttonSubmit}>Registrarse</button>
                     </div>
-                    <div>
-                        <p className='btn btn-primary' onClick={searchCity}>Mostrar ubicación actual</p>
-                        <p>O </p>
-                        <label for="formsearch">Busca tu ciudad</label>
-                        <input type='text' class='formsearch' name='city' onChange={handleSearch} placeholder='Ingresa tu ciudad'/>
-                        <MapContainer center={[positions.lat, positions.lng]} zoom={15} scrollWheelZoom={false} >
-                            <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' />
-                            <LocationMarker position={positions}/>
-                        </MapContainer>
+                    <div className={s.mapView}>
+                        <MapView  details={details} onChange={handleChange}/>
                     </div>
                 </form>
             </div>
