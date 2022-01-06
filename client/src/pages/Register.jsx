@@ -195,8 +195,8 @@ export default function Crear() {
             status: "no sabe no contesta", 
         }
         try{
-            dispatch(newUser(obj))
-            console.log(user)
+            dispatch(newUser(obj))            
+            console.log(details.email)
             if(user.message.message === 'Usuario existente' || user.z === false){
               Swal.fire({
                   title: 'Error',
@@ -211,6 +211,7 @@ export default function Crear() {
                 icon: 'success',
                 confirmButtonText: 'Aceptar'
               });
+              
               navigate('/login')
             } 
         }catch(error){

@@ -38,7 +38,8 @@ import {
     SWITCH_MODAL_CART,
     RESET_PASSWORD,
     VALIDAR_TOKEN,
-    NEW_PASSWORD
+    NEW_PASSWORD,
+    ACTIVAR
 } from '../actions'
 
 
@@ -275,6 +276,11 @@ function rootReducer(state = initialState, { type, payload }) {
             ...state,
             modalCart: payload,
         };
+    case ACTIVAR:
+      return {
+        ...state,
+        message: payload,
+      };
     default:
         return state;
   };

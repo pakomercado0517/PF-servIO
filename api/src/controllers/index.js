@@ -1016,32 +1016,36 @@ module.exports = {
   
   enviarToken: async (req, res) => {
     const { email } = req.body;
+    console.log(email)
     if(email) {
+      console.log(1)
         const usuario = await User.findOne({ where: { email } });
+        console.log(usuario)
       if (!usuario) {
+        console.log(2)
         res.send({ message : "No existe esa cuenta" });
       } else {
+        console.log(3)
         usuario.token = crypto.randomBytes(20).toString("hex");
         usuario.expiracion = Date.now() + 3600000;
 
         //guardarlos en la base de datos
         await usuario.save();
-
+        
         //url de reset
         const resetUrl = `http://localhost:3000/forget-password/${usuario.token}`;
-
         //Enviar correo con el token
 
-        // console.log(resetUrl)
-
-        await enviarEmail.enviar({
-          usuario,
-          subject: "Password Reset",
-          resetUrl,
-          archivo: `<h2>Restablecer Password</h2><p>Hola, has solicitado reestablecer tu password, haz click en el siguiente enlace para reestablecerlo, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${resetUrl} >Resetea tu password</a><p>Si no puedes acceder a este enlace, visita ${resetUrl}</p><div/>`,
-        });
-        // res.redirect('/iniciar-sesion'/)
-        res.send({message: "Se envio un mensaje a tu correo"});
+        // console.log(email, type)
+      
+          await enviarEmail.enviar({
+                    usuario,
+                    subject: "Password Reset",
+                    resetUrl,
+                    archivo: `<h2>Restablecer Password</h2><p>Hola, has solicitado reestablecer tu password, haz click en el siguiente enlace para reestablecerlo, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${resetUrl} >Resetea tu password</a><p>Si no puedes acceder a este enlace, visita ${resetUrl}</p><div/>`,
+          });
+                  res.send({message: "Se envio un mensaje a tu correo"});
+        
       }
     }else{
       res.send({message: "Envia un email valido"})
@@ -1094,10 +1098,32 @@ module.exports = {
       console.log(Object.keys((req.body))[0])
     //guardar nuevo password
     await usuario.save();
-    res.send('contra cambiada');
+    res.send('Password Restored');
     }
 
     
+  },
+
+  activarCuenta: async(req, res)  => {
+    const usuario = await User.findOne({
+      where: {
+        token: req.params.token,
+        expiracion: {
+          [Op.gte]: Date.now(),
+        },
+      },
+      
+    });
+    if (!usuario) {
+      // req.flash("error", "No valido"),  
+      res.send("INVALIDO");
+    }else{
+      usuario.verified = true,
+      usuario.token = null;
+      usuario.expiracion = null;
+      await usuario.save();
+      res.send("Cuenta Activada");
+    }
   },
 
   deleteByUserId: async (req, res) => {

@@ -53,6 +53,7 @@ export const SWITCH_MODAL_CART = 'SWITCH_MODAL_CART'
 export const RESET_PASSWORD = 'RESET_PASSWORD'
 export const VALIDAR_TOKEN = 'VALIDAR_TOKEN'
 export const NEW_PASSWORD = 'NEW_PASSWORD'
+export const ACTIVAR = 'ACTIVAR'
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers () {
     
@@ -686,6 +687,15 @@ export const newPassword = (password, token) => async dispatch => {
   let validate = await axios.put(`${constants.localhost}/user/reestablecer/${token}`, password);
   dispatch ({
     type: NEW_PASSWORD,
+    payload:validate
+  })
+}
+
+
+export const activarCuenta = (token) => async dispatch => {
+  let validate = await axios.put(`${constants.localhost}/user/activar/${token}`);
+  dispatch ({
+    type: ACTIVAR,
     payload:validate
   })
 }

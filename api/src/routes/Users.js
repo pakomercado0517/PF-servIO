@@ -3,6 +3,7 @@ const router = Router();
 const userFunctions = require("../controllers/index.js");
 const passport = require("passport");
 const { User } = require("../db");
+const enviarEmail = require("../handlers/email");
 
 require("../config/googleConfig");
 
@@ -42,6 +43,16 @@ router.post(
     (req, res) => {
       res.redirect(`/user/${req.user.id}`);
     };
+  },
+  async (req, res) => {
+    const usuario  = await User.findOne({where:{email:req.body.email}})
+    const activateUrl = `http://localhost:3000/activate/${usuario.token}`;
+    await enviarEmail.enviar({
+      usuario,
+      subject: "Activate Account",
+      activateUrl,
+      archivo: `<h2>Activar Cuenta</h2><p>Hola, acabas de registrarte en Servio, estás a un paso de poder usar tu cuenta,  haz click en el siguiente enlace para activarla, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${activateUrl} >Activa tu cuenta</a><p>Si no puedes acceder a este enlace, visita ${activateUrl}</p><div/>`,
+    });
   }
 );
 router.post(
@@ -183,4 +194,5 @@ router.delete("/:id", userFunctions.deleteByUserId);
 router.post("/reestablecer", userFunctions.enviarToken);
 router.get("/reestablecer/:token", userFunctions.validarToken);
 router.put("/reestablecer/:token", userFunctions.actualizarPassword);
+router.put("/activar/:token", userFunctions.activarCuenta);
 module.exports = router;
