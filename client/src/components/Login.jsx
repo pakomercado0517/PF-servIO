@@ -233,7 +233,8 @@ export default function Login() {
                     </div>
 
                     <div className="text-center row mb-1">
-                        <p>¿Aún no te registras? <a href="/register">Registrate!</a></p>
+                        <p>¿Aún no te registrado? <a href="/register">Registrate!</a></p>
+                        <p>¿Olvidaste tu contraseña? <a href="/forget-password">Recuperala!</a></p>
                         <p>O inicia con:</p>
 
                         <a 
