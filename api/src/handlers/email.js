@@ -12,7 +12,11 @@ let transport = nodemailer.createTransport({
     auth: {
     user: emailConfig.user, 
     pass: emailConfig.pass, 
-    },
+    }, 
+    tls: {
+      // do not fail on invalid certs
+      rejectUnauthorized: false
+  },
 });
 
 //Generar HTML
@@ -21,6 +25,7 @@ const generarHtml = (archivo, opciones = {}) => {
     const {result} = require("./a.js", opciones);
     return juice(archivo);
 }
+
 
 exports.enviar = async (opciones) => {
     const url = opciones.resetUrl;

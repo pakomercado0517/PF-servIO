@@ -24,9 +24,12 @@ router.post(
   async(req, res, next) =>  {
     const { email } = req.body
     let user = await User.findOne({where:{email}})
+    console.log(1)
     if(user) {
+      console.log(1.1)
       res.status(200).send({message: 'Usuario existente'})
     }else{
+      console.log(1.2)
       next()
     }
   },
@@ -34,27 +37,34 @@ router.post(
     // failureRedirect: "/user/register",
     failureFlash: true,
   }),
-  (req, res, next) => {
+  async (req, res, next) => {
+    console.log(2)
     // res.redirect(`/user/${req.user.id}`);
-    res
-      .status(200)
-      .send({message: 'Usuario creado'});
-    next();
-    (req, res) => {
-      res.redirect(`/user/${req.user.id}`);
-    };
-  },
-  async (req, res) => {
+    
     const usuario  = await User.findOne({where:{email:req.body.email}})
-    const activateUrl = `http://localhost:3000/activate/${usuario.token}`;
+    const activateUrl =  `http://localhost:3000/activate/${usuario.token}`;
     await enviarEmail.enviar({
       usuario,
       subject: "Activate Account",
       activateUrl,
       archivo: `<h2>Activar Cuenta</h2><p>Hola, acabas de registrarte en Servio, estás a un paso de poder usar tu cuenta,  haz click en el siguiente enlace para activarla, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${activateUrl} >Activa tu cuenta</a><p>Si no puedes acceder a este enlace, visita ${activateUrl}</p><div/>`,
     });
-  }
+
+    next();
+    // (req, res) => {
+    //   console.log(3)
+    //   res.redirect(`/user/${req.user.id}`);
+    // };
+  },
+  (req, res,next) => {
+    // console.log(4)
+    res.status(200).send({message: 'Usuario creado'});
+    // console.log(5)
+  },
+  
 );
+
+
 router.post(
   "/login",
   passport.authenticate("local-login", {
@@ -62,13 +72,16 @@ router.post(
     failureFlash: true,
   }),
   (req, res, next) => {
+    console.log(req.session)
     res.send({
       message: "Logged",
       cookies: req.session,
       userType: req.user.professional ? "Professional" : "Normal User",
       data: req.user,
     });
+
   }
+  
 );
 
 router.get('/created/:email', async (req, res)=>{
