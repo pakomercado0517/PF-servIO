@@ -7,6 +7,7 @@ import img from '../img/ivana-cajina-_7LbC5J-jw4-unsplash.jpg'
 
 export default function TestimoniosHome() {
     return (
+
         <div className={s.feedback}>
             <span className={s.titleFeed}>Lo que dicen nuestros usuarios</span>
             <p className={s.subtitleFeed}>

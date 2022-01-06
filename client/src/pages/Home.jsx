@@ -181,7 +181,7 @@ export default function Home(){
                         
                     )): <h1>No hay mas resultados</h1>
                 }
-            </div>
+                </div>
             }
 
             {/* DIV MUESTRA LOS TESTIMONIOS (FEEBACK DE LOS USUARIOS) */}
