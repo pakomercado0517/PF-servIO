@@ -35,6 +35,10 @@ module.exports = (sequelize) => {
       description: {
         type: DataTypes.TEXT,
       },
+      type: {
+        type: DataTypes.STRING,
+        values: ["specific", "general"],
+      },
     },
     {}
   );

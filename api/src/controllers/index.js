@@ -350,21 +350,118 @@ module.exports = {
     }
     // }
   },
+
+  // ******** TRANSACTIONS
+
   //COMENTAR QUE SE REQUIERE INPUT DIRECTO DE IDS DE USUARIOS
   newTransaction: async (req, res) => {
-    if (req.session.userId) {
+    const {
+      data
+    } = req.body
+
+    const dataSpecificTechnicalActivity = data.filter( el => el.type === "specific technical activity" )
+    const dataOffer = data.filter( el => el.type === "offer" )
+
+    if (dataSpecificTechnicalActivity[0]) {
+
+      // received object 
+      // el = {
+            // id
+            // name,
+            // price,
+            // photo,
+            // materials,
+            // guarantee,
+            // guarantee_time,
+            // duration,
+            // professionalId,
+            // UserId,
+      // }
+
+      // Create a ClientNeed to every SpecificTechnicalActivity
+      const arrayOfClientNeeds = dataSpecificTechnicalActivity.map(el => {
+        return {
+          name: el.name,
+          price: el.price,
+          photo: el.photo,
+          description: el.description,
+          status: "pending to pay",
+          SpecificTechnicalActivityId: el.id,
+        }
+      })
+
       try {
-        let newTransaction = await Transactions.create({
-          id: parseInt(req.session.userId),
-        });
-        res.status(200).send(newTransaction);
+        await ClientNeed.bulkCreate(arrayOfClientNeeds)
       } catch (error) {
         res.status(400).send(error.message);
       }
-    } else {
-      res.send("Pleas Login");
     }
+
+    if (dataOffer[0]) {
+
+      // received object (offers)
+
+      // el = {
+            // name,
+            // price,
+            // photo,
+            // materials,
+            // guarantee,
+            // guarantee_time,
+            // duration,
+            // professionalId,
+            // UserId,
+            // ClientNeedId,
+      // }
+
+      // Turn every offer to Specific Technical Activity with "specific" vs "general" status
+
+      const newSpecificTechnicalActivities = dataOffer.map(el => {
+        return {
+          name: el.name,
+          price: el.price,
+          photo: el.photo,
+          description: el.description,
+          status: "pending to pay",
+          SpecificTechnicalActivityId: el.id,
+        }
+      })
+
+      const updateClientNeeds = dataOffer.map(el => {
+        return {
+          name: el.name,
+          price: el.price,
+          photo: el.photo,
+          materials: el.materials,
+          guarantee: el.guarantee,
+          guarantee_time: el.guarantee_time,
+          job_time: el.duration,
+          proffessionalId: el.professionalId,
+        }
+      })
+
+      // Update, for every offer, one ClientNeed with status "pending to pay" that was related with their Specific Technical Activity
+
+
+      try {
+        await SpecificTechnicalActivity.bulkCreate(newSpecificTechnicalActivities)
+        await ClientNeed.bulkCreate(updateClientNeeds, { updateOnDuplicate: ["name", "price", "description"] })
+      } catch (error) {
+        res.status(400).send(error.message);
+      }
+    }
+
+
   },
+
+  getAllTransactions: async (req, res) => {
+    const allTransactions = await Transactions.findAll({})
+    res.send(allTransactions)
+  },
+
+  // ******** OTHER
+
+
 
   getAllUsers: async (req, res) => {
     try {

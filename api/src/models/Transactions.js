@@ -9,5 +9,8 @@ module.exports = (sequelize) => {
             primaryKey: true,
             autoIncrement: true,
         },
+        data: {
+            type: DataTypes.ARRAY(DataTypes.JSON)
+        }
     }, {});
 }
