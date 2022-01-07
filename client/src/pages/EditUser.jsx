@@ -112,19 +112,19 @@ export default function EditCliente() {
         })
     }, [details.dni, details.email, details.firstName, details.lastName, details.password, details.repeatPassword])
     useEffect(() => {
-      if (!buttonSubmit) {
-          document.getElementById("buttonSubmit").disabled = true
-      } else {
-          if(details.professionalCase){
-              if (details.profession[0]) {
-                  document.getElementById("buttonSubmit").disabled = false
-              }else {
-                  document.getElementById("buttonSubmit").disabled = true
-              }
-          } else {
-              document.getElementById("buttonSubmit").disabled = false
-          }
-      }
+    //   if (!buttonSubmit) {
+    //       document.getElementById("buttonSubmit").disabled = true
+    //   } else {
+    //       if(details.professionalCase){
+    //           if (details.profession[0]) {
+    //               document.getElementById("buttonSubmit").disabled = false
+    //           }else {
+    //               document.getElementById("buttonSubmit").disabled = true
+    //           }
+    //       } else {
+    //           document.getElementById("buttonSubmit").disabled = false
+    //       }
+    //   }
   }, [buttonSubmit, details])
 
   useEffect(() => {
@@ -495,7 +495,7 @@ export default function EditCliente() {
                     <p>Recuerda que los campos que no edites no cambiarán, lo unico que no podrás editar es el DNI.</p>  
                 </div>
                 
-                <button type='submit'id='buttonSubmit' className={"btn btn-success " + s.buttonSubmit} >Cambiar Perfil</button>
+                <button type='submit'id='buttonSubmitt' className={"btn btn-success " + s.buttonSubmit} >Cambiar Perfil</button>
             </form>
             </div>
         </div>

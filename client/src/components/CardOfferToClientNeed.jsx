@@ -42,7 +42,8 @@ export default function CardOfferToClientNeed(props) {
                     type: "offer",
                     ClientNeedId: props.ClientNeedId,
                     ProfessionalId: props.ProfessionalId,
-                    ProfessionalOfferId: props.id
+                    ProfessionalOfferId: props.id,
+                    UserId: user.id
                 }
             ])
         }
