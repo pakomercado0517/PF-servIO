@@ -79,6 +79,7 @@ export default function Login() {
             const validate = await axios.post('http://localhost:3001/user/login', input)
             console.log(validate)
             if(validate) {
+              if(validate.data.data.verified === true) {
                 await setGlobalUser(validate.data.data)
                 await setLocalUser(validate.data.data)
 
@@ -87,25 +88,58 @@ export default function Login() {
                 } else {
                     setSwitcheo('professional')
                 }
-                
                       Swal.fire({
                         icon: 'success',
-                        title: 'Logged in',
+                        title: 'Bienvenido',
                         showConfirmButton: false,
                         timer: 2500
                     })
-                    // navigate('/')
+                    navigate('/')
+              }else{
+                let a = async() =>{
+                  console.log(validate.data.data.email)
+                  await axios.post('http://localhost:3001/user/reenviar', {email: validate.data.data.email})
+                }
+
+                Swal.fire({
+                  title: 'CUENTA INACTIVA',
+                  subTitle:'Activa tu cuenta antes de iniciar sesion',
+                  text: "¿Deseas que te reenviemos el mail de confirmacion?",
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  cancelButtonText: 'NO',
+                  confirmButtonText: 'SI'
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    a()
+                    Swal.fire(
+                      'Enviado!',
+                      'Se ha Reenviado el mensaje de activación',
+                      'success'
+                    )
+                  }
+                })
+              //   Swal.fire({
+              //     icon: 'error',
+              //     title: 'Cuenta Inactiva',
+              //     text: 'Por favor activa tu cuenta antes de iniciar sesion',
+              //     showConfirmButton: false,
+              //     timer: 2500
+              // })
+              }
+                
                 
             }
         } catch (error) {
-            console.log(error)
             Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Something went wrong!',
-                showConfirmButton: false,
-                timer: 2500
-            })
+              icon: 'error',
+              title: 'ERROR',
+              text: 'Password o contraseña incorrectos',
+              showConfirmButton: false,
+              timer: 2500
+          })
         }
     }
 

@@ -74,7 +74,7 @@ router.post(
     failureFlash: true,
   }),
   (req, res, next) => {
-    // console.log(req.session)
+    console.log(req.flash('error'))
     res.send({
       message: "Logged",
       cookies: req.session,
@@ -83,6 +83,7 @@ router.post(
     });
   }
 );
+
 
 router.get("/created/:email", async (req, res) => {
   const { email } = req.params;
@@ -95,6 +96,7 @@ router.get("/created/:email", async (req, res) => {
     } else {
       res.send(false);
     }
+
   }
 });
 
@@ -203,9 +205,10 @@ router.get("/city", userFunctions.getAllCities);
 router.get("/professionals", userFunctions.getAllProfessionals);
 router.get("/:id", userFunctions.getByUserId);
 router.delete("/:id", userFunctions.deleteByUserId);
+router.post("/reenviar", userFunctions.solicitarActivar);
 router.post("/reestablecer", userFunctions.enviarToken);
 router.get("/reestablecer/:token", userFunctions.validarToken);
 router.put("/reestablecer/:token", userFunctions.actualizarPassword);
-router.get("/activar/", userFunctions.solicitarActivar);
+// router.get("/activar", userFunctions.solicitarActivar);
 router.put("/activar/:token", userFunctions.activarCuenta);
 module.exports = router;
