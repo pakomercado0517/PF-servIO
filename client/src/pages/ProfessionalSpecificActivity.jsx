@@ -1,33 +1,44 @@
-import React/*, { useEffect }*/ from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { /*NavLink,*/ useParams } from 'react-router-dom'
 // import { getByUserId, getSpecificActivitiesById } from '../redux/actions/index'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
 import { StarRating } from '../components/StarRating'
+import { useGlobalStorage } from '../hooks/useGlobalStorage'
+import { getByUserId, getSpecificActivitiesById } from '../redux/actions'
 
 import s from './styles/ProfessionalSpecificActivity.module.css'
-import { useGlobalStorage } from '../hooks/useGlobalStorage'
+import { GrLocation } from 'react-icons/gr'
 
 
 function ProfessionalSpecificActivity() {
   
+  const { id, idProfessional} = useParams()
+  const dispatch = useDispatch()  
   const [cart, setCart] = useGlobalStorage("cart", [])
   const [ globalUserGlobalStorage ] = useGlobalStorage("globalUser", [])
   
-  const {id}= useParams()
-  let ranked= 3;
+  useEffect(() => {
+    dispatch(getSpecificActivitiesById(idProfessional))
+    dispatch(getByUserId(idProfessional))
+  }, [ dispatch, id ])
+
   const professional = useSelector((state) => state.user[0])
-  // console.log('1 - professional',professional)
+  const activities = useSelector((state) => state.specificActivitiesById)
+  // const state = useSelector((state) => state)
+  const activityById = activities.indexOf(
+    activities.find(activity => activity.id == id))
+  const activity = activities[activityById]
   
-  const specificActivities = useSelector((state) => state.specificActivitiesById)
-  // console.log('2 - specificActivities la posta',specificActivities)
 
-  const activityById = specificActivities.indexOf(
-                        specificActivities.find(activity => activity.id == id))
 
-  const activity = specificActivities[activityById]
-  console.log('3 - activity',activity)
+
+  console.log('1 - professional',professional)
+  // console.log('2 - state',state)
+  console.log('3 - id',id)
+  console.log('4 - id prof?', idProfessional)
+  console.log('4 - activity x id ',activity)
 
   function addToCart(){
     const exist = cart.filter(el => el.name === activity?.name )
@@ -72,17 +83,39 @@ function ProfessionalSpecificActivity() {
             </div>
 
             <div className={s.floatCard_body}>
-              
-              <p className={s.floatCard_p}>{`@${professional?.user_name}`}</p>
+
+              {
+                professional?.user_name ?
+                <span>
+                  <p className={s.floatCard_p}>
+                  {`@${professional?.user_name}`}
+                  </p>
+                </span>
+                :
+                null
+              }
+
+              {/* <p className={s.floatCard_p}>{`@${professional?.user_name}`}</p> */}
+
+              {
+                professional?.state || professional?.city ?
+                <>
+                    <div>
+                        Locacion: <GrLocation/>
+                        {professional?.city ? professional.city + ' ': ''}
+                        {professional?.state ? professional.state : ''}
+                    </div>
+                </>
+                : <></>
+            }
               <p className={s.floatCard_p}>
-                <StarRating stars={ranked}/>
-                <span className={s.floatCard_span}>{`${ranked}`}</span>
+                <StarRating stars={ professional?.rate }/>
               </p>
-              <p className={s.floatCard_p}>
+              {/* <p className={s.floatCard_p}>
                 <FontAwesomeIcon icon={faPhoneAlt}/>
                 <strong>Teléfono: </strong>
                 <span className={s.floatCard_span}>{professional?.phone}</span>
-              </p>
+              </p> */}
             </div>
 
           </div>
@@ -99,7 +132,7 @@ function ProfessionalSpecificActivity() {
                     key={el.id}
                     className='profession'
                   >
-                    {el.name}
+                    {el.name?.slice(0,1).toUpperCase() + el.name.slice(1)}
                   </div>
                 )
                 })

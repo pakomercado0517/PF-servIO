@@ -99,8 +99,20 @@ export default function NavBar() {
 
                                     <>
                                     <NavLink to={`/clients/${stateTotalRedux.globalUserGlobalStorage.id}`}>
-                                        <MdAccountCircle className={s.iconLogin} />
-                                        <span className={s.session_name}>{login?.first_name + ' '} </span>
+                                    <div className={s.container_info}>
+                                        {stateTotalRedux.globalUserGlobalStorage.photo ?
+                                        <img 
+                                            className={ s.container_info_photo }
+                                            src={ stateTotalRedux.globalUserGlobalStorage.photo } 
+                                            alt= "Foto de perfil" 
+                                            />
+                                        :
+                                            <MdAccountCircle className={s.iconLoginn} />
+                                        } 
+                                            <span className={s.session_name}>
+                                                {`  ${login?.first_name}  `}
+                                            </span>
+                                        </div>
                                     </NavLink>
 
                                     <div className='dropdown'>
@@ -178,8 +190,21 @@ export default function NavBar() {
     // -----------Opciones Perfil Tecnico---------------------------------
                                     <>
                                     <NavLink to={`/professional/${stateTotalRedux.globalUserGlobalStorage.id}`}>
-                                        <MdAccountCircle className={s.iconLogin} />
-                                        <span className={s.session_name}>{login?.first_name + ' '} </span>
+
+                                        <div className={s.container_info}>
+                                        {stateTotalRedux.globalUserGlobalStorage.photo ?
+                                        <img 
+                                            className={ s.container_info_photo }
+                                            src={ stateTotalRedux.globalUserGlobalStorage.photo } 
+                                            alt= "Foto de perfil" 
+                                            />
+                                        :
+                                            <MdAccountCircle className={s.iconLoginn} />
+                                        } 
+                                            <span className={s.session_name}>
+                                                {`  ${login?.first_name}  `}
+                                            </span>
+                                        </div>
                                     </NavLink>
                                     <div className='dropdown'>
                                         <button

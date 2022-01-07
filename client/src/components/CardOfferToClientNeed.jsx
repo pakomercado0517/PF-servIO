@@ -32,13 +32,15 @@ export default function CardOfferToClientNeed(props) {
                 {
                     name: props.name,
                     description: props.description,
-                    guarantee: props.guarantee_time===0 ? false:true,
+                    guarantee: props.guarantee_time === 0 ? false:true,
                     guarantee_time: props.guarantee_time,
                     duration: props.duration,
                     photo: props.photo ? props.photo : "https://www.gravatar.com/avatar/205e460b479e2e5b48aec06610c08d50?s=400&r=pg&d=mm",
                     materials: props.materials,
                     count: 1,
                     type: "offer",
+                    ClientNeedId: props.ClientNeedId,
+                    ProfessionalId: props.ProfessionalId,
                     id: props.id
                 }
             ])

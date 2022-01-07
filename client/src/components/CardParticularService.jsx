@@ -43,7 +43,7 @@ export default function CardParticularService(props) {
                     price: props.price,
                     count: 1,
                     type: props.type,
-                    id: props.id,
+                    specificTechnicalActivityId: props.id,
                 }
             ])
         }

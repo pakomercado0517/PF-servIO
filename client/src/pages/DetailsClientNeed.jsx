@@ -1,26 +1,30 @@
 import React, {useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {NavLink, useParams} from 'react-router-dom'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faPhoneAlt} from '@fortawesome/free-solid-svg-icons'
 import {StarRating} from '../components/StarRating'
+import { getAllUsers, getByUserId, getDetailsClientNeed } from '../redux/actions'
+
 import s from './styles/DetailsClientNeed.module.css'
-import { getByUserId, getDetailsClientNeed } from '../redux/actions'
 
 export default function DetailsClientNeed() {
 
-  const clientNeed = useSelector((state) => state.detailsClientNeed)
-  const { detailsClientNeed, user, globalUserGlobalStorage } = useSelector(state => state)
-  // console.log('global',globalUserGlobalStorage)
   const { id } = useParams()
   const dispatch = useDispatch()
-  let ranked= 2.6
+  const clientNeed = useSelector((state) => state?.detailsClientNeed)
+  const user = useSelector((state) => state?.allUsers)
+  const detailsClientNeed = useSelector((state) => state?.detailsClientNeed)
+  const globalUserGlobalStorage = useSelector(state => state.globalUserGlobalStorage)
+  const ProfessionalId = detailsClientNeed.UserId
+  const professionalFilter = user.filter(user => user.id === ProfessionalId)
+  const professional = professionalFilter[0]
+
   useEffect(()=> {
     dispatch(getDetailsClientNeed(id))
+    dispatch(getAllUsers())
   }, [ dispatch, id ])
-  useEffect(()=> {
-    dispatch(getByUserId(detailsClientNeed.UserId))
-  }, [ dispatch, detailsClientNeed ])
+  
+  // console.log('6- professional',professional)
+  
   return (
     <div>
       <div className={s.container_ativity}>
@@ -30,19 +34,39 @@ export default function DetailsClientNeed() {
           {/* |---------------------------Profile Photo...----------------------------------------| */}
 
           <div className={s.professional_img}>
-            <img src={ user[0]?.photo } alt= 'img' className={s.p_image} />
+            <img src={ professional?.photo } alt= 'img' className={s.p_image} />
           </div>
 
-          {/* |---------------------------Float card...----------------------------------------| */}
+          {/* |------Float card...----------------------------------------| */}
 
           <div className={s.professional_floatCard}>
               <div className={s.floatCard_title}>
-                <h3>{ user[0]?.first_name + " " + user[0]?.last_name}</h3>
-              </div>
-              <div className={s.floatCard_body}>
-                <p className={s.floatCard_p}>{`@${user[0]?.first_name}`}</p>
-                <p className={s.floatCard_p}><StarRating stars={ranked}/> <span className={s.floatCard_span}>{`${ranked}`}</span></p>
-                <p className={s.floatCard_p}><FontAwesomeIcon icon={faPhoneAlt}/><strong>Teléfono: </strong><span className={s.floatCard_span}>{user[0]?.phone}</span></p>
+              {
+                professional?.name || professional?.last_name ?
+                <h4>
+                    {professional?.first_name + ' ' + professional?.last_name}
+                </h4>
+                : <></>
+              }              </div>
+              <div className={s.floatCard_title}>
+              {
+                professional?.user_name?
+                    <h6>
+                        <span>
+                            @{professional?.user_name} 
+                        </span>
+                    </h6>
+                : <></>
+              }
+              
+              {
+                professional?.rate !== null ?
+                <div>
+                    <StarRating stars={ professional?.rate } />
+                </div>
+                : <><StarRating stars={ 0 } /></>
+              }
+
               </div>
           </div>
 
@@ -83,13 +107,14 @@ export default function DetailsClientNeed() {
  {/* |--------si es profesional renderiza boton "enviar ofertas"--------------- | */}
 
           {
-            globalUserGlobalStorage?.professional === false ?
+            // globalUserGlobalStorage?.professional === false ?
+            globalUserGlobalStorage?.id === professional?.id ?
           <>
             <div className={s.a_button}>
               
               <NavLink 
                 className={s.link_button} 
-                to={`/client/${user[0]?.id}/edit/${detailsClientNeed?.id}`}
+                to={`/client/${professional?.id}/edit/${detailsClientNeed?.id}`}
               >
                 Editar
               </NavLink>

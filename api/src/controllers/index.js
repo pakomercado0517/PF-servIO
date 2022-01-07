@@ -351,21 +351,110 @@ module.exports = {
     }
     // }
   },
-  //COMENTAR QUE SE REQUIERE INPUT DIRECTO DE IDS DE USUARIOS
+
+  // ******** TRANSACTIONS
+
   newTransaction: async (req, res) => {
-    if (req.session.userId) {
+    const {
+      data
+    } = req.body
+
+    console.log(data)
+
+    const dataSpecificTechnicalActivity = data.filter( el => el.type === "specific technical activity" )
+    const dataOffer = data.filter( el => el.type === "offer" )
+
+    // News ClientNeed
+
+    if (dataSpecificTechnicalActivity[0]) {
+
+      // Create a ClientNeed to every SpecificTechnicalActivity
+
+      const arrayOfClientNeeds = dataSpecificTechnicalActivity.map(el => {
+        return {
+          name: el.name,
+          photo: el.photo,
+          description: el.description,
+          status: "pending to pay",
+          SpecificTechnicalActivityId: el.specificTechnicalActivityId,
+          location: el.location,
+          UserId: el.UserId
+        }
+      })
+
       try {
-        let newTransaction = await Transactions.create({
-          id: parseInt(req.session.userId),
-        });
-        res.status(200).send(newTransaction);
+        await ClientNeed.bulkCreate(arrayOfClientNeeds)
       } catch (error) {
         res.status(400).send(error.message);
       }
-    } else {
-      res.send("Pleas Login");
+    }
+
+    // News SpecificTechnicalActivity and Update ClientNeeds
+
+    if (dataOffer[0]) {
+      console.log("offer")
+
+      // Turn every offer to news Specific Technical Activity with "specific" vs "general" status
+
+      const newSpecificTechnicalActivities = dataOffer.map(el => {
+        return {
+          name: el.name,
+          price: el.price,
+          photo: el.photo,
+          materials: el.materials,
+          guarantee: el.guarantee,
+          guarantee_time: el.guarantee_time,
+          job_time: el.duration,
+          ProfessionalId: el.ProfessionalId,
+          type: "specific",
+        }
+      })
+
+      // Update, for every offer, one ClientNeed with status "pending to pay" that was related with their Specific Technical Activity
+
+      try {
+        const newActivites = await SpecificTechnicalActivity.bulkCreate(newSpecificTechnicalActivities)
+        const updateClientNeeds = dataOffer.map((el, index) => {
+          return {
+            id: el.ClientNeedId,
+            name: el.name,
+            photo: el.photo,
+            description: el.description,
+            status: "pending to pay",
+            SpecificTechnicalActivityId: newActivites[index].id,
+            location: el.location,
+          }
+        })
+        await ClientNeed.bulkCreate(updateClientNeeds, { updateOnDuplicate: ["name", "description", "status", "photo", "SpecificTechnicalActivityId", "location"] })
+      } catch (error) {
+        res.status(400).send(error.message);
+      }
+    }
+
+    // Create transaction finaly
+
+    try {
+      const { dataValues } = await Transactions.create({
+        data,
+        status: "pending to pay"
+      })
+      res.send({
+        ...dataValues,
+        message: "Created successfuly"
+      })
+    } catch (error) {
+      res.status(400).send(error.message);
     }
   },
+
+  getAllTransactions: async (req, res) => {
+    const allTransactions = await Transactions.findAll({})
+    res.send(allTransactions)
+  },
+
+  // ******** OTHER
+
+
 
   getAllUsers: async (req, res) => {
     try {
@@ -536,6 +625,9 @@ module.exports = {
             include: [{ model: Profession }],
             include: [{ model: User }],
           },
+          {
+            model: ClientNeed
+          }
         ],
       });
       res.status(200).send(activities);

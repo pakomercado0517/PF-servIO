@@ -8,36 +8,14 @@ mercadopago.configure({
 });
 
 router.post('/', (req, res) =>{
-  console.log(req.body.items)
+  console.log(req.body)
     let preference = {
-        items: req.body.items,
-        // payer: {
-        //     name: "Juan",
-        //     surname: "Lopez",
-        //     email: "user@email.com",
-        //     phone: {
-        //         area_code: "11",
-        //         number: 4444-4444
-        //     },
-        //     identification: {
-        //         type: "DNI",
-        //         number: "12345678"
-        //     },
-        //     address: {
-        //         street_name: "Street",
-        //         street_number: 123,
-        //         zip_code: "5700"
-        //     }
-        // },
-      //   back_urls: {
-      //     success: "http://localhost:3001/create_preference/succes",
-      //     failure: "http://localhost:3001/create_preference/failure",
-      //     pending: "http://localhost:3001/create_preference/pending"
-      // },
+        ...req.body
       };
       
       mercadopago.preferences.create(preference)
       .then(function(response){
+        console.log(response)
       // Este valor reemplazará el string "<%= global.id %>" en tu HTML
         // global.id = response.body.id;
         res.json({
@@ -50,17 +28,17 @@ router.post('/', (req, res) =>{
 
 router.get('/succes', (req, res) =>{
   console.log(req.query)
-  res.redirect("https://localhost:3000/")
+  res.redirect("http://localhost:3000/")
 })
 
 router.get('/pending', (req, res) =>{
   console.log(req.query)
-  res.redirect("https://localhost:3000/")
+  res.redirect("http://localhost:3000/")
 })
 
 router.get('/failure', (req, res) =>{
   console.log(req.query)
-  res.redirect("https://localhost:3000/cart")
+  res.redirect("http://localhost:3000/cart")
 })
 
 module.exports= router;
