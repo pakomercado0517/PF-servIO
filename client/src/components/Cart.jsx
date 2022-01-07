@@ -60,10 +60,10 @@ export default function Cart() {
 
                 </div>
                 <div className={s.container_buttons}>
-                    <div className="alert alert-warning" role="alert">
+                    <div className={s.alert} role="alert">
                         <span>Total:  {total}</span>
                     </div>
-                    <button id='checkout_button' className={s.container_buttons_button + ' btn btn-success'} onClick={showForm}> Continuar Compra</button>
+                    <button id='checkout_button' className={s.container_buttons_button} onClick={showForm}> Continuar Compra</button>
                     <div id='cho-container'></div>
                 </div>
                 <div className='shopping-cart'></div>

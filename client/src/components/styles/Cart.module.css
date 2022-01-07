@@ -24,7 +24,31 @@
     height: 70px;
 }
 
+.alert{
+    background-color: var(--color-primario);
+    position: relative;
+    margin-bottom: 1.5em;
+    margin-left: 3em;
+    padding: 1rem 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    color: #fff;
+    
+}
+
+
 .container_buttons_button{
     height: 70%;
+    display: inline-block;
+    width: 400px;
+    max-height: 45px;
+    margin: auto;
+    background-color: var(--color-primario);
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    padding: 10px;
+    margin-bottom: 25px;
+
 }
 

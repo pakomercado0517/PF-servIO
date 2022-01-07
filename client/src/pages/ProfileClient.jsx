@@ -7,6 +7,7 @@ import { MdAccountCircle } from 'react-icons/md';
 import { GrLocation } from 'react-icons/gr'
 import { getByAccountId, getClientNeedsById } from '../redux/actions';
 import CardClientNeed from '../components/CardClientNeed';
+
 // import CardReview from '../components/CardReview';
 
 import s from './styles/ProfileClient.module.css'
@@ -71,19 +72,24 @@ export default function ProfileClient(){
                 </p>
                 : 
                 <>
-                <p>Localidad: <GrLocation/><span>{globalUser?.city? globalUser?.city: "Buenos Aires, Argentina"}</span></p>
+                <p><GrLocation/><span>{globalUser?.city? globalUser?.city: "Buenos Aires, Argentina"}</span></p>
                 </>
                 }
                 
                 {/* <p>Teléfono: <span>{ globalUser?.phone }</span> </p> */}
                 {
+
                     globalUser?.phone ?
                     <p>Teléfono: <span>{ globalUser?.phone }</span> </p>
-                    : <></>
+                    : <>
+                    </>
                 }
                 
-
-                <p>Email: <span>{ globalUser?.email }</span></p>
+                {
+                    globalUser?.email ?
+                    <p><span>{ globalUser?.email }</span></p>
+                    : <></>
+                }
 
                 {/* CARDS DE SOLICITUDES HECHAS */}
 
