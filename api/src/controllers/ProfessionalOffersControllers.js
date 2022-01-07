@@ -30,7 +30,6 @@ module.exports = {
     userNeeds = await ClientNeed.findAll({
       where: { UserId },
     });
-
     if (userNeeds.length > 0) {
       const needsId = await userNeeds.map((e) => e.id);
       let receivedOffers = [];
@@ -52,7 +51,6 @@ module.exports = {
   getNeedReceivedOffers: async (req, res) => {
     const ClientNeedId = req.params.id;
     const offers = await ProfessionalOffer.findAll({ where: { ClientNeedId } });
-
     if (offers.length > 0) {
       res.send(offers);
     } else {
@@ -118,27 +116,10 @@ module.exports = {
   },
 
   updateOffer: async (req, res) => {
-    const {
-      name,
-      description,
-      price,
-      duration,
-      materials,
-      guarantee_time,
-      status,
-    } = req.body;
     const id = req.params.id;
     try {
       await ProfessionalOffer.update(
-        {
-          name,
-          description,
-          price,
-          duration,
-          materials,
-          guarantee_time,
-          status,
-        },
+        req.body,
         { where: { id } }
       );
       res.send("updated");
