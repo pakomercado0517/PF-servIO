@@ -154,7 +154,7 @@ return (
 
                         <div className="form-group mt-2 mb-2">
                             <label
-                                for="exampleFormControlTextarea1">
+                                htmlFor="exampleFormControlTextarea1">
                                 Descripción del servicio
                             </label>
                             <textarea
