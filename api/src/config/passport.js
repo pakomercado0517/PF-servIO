@@ -123,9 +123,9 @@ module.exports = (passport) => {
       async (req, email, password, done) => {
         try {
           const user = await User.findOne({ where: { email: email } });
-          if (!user || user.verified === false) return done(null, false);
+          if (!user) return done(null, false);
           let pass = await bcrypt.compare(password, user.password); 
-          console.log("pass:", pass);
+          // console.log("pass:", pass);
           if (!pass) return done(null, false);
           done(null, user);
         } catch (error) {
