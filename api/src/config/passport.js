@@ -68,6 +68,7 @@ module.exports = (passport) => {
             city,
             state,
             photo,
+            dni,
             verified: false,
             professional,
             token:crypto.randomBytes(20).toString("hex"),
