@@ -1036,13 +1036,13 @@ module.exports = {
       // userName,
       firstName,
       lastName,
-      // email,
+      email,
       phone,
       city,
       state,
       photo,
       dni,
-      // password,
+      password,
       // verified,
       professional,
       certification_name,
@@ -1052,16 +1052,18 @@ module.exports = {
     } = req.body;
     const id = req.params.id;
     try {
+      let newPass = await bcrypt.hash(password, 10);
       await User.update(
         {
           first_name: firstName,
           last_name: lastName,
-          // email,
+          email,
           phone,
           city,
           state,
           photo,
           dni,
+          password:newPass,
           professional,
         },
         { where: { id: id } }
