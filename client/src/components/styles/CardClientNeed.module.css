@@ -1,6 +1,7 @@
 :root{
     --color-transition:#5ed4ee;
-    --color-fondo: white;
+    /* --color-fondo: white; */
+    --color-fondo: #f5f5f5;
     --color-letra: rgb(14, 13, 13);
 }
 
@@ -13,7 +14,7 @@
     border-radius: 10px;
     padding: 5px;
     margin: 5px 15px;
-    /* transition: all .3s; */
+    transition: all .1s;
 }
 
 .container:hover {
@@ -60,6 +61,6 @@
     min-width: 70px;
     height: 70px;
     border-radius: 150px;
-    background-color: grey;
+    /* background-color: grey; */
     margin: auto;
 }

@@ -40,6 +40,15 @@ router.post(
   async (req, res, next) => {
     console.log(2)
     // res.redirect(`/user/${req.user.id}`);
+    res.status(200).send({ message: "Usuario creado" });
+    next();
+    (req, res) => {
+      res.redirect(`/user/${req.user.id}`);
+    };
+  },
+  async (req, res) => {
+    const usuario = await User.findOne({ where: { email: req.body.email } });
+    const activateUrl = `http://localhost:3000/activate/${usuario.token}`;
     
     const usuario  = await User.findOne({where:{email:req.body.email}})
     const activateUrl =  `http://localhost:3000/activate/${usuario.token}`;
@@ -87,20 +96,20 @@ router.post(
 );
 
 
-router.get('/created/:email', async (req, res)=>{
-  const { email } = req.params
-  if(email) {
-      // res.send(email)
-      let user = await User.findOne({where:{ email }})
-      // res.send(user)
-  if(!user) {
-    res.send(true)
-  }else{
-    res.send(false)
-  }
-  }
+router.get("/created/:email", async (req, res) => {
+  const { email } = req.params;
+  if (email) {
+    // res.send(email)
+    let user = await User.findOne({ where: { email } });
+    // res.send(user)
+    if (!user) {
+      res.send(true);
+    } else {
+      res.send(false);
+    }
 
-})
+  }
+});
 
 router.get("/getGoogleUser", async (req, res, next) => {
   res.json(googleData);
@@ -139,7 +148,7 @@ router.get(
   }
 );
 
-router.get("/auth/github", passport.authenticate("github"));
+router.get("/auth/github", passport.authenticate("github", { scope: "user" }));
 
 router.get(
   "/auth/github/callback",
@@ -147,7 +156,7 @@ router.get(
   async (req, res, next) => {
     cacheData.pop();
     const userResult = await User.findOne({
-      where: { email: req.user._json.login },
+      where: { user_name: req.user._json.login },
     });
     cacheData.push({
       message: "Logged",

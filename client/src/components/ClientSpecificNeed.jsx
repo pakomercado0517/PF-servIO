@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { showFormClientNeed, getClientNeedsById, newEspecificalNeed } from '../redux/actions'
 import Swal from 'sweetalert2'
-import s from './styles/ClientSpecificNeed.module.css'
 import { useNavigate } from "react-router-dom";
 import UploadImage from './UploadImage'
 import logo from '../img/ServIO.svg'
+
+import s from './styles/ClientSpecificNeed.module.css'
 
 
 export const ClientSpecificNeed = () => {
