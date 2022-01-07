@@ -207,5 +207,6 @@ router.delete("/:id", userFunctions.deleteByUserId);
 router.post("/reestablecer", userFunctions.enviarToken);
 router.get("/reestablecer/:token", userFunctions.validarToken);
 router.put("/reestablecer/:token", userFunctions.actualizarPassword);
+router.get("/activar/", userFunctions.solicitarActivar);
 router.put("/activar/:token", userFunctions.activarCuenta);
 module.exports = router;

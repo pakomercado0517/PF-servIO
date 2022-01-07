@@ -1140,35 +1140,41 @@ module.exports = {
   
   enviarToken: async (req, res) => {
     const { email } = req.body;
-    console.log(email)
     if(email) {
-      console.log(1)
         const usuario = await User.findOne({ where: { email } });
         console.log(usuario)
       if (!usuario) {
-        console.log(2)
         res.send({ message : "No existe esa cuenta" });
       } else {
-        console.log(3)
-        usuario.token = crypto.randomBytes(20).toString("hex");
-        usuario.expiracion = Date.now() + 3600000;
-
+        if(usuario.token === null){
+          usuario.token = crypto.randomBytes(20).toString("hex");
+          usuario.expiracion = Date.now() + 3600000;
+        }
         //guardarlos en la base de datos
         await usuario.save();
         
         //url de reset
         const resetUrl = `http://localhost:3000/forget-password/${usuario.token}`;
+        const activeUrl = ` http://localhost:3000/activate/${usuario.token}`;
         //Enviar correo con el token
 
         // console.log(email, type)
-      
+        if(usuario.verified === true){
           await enviarEmail.enviar({
-                    usuario,
-                    subject: "Password Reset",
-                    resetUrl,
-                    archivo: `<h2>Restablecer Password</h2><p>Hola, has solicitado reestablecer tu password, haz click en el siguiente enlace para reestablecerlo, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${resetUrl} >Resetea tu password</a><p>Si no puedes acceder a este enlace, visita ${resetUrl}</p><div/>`,
+                              usuario,
+                              subject: "Password Reset",
+                              resetUrl,
+                              archivo: `<h2>Restablecer Password</h2><p>Hola, has solicitado reestablecer tu password, haz click en el siguiente enlace para reestablecerlo, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${resetUrl} >Resetea tu password</a><p>Si no puedes acceder a este enlace, visita ${resetUrl}</p><div/>`,
+                    });
+        }else{
+          await enviarEmail.enviar({
+            usuario,
+            subject: "Verify your account",
+            resetUrl,
+            archivo: `<h2>Activar tu cuenta</h2><p>Hola, has solicitado reestablecer tu password, lamentablemente tu cuenta no se encuentra activada, por favor activala primero, para ello  haz click en el siguiente enlace, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${activeUrl} >Activa tu cuenta</a><p>Si no puedes acceder a este enlace, visita ${activeUrl}</p><div/>`,
           });
-                  res.send({message: "Se envio un mensaje a tu correo"});
+        }
+          res.send({message: "Se envio un mensaje a tu correo"});
         
       }
     }else{
@@ -1207,15 +1213,6 @@ module.exports = {
       // req.flash("error", "No valido"),  
       res.send("INVALIDO");
     }else{
-      //haashear el nuevo password para
-      // bcrypt.genSalt(10,(err,salt) => {
-      //   bcrypt.hash(password, salt , (err, hash) =>{
-      //        if(err) throw (err);
-     
-      //        usuario.password=hash;
-      //        usuario.save();
-      //   });
-      //   });
       usuario.password = bcrypt.hashSync(Object.keys((req.body))[0], bcrypt.genSaltSync(10));
       usuario.token = null;
       usuario.expiracion = null;
@@ -1227,7 +1224,39 @@ module.exports = {
 
     
   },
+  solicitarActivar : async (req, res) => {
+    const {email} = req.body
+    if(email) {
+      const usuario = await User.findOne({ where: { email } });
+      console.log(usuario)
+      if (!usuario) {
+        res.send({ message : "No existe esa cuenta" });
+      } else {
+        if(usuario.token === null){
+          usuario.token = crypto.randomBytes(20).toString("hex");
+          usuario.expiracion = Date.now() + 3600000;
+          await usuario.save()
+        }
+      
+      //url de reset
+        const activeUrl = ` http://localhost:3000/activate/${usuario.token}`;
+      //Enviar correo con el token
 
+      // console.log(email, type)
+        await enviarEmail.enviar({
+          usuario,
+          subject: "Verify your account",
+          resetUrl,
+          archivo: `<h2>Verifica tu cuenta</h2><p>Hola, has solicitado que reenviemos el mail para activar tu cuenta, haz click en el siguiente enlace para activar tu cuenta, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${activeUrl} >Activa tu cuenta</a><p>Si no puedes acceder a este enlace, visita ${activeUrl}</p><div/>`,
+        });
+      
+        res.send({message: "Se envio un mensaje a tu correo"});
+      
+    }
+    }else{
+      res.send({message: "Envia un email valido"})
+    }
+  },
   activarCuenta: async(req, res)  => {
     const usuario = await User.findOne({
       where: {

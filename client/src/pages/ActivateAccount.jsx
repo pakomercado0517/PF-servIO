@@ -2,8 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {useNavigate, useParams } from "react-router-dom";
 import Swal from 'sweetalert2'
-import s from './styles/ForgetPassword.module.css'
+import s from './styles/ActivateAccount.module.css'
 import { validarToken, activarCuenta } from '../redux/actions';
+import albañil from '../img/albañil.svg';
+import electricista from '../img/electricista1.png';
+import plomero from '../img/plomero.svg';
+
 
 export default function ResetPassword() {
   const navigate = useNavigate()
@@ -36,15 +40,29 @@ export default function ResetPassword() {
   // console.log(email)
   return (
     <div>
-        <div>
+        <div className={s.page}>
           {a.data === true ?
             <>
-            <div >
-                <h2>Activar Cuenta</h2>
+            
+
+                <h2 className={s.tittle}>Activar Cuenta</h2>
+            <div className={ s.div_principal__second }>
+                <div class={s.slider}>
+                    <ul>
+                        <li>
+                            <img src={albañil} alt=''/>
+                        </li>
+                        <li>
+                            <img src={electricista} alt=''/>
+                        </li>
+                        <li>
+                            <img src={plomero} alt=''/>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <form onSubmit={() => onSubmit()}>
-                <input type='button' value='Verificar Cuenta' onClick={() => onSubmit()}/>
-            </form>
+
+                <input type='button' value='Click para Activar tu Cuenta' className={s.button} onClick={() => onSubmit()}/>
             </> 
             : 
             // navigate(`/`)
