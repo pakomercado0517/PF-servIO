@@ -1,15 +1,5 @@
 const Sequelize = require("sequelize");
-const {
-  User,
-  Profession,
-  Professional,
-  ProfessionalOffer,
-  ClientNeed,
-  SpecificTechnicalActivity,
-  Transactions,
-  Profession_Professional,
-  ClientReview,
-} = require("../db.js");
+const { User, ProfessionalOffer, ClientNeed } = require("../db.js");
 
 module.exports = {
   getAllNeeds: async (req, res) => {
