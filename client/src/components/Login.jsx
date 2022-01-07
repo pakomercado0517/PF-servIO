@@ -57,11 +57,27 @@ export default function Login() {
             [e.target.name]: e.target.value
         });
     };
-    
+    // console.log(setInput)
+
+    // useEffect(() => {
+    //     dispatch(userLogin(input))
+    // },[])
+    // const x = () =>{
+    //   if(globalUser !== ''){
+    //     Swal.fire({
+    //       icon: 'success',
+    //       title: 'Logged in',
+    //       showConfirmButton: false,
+    //       timer: 2500
+    //   })
+    //   navigate('/')
+    //   }
+    // }
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
             const validate = await axios.post('http://localhost:3001/user/login', input)
+            console.log(validate)
             if(validate) {
                 await setGlobalUser(validate.data.data)
                 await setLocalUser(validate.data.data)
@@ -71,13 +87,15 @@ export default function Login() {
                 } else {
                     setSwitcheo('professional')
                 }
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Logged in',
-                    showConfirmButton: false,
-                    timer: 2500
-                })
-                navigate('/')
+                
+                      Swal.fire({
+                        icon: 'success',
+                        title: 'Logged in',
+                        showConfirmButton: false,
+                        timer: 2500
+                    })
+                    navigate('/')
+                
             }
         } catch (error) {
             console.log(error)
@@ -93,27 +111,32 @@ export default function Login() {
 
     const googleLog = async () => {
       try {
+        
         let result= await axios.get('http://localhost:3001/user/getUser')
-        // console.log('resulllt', result.data[0])
+        console.log('resulllt', result)
         await setGlobalUser(result.data[0].data)
         await setLocalUser(result.data[0].data)
-        if(localUser) {
-          Swal.fire({
-              icon: 'success',
-              title: 'Logged in',
-              showConfirmButton: false,
-              timer: 2500
-          })
-          navigate('/')
-      }
+      //   if(localUser) {
+      //     Swal.fire({
+      //         icon: 'success',
+      //         title: 'Logged in',
+      //         showConfirmButton: false,
+      //         timer: 2500
+      //     })
+      //     navigate('/')
+      // }
+        
       } catch (error) {
           console.log('errorrrrrr', error)
+
       }
     }
     
     useEffect(() => {
-      googleLog()
-    },[])
+      
+      // x()
+        // return console.log('user!!!', user)
+    },[localUser])
 
     return (
         <div className={ s.login_master }>
@@ -196,6 +219,7 @@ export default function Login() {
                             <p>O inicia con:</p>
 
                             <a 
+                            onClick={() => googleLog()}
                                 type="button"
                                 className="btn btn-lg btn-google  text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/google">
                                 <img src="https://img.icons8.com/color/40/000000/google-logo.png" alt="google"/> 

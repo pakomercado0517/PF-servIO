@@ -24,153 +24,153 @@ const {
 const e = require("express");
 
 module.exports = {
-  // newUser: async (req, res) => {
-  //   const {
-  //     // userName,
-  //     firstName,
-  //     lastName,
-  //     email,
-  //     phone,
-  //     city,
-  //     // state,
-  //     photo,
-  //     dni,
-  //     password,
-  //     verified,
-  //     professional,
-  //     certification_name,
-  //     certification_img,
-  //     status,
-  //     profession,
-  //   } = req.body;
-  //   console.log(req.body);
+  newUser: async (req, res) => {
+    const {
+      // userName,
+      firstName,
+      lastName,
+      email,
+      phone,
+      city,
+      // state,
+      photo,
+      dni,
+      password,
+      verified,
+      professional,
+      certification_name,
+      certification_img,
+      status,
+      profession,
+    } = req.body;
+    console.log(req.body);
 
-  //   error = [];
+    error = [];
 
-  //   // if(!userName || !firstName || !lastName || !email || !phone || !city || !state  || !dniFront|| !dniBack || !password || !password2 ){
-  //   //     error.push({message: 'Please enter all the required fields'})
-  //   // }
-  //   // if(password.length < 6){
-  //   //     error.push({message: 'Password should be at least 6 characters'})
-  //   // }
-  //   // if(password !== password2){
-  //   //     error.push({message: 'The password do not match'})
-  //   // }
+    // if(!userName || !firstName || !lastName || !email || !phone || !city || !state  || !dniFront|| !dniBack || !password || !password2 ){
+    //     error.push({message: 'Please enter all the required fields'})
+    // }
+    // if(password.length < 6){
+    //     error.push({message: 'Password should be at least 6 characters'})
+    // }
+    // if(password !== password2){
+    //     error.push({message: 'The password do not match'})
+    // }
 
-  //   const users = await User.findAll({
-  //     include: [{ model: Professional }],
-  //   });
+    const users = await User.findAll({
+      include: [{ model: Professional }],
+    });
 
-  //   users.map((e) => {
-  //     if (e.email === email) {
-  //       error.push("Email already in use");
-  //     }
-  //     // if(e.userName === userName){
-  //     //     error.push( 'User already in use')
-  //     // }
-  //   });
+    users.map((e) => {
+      if (e.email === email) {
+        error.push("Email already in use");
+      }
+      // if(e.userName === userName){
+      //     error.push( 'User already in use')
+      // }
+    });
 
-  //   if (error.length > 0) {
-  //     res.send(error);
-  //   } else {
-  //     try {
-  //       let hashedPassword = await bcrypt.hash(password, 10);
-  //       let newUser = await User.create({
-  //         // user_name: userName,
-  //         first_name: firstName,
-  //         last_name: lastName,
-  //         email,
-  //         phone: phone ? phone : 00000000,
-  //         city,
-  //         // state,
-  //         photo: photo ? photo : "",
-  //         dni,
-  //         // dni_back:dniBack ? dniBack : '',
-  //         password: hashedPassword,
-  //         verified: verified ? verified : false,
-  //         professional,
-  //       });
+    if (error.length > 0) {
+      res.send(error);
+    } else {
+      try {
+        let hashedPassword = await bcrypt.hash(password, 10);
+        let newUser = await User.create({
+          // user_name: userName,
+          first_name: firstName,
+          last_name: lastName,
+          email,
+          phone: phone ? phone : 00000000,
+          city,
+          // state,
+          photo: photo ? photo : "",
+          dni,
+          // dni_back:dniBack ? dniBack : '',
+          password: hashedPassword,
+          verified: verified ? verified : false,
+          professional,
+        });
 
-  //       if (professional === "true") {
-  //         let newProfessional = await Professional.create({
-  //           // certification_name:certification_name ? certification_name: '',
-  //           // certification_img:certification_img ? certification_img : '',
-  //           // status : status ? status : 'normal',
-  //           certification_name: "",
-  //           certification_img: "",
-  //           status: "normal",
-  //         });
-  //         let professions = profession.toLowerCase();
-  //         if (typeof professions === "string") {
-  //           professions = professions.split(",");
-  //         }
+        if (professional === "true") {
+          let newProfessional = await Professional.create({
+            // certification_name:certification_name ? certification_name: '',
+            // certification_img:certification_img ? certification_img : '',
+            // status : status ? status : 'normal',
+            certification_name: "",
+            certification_img: "",
+            status: "normal",
+          });
+          let professions = profession.toLowerCase();
+          if (typeof professions === "string") {
+            professions = professions.split(",");
+          }
 
-  //         const allProfessions = await Profession.findAll({
-  //           where: {
-  //             name: {
-  //               [Op.in]: Array.isArray(professions)
-  //                 ? professions
-  //                 : [professions],
-  //             },
-  //           },
-  //         });
+          const allProfessions = await Profession.findAll({
+            where: {
+              name: {
+                [Op.in]: Array.isArray(professions)
+                  ? professions
+                  : [professions],
+              },
+            },
+          });
 
-  //         await newProfessional.setProfessions(allProfessions);
-  //         await newUser.setProfessional(newProfessional);
-  //       }
-  //       res
-  //         .status(200)
-  //         .send(
-  //           `You are now registered, ${
-  //             firstName + " " + lastName
-  //           } please log in`
-  //         );
-  //     } catch (error) {
-  //       res.status(400).send(error.message);
-  //     }
-  //   }
-  // },
+          await newProfessional.setProfessions(allProfessions);
+          await newUser.setProfessional(newProfessional);
+        }
+        res
+          .status(200)
+          .send(
+            `You are now registered, ${
+              firstName + " " + lastName
+            } please log in`
+          );
+      } catch (error) {
+        res.status(400).send(error.message);
+      }
+    }
+  },
 
-  // login: async (req, res) => {
-  //   try {
-  //     const { email, password } = req.body;
+  login: async (req, res) => {
+    try {
+      const { email, password } = req.body;
 
-  //     const user = await User.findAll({
-  //       where: { email },
-  //     });
+      const user = await User.findAll({
+        where: { email },
+      });
 
-  //     let userType = "";
-  //     if (user.length < 1) {
-  //       res.status(200).send("Mail doesn't exist");
-  //     }
-  //     if (user[0].professional === true) {
-  //       userType = "Professional";
-  //     } else {
-  //       userType = "Client";
-  //     }
+      let userType = "";
+      if (user.length < 1) {
+        res.status(200).send("Mail doesn't exist");
+      }
+      if (user[0].professional === true) {
+        userType = "Professional";
+      } else {
+        userType = "Client";
+      }
 
-  //     if (user.length > 0) {
-  //       bcrypt.compare(password, user[0].password, (err, isMatch) => {
-  //         if (err) {
-  //           res.status(200).send("error");
-  //           throw err;
-  //         }
-  //         if (isMatch) {
-  //           req.session.userId = user[0].id;
-  //           let obj = { message: "Logged", cookies: req.session, userType };
-  //           return res.send(obj);
-  //         } else {
-  //           res.send("Wrong passWord");
-  //         }
-  //       });
-  //     }
-  //     if (user.length < 0) {
-  //       res.status(200).send("Something is wrong");
-  //     }
-  //   } catch (error) {
-  //     // res.status(400).send(error.message)/
-  //   }
-  // },
+      if (user.length > 0) {
+        bcrypt.compare(password, user[0].password, (err, isMatch) => {
+          if (err) {
+            res.status(200).send("error");
+            throw err;
+          }
+          if (isMatch) {
+            req.session.userId = user[0].id;
+            let obj = { message: "Logged", cookies: req.session, userType };
+            return res.send(obj);
+          } else {
+            res.send("Wrong passWord");
+          }
+        });
+      }
+      if (user.length < 0) {
+        res.status(200).send("Something is wrong");
+      }
+    } catch (error) {
+      // res.status(400).send(error.message)/
+    }
+  },
   loginTest: async (req, res) => {
     if (req.session.userId) {
       res.send(true);
@@ -221,6 +221,7 @@ module.exports = {
   },
   getUser: async (req, res) => {
     const { userId } = req.body;
+    console.log(req.session)
     if (userId) {
       const user = await User.findAll({
         where: {
@@ -358,7 +359,7 @@ module.exports = {
       data
     } = req.body
 
-    console.log(data)
+    let response = [];
 
     const dataSpecificTechnicalActivity = data.filter( el => el.type === "specific technical activity" )
     const dataOffer = data.filter( el => el.type === "offer" )
@@ -370,19 +371,30 @@ module.exports = {
       // Create a ClientNeed to every SpecificTechnicalActivity
 
       const arrayOfClientNeeds = dataSpecificTechnicalActivity.map(el => {
+        console.log(el.UserId)
         return {
           name: el.name,
-          photo: el.photo,
           description: el.description,
           status: "pending to pay",
-          SpecificTechnicalActivityId: el.specificTechnicalActivityId,
           location: el.location,
-          UserId: el.UserId
+          photo: el.photo,
+          UserId: el.UserId,
+          SpecificTechnicalActivityId: el.specificTechnicalActivityId,
         }
       })
 
       try {
-        await ClientNeed.bulkCreate(arrayOfClientNeeds)
+        const newClientNeeds = await ClientNeed.bulkCreate(arrayOfClientNeeds)
+
+        // SAVE ID OF NEW DATA TO SEND ON DATA ARRAY
+        const aux = dataSpecificTechnicalActivity.map((el,index) => {
+          return {
+            ...el,
+            ClientNeedId: newClientNeeds[index].id
+          }
+        })
+        response = [...response, ...aux]
+
       } catch (error) {
         res.status(400).send(error.message);
       }
@@ -391,7 +403,6 @@ module.exports = {
     // News SpecificTechnicalActivity and Update ClientNeeds
 
     if (dataOffer[0]) {
-      console.log("offer")
 
       // Turn every offer to news Specific Technical Activity with "specific" vs "general" status
 
@@ -413,6 +424,16 @@ module.exports = {
 
       try {
         const newActivites = await SpecificTechnicalActivity.bulkCreate(newSpecificTechnicalActivities)
+
+        // SAVE ID OF NEW DATA TO SEND ON DATA ARRAY
+        const aux = newSpecificTechnicalActivities.map((el,index) => {
+          return {
+            ...el,
+            SpecificTechnicalActivityId: newActivites[index].id
+          }
+        })
+        response = [...response, ...aux]
+
         const updateClientNeeds = dataOffer.map((el, index) => {
           return {
             id: el.ClientNeedId,
@@ -422,9 +443,18 @@ module.exports = {
             status: "pending to pay",
             SpecificTechnicalActivityId: newActivites[index].id,
             location: el.location,
+            UserId: el.UserId,
           }
         })
-        await ClientNeed.bulkCreate(updateClientNeeds, { updateOnDuplicate: ["name", "description", "status", "photo", "SpecificTechnicalActivityId", "location"] })
+        // Update status of ProfessionalOffer to pending to pay
+        const updateOffer = dataOffer.map((el, index) => {
+          return {
+            status: "pending to pay",
+            id: el.ProfessionalOfferId,
+          }
+        })
+        await ProfessionalOffer.bulkCreate(updateOffer, { updateOnDuplicate: ["status"]})
+        await ClientNeed.bulkCreate(updateClientNeeds, { updateOnDuplicate: ["name", "UserId" , "description", "status", "photo", "SpecificTechnicalActivityId", "location"] })
       } catch (error) {
         res.status(400).send(error.message);
       }
@@ -434,8 +464,8 @@ module.exports = {
 
     try {
       const { dataValues } = await Transactions.create({
-        data,
-        status: "pending to pay"
+        data: response,
+        status: "pending to pay",
       })
       res.send({
         ...dataValues,
@@ -749,6 +779,7 @@ module.exports = {
       name,
       description,
       location,
+      photo,
       //   price,
       //   duration,
       //   guarantee_time,
@@ -761,6 +792,7 @@ module.exports = {
           description,
           status: "in offer",
           location,
+          photo
           //   price,
           //   duration,
           //   guarantee_time,
@@ -1108,35 +1140,41 @@ module.exports = {
   
   enviarToken: async (req, res) => {
     const { email } = req.body;
-    console.log(email)
     if(email) {
-      console.log(1)
         const usuario = await User.findOne({ where: { email } });
         console.log(usuario)
       if (!usuario) {
-        console.log(2)
         res.send({ message : "No existe esa cuenta" });
       } else {
-        console.log(3)
-        usuario.token = crypto.randomBytes(20).toString("hex");
-        usuario.expiracion = Date.now() + 3600000;
-
+        if(usuario.token === null){
+          usuario.token = crypto.randomBytes(20).toString("hex");
+          usuario.expiracion = Date.now() + 3600000;
+        }
         //guardarlos en la base de datos
         await usuario.save();
         
         //url de reset
         const resetUrl = `http://localhost:3000/forget-password/${usuario.token}`;
+        const activeUrl = ` http://localhost:3000/activate/${usuario.token}`;
         //Enviar correo con el token
 
         // console.log(email, type)
-      
+        if(usuario.verified === true){
           await enviarEmail.enviar({
-                    usuario,
-                    subject: "Password Reset",
-                    resetUrl,
-                    archivo: `<h2>Restablecer Password</h2><p>Hola, has solicitado reestablecer tu password, haz click en el siguiente enlace para reestablecerlo, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${resetUrl} >Resetea tu password</a><p>Si no puedes acceder a este enlace, visita ${resetUrl}</p><div/>`,
+                              usuario,
+                              subject: "Password Reset",
+                              resetUrl,
+                              archivo: `<h2>Restablecer Password</h2><p>Hola, has solicitado reestablecer tu password, haz click en el siguiente enlace para reestablecerlo, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${resetUrl} >Resetea tu password</a><p>Si no puedes acceder a este enlace, visita ${resetUrl}</p><div/>`,
+                    });
+        }else{
+          await enviarEmail.enviar({
+            usuario,
+            subject: "Verify your account",
+            resetUrl,
+            archivo: `<h2>Activar tu cuenta</h2><p>Hola, has solicitado reestablecer tu password, lamentablemente tu cuenta no se encuentra activada, por favor activala primero, para ello  haz click en el siguiente enlace, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${activeUrl} >Activa tu cuenta</a><p>Si no puedes acceder a este enlace, visita ${activeUrl}</p><div/>`,
           });
-                  res.send({message: "Se envio un mensaje a tu correo"});
+        }
+          res.send({message: "Se envio un mensaje a tu correo"});
         
       }
     }else{
@@ -1175,15 +1213,6 @@ module.exports = {
       // req.flash("error", "No valido"),  
       res.send("INVALIDO");
     }else{
-      //haashear el nuevo password para
-      // bcrypt.genSalt(10,(err,salt) => {
-      //   bcrypt.hash(password, salt , (err, hash) =>{
-      //        if(err) throw (err);
-     
-      //        usuario.password=hash;
-      //        usuario.save();
-      //   });
-      //   });
       usuario.password = bcrypt.hashSync(Object.keys((req.body))[0], bcrypt.genSaltSync(10));
       usuario.token = null;
       usuario.expiracion = null;
@@ -1195,7 +1224,39 @@ module.exports = {
 
     
   },
+  solicitarActivar : async (req, res) => {
+    const {email} = req.body
+    if(email) {
+      const usuario = await User.findOne({ where: { email } });
+      console.log(usuario)
+      if (!usuario) {
+        res.send({ message : "No existe esa cuenta" });
+      } else {
+        if(usuario.token === null){
+          usuario.token = crypto.randomBytes(20).toString("hex");
+          usuario.expiracion = Date.now() + 3600000;
+          await usuario.save()
+        }
+      
+      //url de reset
+        const activeUrl = ` http://localhost:3000/activate/${usuario.token}`;
+      //Enviar correo con el token
 
+      // console.log(email, type)
+        await enviarEmail.enviar({
+          usuario,
+          subject: "Verify your account",
+          resetUrl,
+          archivo: `<h2>Verifica tu cuenta</h2><p>Hola, has solicitado que reenviemos el mail para activar tu cuenta, haz click en el siguiente enlace para activar tu cuenta, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${activeUrl} >Activa tu cuenta</a><p>Si no puedes acceder a este enlace, visita ${activeUrl}</p><div/>`,
+        });
+      
+        res.send({message: "Se envio un mensaje a tu correo"});
+      
+    }
+    }else{
+      res.send({message: "Envia un email valido"})
+    }
+  },
   activarCuenta: async(req, res)  => {
     const usuario = await User.findOne({
       where: {

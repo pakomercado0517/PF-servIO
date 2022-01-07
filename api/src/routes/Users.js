@@ -21,20 +21,24 @@ function isLoggedIn(req, res, next) {
 // router.post("/", userFunctions.newUser);
 router.post(
   "/",
-  async (req, res, next) => {
-    const { email } = req.body;
-    let user = await User.findOne({ where: { email } });
-    if (user) {
-      res.status(200).send({ message: "Usuario existente" });
-    } else {
-      next();
+  async(req, res, next) =>  {
+    const { email } = req.body
+    let user = await User.findOne({where:{email}})
+
+    if(user) {
+
+      res.status(200).send({message: 'Usuario existente'})
+    }else{
+
+      next()
     }
   },
   passport.authenticate("local-signup", {
     // failureRedirect: "/user/register",
     failureFlash: true,
   }),
-  (req, res, next) => {
+  async (req, res, next) => {
+    console.log(2)
     // res.redirect(`/user/${req.user.id}`);
     res.status(200).send({ message: "Usuario creado" });
     next();
@@ -45,14 +49,31 @@ router.post(
   async (req, res) => {
     const usuario = await User.findOne({ where: { email: req.body.email } });
     const activateUrl = `http://localhost:3000/activate/${usuario.token}`;
+    
+    const usuario  = await User.findOne({where:{email:req.body.email}})
+    const activateUrl =  `http://localhost:3000/activate/${usuario.token}`;
     await enviarEmail.enviar({
       usuario,
       subject: "Activate Account",
       activateUrl,
       archivo: `<h2>Activar Cuenta</h2><p>Hola, acabas de registrarte en Servio, estás a un paso de poder usar tu cuenta,  haz click en el siguiente enlace para activarla, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${activateUrl} >Activa tu cuenta</a><p>Si no puedes acceder a este enlace, visita ${activateUrl}</p><div/>`,
     });
-  }
+
+    next();
+    // (req, res) => {
+    //   console.log(3)
+    //   res.redirect(`/user/${req.user.id}`);
+    // };
+  },
+  (req, res,next) => {
+    // console.log(4)
+    res.status(200).send({message: 'Usuario creado'});
+    // console.log(5)
+  },
+  
 );
+
+
 router.post(
   "/login",
   passport.authenticate("local-login", {
@@ -60,13 +81,16 @@ router.post(
     failureFlash: true,
   }),
   (req, res, next) => {
+    // console.log(req.session)
     res.send({
       message: "Logged",
       cookies: req.session,
       userType: req.user.professional ? "Professional" : "Normal User",
       data: req.user,
     });
+
   }
+  
 );
 
 router.get("/created/:email", async (req, res) => {
@@ -162,7 +186,7 @@ router.get(
         cookies: req.session,
         data: userResult,
       });
-      res.redirect("http://localhost:3000/login");
+      res.redirect("http://localhost:3000/");
       // await res.json({
       //   message: "Logged",
       //   cookies: req.session,
@@ -191,5 +215,6 @@ router.delete("/:id", userFunctions.deleteByUserId);
 router.post("/reestablecer", userFunctions.enviarToken);
 router.get("/reestablecer/:token", userFunctions.validarToken);
 router.put("/reestablecer/:token", userFunctions.actualizarPassword);
+router.get("/activar/", userFunctions.solicitarActivar);
 router.put("/activar/:token", userFunctions.activarCuenta);
 module.exports = router;

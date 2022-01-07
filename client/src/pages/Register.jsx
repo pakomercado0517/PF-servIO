@@ -176,7 +176,7 @@ export default function Crear(props) {
             }else{
               Swal.fire({
                 title: 'Registro exitoso',
-                text: 'Ahora puedes iniciar sesión',
+                text: 'Por favor confirma tu cuenta desde el mail que te enviamos.',
                 icon: 'success',
                 confirmButtonText: 'Aceptar'
               });
@@ -251,7 +251,9 @@ export default function Crear(props) {
 
                     </div>
                     <div className={s.container_registro_form_input}>
+
                         <label>Nombre:(*)</label>
+
                         <input
                             className='form-control'
                             type='text'
@@ -263,7 +265,9 @@ export default function Crear(props) {
 
                     </div>
                     <div className={s.container_registro_form_input}>
+
                         <label>Apellido:(*)</label>
+
                         <input
                             className='form-control'
                             type='text'
@@ -277,7 +281,9 @@ export default function Crear(props) {
 
                     </div>
                     <div className={s.container_registro_form_input}>
+
                         <label>E-mail:(*)</label>
+
                         <input
                             className='form-control'
                             type='email'
@@ -291,7 +297,9 @@ export default function Crear(props) {
 
                     </div>
                     <div className={s.container_registro_form_input}>
+
                         <label>DNI:(*)</label>
+
                         <input
                             className='form-control'
                             type='text'
@@ -317,7 +325,9 @@ export default function Crear(props) {
                     </div>
 
                     <div className={s.container_registro_form_input}>
+
                         <label>Password:(*)</label>
+
                         <input
                             className='form-control'
                             type='text'
@@ -332,7 +342,9 @@ export default function Crear(props) {
                     </div>
 
                     <div className={s.container_registro_form_input}>
+
                         <label>repeat password:(*)</label>
+
                         <input
                             className='form-control'
                             type='text'
