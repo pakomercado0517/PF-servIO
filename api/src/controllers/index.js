@@ -370,14 +370,15 @@ module.exports = {
       // Create a ClientNeed to every SpecificTechnicalActivity
 
       const arrayOfClientNeeds = dataSpecificTechnicalActivity.map(el => {
+        console.log(el.UserId)
         return {
           name: el.name,
-          photo: el.photo,
           description: el.description,
           status: "pending to pay",
-          SpecificTechnicalActivityId: el.specificTechnicalActivityId,
           location: el.location,
-          UserId: el.UserId
+          photo: el.photo,
+          UserId: el.UserId,
+          SpecificTechnicalActivityId: el.specificTechnicalActivityId,
         }
       })
 
@@ -441,9 +442,18 @@ module.exports = {
             status: "pending to pay",
             SpecificTechnicalActivityId: newActivites[index].id,
             location: el.location,
+            UserId: el.UserId,
           }
         })
-        await ClientNeed.bulkCreate(updateClientNeeds, { updateOnDuplicate: ["name", "description", "status", "photo", "SpecificTechnicalActivityId", "location"] })
+        // Update status of ProfessionalOffer to pending to pay
+        const updateOffer = dataOffer.map((el, index) => {
+          return {
+            status: "pending to pay",
+            id: el.ProfessionalOfferId,
+          }
+        })
+        await ProfessionalOffer.bulkCreate(updateOffer, { updateOnDuplicate: ["status"]})
+        await ClientNeed.bulkCreate(updateClientNeeds, { updateOnDuplicate: ["name", "UserId" , "description", "status", "photo", "SpecificTechnicalActivityId", "location"] })
       } catch (error) {
         res.status(400).send(error.message);
       }

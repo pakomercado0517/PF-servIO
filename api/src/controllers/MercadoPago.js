@@ -51,7 +51,7 @@ module.exports = {
             const updateStatus = transaction.data.map(el => {
                 return {
                     id: el.ClientNeedId,
-                    status: "pending",
+                    status: "in progress",
                 }
             })
 
@@ -60,6 +60,22 @@ module.exports = {
             } catch (error) {
                 res.status(400).send(error.message);
             }
+
+        }
+
+        // UPDATE STATUS OF PROFESSIONALOFFERS TO HIRED 
+
+        const dataOffer = data.filter( el => el.type === "offer" )
+
+        if (dataOffer[0]) {
+
+            const updateOffer = dataOffer.map((el, index) => {
+                return {
+                    status: "hired",
+                    id: el.ProfessionalOfferId,
+                }
+            })
+            await ProfessionalOffer.bulkCreate(updateOffer, { updateOnDuplicate: ["status"] })
 
         }
 
