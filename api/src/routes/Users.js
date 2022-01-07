@@ -24,12 +24,12 @@ router.post(
   async(req, res, next) =>  {
     const { email } = req.body
     let user = await User.findOne({where:{email}})
-    console.log(1)
+
     if(user) {
-      console.log(1.1)
+
       res.status(200).send({message: 'Usuario existente'})
     }else{
-      console.log(1.2)
+
       next()
     }
   },
@@ -72,7 +72,7 @@ router.post(
     failureFlash: true,
   }),
   (req, res, next) => {
-    console.log(req.session)
+    // console.log(req.session)
     res.send({
       message: "Logged",
       cookies: req.session,
@@ -178,7 +178,7 @@ router.get(
         cookies: req.session,
         data: userResult,
       });
-      res.redirect("http://localhost:3000/login");
+      res.redirect("http://localhost:3000/");
       // await res.json({
       //   message: "Logged",
       //   cookies: req.session,

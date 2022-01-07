@@ -37,7 +37,7 @@ export default function ProfileClient(){
             <div className={ s.div_inicio  }></div>
 
             <div className={ s.div_photo  }>
-            { !(state.account[0]?.photo ==="Hola") ? <img src={ globalUser?.photo } alt="" />:
+            { !(globalUser?.photo ==="Hola") ? <img src={ globalUser?.photo } alt="" />:
                 <MdAccountCircle className={ s.div_photo_perfil }/>
             }
             </div>
@@ -49,10 +49,41 @@ export default function ProfileClient(){
                         </FaRegEdit>
                     </Link>
                 </div>
-                <p>Username: <span>{globalUser?.user_name? state.account[0]?.user_name:  state.account[0]?.first_name}</span></p>
-                <p>Localidad: <span>{state.account[0]?.city? state.account[0]?.city: "Buenos Aires, Argentina"}</span> <GrLocation></GrLocation></p>
-                <p>Teléfono: <span>{ state.account[0]?.phone }</span> </p>
-                <p>Email: <span>{ state.account[0]?.email }</span></p>
+
+
+                {
+                globalUser?.user_name?
+                    <p>
+                        <span>
+                            @{globalUser?.user_name} 
+                        </span>
+                    </p>
+                : <></>
+                }                
+                {
+                globalUser.state || globalUser.city ?
+                <p>
+                    <span>
+                        <GrLocation/>
+                        {globalUser.city ? globalUser.city + ' ': ''}
+                        {globalUser.state ? globalUser.state : ''}
+                    </span>
+                </p>
+                : 
+                <>
+                <p>Localidad: <GrLocation/><span>{globalUser?.city? globalUser?.city: "Buenos Aires, Argentina"}</span></p>
+                </>
+                }
+                
+                {/* <p>Teléfono: <span>{ globalUser?.phone }</span> </p> */}
+                {
+                    globalUser?.phone ?
+                    <p>Teléfono: <span>{ globalUser?.phone }</span> </p>
+                    : <></>
+                }
+                
+
+                <p>Email: <span>{ globalUser?.email }</span></p>
 
                 {/* CARDS DE SOLICITUDES HECHAS */}
 

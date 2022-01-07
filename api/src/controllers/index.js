@@ -221,6 +221,7 @@ module.exports = {
   },
   getUser: async (req, res) => {
     const { userId } = req.body;
+    console.log(req.session)
     if (userId) {
       const user = await User.findAll({
         where: {
@@ -575,10 +576,10 @@ module.exports = {
   getByUserId: async (req, res) => {
     try {
       const id = req.params.id;
-      let user = await User.findOne({
-        where: { id },
+      let user = await User.findAll({
+        where: { id: { [Op.eq]: id } },
       });
-      if (user) {
+      if (user[0]) {
 
         const users = await User.findOne({
         where: { id },
@@ -778,6 +779,7 @@ module.exports = {
       name,
       description,
       location,
+      photo,
       //   price,
       //   duration,
       //   guarantee_time,
@@ -790,6 +792,7 @@ module.exports = {
           description,
           status: "in offer",
           location,
+          photo
           //   price,
           //   duration,
           //   guarantee_time,
