@@ -118,17 +118,17 @@ export const ClientSpecificNeed = () => {
                                 </div>
                                 <div className="form-group mb-3">
 
-                                    {/* <label 
+                                    <label 
                                         htmlFor="imageFile"
                                         className="text-muted mb-1"
                                     >
                                         Cargar Foto
-                                    </label> */}
+                                    </label>
                                     
-                                    {/* <UploadImage 
+                                    <UploadImage 
                                         details={input.photo} 
                                         onChange={onChangeForm}
-                                    /> */}
+                                    />
                                 </div>
                                 <div className="form-group">
                                     <label
