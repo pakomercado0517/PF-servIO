@@ -240,116 +240,123 @@ export default function Crear(props) {
                 </div>
                 <form className={ s.container_registro_form } onSubmit={(e) => handleSubmit(e)}>
                     <div className={s.container_registro_form_input}>
-                        <label>Crea un Username:</label>
-                        <input
-                            className='form-control'
-                            type='text'
-                            value={details.userName}
-                            name='userName'
-                            onChange={(e) => handleChange(e)}
-                        />
-
+                        <div className="form-floating mb-3">
+                            <input
+                                className="form-control"
+                                type='text'
+                                value={details.userName}
+                                name='userName'
+                                onChange={(e) => handleChange(e)}
+                            />
+                            <label>Crea un Username:</label>
+                        </div>
                     </div>
                     <div className={s.container_registro_form_input}>
-                        <label>Nombre:(*)</label>
-                        <input
-                            className='form-control'
-                            type='text'
-                            value={details.firstName}
-                            name='firstName'
-                            onChange={(e) => handleChange(e)}
-                        />
-                        {errors.firstName && <p className={ s.error }>{ errors.firstName }</p>}
-
+                        <div className="form-floating mb-3">
+                            <input
+                                className='form-control'
+                                type='text'
+                                value={details.firstName}
+                                name='firstName'
+                                onChange={(e) => handleChange(e)}
+                            />
+                            <label>Nombre:(*)</label>
+                            {errors.firstName && <p className={ s.error }>{ errors.firstName }</p>}
+                        </div>
                     </div>
                     <div className={s.container_registro_form_input}>
-                        <label>Apellido:(*)</label>
-                        <input
-                            className='form-control'
-                            type='text'
-                            value={details.lastName}
-                            name='lastName'
-                            onChange={(e) => handleChange(e)}
-                        />
-                        {errors.lastName && (
-                            <p className={ s.error }>{errors.lastName}</p>
-                        )}
-
+                        <div className="form-floating mb-3">
+                            <input
+                                className='form-control'
+                                type='text'
+                                value={details.lastName}
+                                name='lastName'
+                                onChange={(e) => handleChange(e)}
+                            />
+                            <label>Apellido:(*)</label>
+                            {errors.lastName && (
+                                <p className={ s.error }>{errors.lastName}</p>
+                            )}
+                        </div>
                     </div>
                     <div className={s.container_registro_form_input}>
-                        <label>E-mail:(*)</label>
-                        <input
-                            className='form-control'
-                            type='email'
-                            value={details.email}
-                            name='email'
-                            onChange={(e) => handleChange(e)}
-                        />
-                        {errors.email && (
-                            <p className={ s.error }>{errors.email}</p>
-                        )}
-
+                        <div className="form-floating mb-3">
+                            <input
+                                className='form-control'
+                                type='text'
+                                value={details.dni}
+                                name='dni'
+                                onChange={(e) => handleChange(e)}
+                            />
+                            <label>DNI:(*)</label>
+                            {errors.dni && (
+                                <p className={ s.error }>{errors.dni}</p>
+                            )}
+                        </div>
                     </div>
                     <div className={s.container_registro_form_input}>
-                        <label>DNI:(*)</label>
-                        <input
-                            className='form-control'
-                            type='text'
-                            value={details.dni}
-                            name='dni'
-                            onChange={(e) => handleChange(e)}
-                        />
-                        {errors.dni && (
-                            <p className={ s.error }>{errors.dni}</p>
-                        )}
-
+                        <div className="form-floating mb-3">
+                            <input
+                                className='form-control'
+                                type='text'
+                                value={details.phone}
+                                name='phone'
+                                onChange={(e) => handleChange(e)}
+                            />
+                            <label>Número de teléfono:</label>
+                        </div>
                     </div>
                     <div className={s.container_registro_form_input}>
-                        <label>Número de teléfono:</label>
-                        <input
-                            className='form-control'
-                            type='text'
-                            value={details.phone}
-                            name='phone'
-                            onChange={(e) => handleChange(e)}
-                        />
-
+                        <div className="form-floating mb-3">
+                            <input
+                                className='form-control'
+                                type='email'
+                                value={details.email}
+                                name='email'
+                                onChange={(e) => handleChange(e)}
+                            />
+                            <label>E-mail:(*)</label>
+                            {errors.email && (
+                                <p className={ s.error }>{errors.email}</p>
+                            )}
+                        </div>
+                    </div>
+                    <div className={s.container_registro_form_input}>
+                        <div className="form-floating mb-3">
+                            <input
+                                className='form-control'
+                                type='text'
+                                value={details.password}
+                                name='password'
+                                onChange={(e) => handleChange(e)}
+                            />
+                            <label>Password:(*)</label>
+                            {errors.password && (
+                                <p className={ s.error }>{errors.password}</p>
+                            )}
+                        </div>
                     </div>
 
                     <div className={s.container_registro_form_input}>
-                        <label>Password:(*)</label>
-                        <input
-                            className='form-control'
-                            type='text'
-                            value={details.password}
-                            name='password'
-                            onChange={(e) => handleChange(e)}
-                        />
-                        {errors.password && (
-                            <p className={ s.error }>{errors.password}</p>
-                        )}
-
+                        <div className="form-floating mb-3">
+                            <input
+                                className='form-control'
+                                type='text'
+                                value={details.repeatPassword}
+                                name='repeatPassword'
+                                onChange={(e) => handleChange(e)}
+                            />
+                            <label>repeat password:(*)</label>
+                            {errors.repeatPassword && (
+                                <p className={ s.error }>{errors.repeatPassword}</p>
+                            )}
+                        </div>
                     </div>
 
-                    <div className={s.container_registro_form_input}>
-                        <label>repeat password:(*)</label>
-                        <input
-                            className='form-control'
-                            type='text'
-                            value={details.repeatPassword}
-                            name='repeatPassword'
-                            onChange={(e) => handleChange(e)}
-                        />
-                        {errors.repeatPassword && (
-                            <p className={ s.error }>{errors.repeatPassword}</p>
-                        )}
-
+                    <div className={s.titulo_user}>
+                        <h4>¿Buscas ofrecer o contratar un servicio?</h4>
+                        <h5>Registrate como profesional o cliente!</h5>
                     </div>
-
-
-                    <h4>¿Buscas ofrecer o contratar un servicio?</h4>
-                    <h5>Registrate como profesional o cliente!</h5>
-
                     <div className={s.container_registro_form_check}>
                         <label>Profesional:<input
                             type='checkbox'
@@ -373,8 +380,8 @@ export default function Crear(props) {
                             details.professionalCase ? (
                                 <>
                                     <label>Seleccona tu Oficio:</label>
-                                    <div className='dropdown'>
-                                        <button className="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false" ><CgOptions />Elegir oficio</button>
+                                    <div className='dropdown '>
+                                        <button className="btn btn-primary dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false" ><CgOptions />Elegir oficio</button>
                                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
                                             {
                                                 professionsName.map((el, index) => {
@@ -394,16 +401,18 @@ export default function Crear(props) {
                                 return <p key={ "p" + i}> { el } </p>
                             })}
                         </div>
-                        <div className={s.container_edilt_form_input_img} >
+                        
+                    </div>
+                    <div className={s.container_edilt_form_input_img} >
                             <label htmlFor="imageFile">Selecciona alguna imágen:</label><br/>
                             <UploadImage details={details} onChange={handleChange} />
-                        </div>
                     </div>
-                    <div className={ s.container_registro_form_button }>
-                        <button id='buttonSubmit' type='submit' className={"btn btn-success " + s.buttonSubmit}>Registrarse</button>
-                    </div>
+                    
                     <div className={s.mapView}>
                         <MapView  details={details} onChange={handleChange}/>
+                    </div>
+                    <div className={ s.container_registro_form_button }>
+                        <button id='buttonSubmit' type='submit' className={ s.buttonSubmit}>Registrarse</button>
                     </div>
                 </form>
             </div>
