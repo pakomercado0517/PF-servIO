@@ -150,15 +150,15 @@ export default function Login() {
         console.log('resulllt', result)
         await setGlobalUser(result.data[0].data)
         await setLocalUser(result.data[0].data)
-      //   if(localUser) {
-      //     Swal.fire({
-      //         icon: 'success',
-      //         title: 'Logged in',
-      //         showConfirmButton: false,
-      //         timer: 2500
-      //     })
-      //     navigate('/')
-      // }
+    //     if(globalUser && localUser) {
+    //       Swal.fire({
+    //           icon: 'success',
+    //           title: 'Logged in',
+    //           showConfirmButton: false,
+    //           timer: 2500
+    //       })
+    //       navigate('/')
+    //   }
         
       } catch (error) {
           console.log('errorrrrrr', error)
@@ -170,7 +170,7 @@ export default function Login() {
       
       // x()
         // return console.log('user!!!', user)
-    },[localUser])
+    },[localUser, globalUser])
 
     return (
         <div className={ s.login_master }>
@@ -259,6 +259,7 @@ export default function Login() {
                                 <img src="https://img.icons8.com/color/40/000000/google-logo.png" alt="google"/> 
                             </a>
                             <a 
+                            onClick={() =>googleLog()}
                                 type="button"
                                 className="btn btn-lg btn-github text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/github">
                                 <img src="https://img.icons8.com/material-rounded/48/000000/github.png" alt='github'/>

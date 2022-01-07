@@ -21,16 +21,14 @@ function isLoggedIn(req, res, next) {
 // router.post("/", userFunctions.newUser);
 router.post(
   "/",
-  async(req, res, next) =>  {
-    const { email } = req.body
-    let user = await User.findOne({where:{email}})
+  async (req, res, next) => {
+    const { email } = req.body;
+    let user = await User.findOne({ where: { email } });
 
-    if(user) {
-
-      res.status(200).send({message: 'Usuario existente'})
-    }else{
-
-      next()
+    if (user) {
+      res.status(200).send({ message: "Usuario existente" });
+    } else {
+      next();
     }
   },
   passport.authenticate("local-signup", {
@@ -38,7 +36,7 @@ router.post(
     failureFlash: true,
   }),
   async (req, res, next) => {
-    console.log(2)
+    console.log(2);
     // res.redirect(`/user/${req.user.id}`);
     res.status(200).send({ message: "Usuario creado" });
     next();
@@ -49,9 +47,6 @@ router.post(
   async (req, res) => {
     const usuario = await User.findOne({ where: { email: req.body.email } });
     const activateUrl = `http://localhost:3000/activate/${usuario.token}`;
-    
-    const usuario  = await User.findOne({where:{email:req.body.email}})
-    const activateUrl =  `http://localhost:3000/activate/${usuario.token}`;
     await enviarEmail.enviar({
       usuario,
       subject: "Activate Account",
@@ -65,18 +60,12 @@ router.post(
     //   res.redirect(`/user/${req.user.id}`);
     // };
   },
-  (req, res,next) => {
+  (req, res, next) => {
     // console.log(4)
-    res.status(200).send({message: 'Usuario creado'});
+    res.status(200).send({ message: "Usuario creado" });
     // console.log(5)
-  },
-  
+  }
 );
-
-router.get('/login', function(req, res) {
-  console.log(req.flash('loginMessage') )
-    res.send({message :req.flash('error')});
-});
 
 router.post(
   "/login",
@@ -163,7 +152,7 @@ router.get(
       cookies: req.session,
       data: userResult,
     });
-    res.redirect("http://localhost:3000/login");
+    res.redirect("http://localhost:3000");
   }
   // userFunctions.githubAuth
 );
@@ -190,7 +179,7 @@ router.get(
         cookies: req.session,
         data: userResult,
       });
-      res.redirect("http://localhost:3000/");
+      res.redirect("http://localhost:3000");
       // await res.json({
       //   message: "Logged",
       //   cookies: req.session,
