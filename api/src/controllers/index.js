@@ -1161,16 +1161,16 @@ module.exports = {
         // console.log(email, type)
         if(usuario.verified === true){
           await enviarEmail.enviar({
-                              usuario,
-                              subject: "Password Reset",
-                              resetUrl,
-                              archivo: `<h2>Restablecer Password</h2><p>Hola, has solicitado reestablecer tu password, haz click en el siguiente enlace para reestablecerlo, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${resetUrl} >Resetea tu password</a><p>Si no puedes acceder a este enlace, visita ${resetUrl}</p><div/>`,
-                    });
+            usuario,
+            subject: "Password Reset",
+            resetUrl,
+            archivo: `<h2>Restablecer Password</h2><p>Hola, has solicitado reestablecer tu password, haz click en el siguiente enlace para reestablecerlo, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${resetUrl} >Resetea tu password</a><p>Si no puedes acceder a este enlace, visita ${resetUrl}</p><div/>`,
+          });
         }else{
           await enviarEmail.enviar({
             usuario,
             subject: "Verify your account",
-            resetUrl,
+            activeUrl,
             archivo: `<h2>Activar tu cuenta</h2><p>Hola, has solicitado reestablecer tu password, lamentablemente tu cuenta no se encuentra activada, por favor activala primero, para ello  haz click en el siguiente enlace, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${activeUrl} >Activa tu cuenta</a><p>Si no puedes acceder a este enlace, visita ${activeUrl}</p><div/>`,
           });
         }
@@ -1224,11 +1224,12 @@ module.exports = {
 
     
   },
+
   solicitarActivar : async (req, res) => {
     const {email} = req.body
     if(email) {
       const usuario = await User.findOne({ where: { email } });
-      console.log(usuario)
+      // console.log(usuario)
       if (!usuario) {
         res.send({ message : "No existe esa cuenta" });
       } else {
@@ -1246,7 +1247,7 @@ module.exports = {
         await enviarEmail.enviar({
           usuario,
           subject: "Verify your account",
-          resetUrl,
+          activeUrl,
           archivo: `<h2>Verifica tu cuenta</h2><p>Hola, has solicitado que reenviemos el mail para activar tu cuenta, haz click en el siguiente enlace para activar tu cuenta, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${activeUrl} >Activa tu cuenta</a><p>Si no puedes acceder a este enlace, visita ${activeUrl}</p><div/>`,
         });
       
