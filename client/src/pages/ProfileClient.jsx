@@ -94,6 +94,9 @@ export default function ProfileClient(){
                         <button className="btn btn-outline-info">Ver todas</button>
                     </Link>
                     
+                    {
+                        clientNeeds && clientNeeds.length > 0 ?
+                        
                     <div className={ s.reviews_container }>
                         { clientNeeds.map( clientNeed => {
                             return (
@@ -110,6 +113,9 @@ export default function ProfileClient(){
                             )
                         })}
                     </div>
+                    :
+                    <></>
+                    }
 
                     <BsArrowRightCircle className={s.reviews_icon} size="50px"/>
                     <span >Ver Historial</span> 
