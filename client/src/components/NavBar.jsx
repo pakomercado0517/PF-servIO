@@ -62,7 +62,7 @@ export default function NavBar() {
 
                     {/* CREAR PUBLICACIÓN */}
                     <div 
-                        className={s.show__presentation}
+                        className={login === '' ? s.hide:s.show__presentation}
                         onClick={showModalFormCLient}
                         style={{cursor:"pointer"}}
                     >

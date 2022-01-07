@@ -20,11 +20,11 @@ export  function Filter(){
     calificacionMinima:'',
     ciudad : ''
 })
-console.log(ciudades)
+// console.log(ciudades)
   useEffect(() => {
     dispatch(filterProfessions())
   },[profession])
-console.log(switchState)
+// console.log(switchState)
   useEffect(() => {
     dispatch(cities())
     dispatch(filterClients(search,details.calificacionMinima,details.ciudad, profession, true, details.filterWithActivity ))
@@ -78,8 +78,8 @@ console.log(switchState)
             <select 
                 className= {switcheo2 === 'professional' ? "border-1 mx-2 btn btn-primary bg-info" : s.hide}
                 onChange={changeCity} 
-                id='profession'
-                key='profession'
+                id='cities'
+                key='cities'
               >
               <option value=''>Filtrar por Ciudad</option>
               {ciudades?.map(e =>
@@ -98,8 +98,8 @@ console.log(switchState)
             <select 
               className= {switcheo2 === 'professional' ? "border-1 mx-2 btn btn-primary bg-info" :s.hide}
               onChange={changeRate} 
-              id='profession'
-              key='profession'
+              id='professionSwitch'
+              key='professionSwitch'
             >
             <option value=''>Filtrar por calificacion</option>
             <option value='4'>⭐⭐⭐⭐ o más</option>
@@ -110,7 +110,7 @@ console.log(switchState)
             </select>
             <input
               className={switcheo2 === 'professional' ? "border-1 mx-2 btn btn-primary bg-info" :s.hide}
-              key="offers"
+              key="offersSwitch"
               type='button' 
               value='Solo tecnicos con ofertas'
               name='soloConOfertas'

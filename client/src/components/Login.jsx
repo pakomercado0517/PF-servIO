@@ -133,7 +133,7 @@ export default function Login() {
     }
     
     useEffect(() => {
-      googleLog()
+      
       // x()
         // return console.log('user!!!', user)
     },[localUser])
