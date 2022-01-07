@@ -3,9 +3,9 @@ import styles from './styles/Landing.module.css';
 import img from '../img/brooke-cagle-tLG2hcpITZE-unsplash.jpg';
 import { NavLink } from 'react-router-dom';
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
-import  albañil from '../img/albañil.svg';
-import electricista from '../img/electricista1.png';
-import plomero from '../img/plomero.svg';
+import  albañil from '../img/albañil-min.jpg';
+import electricista from '../img/electricista-min.jpg';
+import plomero from '../img/plomero-min.jpg';
 
 export default function Landing() {
     // const login = !localStorage.getItem ? null: JSON.parse(localStorage.getItem("user"))
