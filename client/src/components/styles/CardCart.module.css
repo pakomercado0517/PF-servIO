@@ -1,3 +1,8 @@
+:root{
+    --color-text: rgba(121, 119, 117, 0.938);
+    --color-primario: #5ed4ee;
+  }
+
 .container{
     position: relative;
     display: flex;
@@ -5,7 +10,7 @@
     height: 200px;
     margin: 15px auto;
     background-color: white;
-    box-shadow: 0px 0px 8px rgb(68, 68, 68);
+    box-shadow: 0px 0px 8px var(--color-primario);
     border-radius: 5px;
     overflow: hidden;
 }
@@ -16,7 +21,7 @@
     display: flex;
     flex-direction: column;
     justify-content: baseline;
-    background: linear-gradient(rgb(22, 255, 166), rgb(0, 0, 0) 90%);
+    background: #fff;
     width: 30%;
     text-align: center;
     height: 200px;
@@ -26,7 +31,7 @@
 .container_img span{
     color: white;
     font-size: 20px;
-    text-shadow: 0px 1px 2px rgb(0, 0, 0);
+    text-shadow: 0px 1px 2px #fff;
     margin-top: auto;
 }
 
@@ -36,10 +41,11 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    background-color: rgb(185, 136, 136);
+    background-color: #fff;
     width: 50%;
     height: 200px;
     padding: 15px;
+    color: var(--color-text);
 }
 
 .container_details span{
@@ -51,7 +57,7 @@
 .container_buttons{
     display: flex;
     flex-direction: column;
-    background-color: rgb(145, 145, 145);
+    background-color: #fff;
     width: 20%;
     height: 200px;
 }
