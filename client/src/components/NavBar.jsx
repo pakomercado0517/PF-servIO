@@ -38,11 +38,11 @@ export default function NavBar() {
             method: 'POST'
         })      
             // console.log('logout responseee', response)
-            navigate('/')
+            
             localStorage.clear()            
             setGlobalUser(null)
             setLocalUser(null)
-
+            navigate('/')
     }
 
     return (
