@@ -1,4 +1,4 @@
-const Sequelize = require("sequelize");
+
 const { User, ProfessionalOffer, ClientNeed } = require("../db.js");
 
 module.exports = {

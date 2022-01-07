@@ -235,84 +235,6 @@ module.exports = {
     }
   },
 
-  getProfessionalByName: async (req, res) => {
-    const { name } = req.query;
-    try {
-      if (!name) {
-        const professional = await User.findAll({
-          include: [
-            {
-              model: Professional,
-              include: [{ model: Profession }],
-            },
-          ],
-          where: { professional: true },
-        });
-        res.status(200).send(professional);
-      } else {
-        if(name.split(' ').length === 1){
-          const professional = await User.findAll({
-          include: [
-            {
-              model: Professional,
-              include: [{ model: Profession }],
-            },
-          ],
-          // where: { professional: true },
-          where: { 
-            [Sequelize.Op.or]:[
-              {
-                first_name: { 
-                  [Sequelize.Op.iLike]: `%${name}%` 
-                }
-              } , 
-              {
-                last_name: { 
-                  [Sequelize.Op.iLike]: `%${name}%` 
-                }
-              }  
-            ]
-          }
-        });
-
-        let newProfessional = professional.filter(e => e.professional === true)
-        res.status(200).send(newProfessional);
-
-        }else{
-          let nombre = name.split(' ')[0]
-          let apellido = name.split(' ')[1]
-          const professional = await User.findAll({
-            include: [
-              {
-                model: Professional,
-                include: [{ model: Profession }],
-              },
-            ],
-            // where: { professional: true },
-            where: { 
-              [Sequelize.Op.or]:[
-                {
-                  first_name: { 
-                    [Sequelize.Op.iLike]: `%${nombre}%` 
-                  }
-                } , 
-                {
-                  last_name: { 
-                    [Sequelize.Op.iLike]: `%${apellido}%` 
-                  }
-                }  
-              ]
-            }
-          });
-          let newProfessional = professional.filter(e => e.professional === true)
-          res.status(200).send(newProfessional);
-        }
-        
-      }
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  },
 
   newTechnicalActivity: async (req, res) => {
     const {
@@ -673,18 +595,6 @@ module.exports = {
       res.status(400).send(error.message);
     }
   },
-  
-  getAllProfessions: async (req, res) => {
-    const professions = await Profession.findAll({
-      include: [
-        {
-          model: Professional,
-          include: [{ model: User }],
-        },
-      ],
-    });
-    res.status(200).send(professions);
-  },
 
   // ************ CLIENT NEEDS
 
@@ -704,15 +614,7 @@ module.exports = {
   //CONDICIONAR QUE SOLO PUEDAN OFERTAR PROFESIONALES
 
 
-  getAllProfessionsName: async (req, res) => {
-    try {
-      let professions = await Profession.findAll({});
-      let names = await professions.map((e) => e.name);
-      res.status(200).send(names);
-    } catch {
-      res.status(404).send(err.message);
-    }
-  },
+
 
 
   // ************ USER
