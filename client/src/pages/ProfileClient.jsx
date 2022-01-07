@@ -49,9 +49,40 @@ export default function ProfileClient(){
                         </FaRegEdit>
                     </Link>
                 </div>
-                <p>Username: <span>{globalUser?.user_name? globalUser?.user_name:  globalUser?.first_name}</span></p>
-                <p>Localidad: <span>{globalUser?.city? globalUser?.city: "Buenos Aires, Argentina"}</span> <GrLocation></GrLocation></p>
-                <p>Teléfono: <span>{ globalUser?.phone }</span> </p>
+
+
+                {
+                globalUser?.user_name?
+                    <p>
+                        <span>
+                            @{globalUser?.user_name} 
+                        </span>
+                    </p>
+                : <></>
+                }                
+                {
+                globalUser.state || globalUser.city ?
+                <p>
+                    <span>
+                        <GrLocation/>
+                        {globalUser.city ? globalUser.city + ' ': ''}
+                        {globalUser.state ? globalUser.state : ''}
+                    </span>
+                </p>
+                : 
+                <>
+                <p>Localidad: <GrLocation/><span>{globalUser?.city? globalUser?.city: "Buenos Aires, Argentina"}</span></p>
+                </>
+                }
+                
+                {/* <p>Teléfono: <span>{ globalUser?.phone }</span> </p> */}
+                {
+                    globalUser?.phone ?
+                    <p>Teléfono: <span>{ globalUser?.phone }</span> </p>
+                    : <></>
+                }
+                
+
                 <p>Email: <span>{ globalUser?.email }</span></p>
 
                 {/* CARDS DE SOLICITUDES HECHAS */}
