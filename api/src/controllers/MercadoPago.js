@@ -68,13 +68,12 @@ module.exports = {
         //    |                |            |
         //[ClientneedId1,ClientneedId1,ClientneedId1]
 
-//         const myOff ¡ await ProfessionalOffers.findAll({ where: { clientNeedId } })
-
-//          myOff.map(e => {
-//             if (e.if !== idAceptado) {
-//                 //filter de myoff
-//             }
-//         })
+        //         const myOff ¡ await ProfessionalOffers.findAll({ where: { clientNeedId } })
+        //          myOff.map(e => {
+        //             if (e.if !== idAceptado) {
+        //                 //filter de myoff
+        //             }
+        //         })
 
         const dataOffer = transaction.data.filter( el => el.type === "offer" )
 
