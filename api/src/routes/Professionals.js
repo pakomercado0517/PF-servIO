@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const router = Router();
-const professionalFunctions = require('../controllers/index.js')
+const professionalFunctions = require('../controllers/ProfessionalsControllers.js')
 
 
 router.get('/', professionalFunctions.getProfessionalByName )
