@@ -326,6 +326,7 @@ module.exports = {
       guarantee,
       guarantee_time,
       job_time,
+      type,
       userId,
     } = req.body;
 
@@ -337,6 +338,7 @@ module.exports = {
         materials,
         description,
         guarantee,
+        type: type ? type:"general",
         guarantee_time,
         job_time,
       });

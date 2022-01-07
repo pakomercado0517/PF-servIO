@@ -135,7 +135,7 @@ export default function ServiceHistory() {
                                     return (
                                         <CardServiceHistory
                                             key={el.id + index}
-                                            id={el.id}
+                                            // id={el.id}
                                             name={el.name}
                                             description={el.description}
                                             // photo={el.photo}
