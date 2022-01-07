@@ -27,6 +27,11 @@ export default function ProfileProfessional( ){
     const allUsers = useSelector( (state) => state?.allUsers)
     const clientNeeds = useSelector(state => state.clientNeedById)
 
+    const filteredSpecificActivities = 
+        specificActivities === 'There are not specifical Activities' ? 
+        'There are not specifical Activities' : 
+        specificActivities.filter(activity => activity.type === 'general')
+
     const [state, setstate] = useState({
         login: false,
         seeAllReview: true,
@@ -178,15 +183,23 @@ return (
             : <></>
 
         }
+            <NavLink to={`/service-history/${globalUserGlobalStorage?.id}`}>
+                <button className="btn btn-outline-info">Ver todas</button>
+            </NavLink>
 {/*---------------- servicios particulares ofrecidos por el profesional ---------*/}
 
         <div className={ s.container_cards }>
 
             <div className="">
-                {   specificActivities && 
-                    specificActivities === 'There are not specifical Activities' ?
-
-                    <h6>No hay servicios registrados</h6>
+                {   
+                    filteredSpecificActivities && 
+                    filteredSpecificActivities === 'There are not specifical Activities' ?
+                    // specificActivities && 
+                    // specificActivities === 'There are not specifical Activities' ?
+                    <>
+                    <h5>No hay servicios registrados..</h5>
+                    <h5>Ofrecé un servicio!</h5>
+                    </>
                     :
                     <>
                         {
@@ -203,7 +216,7 @@ return (
                                     materials= { el.materials }
                                     photo= { el.photo !== "url_qui" ? el.photo : "" }
                                     price= { el.price }
-                                    type="specific technical activity"
+                                    type= { el.type }
                                     />
                                     )
                                 })
@@ -239,9 +252,6 @@ return (
                 }
 
             </div>
-
-
-
 
             <div className={ state.seeAllServices?s.container_cards_second:s.container_cards_second_all }>
                 <BsArrowRightCircle onClick={ newStateServices } size="50px"/>
