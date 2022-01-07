@@ -750,6 +750,7 @@ module.exports = {
       name,
       description,
       location,
+      photo,
       //   price,
       //   duration,
       //   guarantee_time,
@@ -762,6 +763,7 @@ module.exports = {
           description,
           status: "in offer",
           location,
+          photo
           //   price,
           //   duration,
           //   guarantee_time,

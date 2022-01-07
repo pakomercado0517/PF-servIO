@@ -5,6 +5,7 @@ import Swal from 'sweetalert2'
 import s from './styles/ClientSpecificNeed.module.css'
 import { useNavigate } from "react-router-dom";
 import UploadImage from './UploadImage'
+import logo from '../img/ServIO.svg'
 
 
 export const ClientSpecificNeed = () => {
@@ -16,6 +17,8 @@ export const ClientSpecificNeed = () => {
     const [input, setInput] = useState({
         userId: user?.id,
         name: "",
+        // photo: logo,
+        photo: "",
         description: "",
     })
 
@@ -114,13 +117,18 @@ export const ClientSpecificNeed = () => {
                                     />
                                 </div>
                                 <div className="form-group mb-3">
-                                    {/* <label
-                                        htmlFor="exampleFormControlTextarea1"
+
+                                    {/* <label 
+                                        htmlFor="imageFile"
                                         className="text-muted mb-1"
                                     >
                                         Cargar Foto
                                     </label> */}
-                                    {/* <UploadImage/> */}
+                                    
+                                    {/* <UploadImage 
+                                        details={input.photo} 
+                                        onChange={onChangeForm}
+                                    /> */}
                                 </div>
                                 <div className="form-group">
                                     <label
