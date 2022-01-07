@@ -7,23 +7,33 @@ import s from './styles/ServiceHistory.module.css'
 import CardServiceHistory from '../components/CardServiceHistory.jsx'
 import CardOfferToClientNeed from '../components/CardOfferToClientNeed'
 
-import { getAllProfessionals, getClientNeedsById, getOffersById } from '../redux/actions'
+import { getAllProfessionals, getClientNeedsById, getOffersById, getSpecificActivitiesById } from '../redux/actions'
 import { useGlobalStorage } from '../hooks/useGlobalStorage'
 
 export default function ServiceHistory() {
 
     const [shows, setShows] = useState([])
 
+    const user = useGlobalStorage("globalUser", "")
     const dispatch = useDispatch()
     const { id } = useParams()
     const { professionals, clientNeedById, offersByUserId } = useSelector(state => state)
-    const user = useGlobalStorage("globalUser", "")
-    console.log(clientNeedById)
+    const specificActivities = useSelector((state) => state?.specificActivitiesById) 
+
+    // filtrar las actividades especificas que sean de tipo de tipo general
+    // const filteredSpecificActivities = specificActivities.filter(activity => activity.type === 'general')
+    
+    // console.log('1 - professionals',professionals)
+    // console.log('2 - clientNeedById',clientNeedById)
+    // console.log('3 - offersByUserId',offersByUserId)
+    // console.log('4 - specificActivities',specificActivities)
+    // console.log('5 - filteredSpecificActivities',filteredSpecificActivities)
 
     useEffect(()=>{
         dispatch(getClientNeedsById(id))
         dispatch(getAllProfessionals())
         dispatch(getOffersById(id))
+        dispatch(getSpecificActivitiesById(id))
     },[ dispatch, id ])
 
     useEffect(()=>{
@@ -66,7 +76,12 @@ export default function ServiceHistory() {
             </div>
             <div>
                 {/* DATOS DE SERVICIOS SOLICITADOS */}
+                <div className="mt-3">
+                    <h3 className="text-center">Servicios Solicitados</h3>
+                    <div className="row">
+                    
                 {
+                    shows && shows ?
                     shows?.map((el,index) => {
                         return (
                             <CardServiceHistory
@@ -83,7 +98,10 @@ export default function ServiceHistory() {
 
                         )
                     })
+                    :<><h4>No hay presupuestos para tus servicios solicitados</h4></>
                 }
+                    </div>
+                </div>
                 {
                     shows[0] ? <></>:<h3>No se encontraron resultados</h3>
                 }
@@ -95,12 +113,19 @@ export default function ServiceHistory() {
                 user[0]?.professional ? 
                 <>
                     <div>
-                        <h2>Historial de Presupuestos</h2>
+                        <h2
+                            className="text-center mt-3 border-bottom"
+                        >Historial de Presupuestos</h2>
                     </div>
 
                     <div>
                         {/* DATOS DE TRABAJOS REALIZADOS http://localhost:3001/professsionalOffer/all/id */}
                         {
+                            offersByUserId && offersByUserId === 'No offers found' ?
+                            <><h5
+                                className="text-center mt-3"
+                            >No hay presupuestos realizados</h5></>
+                            :
                             offersByUserId?.map((el,index) => {
                                 return (
                                     <CardOfferToClientNeed
@@ -119,19 +144,24 @@ export default function ServiceHistory() {
 
                                 )
                             })
+                            
                         }  
                     </div>
 
                     {/* RENDERIZAR ACTIVIDADES ESPECIFICAS DEL PROFESIONAL @FER */}
 
                     <div>
-                        <h2>Historial de de Trabajos</h2>
+                        <h2
+                            className="text-center mt-3 border-bottom"
+                        >Trabajos Pendientes</h2>
                     </div>
 
                         <div>
                             {/* DATOS DE TRABAJOS REALIZADOS http://localhost:3001/professsionalOffer/all/id */}
                             {
-                                offersByUserId?.map((el, index) => { //specificTechinalActivity?.map()
+
+                                specificActivities && specificActivities ?
+                                specificActivities?.map((el, index) => {
                                     return (
                                         <CardServiceHistory
                                             key={el.id + index}
@@ -139,11 +169,13 @@ export default function ServiceHistory() {
                                             name={el.name}
                                             description={el.description}
                                             // photo={el.photo}
-                                            // UserId={el.UserId}
+                                            type={el.type}
+                                            UserId={el.UserId}
                                             date={el.updatedAt.split("T")[0]}
                                         />
                                     )
                                 })
+                                :<><h5>No hay trabajos pendientes</h5></>
                             }
                         </div>
 

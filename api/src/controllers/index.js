@@ -6,9 +6,7 @@ const passport = require("passport");
 const enviarEmail = require("../handlers/email");
 const crypto = require("crypto");
 const saltRounds = 10;
-const myPlaintextPassword = 's0/\/\P4$$w0rD';
-const someOtherPlaintextPassword = 'not_bacon';
-var juice = require("juice");
+// var juice = require("juice");
 // @ts-ignore
 const {
   User,
@@ -496,10 +494,10 @@ module.exports = {
       const rate = users.map((r) => {
         if(r.ClientReviews !== []){
           let userRate = 0
-                for(let i = 0 ; i < r.ClientReviews.length; i++){
+                for(let i = 0 ; i < r.ClientReviews?.length; i++){
                     userRate +=  parseInt(r.ClientReviews[i].score)
                 }
-                let average = Math.round(userRate / r.ClientReviews.length * 100) / 100
+                let average = Math.round(userRate / r.ClientReviews?.length * 100) / 100
                 r.rate = average
                 return r;
         }else{
@@ -538,10 +536,10 @@ module.exports = {
       const rate = professionals.map((r) => {
         if(r.Professional.ClientReviews !== []){
           let userRate = 0
-                for(let i = 0 ; i < r.Professional.ClientReviews.length; i++){
+                for(let i = 0 ; i < r.Professional.ClientReviews?.length; i++){
                     userRate +=  parseInt(r.Professional.ClientReviews[i].score)
                 }
-                let average = userRate / r.Professional.ClientReviews.length
+                let average = userRate / r.Professional.ClientReviews?.length
                 // let userRate2 = {userRate : average}
                 r.rate = average
                 return r;
@@ -575,12 +573,7 @@ module.exports = {
   getByUserId: async (req, res) => {
     try {
       const id = req.params.id;
-      let user = await User.findAll({
-        where: { id: { [Op.eq]: id } },
-      });
-      if (user[0]) {
-
-        const users = await User.findOne({
+      let user = await User.findOne({
         where: { id },
         include: [
             {
@@ -593,22 +586,22 @@ module.exports = {
             },
           ],
       });
-
-        if( users.Professional.ClientReviews.length ) {
+      
+      if(user) {
+        if( user.Professional.ClientReview) {
           let userRate = 0
-                for(let i = 0 ; i < users.Professional.ClientReviews.length; i++){
-                    userRate +=  parseInt(users.Professional.ClientReviews[i].score)
+                for(let i = 0 ; i < user.Professional.ClientReviews.length; i++){
+                    userRate +=  parseInt(user.Professional.ClientReviews[i].score)
                 }
-                let average = Math.round(userRate / users.Professional.ClientReviews.length * 100) / 100
-                users.rate = average
+                let average = Math.round(userRate / user.Professional.ClientReviews?.length * 100) / 100
+                user.rate = average
         }else{
-          users.rate = 0
+          user.rate = 0
         }
+        await user.save()  
+        res.status(200).send([user]);
 
-      await users.save() 
-      res.status(200).send([users]);
-
-      } else {
+      }else {
         res.status(200).send("El usuario no existe.");
       }
     } catch (error) {
@@ -694,60 +687,8 @@ module.exports = {
   },
 
   // ************ CLIENT NEEDS
-  
-  getAllNeeds: async (req, res) => {
-    try {
-      const needs = await ClientNeed.findAll({
-        include: [{ model: User }, { model: ProfessionalOffer }],
-      });
-      res.status(200).send(needs);
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  },
 
-  getNeedByName: async (req, res) => {
-    try {
-      const need = await ClientNeed.findAll({
-        include: [{ model: User }],
-        where: { name: { [Sequelize.Op.iLike]: `%${req.query.name}%` } },
-      });
-      res.status(200).send(need);
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  },
 
-  getNeedsById: async (req, res) => {
-    const id = req.params.id;
-    try {
-      if (id > 0) {
-        const needs = await ClientNeed.findAll({
-          where: { UserId: id },
-        });
-        if (needs) {
-          res.status(200).send(needs);
-        } else {
-          res.status(200).send("User does not have any need");
-        }
-      } else {
-        res.status(200).send("Please insert an id");
-      }
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  },
-
-  // newSpecificalNeed: async (req, res) =>{
-  //     const {name, description, location} = req.body
-  //     const newNeed = await ClientNeed.create({
-  //         name,
-  //         description,
-  //         location,
-  //         status: 'in offer'
-  //     })
-  //     res.send(newNeed)
-  // },
   // getByProfessionName: async (req, res) =>{
   //     const {profession} = req.body
   //     const professionalArr = profession.split(',')
@@ -757,119 +698,6 @@ module.exports = {
   //                 model: Profession
   //             }],
   //         })
-
-  getById: async (req, res) => {
-    const id = req.params.id;
-    if (id) {
-      const need = await ClientNeed.findOne({
-        where: {
-          id,
-        },
-      });
-      res.status(200).send(need);
-    }
-     else {
-      res.status(400).send("Please insert an id");
-    }
-  },
-
-  newSpecificalNeed: async (req, res) => {
-    const {
-      name,
-      description,
-      location,
-      photo,
-      //   price,
-      //   duration,
-      //   guarantee_time,
-      userId,
-    } = req.body;
-    try {
-      if (userId) {
-        const newNeed = await ClientNeed.create({
-          name,
-          description,
-          status: "in offer",
-          location,
-          photo
-          //   price,
-          //   duration,
-          //   guarantee_time,
-        });
-
-        let allUsers = await User.findAll({
-          where: {
-            id: parseInt(userId),
-          },
-        });
-
-        await newNeed.setUser(allUsers[0]);
-        let userWithNeed = await User.findAll({
-          where: {
-            id: parseInt(userId),
-          },
-          include: [{ model: ClientNeed }],
-        });
-        res.status(200).send(newNeed);
-      } else {
-        res.status(400).send("Please login");
-      }
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  },
-
-  updateNeed: async (req, res) => {
-    const {
-      name,
-      description,
-      location,
-      status, //   price,//   duration,//   guarantee_time
-    } = req.body;
-    const id = req.params.id;
-    try {
-      const need = await ClientNeed.findOne({
-        where: { id },
-      });
-
-      if (need) {
-        need.name = name ? name : need.name;
-        need.description = description ? description : need.description;
-        need.location = location ? location : need.location;
-        if (
-          status === "done" ||
-          status === "in progress" ||
-          status === "in offer"
-        ) {
-          need.status = status;
-        } else {
-          need.status = need.status;
-        }
-
-        await need.save();
-
-        res.status(200).send(need);
-      } else {
-        res.status(400).send("Inserta Id de necesidad existente");
-      }
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  },
-
-  deleteNeedById: async (req, res) => {
-    const id = req.params.id;
-    const need = await ClientNeed.findOne({ where: { id } });
-    if (need.id){
-      need.destroy();
-      res.send(
-        "La necesidad especifica ha sido eliminada."
-      );
-    } else {
-      res.status(404).send("Need not found")
-    }
-    
-  },
 
   // ************ PROFESSIONAL OFFERS
   
@@ -1060,6 +888,17 @@ module.exports = {
       profession,
     } = req.body;
     const id = req.params.id;
+    const user = await User.findOne({ where: {id}})
+    let x = false;
+    if(user.email !== email) {
+      user.verified = false;
+      user.token = crypto.randomBytes(20).toString("hex");
+      user.expiracion = Date.now() + 3600000
+      await user.save()
+      x = true
+      
+    }
+    // console.log(user)
     try {
       let newPass = await bcrypt.hash(password, 10);
       await User.update(
@@ -1110,7 +949,16 @@ module.exports = {
         },
       });
       await prof.setProfessions(allProfessions);
-
+      if(x === true){
+        const usuario =  await User.findOne({ where: {id}});
+        const activateUrl = `http://localhost:3000/activate/${usuario.token}`;
+        await enviarEmail.enviar({
+          usuario,
+          subject: "Activar con nuevo email",
+          activateUrl,
+          archivo: `<h2>Activar cuenta</h2><p>Hola, has modificado tu mail, haz click en el siguiente enlace para reactivar tu cuenta, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${resetUrl} >Resetea tu password</a><p>Si no puedes acceder a este enlace, visita ${resetUrl}</p><div/>`,
+        });
+      }
       res.send("updated");
     } catch (error) {
       res.send(error.message);
