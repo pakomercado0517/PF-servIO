@@ -6,7 +6,7 @@ import s from './styles/UploadImage.module.css'
 
 function UploadImage({details}) {
   const [progress, setProgress] = useState(0)
-  const [detail, setDetail] = useState(details)
+  const [detail, setDetail] = useState()
 
   const uploadFile= (file) => {
         if(!file) return 

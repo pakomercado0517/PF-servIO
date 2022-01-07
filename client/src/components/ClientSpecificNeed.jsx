@@ -30,7 +30,7 @@ export const ClientSpecificNeed = () => {
             [e.target.name]: e.target.value
         })
     }
-
+    console.log('need photo:', input.photo)
     const postNeed = async (e) =>{
         e.preventDefault()
         console.log(input)
@@ -129,7 +129,7 @@ export const ClientSpecificNeed = () => {
                                     </label>
                                     
                                     <UploadImage 
-                                        details={input.photo}
+                                        details={input}
                                         value={input.photo}
                                         onChange={onChangeForm}
                                     />
