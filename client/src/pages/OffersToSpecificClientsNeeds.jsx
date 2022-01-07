@@ -30,7 +30,7 @@ export const OffersToSpecificClientsNeeds = () => {
     }, []);
 
     useEffect(() => {
-        if (offersOfClientNeed === "No offers found") return setOffers([])
+        if (offersOfClientNeed === "No offers found") return setOffers(["No offers found"])
         setOffers(offersOfClientNeed.filter(el => el.status !== "rejected"))
     }, [offersOfClientNeed])
 
@@ -43,6 +43,7 @@ export const OffersToSpecificClientsNeeds = () => {
             setProfessionalId(data)
         }
         getProfessionalId()
+        console.log(offers)
     }, [offers])
 
     return (
@@ -52,7 +53,7 @@ export const OffersToSpecificClientsNeeds = () => {
             <h4>{ detailsClientNeed.description}</h4>
 
             {
-                !offers[0] === "No offers found" ?
+                offers[0] === "No offers found" ?
                     <h1>No hay ofertas para esta necesidad</h1>
 
                     :
