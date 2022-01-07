@@ -33,10 +33,10 @@ function UploadImage({details}) {
 
   return (
     <div>
-      <div>
-        <p >Elegir archivo</p>
+      <div className={s.img_titulo}>
+        <p >Elegir archivo:</p>
         <input  
-            className='btn btn-secondary'
+            className='btn btn-primary'
             type="file"  
             // accept=".png" 
             name="photo"

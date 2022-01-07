@@ -85,10 +85,10 @@ console.log('mapCiti', details.city)
   return (
     <div className={`${s.container_map} row`}>
       <div className={`col-lg-6 ${s.geoButton}`}>
-        <p className='btn btn-warning' onClick={searchCity}>Mostrar ubicación actual</p>
+        <p className='btn btn-primary' onClick={searchCity}>Mostrar ubicación actual</p>
       </div>
       <div className="col-lg-6">
-        <label for="formsearch" className={s.searchText}>Busca tu ciudad</label>
+        <label for="formsearch" className={s.searchText}>Busca tu ciudad:</label>
         <input type='text' className='formsearch' name='city' onChange={handleSearch} placeholder='Ingresa tu ciudad'/>
       </div>
       <MapContainer center={[positions.lat, positions.lng]} zoom={15} scrollWheelZoom={false} >
