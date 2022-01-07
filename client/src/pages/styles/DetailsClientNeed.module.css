@@ -115,7 +115,8 @@
 
 .description_card {
   width: 80%;
-  height: 40vh;
+  /* height: 40vh; */
+  height: 20vh;
   margin-left: auto;
   margin-right: auto;
   border-radius: 25px;
@@ -171,7 +172,7 @@
 }
 
 .buttons_list {
-  margin-top: 50px;
+  margin-top: 15px;
   margin-bottom: 30px;
   display: flex;
   justify-content: space-around;
@@ -207,8 +208,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 50px auto;
-    height: 70vh;
+    margin: 10px auto;
+    /* height: 70vh; */
+    height: 50vh;
     width: 90%;
     border-radius: 5px;
 }
@@ -218,8 +220,8 @@
     width: 30%;
     margin: 25px;
     height: 250px;
-    border-radius: 50px;
-    background-image: url(https://images.unsplash.com/photo-1600623050499-84929aad17c9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80);
+    border-radius: 40px;
+    /* background-image: url(https://images.unsplash.com/photo-1600623050499-84929aad17c9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80); */
     background-size: cover;
     filter: opacity(0.8);
     background-position-y: -380px;
@@ -229,8 +231,8 @@
     z-index: 5;
     width: 40%;
     height: 300px;
-    border-radius: 50px;
-    background-image: url(https://images.unsplash.com/photo-1600623050499-84929aad17c9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80);
+    border-radius: 40px;
+    /* background-image: url(https://images.unsplash.com/photo-1600623050499-84929aad17c9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80); */
     background-size: cover;
     background-position-y: -380px;
     transform: scale(1.2);
@@ -240,8 +242,8 @@
     left: 35px;
     width: 30%;
     height: 250px;
-    border-radius: 50px;
-    background-image: url(https://images.unsplash.com/photo-1600623050499-84929aad17c9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80);
+    border-radius: 40px;
+    /* background-image: url(https://images.unsplash.com/photo-1600623050499-84929aad17c9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80); */
     filter: opacity(0.8);
     margin: 25px;
     background-size: cover;

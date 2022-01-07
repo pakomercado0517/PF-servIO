@@ -2,7 +2,9 @@ import React, {useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {NavLink, useParams} from 'react-router-dom'
 import {StarRating} from '../components/StarRating'
-import { getAllUsers, getByUserId, getDetailsClientNeed } from '../redux/actions'
+import { getAllUsers,
+          // getByUserId, 
+          getDetailsClientNeed } from '../redux/actions'
 
 import s from './styles/DetailsClientNeed.module.css'
 
@@ -21,9 +23,10 @@ export default function DetailsClientNeed() {
   useEffect(()=> {
     dispatch(getDetailsClientNeed(id))
     dispatch(getAllUsers())
+    // dispatch(getByUserId(ProfessionalId)) // esta tirando un 404
   }, [ dispatch, id ])
   
-  // console.log('6- professional',professional)
+  console.log('6- professional',professional)
   
   return (
     <div>
@@ -73,6 +76,9 @@ export default function DetailsClientNeed() {
         </div>
         {/* |-------------------------------body--------------------------------------| */}
 
+        {
+          detailsClientNeed && detailsClientNeed?.description ? 
+
         <div className={s.activity_body}>
             <h2 className={s.body_title}>{ detailsClientNeed?.name }</h2>
             <div className={s.description_card}>
@@ -82,14 +88,40 @@ export default function DetailsClientNeed() {
               </div>
             </div>
         </div>
+        : <></>
+
+        }
 
         {/* ----------------------------Carousel------------------------------------ */}
 
+        { detailsClientNeed && detailsClientNeed?.photo ?
+
+              <div className={ s.carousel }>
+                <div className={ s.carousel }>
+                  <img 
+                    src={ detailsClientNeed?.photo } 
+                    alt= 'img' 
+                    className={ s.carousel_img }
+                  />
+                  <img 
+                    src={ detailsClientNeed?.photo } 
+                    alt= 'img' 
+                    className={ s.carousel_img2 }
+                  />
+                  <img 
+                    src={ detailsClientNeed?.photo } 
+                    alt= 'img' 
+                    className={ s.carousel_img3 }
+                  />
+              </div>
+            </div>
+          : 
               <div className={ s.carousel }>
                   <div className={ s.carousel_img }></div>
                   <div className={ s.carousel_img2 }></div>
                   <div className={ s.carousel_img3 }></div>
               </div>
+        }
         
         {/* |-----------------------------buttons-----------------------| */}
 
