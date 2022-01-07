@@ -37,7 +37,7 @@ export default function ProfileClient(){
             <div className={ s.div_inicio  }></div>
 
             <div className={ s.div_photo  }>
-            { !(state.account[0]?.photo ==="Hola") ? <img src={ globalUser?.photo } alt="" />:
+            { !(globalUser?.photo ==="Hola") ? <img src={ globalUser?.photo } alt="" />:
                 <MdAccountCircle className={ s.div_photo_perfil }/>
             }
             </div>
@@ -49,6 +49,7 @@ export default function ProfileClient(){
                         </FaRegEdit>
                     </Link>
                 </div>
+
 
                 {
                 globalUser?.user_name?
@@ -81,6 +82,7 @@ export default function ProfileClient(){
                     : <></>
                 }
                 
+
                 <p>Email: <span>{ globalUser?.email }</span></p>
 
                 {/* CARDS DE SOLICITUDES HECHAS */}
