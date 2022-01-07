@@ -1,3 +1,8 @@
+:root{
+  --color-text: rgba(121, 119, 117, 0.938);
+  --color-primario: #5ed4ee;
+}
+
 .btn {
   background-color: #233142;
   color: white;
@@ -11,10 +16,11 @@
 }
 
 .btnAdd {
-  height: 32px;
-  background-color: #233142;
+  background-color: var(--color-primario);
   color: white;
   cursor: pointer;
+  border: none;
+  border-radius: 5px;
 }
 .btnBlock {
   background-color: grey;
@@ -28,14 +34,13 @@
 .countriesDiv {
   margin-top: 10px;
   display: flex;
-  background-color: white;
   font-size: 10px;
-  width: 400px;
-  height: 200px;
+  /* width: 400px;
+  height: 200px; */
   flex-direction: row;
   flex-wrap: wrap;
   align-content: flex-start;
-  border: #142d4c 2px solid;
+  border: 2px solid var(--color-text);
 }
 .countryBtn {
   width: 25%;
@@ -43,14 +48,14 @@
   white-space: normal;
   font-size: 11.5px;
   border-radius: 5px;
-  background-color: #2b4353;
+  background-color: var(--color-primario);
   color: white;
   cursor: pointer;
   font-weight: 700;
 }
 .countryBtn:hover {
-  background-color: #f95959;
-  color: black;
+  background-color: #fff;
+  color: var(--color-primario);
 }
 .div {
   display: flex;
@@ -82,9 +87,7 @@
 }
 
 .inputClass3 {
-  height: 32px;
-  width: 256px;
-  border: black 1.6px solid;
+  border: 1px solid var(--color-text);
   border-radius: 5px;
 }
 
@@ -112,14 +115,16 @@
 }
 
 .container_img {
-  background-color: aqua;
+  background-image: url('../../img/Rectangle\ 3.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
   display: grid;
   align-content: space-around;
-  width: 30vw;
+  height: 900px;
 }
 
 .container_img p {
-  color: #505050;
+  color: #fff;
   font-size: 25px;
   font-weight: 100;
   padding: 2em;
@@ -145,6 +150,7 @@
 .container_edilt_form_input_img {
   width: 50%;
   margin: 10px;
+  color: var(--color-text);
 }
 
 .buttonSubmit {
@@ -152,6 +158,11 @@
   width: 400px;
   max-height: 45px;
   margin: auto;
+  background-color: var(--color-primario);
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  padding: 10px;
 }
 
 .div_file {
@@ -159,7 +170,7 @@
   padding: 8px;
   margin: 15px;
   width: 150px;
-  background-color: aqua;
+  background-color: var(--color-primario);
   border-radius: 5px;
 }
 .text {
@@ -180,10 +191,21 @@
 
 .container_edilt_form_pofesional {
   width: 70%;
+  color: rgba(121, 119, 117, 0.938);
 }
 .red_container_edilt_form_pofesional {
-  border-color: red;
+  padding-top: 1.625rem;
+    padding-bottom: 0.625rem;
+    padding: 1rem 0.75rem;
+    height: calc(3.5rem + 2px);
+    line-height: 1.25;
+
 }
+.container_edilt_form_input label{
+  opacity: .65;
+  transform: scale(.85) translateY(-0.5rem) translateX(0.15rem);
+}
+
 
 .img_profile {
   width: 100px;
@@ -192,5 +214,9 @@
 }
 
 .error{
-  color:red;
+  color:var(--color-text);
+}
+
+.textoFinal{
+  color: var(--color-text);
 }
