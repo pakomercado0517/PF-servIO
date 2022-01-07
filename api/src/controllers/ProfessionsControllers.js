@@ -1,4 +1,4 @@
-const { User, Professional, Profession } = require("../db.js");
+const { User, Profession, Professional } = require("../db.js");
 
 module.exports ={
   getAllProfessions: async (req, res) => {
