@@ -496,10 +496,10 @@ module.exports = {
       const rate = users.map((r) => {
         if(r.ClientReviews !== []){
           let userRate = 0
-                for(let i = 0 ; i < r.ClientReviews.length; i++){
+                for(let i = 0 ; i < r.ClientReviews?.length; i++){
                     userRate +=  parseInt(r.ClientReviews[i].score)
                 }
-                let average = Math.round(userRate / r.ClientReviews.length * 100) / 100
+                let average = Math.round(userRate / r.ClientReviews?.length * 100) / 100
                 r.rate = average
                 return r;
         }else{
@@ -538,10 +538,10 @@ module.exports = {
       const rate = professionals.map((r) => {
         if(r.Professional.ClientReviews !== []){
           let userRate = 0
-                for(let i = 0 ; i < r.Professional.ClientReviews.length; i++){
+                for(let i = 0 ; i < r.Professional.ClientReviews?.length; i++){
                     userRate +=  parseInt(r.Professional.ClientReviews[i].score)
                 }
-                let average = userRate / r.Professional.ClientReviews.length
+                let average = userRate / r.Professional.ClientReviews?.length
                 // let userRate2 = {userRate : average}
                 r.rate = average
                 return r;
@@ -578,7 +578,7 @@ module.exports = {
       let user = await User.findAll({
         where: { id: { [Op.eq]: id } },
       });
-      if (user[0]) {
+      if (user[0] && user.professional === true) {
 
         const users = await User.findOne({
         where: { id },
@@ -599,7 +599,7 @@ module.exports = {
                 for(let i = 0 ; i < users.Professional.ClientReviews.length; i++){
                     userRate +=  parseInt(users.Professional.ClientReviews[i].score)
                 }
-                let average = Math.round(userRate / users.Professional.ClientReviews.length * 100) / 100
+                let average = Math.round(userRate / users.Professional.ClientReviews?.length * 100) / 100
                 users.rate = average
         }else{
           users.rate = 0
@@ -608,6 +608,9 @@ module.exports = {
       await users.save() 
       res.status(200).send([users]);
 
+      }else if(user[0]){
+        const users = await User.findOne({where: { id }});
+        res.status(200).send([users]);
       } else {
         res.status(200).send("El usuario no existe.");
       }
@@ -1060,6 +1063,17 @@ module.exports = {
       profession,
     } = req.body;
     const id = req.params.id;
+    const user = await User.findOne({ where: {id}})
+    let x = false;
+    if(user.email !== email) {
+      user.verified = false;
+      user.token = crypto.randomBytes(20).toString("hex");
+      user.expiracion = Date.now() + 3600000
+      await user.save()
+      x = true
+      
+    }
+    // console.log(user)
     try {
       let newPass = await bcrypt.hash(password, 10);
       await User.update(
@@ -1110,7 +1124,16 @@ module.exports = {
         },
       });
       await prof.setProfessions(allProfessions);
-
+      if(x === true){
+        const usuario =  await User.findOne({ where: {id}});
+        const activateUrl = `http://localhost:3000/activate/${usuario.token}`;
+        await enviarEmail.enviar({
+          usuario,
+          subject: "Activar con nuevo email",
+          activateUrl,
+          archivo: `<h2>Activar cuenta</h2><p>Hola, has modificado tu mail, haz click en el siguiente enlace para reactivar tu cuenta, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${resetUrl} >Resetea tu password</a><p>Si no puedes acceder a este enlace, visita ${resetUrl}</p><div/>`,
+        });
+      }
       res.send("updated");
     } catch (error) {
       res.send(error.message);
