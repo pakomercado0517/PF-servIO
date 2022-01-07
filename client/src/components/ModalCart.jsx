@@ -76,7 +76,7 @@ export default function ModalCart(props) {
                 quantity: 0,
             }]
         }
-        const message  = await axios.post("http://localhost:3001/create_preference", {
+        await axios.post("http://localhost:3001/create_preference", {
             items: request,
             // payer: {
             //     name: user.first_name,
@@ -139,6 +139,8 @@ export default function ModalCart(props) {
             const { data } = await axios.post( REACT_APP_HOST+"/Transactions/", {
                 data: cart
             })
+
+            console.log("DATA TRANSACTIONS: ---> ",data)
 
             if(data.message === "Created successfuly") {
                 Swal.fire({

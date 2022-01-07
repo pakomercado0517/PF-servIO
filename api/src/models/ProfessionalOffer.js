@@ -11,7 +11,8 @@ module.exports = (sequelize) => {
           // allowNull: false,
       },
       status: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM,
+        values: ["in offer", "pending to pay", "hired"]
         // allowNull: false,
       },
       price: {

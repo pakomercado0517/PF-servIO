@@ -359,7 +359,7 @@ module.exports = {
       data
     } = req.body
 
-    console.log(data)
+    let response = [];
 
     const dataSpecificTechnicalActivity = data.filter( el => el.type === "specific technical activity" )
     const dataOffer = data.filter( el => el.type === "offer" )
@@ -371,19 +371,30 @@ module.exports = {
       // Create a ClientNeed to every SpecificTechnicalActivity
 
       const arrayOfClientNeeds = dataSpecificTechnicalActivity.map(el => {
+        console.log(el.UserId)
         return {
           name: el.name,
-          photo: el.photo,
           description: el.description,
           status: "pending to pay",
-          SpecificTechnicalActivityId: el.specificTechnicalActivityId,
           location: el.location,
-          UserId: el.UserId
+          photo: el.photo,
+          UserId: el.UserId,
+          SpecificTechnicalActivityId: el.specificTechnicalActivityId,
         }
       })
 
       try {
-        await ClientNeed.bulkCreate(arrayOfClientNeeds)
+        const newClientNeeds = await ClientNeed.bulkCreate(arrayOfClientNeeds)
+
+        // SAVE ID OF NEW DATA TO SEND ON DATA ARRAY
+        const aux = dataSpecificTechnicalActivity.map((el,index) => {
+          return {
+            ...el,
+            ClientNeedId: newClientNeeds[index].id
+          }
+        })
+        response = [...response, ...aux]
+
       } catch (error) {
         res.status(400).send(error.message);
       }
@@ -392,7 +403,6 @@ module.exports = {
     // News SpecificTechnicalActivity and Update ClientNeeds
 
     if (dataOffer[0]) {
-      console.log("offer")
 
       // Turn every offer to news Specific Technical Activity with "specific" vs "general" status
 
@@ -414,6 +424,16 @@ module.exports = {
 
       try {
         const newActivites = await SpecificTechnicalActivity.bulkCreate(newSpecificTechnicalActivities)
+
+        // SAVE ID OF NEW DATA TO SEND ON DATA ARRAY
+        const aux = newSpecificTechnicalActivities.map((el,index) => {
+          return {
+            ...el,
+            SpecificTechnicalActivityId: newActivites[index].id
+          }
+        })
+        response = [...response, ...aux]
+
         const updateClientNeeds = dataOffer.map((el, index) => {
           return {
             id: el.ClientNeedId,
@@ -423,9 +443,18 @@ module.exports = {
             status: "pending to pay",
             SpecificTechnicalActivityId: newActivites[index].id,
             location: el.location,
+            UserId: el.UserId,
           }
         })
-        await ClientNeed.bulkCreate(updateClientNeeds, { updateOnDuplicate: ["name", "description", "status", "photo", "SpecificTechnicalActivityId", "location"] })
+        // Update status of ProfessionalOffer to pending to pay
+        const updateOffer = dataOffer.map((el, index) => {
+          return {
+            status: "pending to pay",
+            id: el.ProfessionalOfferId,
+          }
+        })
+        await ProfessionalOffer.bulkCreate(updateOffer, { updateOnDuplicate: ["status"]})
+        await ClientNeed.bulkCreate(updateClientNeeds, { updateOnDuplicate: ["name", "UserId" , "description", "status", "photo", "SpecificTechnicalActivityId", "location"] })
       } catch (error) {
         res.status(400).send(error.message);
       }
@@ -435,8 +464,8 @@ module.exports = {
 
     try {
       const { dataValues } = await Transactions.create({
-        data,
-        status: "pending to pay"
+        data: response,
+        status: "pending to pay",
       })
       res.send({
         ...dataValues,
