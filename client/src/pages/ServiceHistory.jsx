@@ -95,7 +95,7 @@ export default function ServiceHistory() {
                 user[0]?.professional ? 
                 <>
                     <div>
-                        <h2>Historial de Trabajos</h2>
+                        <h2>Historial de Presupuestos</h2>
                     </div>
 
                     <div>
@@ -121,6 +121,31 @@ export default function ServiceHistory() {
                             })
                         }  
                     </div>
+
+                    {/* RENDERIZAR ACTIVIDADES ESPECIFICAS DEL PROFESIONAL @FER */}
+
+                    <div>
+                        <h2>Historial de de Trabajos</h2>
+                    </div>
+
+                        <div>
+                            {/* DATOS DE TRABAJOS REALIZADOS http://localhost:3001/professsionalOffer/all/id */}
+                            {
+                                offersByUserId?.map((el, index) => { //specificTechinalActivity?.map()
+                                    return (
+                                        <CardServiceHistory
+                                            key={el.id + index}
+                                            id={el.id}
+                                            name={el.name}
+                                            description={el.description}
+                                            // photo={el.photo}
+                                            // UserId={el.UserId}
+                                            date={el.updatedAt.split("T")[0]}
+                                        />
+                                    )
+                                })
+                            }
+                        </div>
 
                 </> : <></>
             }

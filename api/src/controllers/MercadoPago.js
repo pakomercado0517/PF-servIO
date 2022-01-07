@@ -78,6 +78,11 @@ module.exports = {
 
         }
 
+        // CHANGE STATUS TO REST OF OFFERS THAT NOT MATCH WITH HIRED OFFERS
+
+
+        // SEND EMAIL TO USER TO INFORM ABOUT SUCCES APPROVED TRANSACTION
+
 
         res.redirect("http://localhost:3000/")
     }

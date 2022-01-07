@@ -456,7 +456,8 @@ module.exports = {
       }
     }
 
-    // Create transaction finaly
+
+    // Create transaction finaly and send email to user to inform succes pending transaction
 
     try {
       const { dataValues } = await Transactions.create({
@@ -981,7 +982,12 @@ module.exports = {
       // const ProfessionalId = professional.id
 
       const offers = await ProfessionalOffer.findAll({ where: { UserId: id }})
-      res.send(offers)
+      
+      if(!offers[0]) {
+        res.send("No offers found")
+      } else {
+        res.send(offers)
+      }
 
     }catch(error){
       console.log(error)
