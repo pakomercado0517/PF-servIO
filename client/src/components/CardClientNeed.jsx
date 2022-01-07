@@ -8,7 +8,13 @@ export default function CardClientNeed(props) {
         <div className={ s.container }>
             
             <div className= { s.container_info }>
-                <div className={ s.container_info_photo }>
+                <div>
+                {/* <div className={ s.container_info_photo }> */}
+                    <img 
+                        className={ s.container_info_photo }
+                        src={ props.photo } 
+                        alt="" 
+                    />
                 </div>
             </div>
 
