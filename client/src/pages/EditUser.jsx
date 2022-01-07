@@ -282,90 +282,104 @@ export default function EditCliente() {
                 </div>
             <form className={s.container_edilt_form} onSubmit={handleSubmit} encType='multipart/form-data'>
                 <div className={s.container_edilt_form_input}>
-                    <label>Nombre: </label>
-                    <input
-                    className={errors.firstName  ? s.red_container_edilt_form_pofesional : '' }
-                        type="text"  
-                        name="firstName"
-                        value={details.firstName}
-                        onChange={(e) => handleChange(e)}
-                    />
-                    {errors.firstName && (
-                        <p className={s.error}>{errors.firstName}</p>
-                    )}
-                </div>
-                <div className={s.container_edilt_form_input}>
-                    <label >Apellido: </label>
-                    <input 
-                        className={errors.lastName  ? s.red_container_edilt_form_pofesional : '' }
-                        type="text"  
-                        name="lastName"
-                        value={globalUser.last_name}
-                        onChange={(e) => handleChange(e)}
-                    />
-                    {errors.name && (
-                        <p className={s.error}>{errors.lastName}</p>
-                    )}
-                </div>
-                <div className={s.container_edilt_form_input}>
-                    <label >Correo: </label>
-                    <input 
-                        className={errors.email  ? s.red_container_edilt_form_pofesional : '' }
-                        type='email' 
-                        name='email'
-                        // value={globalUser.email}
-                        onChange={(e) => handleChange(e)}
-                    />
-                    {errors.email && (
-                        <p className={s.error}>{errors.email}</p>
-                    )}
-                </div>
-                <div className={s.container_edilt_form_input}>
-                    <label>DNI:</label>
-                    <input 
-                    
-                        type='text'
-                        name='dni'
-                        value={globalUser.dni}
-                        readOnly
+                    <div className="form-floating mb-3">
+                        <input
+                        className={errors.firstName  ? s.red_container_edilt_form_pofesional : 'form-control' }
+                            type="text"  
+                            name="firstName"
+                            value={details.firstName}
+                            onChange={(e) => handleChange(e)}
                         />
+                        <label>Nombre: </label>
+                        {errors.firstName && (
+                            <p className={s.error}>{errors.firstName}</p>
+                        )}
+                    </div>
                 </div>
                 <div className={s.container_edilt_form_input}>
-                <label>Password:</label>
-                    <input 
-                        className={errors.password  ? s.red_container_edilt_form_pofesional : '' }
-                        type='password'
-                        name='password'
-                        onChange={(e) => handleChange(e)}
-                    />
-                    {errors.password && (
-                        <p className={s.error}>{errors.password}</p>
-                    )}
+                    <div className="form-floating mb-3">
+                        <input 
+                            className={errors.lastName  ? s.red_container_edilt_form_pofesional : 'form-control' }
+                            type="text"  
+                            name="lastName"
+                            value={globalUser.last_name}
+                            onChange={(e) => handleChange(e)}
+                        />
+                        <label >Apellido: </label>
+                        {errors.name && (
+                            <p className={s.error}>{errors.lastName}</p>
+                        )}
+                    </div>
                 </div>
                 <div className={s.container_edilt_form_input}>
-                    <label>Repeat Password:</label>
-                    <input 
-                        className={errors.repeatPassword  ? s.red_container_edilt_form_pofesional : '' }
-                        type='password'
-                        name='repeatPassword'
-                        onChange={(e) => handleChange(e)}
-                    />
-                    {errors.repeatPassword && (
-                        <p className={s.error}>{errors.repeatPassword}</p>
-                    )}
+                    <div className="form-floating mb-3">
+                        <input 
+                            className={errors.email  ? s.red_container_edilt_form_pofesional : 'form-control' }
+                            type='email' 
+                            name='email'
+                            // value={globalUser.email}
+                            onChange={(e) => handleChange(e)}
+                        />
+                        <label >Correo: </label>
+                        {errors.email && (
+                            <p className={s.error}>{errors.email}</p>
+                        )}
+                    </div>
                 </div>
                 <div className={s.container_edilt_form_input}>
-                    <label >Teléfono: </label>
-                    <input 
-                    
-                    value={details.phone}
-                        type="text"  
-                        name="phone"
-                        onChange={(e) => handleChange(e)}
-                    />
-                    {/* {errors.photo && (
-                        <p>{errors.photo}</p>
-                    )} */}
+                    <div className="form-floating mb-3">
+                        <input 
+                            className='form-control'
+                            type='text'
+                            name='dni'
+                            value={globalUser.dni}
+                            readOnly
+                        />
+                        <label>DNI:</label>
+                    </div>
+                </div>
+                <div className={s.container_edilt_form_input}>
+                    <div className="form-floating mb-3">
+                        <input 
+                            className={errors.password  ? s.red_container_edilt_form_pofesional : 'form-control' }
+                            type='password'
+                            name='password'
+                            onChange={(e) => handleChange(e)}
+                        />
+                        <label>Password:</label>
+                        {errors.password && (
+                            <p className={s.error}>{errors.password}</p>
+                        )}
+                    </div>
+                </div>
+                <div className={s.container_edilt_form_input}>
+                    <div className="form-floating mb-3"> 
+                        <input 
+                            className={errors.repeatPassword  ? s.red_container_edilt_form_pofesional : 'form-control'  }
+                            type='password'
+                            name='repeatPassword'
+                            onChange={(e) => handleChange(e)}
+                        />
+                        <label>Repeat Password:</label>
+                        {errors.repeatPassword && (
+                            <p className={s.error}>{errors.repeatPassword}</p>
+                        )}
+                    </div>
+                </div>
+                <div className={s.container_edilt_form_input}>
+                    <div className="form-floating mb-3">
+                        <input  
+                            value={details.phone}
+                            className='form-control' 
+                            type="text"  
+                            name="phone"
+                            onChange={(e) => handleChange(e)}
+                        />
+                        <label >Teléfono: </label>
+                        {/* {errors.photo && (
+                            <p>{errors.photo}</p>
+                        )} */}
+                    </div>
                 </div>
 
                 <div className={s.container_edilt_form_input_img} >
@@ -491,11 +505,11 @@ export default function EditCliente() {
 
                 }
 
-                <div >
+                <div className={s.textoFinal}>
                     <p>Recuerda que los campos que no edites no cambiarán, lo unico que no podrás editar es el DNI.</p>  
                 </div>
                 
-                <button type='submit'id='buttonSubmitt' className={"btn btn-success " + s.buttonSubmit} >Cambiar Perfil</button>
+                <button type='submit'id='buttonSubmitt' className={s.buttonSubmit} >Cambiar Perfil</button>
             </form>
             </div>
         </div>
