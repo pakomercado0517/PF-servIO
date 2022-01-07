@@ -14,9 +14,20 @@ export default function EditCliente() {
     const [progress, setProgress] = useState(0)
     const [globalUser, setGlobalUser] = useGlobalStorage("globalUser", "");
     
-    const[errors, setErrors] = useState({});
+    const[errors, setErrors] = useState({
+      firstName:"",
+      lastName: "",
+      email: "",
+      dni:'',
+      password:'',
+      repeatPassword:'',
+  });
+  console.log(errors)
     const [profession, setProfession] = useState([])
     const oficio = useSelector((state) => state.professionsName)
+    const a = useSelector((state) => state)
+    const [buttonSubmit, setbuttonSubmit] = useState(false)
+    console.log(a)
 
     const navigate = useNavigate()
     const dispatch = useDispatch();
@@ -29,9 +40,13 @@ export default function EditCliente() {
         professionalCase:false,
         profession:profession.toString(),
         photo: globalUser.photo,
+        password:'',
+        repeatPassword:'',
+        phone:globalUser.phone,
+        dni:globalUser.dni,
     })
 
-    console.log('profesional: ', globalUser.professional)
+    console.log('profesional: ',details)
     
     useEffect(() => {
         dispatch(filterProfessions())      
@@ -96,6 +111,32 @@ export default function EditCliente() {
             ...errores
         })
     }, [details.dni, details.email, details.firstName, details.lastName, details.password, details.repeatPassword])
+    useEffect(() => {
+    //   if (!buttonSubmit) {
+    //       document.getElementById("buttonSubmit").disabled = true
+    //   } else {
+    //       if(details.professionalCase){
+    //           if (details.profession[0]) {
+    //               document.getElementById("buttonSubmit").disabled = false
+    //           }else {
+    //               document.getElementById("buttonSubmit").disabled = true
+    //           }
+    //       } else {
+    //           document.getElementById("buttonSubmit").disabled = false
+    //       }
+    //   }
+  }, [buttonSubmit, details])
+
+  useEffect(() => {
+    let aux = 0;
+    for (const key in errors) {
+        if ((typeof errors[key]) === "string") {
+            ++aux
+        }
+    }
+    if (aux === 0) setbuttonSubmit(true)
+    else setbuttonSubmit(false)
+}, [errors])
 
     const uploadFile= (file) => {
         if(!file) return 
@@ -134,10 +175,12 @@ export default function EditCliente() {
                 lastName: details.lastName,
                 email: details.email,
                 dni:details.dni,
+                phone: details.phone,
                 password:details.password,
                 professional:details.professional,
                 profession:prof,
-                photo: details.photo
+                photo: details.photo,
+                
             }
 
             dispatch(putUser(newData))
@@ -152,6 +195,8 @@ export default function EditCliente() {
                 professional: details.professional,
                 profession:prof,
                 photo: details.photo,
+                phone: details.phone,
+              
             };
 
             setGlobalUser(obj)
@@ -223,7 +268,7 @@ export default function EditCliente() {
             profession: details.profession + e.target.id + ","
         })
     }
-    console.log('detailssss', details)
+    // console.log('detailssss', details)
     return (
         <div className={s.container}>
             <div className={ s.container_img}>
@@ -239,75 +284,84 @@ export default function EditCliente() {
                 <div className={s.container_edilt_form_input}>
                     <label>Nombre: </label>
                     <input
+                    className={errors.firstName  ? s.red_container_edilt_form_pofesional : '' }
                         type="text"  
                         name="firstName"
                         value={details.firstName}
                         onChange={(e) => handleChange(e)}
                     />
                     {errors.firstName && (
-                        <p>{errors.firstName}</p>
+                        <p className={s.error}>{errors.firstName}</p>
                     )}
                 </div>
                 <div className={s.container_edilt_form_input}>
                     <label >Apellido: </label>
                     <input 
+                        className={errors.lastName  ? s.red_container_edilt_form_pofesional : '' }
                         type="text"  
                         name="lastName"
                         value={globalUser.last_name}
                         onChange={(e) => handleChange(e)}
                     />
                     {errors.name && (
-                        <p >{errors.lastName}</p>
+                        <p className={s.error}>{errors.lastName}</p>
                     )}
                 </div>
                 <div className={s.container_edilt_form_input}>
                     <label >Correo: </label>
                     <input 
+                        className={errors.email  ? s.red_container_edilt_form_pofesional : '' }
                         type='email' 
                         name='email'
-                        value={globalUser.email}
+                        // value={globalUser.email}
                         onChange={(e) => handleChange(e)}
                     />
                     {errors.email && (
-                        <p>{errors.email}</p>
+                        <p className={s.error}>{errors.email}</p>
                     )}
                 </div>
                 <div className={s.container_edilt_form_input}>
                     <label>DNI:</label>
                     <input 
+                    
                         type='text'
                         name='dni'
+                        value={globalUser.dni}
                         readOnly
                         />
                 </div>
                 <div className={s.container_edilt_form_input}>
                 <label>Password:</label>
                     <input 
+                        className={errors.password  ? s.red_container_edilt_form_pofesional : '' }
                         type='password'
                         name='password'
-                        // onChange={(e) => handleChange(e)}
+                        onChange={(e) => handleChange(e)}
                     />
                     {errors.password && (
-                        <p>{errors.password}</p>
+                        <p className={s.error}>{errors.password}</p>
                     )}
                 </div>
                 <div className={s.container_edilt_form_input}>
                     <label>Repeat Password:</label>
                     <input 
+                        className={errors.repeatPassword  ? s.red_container_edilt_form_pofesional : '' }
                         type='password'
                         name='repeatPassword'
-                        // onChange={(e) => handleChange(e)}
+                        onChange={(e) => handleChange(e)}
                     />
                     {errors.repeatPassword && (
-                        <p>{errors.repeatPassword}</p>
+                        <p className={s.error}>{errors.repeatPassword}</p>
                     )}
                 </div>
                 <div className={s.container_edilt_form_input}>
                     <label >Teléfono: </label>
                     <input 
+                    
+                    value={details.phone}
                         type="text"  
                         name="phone"
-                        // onChange={(e) => handleChange(e)}
+                        onChange={(e) => handleChange(e)}
                     />
                     {/* {errors.photo && (
                         <p>{errors.photo}</p>
@@ -441,7 +495,7 @@ export default function EditCliente() {
                     <p>Recuerda que los campos que no edites no cambiarán, lo unico que no podrás editar es el DNI.</p>  
                 </div>
                 
-                <button type='submit'id='buttonSubmit' className={"btn btn-success " + s.buttonSubmit} >Cambiar Perfil</button>
+                <button type='submit'id='buttonSubmitt' className={"btn btn-success " + s.buttonSubmit} >Cambiar Perfil</button>
             </form>
             </div>
         </div>

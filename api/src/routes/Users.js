@@ -21,31 +21,31 @@ function isLoggedIn(req, res, next) {
 // router.post("/", userFunctions.newUser);
 router.post(
   "/",
-  async(req, res, next) =>  {
-    const { email } = req.body
-    let user = await User.findOne({where:{email}})
-    if(user) {
-      res.status(200).send({message: 'Usuario existente'})
-    }else{
-      next()
+  async (req, res, next) => {
+    const { email } = req.body;
+    let user = await User.findOne({ where: { email } });
+
+    if (user) {
+      res.status(200).send({ message: "Usuario existente" });
+    } else {
+      next();
     }
   },
   passport.authenticate("local-signup", {
     // failureRedirect: "/user/register",
     failureFlash: true,
   }),
-  (req, res, next) => {
+  async (req, res, next) => {
+    console.log(2);
     // res.redirect(`/user/${req.user.id}`);
-    res
-      .status(200)
-      .send({message: 'Usuario creado'});
+    res.status(200).send({ message: "Usuario creado" });
     next();
     (req, res) => {
       res.redirect(`/user/${req.user.id}`);
     };
   },
-  async (req, res) => {
-    const usuario  = await User.findOne({where:{email:req.body.email}})
+  async (req, res, next) => {
+    const usuario = await User.findOne({ where: { email: req.body.email } });
     const activateUrl = `http://localhost:3000/activate/${usuario.token}`;
     await enviarEmail.enviar({
       usuario,
@@ -53,8 +53,20 @@ router.post(
       activateUrl,
       archivo: `<h2>Activar Cuenta</h2><p>Hola, acabas de registrarte en Servio, estás a un paso de poder usar tu cuenta,  haz click en el siguiente enlace para activarla, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${activateUrl} >Activa tu cuenta</a><p>Si no puedes acceder a este enlace, visita ${activateUrl}</p><div/>`,
     });
+
+    next();
+    // (req, res) => {
+    //   console.log(3)
+    //   res.redirect(`/user/${req.user.id}`);
+    // };
+  },
+  (req, res, next) => {
+    // console.log(4)
+    res.status(200).send({ message: "Usuario creado" });
+    // console.log(5)
   }
 );
+
 router.post(
   "/login",
   passport.authenticate("local-login", {
@@ -62,6 +74,7 @@ router.post(
     failureFlash: true,
   }),
   (req, res, next) => {
+    console.log(req.flash('error'))
     res.send({
       message: "Logged",
       cookies: req.session,
@@ -71,20 +84,21 @@ router.post(
   }
 );
 
-router.get('/created/:email', async (req, res)=>{
-  const { email } = req.params
-  if(email) {
-      // res.send(email)
-      let user = await User.findOne({where:{ email }})
-      // res.send(user)
-  if(!user) {
-    res.send(true)
-  }else{
-    res.send(false)
-  }
-  }
 
-})
+router.get("/created/:email", async (req, res, next) => {
+  const { email } = req.params;
+  if (email) {
+    // res.send(email)
+    let user = await User.findOne({ where: { email } });
+    // res.send(user)
+    if (!user) {
+      res.send(true);
+    } else {
+      res.send(false);
+    }
+
+  }
+});
 
 router.get("/getGoogleUser", async (req, res, next) => {
   res.json(googleData);
@@ -102,7 +116,7 @@ router.get("/getGoogleUser", async (req, res, next) => {
   // }
 });
 
-router.get("/getUser", async (req, res) => {
+router.get("/getUser", async (req, res, next) => {
   res.json(cacheData);
 });
 
@@ -123,7 +137,7 @@ router.get(
   }
 );
 
-router.get("/auth/github", passport.authenticate("github"));
+router.get("/auth/github", passport.authenticate("github", { scope: "user" }));
 
 router.get(
   "/auth/github/callback",
@@ -131,14 +145,14 @@ router.get(
   async (req, res, next) => {
     cacheData.pop();
     const userResult = await User.findOne({
-      where: { email: req.user._json.login },
+      where: { user_name: req.user._json.login },
     });
     cacheData.push({
       message: "Logged",
       cookies: req.session,
       data: userResult,
     });
-    res.redirect("http://localhost:3000/login");
+    res.redirect("http://localhost:3000");
   }
   // userFunctions.githubAuth
 );
@@ -165,7 +179,7 @@ router.get(
         cookies: req.session,
         data: userResult,
       });
-      res.redirect("http://localhost:3000/login");
+      res.redirect("http://localhost:3000");
       // await res.json({
       //   message: "Logged",
       //   cookies: req.session,
@@ -191,6 +205,7 @@ router.get("/city", userFunctions.getAllCities);
 router.get("/professionals", userFunctions.getAllProfessionals);
 router.get("/:id", userFunctions.getByUserId);
 router.delete("/:id", userFunctions.deleteByUserId);
+router.post("/reenviar", userFunctions.solicitarActivar);
 router.post("/reestablecer", userFunctions.enviarToken);
 router.get("/reestablecer/:token", userFunctions.validarToken);
 router.put("/reestablecer/:token", userFunctions.actualizarPassword);

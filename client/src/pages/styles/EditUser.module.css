@@ -181,9 +181,16 @@
 .container_edilt_form_pofesional {
   width: 70%;
 }
+.red_container_edilt_form_pofesional {
+  border-color: red;
+}
 
 .img_profile {
   width: 100px;
   height: 100px;
   border-radius: 100%;
+}
+
+.error{
+  color:red;
 }

@@ -33,6 +33,8 @@ export default function ProfileProfessional( ){
         seeAllServices: true,
     })
 
+    // console.log('1-professional', professional)
+
     useEffect(()=>{
         dispatch(getClientNeedsById(id))
         dispatch(getByUserId(id))
@@ -110,7 +112,7 @@ return (
             }
                 
             {
-                professional?.rate ?
+                professional?.rate !== null ?
                 <div>
                     <StarRating stars={ professional?.rate } />
                 </div>

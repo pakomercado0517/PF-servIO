@@ -48,6 +48,14 @@ export const ClientSpecificNeedEdit = () => {
             <div id='fondo-form-client-need' className={s.container}>
                 <div className={s.a}></div>
                 <div className={s.container_form}>
+                <div className="d-flex flex-row-reverse bd-highlight">
+                        <button 
+                        className="text-center btn btn-warning" 
+                        onClick={()=>{window.history.back()}}
+                        >
+                            Volver
+                        </button>
+                    </div>
                     <form onSubmit={postNeed}>
                         <div className="row">
                             <div className={"col-12"}>
@@ -82,12 +90,14 @@ export const ClientSpecificNeedEdit = () => {
                                 </div>
                             </div>
                         </div>
-                        <button
-                            type="submit"
-                            className={` "btn btn-primary btn-lg btn-block" s.container_filterButton`}
-                        >
-                            Enviar Solicitud
-                        </button>
+                        <div className="row">
+                            <button
+                                type="submit"
+                                className="btn btn-primary btn-lg mt-3"
+                                >
+                                Enviar Solicitud
+                            </button>
+                        </div>
                     </form>
                 </div>
 

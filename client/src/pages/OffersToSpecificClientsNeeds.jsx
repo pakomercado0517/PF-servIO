@@ -10,9 +10,14 @@ import {getAllProfessionalOffers,
 
 import styles from './styles/OffersToSpecificClientsNeeds.module.css'
 
+import axios from 'axios';
+
+const { REACT_APP_HOST } = process.env
+
 export const OffersToSpecificClientsNeeds = () => {
 
     const [offers, setOffers] = useState([])
+    const [professionalId, setProfessionalId] = useState([])
     const { id } = useParams();
     const dispatch = useDispatch()
     const { professionals, offersOfClientNeed, detailsClientNeed} = useSelector(state => state)
@@ -28,6 +33,17 @@ export const OffersToSpecificClientsNeeds = () => {
         if (offersOfClientNeed === "No offers found") return setOffers([])
         setOffers(offersOfClientNeed.filter(el => el.status !== "rejected"))
     }, [offersOfClientNeed])
+
+    useEffect(() => {
+        async function getProfessionalId(){
+            const data = await Promise.all(offers.map((el) => {
+               return axios.get(`${REACT_APP_HOST}/user/${el.UserId}`)
+            }))
+            console.log("ID PROFESIONALES: ",data[0].data[0].Professional.id)
+            setProfessionalId(data)
+        }
+        getProfessionalId()
+    }, [offers])
 
     return (
         <div className={styles.container}>
@@ -46,12 +62,12 @@ export const OffersToSpecificClientsNeeds = () => {
                             <CardOfferToClientNeed
                                 key={index + id}
                                 name={ el.name }
-                                id={el.id}
+                                id={ el.id }
                                 ClientNeedId={ id }
                                 guarantee_time={el.guarantee_time}
                                 duration={ el.duration }
                                 materials={el.materials}
-                                ProfessionalId={el.ProfessionalId}
+                                ProfessionalId={ professionalId[index]?.data[0].Professional.id }
                                 price={el.price}
                                 date={el.updatedAt.split("T")[0]}
                                 description={el.description}

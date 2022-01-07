@@ -57,12 +57,29 @@ export default function Login() {
             [e.target.name]: e.target.value
         });
     };
-    
+    // console.log(setInput)
+
+    // useEffect(() => {
+    //     dispatch(userLogin(input))
+    // },[])
+    // const x = () =>{
+    //   if(globalUser !== ''){
+    //     Swal.fire({
+    //       icon: 'success',
+    //       title: 'Logged in',
+    //       showConfirmButton: false,
+    //       timer: 2500
+    //   })
+    //   navigate('/')
+    //   }
+    // }
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
             const validate = await axios.post('http://localhost:3001/user/login', input)
+            console.log(validate)
             if(validate) {
+              if(validate.data.data.verified === true) {
                 await setGlobalUser(validate.data.data)
                 await setLocalUser(validate.data.data)
 
@@ -71,49 +88,89 @@ export default function Login() {
                 } else {
                     setSwitcheo('professional')
                 }
+                      Swal.fire({
+                        icon: 'success',
+                        title: 'Bienvenido',
+                        showConfirmButton: false,
+                        timer: 2500
+                    })
+                    navigate('/')
+              }else{
+                let a = async() =>{
+                  console.log(validate.data.data.email)
+                  await axios.post('http://localhost:3001/user/reenviar', {email: validate.data.data.email})
+                }
+
                 Swal.fire({
-                    icon: 'success',
-                    title: 'Logged in',
-                    showConfirmButton: false,
-                    timer: 2500
+                  title: 'CUENTA INACTIVA',
+                  subTitle:'Activa tu cuenta antes de iniciar sesion',
+                  text: "¿Deseas que te reenviemos el mail de confirmacion?",
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  cancelButtonText: 'NO',
+                  confirmButtonText: 'SI'
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    a()
+                    Swal.fire(
+                      'Enviado!',
+                      'Se ha Reenviado el mensaje de activación',
+                      'success'
+                    )
+                  }
                 })
-                navigate('/')
+              //   Swal.fire({
+              //     icon: 'error',
+              //     title: 'Cuenta Inactiva',
+              //     text: 'Por favor activa tu cuenta antes de iniciar sesion',
+              //     showConfirmButton: false,
+              //     timer: 2500
+              // })
+              }
+                
+                
             }
         } catch (error) {
-            console.log(error)
             Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Something went wrong!',
-                showConfirmButton: false,
-                timer: 2500
-            })
+              icon: 'error',
+              title: 'ERROR',
+              text: 'Password o contraseña incorrectos',
+              showConfirmButton: false,
+              timer: 2500
+          })
         }
     }
 
     const googleLog = async () => {
       try {
+        
         let result= await axios.get('http://localhost:3001/user/getUser')
-        // console.log('resulllt', result.data[0])
+        console.log('resulllt', result)
         await setGlobalUser(result.data[0].data)
         await setLocalUser(result.data[0].data)
-        if(localUser) {
-          Swal.fire({
-              icon: 'success',
-              title: 'Logged in',
-              showConfirmButton: false,
-              timer: 2500
-          })
-          navigate('/')
-      }
+    //     if(globalUser && localUser) {
+    //       Swal.fire({
+    //           icon: 'success',
+    //           title: 'Logged in',
+    //           showConfirmButton: false,
+    //           timer: 2500
+    //       })
+    //       navigate('/')
+    //   }
+        
       } catch (error) {
           console.log('errorrrrrr', error)
+
       }
     }
     
     useEffect(() => {
-      googleLog()
-    },[])
+      
+      // x()
+        // return console.log('user!!!', user)
+    },[localUser, globalUser])
 
     return (
         <div className={ s.login_master }>
@@ -196,11 +253,13 @@ export default function Login() {
                             <p>O inicia con:</p>
 
                             <a 
+                            onClick={() => googleLog()}
                                 type="button"
                                 className="btn btn-lg btn-google  text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/google">
                                 <img src="https://img.icons8.com/color/40/000000/google-logo.png" alt="google"/> 
                             </a>
                             <a 
+                            onClick={() =>googleLog()}
                                 type="button"
                                 className="btn btn-lg btn-github text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/github">
                                 <img src="https://img.icons8.com/material-rounded/48/000000/github.png" alt='github'/>

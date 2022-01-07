@@ -28,7 +28,7 @@ module.exports = (passport) => {
       },
       async (req, email, password, done) => {
         const {
-          userName,
+          // userName,
           firstName,
           lastName,
           // email,
@@ -60,15 +60,15 @@ module.exports = (passport) => {
 
           let pass = await bcrypt.hash(password, 10);
           let newUser = await User.create({
-            user_name: userName,
             email: email,
             password: pass,
             first_name: firstName,
-            last_name: lastName,
+            last_name: lastName, 
             phone,
             city,
             state,
             photo,
+            dni,
             verified: false,
             professional,
             token:crypto.randomBytes(20).toString("hex"),
@@ -125,8 +125,8 @@ module.exports = (passport) => {
         try {
           const user = await User.findOne({ where: { email: email } });
           if (!user) return done(null, false);
-          let pass = await bcrypt.compare(password, user.password);
-          console.log("pass:", pass);
+          let pass = await bcrypt.compare(password, user.password); 
+          // console.log("pass:", pass);
           if (!pass) return done(null, false);
           done(null, user);
         } catch (error) {
