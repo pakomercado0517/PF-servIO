@@ -44,7 +44,7 @@ router.post(
       res.redirect(`/user/${req.user.id}`);
     };
   },
-  async (req, res) => {
+  async (req, res, next) => {
     const usuario = await User.findOne({ where: { email: req.body.email } });
     const activateUrl = `http://localhost:3000/activate/${usuario.token}`;
     await enviarEmail.enviar({
@@ -85,7 +85,7 @@ router.post(
 );
 
 
-router.get("/created/:email", async (req, res) => {
+router.get("/created/:email", async (req, res, next) => {
   const { email } = req.params;
   if (email) {
     // res.send(email)
@@ -116,7 +116,7 @@ router.get("/getGoogleUser", async (req, res, next) => {
   // }
 });
 
-router.get("/getUser", async (req, res) => {
+router.get("/getUser", async (req, res, next) => {
   res.json(cacheData);
 });
 

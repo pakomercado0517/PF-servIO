@@ -46,7 +46,7 @@ export const OffersToSpecificClientsNeeds = () => {
                             <CardOfferToClientNeed
                                 key={index + id}
                                 name={ el.name }
-                                id={el.id}
+                                id={ el.id }
                                 ClientNeedId={ id }
                                 guarantee_time={el.guarantee_time}
                                 duration={ el.duration }

@@ -9,7 +9,8 @@ import s from './styles/CardParticularService.module.css'
 
 export default function CardParticularService(props) {
 
-    const [cart, setCart] = useGlobalStorage("cart", [])
+    const [cart, setCart] = useGlobalStorage("cart", "")
+    const [user, ] = useGlobalStorage("globalUser", "")
     const { id } = useParams()
     const dispatch = useDispatch()
     
@@ -44,6 +45,7 @@ export default function CardParticularService(props) {
                     count: 1,
                     type: props.type,
                     specificTechnicalActivityId: props.id,
+                    UserId: user.id,
                 }
             ])
         }

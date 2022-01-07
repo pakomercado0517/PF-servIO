@@ -25,7 +25,6 @@ module.exports = {
 
         mercadopago.preferences.create(preference)
             .then(function (response) {
-                console.log(response)
                 // Este valor reemplazará el string "<%= global.id %>" en tu HTML
                 // global.id = response.body.id;
                 res.json({
@@ -65,7 +64,7 @@ module.exports = {
 
         // UPDATE STATUS OF PROFESSIONALOFFERS TO HIRED 
 
-        const dataOffer = data.filter( el => el.type === "offer" )
+        const dataOffer = transaction.data.filter( el => el.type === "offer" )
 
         if (dataOffer[0]) {
 

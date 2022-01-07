@@ -426,7 +426,7 @@ module.exports = {
         const newActivites = await SpecificTechnicalActivity.bulkCreate(newSpecificTechnicalActivities)
 
         // SAVE ID OF NEW DATA TO SEND ON DATA ARRAY
-        const aux = newSpecificTechnicalActivities.map((el,index) => {
+        const aux = dataOffer.map((el,index) => {
           return {
             ...el,
             SpecificTechnicalActivityId: newActivites[index].id
@@ -437,13 +437,9 @@ module.exports = {
         const updateClientNeeds = dataOffer.map((el, index) => {
           return {
             id: el.ClientNeedId,
-            name: el.name,
-            photo: el.photo,
-            description: el.description,
             status: "pending to pay",
             SpecificTechnicalActivityId: newActivites[index].id,
             location: el.location,
-            UserId: el.UserId,
           }
         })
         // Update status of ProfessionalOffer to pending to pay
@@ -454,7 +450,7 @@ module.exports = {
           }
         })
         await ProfessionalOffer.bulkCreate(updateOffer, { updateOnDuplicate: ["status"]})
-        await ClientNeed.bulkCreate(updateClientNeeds, { updateOnDuplicate: ["name", "UserId" , "description", "status", "photo", "SpecificTechnicalActivityId", "location"] })
+        await ClientNeed.bulkCreate(updateClientNeeds, { updateOnDuplicate: ["status", "SpecificTechnicalActivityId", "location"] })
       } catch (error) {
         res.status(400).send(error.message);
       }
@@ -861,10 +857,15 @@ module.exports = {
   deleteNeedById: async (req, res) => {
     const id = req.params.id;
     const need = await ClientNeed.findOne({ where: { id } });
-    need.destroy();
-    res.send(
-      "La necesidad especifica ha sido eliminada."
-    );
+    if (need.id){
+      need.destroy();
+      res.send(
+        "La necesidad especifica ha sido eliminada."
+      );
+    } else {
+      res.status(404).send("Need not found")
+    }
+    
   },
 
   // ************ PROFESSIONAL OFFERS
