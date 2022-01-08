@@ -79,7 +79,7 @@ export default function Login() {
             const validate = await axios.post('http://localhost:3001/user/login', input)
             console.log(validate)
             if(validate) {
-              if(validate.data.data.verified === true) {
+              if(validate.data.data) {
                 await setGlobalUser(validate.data.data)
                 await setLocalUser(validate.data.data)
 
