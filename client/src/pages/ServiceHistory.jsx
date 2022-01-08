@@ -31,6 +31,7 @@ export default function ServiceHistory() {
                     setfilteredSpecificActivities(el.ClientNeeds.map(el2 => {
                         return {
                             ...el,
+                            key: el2.id,
                             status: el2.status,
                             ClientNeedId: el2.id,
                         }
@@ -40,6 +41,9 @@ export default function ServiceHistory() {
         }
     }, [specificActivities])
 
+
+    console.log('filteredSpecificActivities', filteredSpecificActivities)
+    console.log('specificActivities',specificActivities)
     // filtrar las actividades especificas que sean de tipo de tipo general
     // const filteredSpecificActivities = specificActivities.filter(activity => activity.type === 'general')
     
@@ -173,7 +177,7 @@ export default function ServiceHistory() {
                     <div>
                         <h2
                             className="text-center mt-3 border-bottom"
-                        >Trabajos Pendientes</h2>
+                        >Trabajos Pendientes!</h2>
                     </div>
 
                         <div>
