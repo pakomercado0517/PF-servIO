@@ -129,6 +129,9 @@ return (
                     <div className={"col" && s.container_filter}>
                         <h1 className="d-flex justify-content-center">Ofrecé tu servicio</h1>
                         <div className="input-group mb-1">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text" id="basic-addon1">Servicio</span>
+                            </div>
                             <input
                                 type="text"
                                 name='name'
@@ -140,7 +143,7 @@ return (
                             />
                         </div>
 
-                        <div className="input-group mb-1">
+                        {/* <div className="input-group mb-1">
                             <label className="me-2 mb-4">
                                 Elige una foto
                             </label>
@@ -150,7 +153,7 @@ return (
                                 accept="image/png, image/jpeg"
                                 onChange={ e=> onChangeForm(e) }
                             />
-                        </div>
+                        </div> */}
 
                         <div className="form-group mt-2 mb-2">
                             <label
