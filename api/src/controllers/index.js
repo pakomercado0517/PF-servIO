@@ -370,7 +370,12 @@ module.exports = {
   getByUserId: async (req, res) => {
     try {
       const id = req.params.id;
-      let user = await User.findOne({
+      let user = await User.findAll({
+        where: { id: { [Op.eq]: id } },
+      });
+      if (user[0] && user.professional === true) {
+
+        const users = await User.findOne({
         where: { id },
         include: [
             {
@@ -383,22 +388,25 @@ module.exports = {
             },
           ],
       });
-      
-      if(user) {
-        if( user.Professional.ClientReview) {
-          let userRate = 0
-                for(let i = 0 ; i < user.Professional.ClientReviews.length; i++){
-                    userRate +=  parseInt(user.Professional.ClientReviews[i].score)
-                }
-                let average = Math.round(userRate / user.Professional.ClientReviews?.length * 100) / 100
-                user.rate = average
-        }else{
-          user.rate = 0
-        }
-        await user.save()  
-        res.status(200).send([user]);
 
-      }else {
+        if( users.Professional.ClientReviews.length ) {
+          let userRate = 0
+                for(let i = 0 ; i < users.Professional.ClientReviews.length; i++){
+                    userRate +=  parseInt(users.Professional.ClientReviews[i].score)
+                }
+                let average = Math.round(userRate / users.Professional.ClientReviews?.length * 100) / 100
+                users.rate = average
+        }else{
+          users.rate = 0
+        }
+
+      await users.save() 
+      res.status(200).send([users]);
+
+      }else if(user[0]){
+        const users = await User.findOne({where: { id }});
+        res.status(200).send([users]);
+      } else {
         res.status(200).send("El usuario no existe.");
       }
     } catch (error) {
