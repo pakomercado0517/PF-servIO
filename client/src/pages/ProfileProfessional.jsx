@@ -33,7 +33,7 @@ export default function ProfileProfessional( ){
         seeAllServices: true,
     })
 
-    // console.log('1-professional', professional)
+    console.log('1-professional', professional)
 
     useEffect(()=>{
         dispatch(getClientNeedsById(id))
@@ -157,6 +157,9 @@ return (
                 ) : <></>
             }
         </div>
+        <NavLink to={`/service-history/${professional?.id}`}>
+            <button className="btn btn-outline-info">Ver Historial de publicaciones</button>
+        </NavLink>
         <div className={s.titulo}>
             <h4>Servicios Ofrecidos</h4>
         </div>
