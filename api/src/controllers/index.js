@@ -404,7 +404,19 @@ module.exports = {
       res.status(200).send([users]);
 
       }else if(user[0]){
-        const users = await User.findOne({where: { id }});
+        const users = await User.findOne({
+          where: { id },
+          include: [
+              {
+                model: Professional,
+                include: [
+                  { model: Profession },
+                  { model: ClientReview },
+                  { model: SpecificTechnicalActivity },
+                ],
+              },
+            ],
+        });
         res.status(200).send([users]);
       } else {
         res.status(200).send("El usuario no existe.");
