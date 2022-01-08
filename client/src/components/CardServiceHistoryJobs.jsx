@@ -2,15 +2,10 @@ import React, { useEffect, useState } from 'react'
 
 import s from './styles/CardServiceHistory.module.css'
 
-import Swal from 'sweetalert2'
-
-import { useDispatch } from 'react-redux'
-
 import notFoundImg from '../img/not_found_img.svg'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios';
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
-import { getClientNeedsById } from '../redux/actions'
+
+import axios from 'axios'
 
 const { REACT_APP_HOST } = process.env;
 
@@ -23,7 +18,7 @@ export default function CardServiceHistoryJobs(props) {
     }, [])
 
     async function deleteSpecificService() {
-
+        axios.delete(`${REACT_APP_HOST}/s`)
     }
 
     return (
@@ -60,7 +55,11 @@ export default function CardServiceHistoryJobs(props) {
                 </div>
                 {/* Buttons */}
                 <div className={ s.container_datos_buttons }>
-                    
+                    <div>
+                        <button onClick={deleteSpecificService}>
+                            Eliminar
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
