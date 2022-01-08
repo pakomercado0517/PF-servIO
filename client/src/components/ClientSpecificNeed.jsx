@@ -5,14 +5,14 @@ import Swal from 'sweetalert2'
 import { useNavigate } from "react-router-dom";
 import UploadImage from './UploadImage'
 import logo from '../img/ServIO.svg'
-
+import axios from 'axios'
 import s from './styles/ClientSpecificNeed.module.css'
-
+import { useGlobalStorage } from '../hooks/useGlobalStorage';
 
 export const ClientSpecificNeed = () => {
-    
+    const [user, ] = useGlobalStorage("globalUser", "")
     const modal = useSelector(state => state.modal)
-    const user = useSelector(state => state.globalUserGlobalStorage)
+    // const user = useSelector(state => state.globalUserGlobalStorage)
     const navigate = useNavigate()
 
     const [input, setInput] = useState({
@@ -30,8 +30,8 @@ export const ClientSpecificNeed = () => {
             [e.target.name]: e.target.value
         })
     }
-    console.log('need photo:', input.photo)
-    const postNeed = async (e) =>{
+    // console.log('need photo:', input.photo)
+    const postNeed =  async(e) =>{
         e.preventDefault()
         console.log(input)
         if(input.name === "" || input.description === ""){
@@ -42,8 +42,8 @@ export const ClientSpecificNeed = () => {
             })
         } else {
         try {
-            await dispatch(newEspecificalNeed(input))
-            // await axios.post('http://localhost:3001/clientNeeds', input) <----COMENTADO POR GUILLE
+            // dispatch(newEspecificalNeed(input))
+            await axios.post('http://localhost:3001/clientNeeds', input)
 
             Swal.fire({
                 icon: 'success',
