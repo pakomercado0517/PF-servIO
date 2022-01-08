@@ -1,3 +1,8 @@
+:root{
+    --color-text: rgba(121, 119, 117, 0.938);
+    --color-primario: #5ed4ee;
+}
+
 .container {
     overflow-x: hidden;
     width: 100%;
@@ -12,6 +17,20 @@
     /* height: 100%; */
     margin-top: 30px;
     /* font-size: 20px; */
+    margin-left: 3em;
+    color: rgba(121, 119, 117, 0.65);
+}
+
+.titulo{
+    color: var(--color-text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1em;
+}
+
+button{
+    margin: 1em;
 }
 .professions_title {
     font-size: 22px;
@@ -152,8 +171,9 @@
     /* z-index: -1; */
     width: 100%;
     height: 35vh;
-    background-image: url("https://cdn.pixabay.com/photo/2018/04/28/22/03/tree-3358468_1280.jpg");
-
+    /* background-image: url("https://cdn.pixabay.com/photo/2018/04/28/22/03/tree-3358468_1280.jpg"); */
+    background: linear-gradient(0deg, rgba(76,211,236,1) 0%, rgba(45,171,253,0.9780287114845938) 100%);
+    color: var(--color-text);
 }
 
 .container_details_photo {

@@ -157,7 +157,10 @@ return (
                 ) : <></>
             }
         </div>
-        <h4>Servicios Ofrecidos</h4>
+        <div className={s.titulo}>
+            <h4>Servicios Ofrecidos</h4>
+        </div>
+        
 
             {/* si su usuario visita su perfil profesional ==> opcion para agregar servicio */}
         {

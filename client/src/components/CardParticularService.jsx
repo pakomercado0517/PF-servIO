@@ -72,7 +72,7 @@ export default function CardParticularService(props) {
             </Link>
 
             <button 
-                className={ s.container_button + " btn btn-success"}
+                className={ s.container_button + " btn btn-primary"}
                 onClick={ addToCart } 
             >
                 Agregar al carrito
