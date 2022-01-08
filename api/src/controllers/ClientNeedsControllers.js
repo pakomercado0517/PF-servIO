@@ -87,21 +87,22 @@ module.exports = {
     const {
       name,
       description,
-      location,
+      // location,
       photo,
       //   price,
       //   duration,
       //   guarantee_time,
       userId,
     } = req.body;
+    // console.log(req.body)
     try {
       if (userId) {
         const newNeed = await ClientNeed.create({
-          name,
-          description,
+          name : name ? name : '',
+          description: description ? description : '',
           status: "in offer",
-          location,
-          photo
+          // location: location ? location : '',
+          photo: photo ? photo : '',
           //   price,
           //   duration,
           //   guarantee_time,
@@ -114,12 +115,12 @@ module.exports = {
         });
 
         await newNeed.setUser(allUsers[0]);
-        let userWithNeed = await User.findAll({
-          where: {
-            id: parseInt(userId),
-          },
-          include: [{ model: ClientNeed }],
-        });
+        // let userWithNeed = await User.findAll({
+        //   where: {
+        //     id: parseInt(userId),
+        //   },
+        //   include: [{ model: ClientNeed }],
+        // });
         res.status(200).send(newNeed);
       } else {
         res.status(400).send("Please login");
