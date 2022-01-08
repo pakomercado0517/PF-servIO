@@ -218,8 +218,21 @@ return (
                 }
             </div>
 
-            <div>
+            
 
+
+            <div className={ state.seeAllServices?s.container_cards_second:s.container_cards_second_all }>
+                <BsArrowRightCircle onClick={ newStateServices } size="50px"/>
+            </div>
+
+            <div className={ state.seeAllServices?s.container_cards_second_all:s.container_cards_second }>
+                <BsArrowLeftCircle onClick={ newStateServices } size="50px"/>
+            </div>
+
+        </div>
+{/* // ----------------------servicios solicitados--------------------- */}
+        <div>
+                <h4 className={s.titulo}>Servicios Solicitados</h4>
                 {
                     globalUserGlobalStorage?.id === professional?.id ?
                     <div className={ s.reviews_container }>
@@ -237,27 +250,15 @@ return (
                                 </NavLink>
                             )
                         })}
+                        <div>
+                            
+                        </div>
                     </div>
                     : <></>
-
-
 
                 }
 
             </div>
-
-
-
-
-            <div className={ state.seeAllServices?s.container_cards_second:s.container_cards_second_all }>
-                <BsArrowRightCircle onClick={ newStateServices } size="50px"/>
-            </div>
-
-            <div className={ state.seeAllServices?s.container_cards_second_all:s.container_cards_second }>
-                <BsArrowLeftCircle onClick={ newStateServices } size="50px"/>
-            </div>
-
-        </div>
 
         {/* // ----------------------reseñas--------------------- */}
         <div className={s.titulo}>
@@ -309,6 +310,8 @@ return (
                 ) : <></>
             }
         </div>
+
+        
     </div>
 )
 }
