@@ -2,10 +2,16 @@
     display: inline-block;
     min-width: 250px;
     width: 250px;
-    background-color: rgb(212, 212, 212);
+    background-color: rgba(212, 212, 212, 0.616);
     border-radius: 10px;
     padding: 0px;
     margin: 5px 15px;
+    color: rgba(68, 67, 67, 0.616);
+}
+
+.container:hover{
+    box-shadow: 5px 5px 20px #5ed4ee;
+    transform: translateY(-3%);
 }
 
 .container p {

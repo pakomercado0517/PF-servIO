@@ -29,6 +29,9 @@
     margin: 1em;
 }
 
+h6{
+    color: var(--color-text);
+}
 button{
     margin: 1em;
 }
