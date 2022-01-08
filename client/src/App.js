@@ -10,7 +10,7 @@ import ProfileProfessional from './pages/ProfileProfessional';
 import Register from './pages/Register';
 import Login  from './components/Login';
 import Nosotros from './pages/Nosotros.jsx';
-import HomeProfessional from './components/HomeProfessional';
+// import HomeProfessional from './components/HomeProfessional';
 import { ProfessionalOfferToClientNeed } from './components/ProfessionalOfferToClientNeed';
 import { ProfessionalServiceOffer } from './components/ProfessionalServiceOffer';
 import DetailsClientNeed from './pages/DetailsClientNeed';
@@ -25,7 +25,7 @@ import ResetPassword from './pages/ResetPassword';
 import ActivateAccount from './pages/ActivateAccount';
 
 function App() {
-  const [globalUser,setGlobalUser ] = useGlobalStorage("globalUser", "")
+  const [globalUser, ] = useGlobalStorage("globalUser", "")
   return (
     <>
       <NavBar />
@@ -40,7 +40,6 @@ function App() {
         <Route exact path="/clients/:idClient" element={globalUser ==='' ? <Navigate to='/login'/> :<ProfileClient />} />
         <Route exact path="/professional/:id" element={globalUser ==='' ? <Navigate to='/login'/> :<ProfileProfessional />} />
         <Route exact path="/cart/" element={<Cart />} />
-        {/* <Route exact path="/homeprofessional" element={<HomeProfessional />} /> */}
         <Route exact path="/editUser" element={globalUser ==='' ? <Navigate to='/login'/> :<EditUser />} />
         <Route exact path="/service-history/:id" element={globalUser ==='' ? <Navigate to='/login'/> : <ServiceHistory />} />
         <Route
@@ -71,7 +70,10 @@ function App() {
           exact path="/client/:userId/edit/:publicationId"
           element={globalUser ==='' ? <Navigate to='/login'/> :<ClientSpecificNeedEdit />}
         />
-        
+        <Route
+        path="*"
+        element={<Navigate to="/" />}
+    />
       </Routes>
     </>
   );

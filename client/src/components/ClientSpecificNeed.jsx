@@ -130,8 +130,8 @@ export const ClientSpecificNeed = () => {
                                     
                                     <UploadImage 
                                         details={input}
-                                        value={input.photo}
                                         name='photo'
+                                        value={input.photo}
                                         onChange={onChangeForm}
                                     />
                                 </div>

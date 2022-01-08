@@ -6,9 +6,7 @@ const passport = require("passport");
 const enviarEmail = require("../handlers/email");
 const crypto = require("crypto");
 const saltRounds = 10;
-const myPlaintextPassword = 's0/\/\P4$$w0rD';
-const someOtherPlaintextPassword = 'not_bacon';
-var juice = require("juice");
+// var juice = require("juice");
 // @ts-ignore
 const {
   User,
@@ -237,84 +235,6 @@ module.exports = {
     }
   },
 
-  getProfessionalByName: async (req, res) => {
-    const { name } = req.query;
-    try {
-      if (!name) {
-        const professional = await User.findAll({
-          include: [
-            {
-              model: Professional,
-              include: [{ model: Profession }],
-            },
-          ],
-          where: { professional: true },
-        });
-        res.status(200).send(professional);
-      } else {
-        if(name.split(' ').length === 1){
-          const professional = await User.findAll({
-          include: [
-            {
-              model: Professional,
-              include: [{ model: Profession }],
-            },
-          ],
-          // where: { professional: true },
-          where: { 
-            [Sequelize.Op.or]:[
-              {
-                first_name: { 
-                  [Sequelize.Op.iLike]: `%${name}%` 
-                }
-              } , 
-              {
-                last_name: { 
-                  [Sequelize.Op.iLike]: `%${name}%` 
-                }
-              }  
-            ]
-          }
-        });
-
-        let newProfessional = professional.filter(e => e.professional === true)
-        res.status(200).send(newProfessional);
-
-        }else{
-          let nombre = name.split(' ')[0]
-          let apellido = name.split(' ')[1]
-          const professional = await User.findAll({
-            include: [
-              {
-                model: Professional,
-                include: [{ model: Profession }],
-              },
-            ],
-            // where: { professional: true },
-            where: { 
-              [Sequelize.Op.or]:[
-                {
-                  first_name: { 
-                    [Sequelize.Op.iLike]: `%${nombre}%` 
-                  }
-                } , 
-                {
-                  last_name: { 
-                    [Sequelize.Op.iLike]: `%${apellido}%` 
-                  }
-                }  
-              ]
-            }
-          });
-          let newProfessional = professional.filter(e => e.professional === true)
-          res.status(200).send(newProfessional);
-        }
-        
-      }
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  },
 
   newTechnicalActivity: async (req, res) => {
     const {
@@ -326,6 +246,7 @@ module.exports = {
       guarantee,
       guarantee_time,
       job_time,
+      type,
       userId,
     } = req.body;
 
@@ -337,6 +258,7 @@ module.exports = {
         materials,
         description,
         guarantee,
+        type: type ? type:"general",
         guarantee_time,
         job_time,
       });
@@ -352,130 +274,6 @@ module.exports = {
     // }
   },
 
-  // ******** TRANSACTIONS
-
-  newTransaction: async (req, res) => {
-    const {
-      data
-    } = req.body
-
-    let response = [];
-
-    const dataSpecificTechnicalActivity = data.filter( el => el.type === "specific technical activity" )
-    const dataOffer = data.filter( el => el.type === "offer" )
-
-    // News ClientNeed
-
-    if (dataSpecificTechnicalActivity[0]) {
-
-      // Create a ClientNeed to every SpecificTechnicalActivity
-
-      const arrayOfClientNeeds = dataSpecificTechnicalActivity.map(el => {
-        console.log(el.UserId)
-        return {
-          name: el.name,
-          description: el.description,
-          status: "pending to pay",
-          location: el.location,
-          photo: el.photo,
-          UserId: el.UserId,
-          SpecificTechnicalActivityId: el.specificTechnicalActivityId,
-        }
-      })
-
-      try {
-        const newClientNeeds = await ClientNeed.bulkCreate(arrayOfClientNeeds)
-
-        // SAVE ID OF NEW DATA TO SEND ON DATA ARRAY
-        const aux = dataSpecificTechnicalActivity.map((el,index) => {
-          return {
-            ...el,
-            ClientNeedId: newClientNeeds[index].id
-          }
-        })
-        response = [...response, ...aux]
-
-      } catch (error) {
-        res.status(400).send(error.message);
-      }
-    }
-
-    // News SpecificTechnicalActivity and Update ClientNeeds
-
-    if (dataOffer[0]) {
-
-      // Turn every offer to news Specific Technical Activity with "specific" vs "general" status
-
-      const newSpecificTechnicalActivities = dataOffer.map(el => {
-        return {
-          name: el.name,
-          price: el.price,
-          photo: el.photo,
-          materials: el.materials,
-          guarantee: el.guarantee,
-          guarantee_time: el.guarantee_time,
-          job_time: el.duration,
-          ProfessionalId: el.ProfessionalId,
-          type: "specific",
-        }
-      })
-
-      // Update, for every offer, one ClientNeed with status "pending to pay" that was related with their Specific Technical Activity
-
-      try {
-        const newActivites = await SpecificTechnicalActivity.bulkCreate(newSpecificTechnicalActivities)
-
-        // SAVE ID OF NEW DATA TO SEND ON DATA ARRAY
-        const aux = dataOffer.map((el,index) => {
-          return {
-            ...el,
-            SpecificTechnicalActivityId: newActivites[index].id
-          }
-        })
-        response = [...response, ...aux]
-
-        const updateClientNeeds = dataOffer.map((el, index) => {
-          return {
-            id: el.ClientNeedId,
-            status: "pending to pay",
-            SpecificTechnicalActivityId: newActivites[index].id,
-            location: el.location,
-          }
-        })
-        // Update status of ProfessionalOffer to pending to pay
-        const updateOffer = dataOffer.map((el, index) => {
-          return {
-            status: "pending to pay",
-            id: el.ProfessionalOfferId,
-          }
-        })
-        await ProfessionalOffer.bulkCreate(updateOffer, { updateOnDuplicate: ["status"]})
-        await ClientNeed.bulkCreate(updateClientNeeds, { updateOnDuplicate: ["status", "SpecificTechnicalActivityId", "location"] })
-      } catch (error) {
-        res.status(400).send(error.message);
-      }
-    }
-
-    // Create transaction finaly
-
-    try {
-      const { dataValues } = await Transactions.create({
-        data: response,
-        status: "pending to pay",
-      })
-      res.send({
-        ...dataValues,
-        message: "Created successfuly"
-      })
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  },
-
-  getAllTransactions: async (req, res) => {
-    const allTransactions = await Transactions.findAll({})
-    res.send(allTransactions)
-  },
 
   // ******** OTHER
 
@@ -493,10 +291,10 @@ module.exports = {
       const rate = users.map((r) => {
         if(r.ClientReviews !== []){
           let userRate = 0
-                for(let i = 0 ; i < r.ClientReviews.length; i++){
+                for(let i = 0 ; i < r.ClientReviews?.length; i++){
                     userRate +=  parseInt(r.ClientReviews[i].score)
                 }
-                let average = Math.round(userRate / r.ClientReviews.length * 100) / 100
+                let average = Math.round(userRate / r.ClientReviews?.length * 100) / 100
                 r.rate = average
                 return r;
         }else{
@@ -535,10 +333,10 @@ module.exports = {
       const rate = professionals.map((r) => {
         if(r.Professional.ClientReviews !== []){
           let userRate = 0
-                for(let i = 0 ; i < r.Professional.ClientReviews.length; i++){
+                for(let i = 0 ; i < r.Professional.ClientReviews?.length; i++){
                     userRate +=  parseInt(r.Professional.ClientReviews[i].score)
                 }
-                let average = userRate / r.Professional.ClientReviews.length
+                let average = userRate / r.Professional.ClientReviews?.length
                 // let userRate2 = {userRate : average}
                 r.rate = average
                 return r;
@@ -575,7 +373,7 @@ module.exports = {
       let user = await User.findAll({
         where: { id: { [Op.eq]: id } },
       });
-      if (user[0]) {
+      if (user[0] && user.professional === true) {
 
         const users = await User.findOne({
         where: { id },
@@ -596,7 +394,7 @@ module.exports = {
                 for(let i = 0 ; i < users.Professional.ClientReviews.length; i++){
                     userRate +=  parseInt(users.Professional.ClientReviews[i].score)
                 }
-                let average = Math.round(userRate / users.Professional.ClientReviews.length * 100) / 100
+                let average = Math.round(userRate / users.Professional.ClientReviews?.length * 100) / 100
                 users.rate = average
         }else{
           users.rate = 0
@@ -605,6 +403,21 @@ module.exports = {
       await users.save() 
       res.status(200).send([users]);
 
+      }else if(user[0]){
+        const users = await User.findOne({
+          where: { id },
+          include: [
+              {
+                model: Professional,
+                include: [
+                  { model: Profession },
+                  { model: ClientReview },
+                  { model: SpecificTechnicalActivity },
+                ],
+              },
+            ],
+        });
+        res.status(200).send([users]);
       } else {
         res.status(200).send("El usuario no existe.");
       }
@@ -677,74 +490,10 @@ module.exports = {
       res.status(400).send(error.message);
     }
   },
-  
-  getAllProfessions: async (req, res) => {
-    const professions = await Profession.findAll({
-      include: [
-        {
-          model: Professional,
-          include: [{ model: User }],
-        },
-      ],
-    });
-    res.status(200).send(professions);
-  },
 
   // ************ CLIENT NEEDS
-  
-  getAllNeeds: async (req, res) => {
-    try {
-      const needs = await ClientNeed.findAll({
-        include: [{ model: User }, { model: ProfessionalOffer }],
-      });
-      res.status(200).send(needs);
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  },
 
-  getNeedByName: async (req, res) => {
-    try {
-      const need = await ClientNeed.findAll({
-        include: [{ model: User }],
-        where: { name: { [Sequelize.Op.iLike]: `%${req.query.name}%` } },
-      });
-      res.status(200).send(need);
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  },
 
-  getNeedsById: async (req, res) => {
-    const id = req.params.id;
-    try {
-      if (id > 0) {
-        const needs = await ClientNeed.findAll({
-          where: { UserId: id },
-        });
-        if (needs) {
-          res.status(200).send(needs);
-        } else {
-          res.status(200).send("User does not have any need");
-        }
-      } else {
-        res.status(200).send("Please insert an id");
-      }
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  },
-
-  // newSpecificalNeed: async (req, res) =>{
-  //     const {name, description, location} = req.body
-  //     const newNeed = await ClientNeed.create({
-  //         name,
-  //         description,
-  //         location,
-  //         status: 'in offer'
-  //     })
-  //     res.send(newNeed)
-  // },
   // getByProfessionName: async (req, res) =>{
   //     const {profession} = req.body
   //     const professionalArr = profession.split(',')
@@ -755,280 +504,13 @@ module.exports = {
   //             }],
   //         })
 
-  getById: async (req, res) => {
-    const id = req.params.id;
-    if (id) {
-      const need = await ClientNeed.findOne({
-        where: {
-          id,
-        },
-      });
-      res.status(200).send(need);
-    }
-     else {
-      res.status(400).send("Please insert an id");
-    }
-  },
-
-  newSpecificalNeed: async (req, res) => {
-    const {
-      name,
-      description,
-      location,
-      photo,
-      //   price,
-      //   duration,
-      //   guarantee_time,
-      userId,
-    } = req.body;
-    try {
-      if (userId) {
-        const newNeed = await ClientNeed.create({
-          name,
-          description,
-          status: "in offer",
-          location,
-          photo
-          //   price,
-          //   duration,
-          //   guarantee_time,
-        });
-
-        let allUsers = await User.findAll({
-          where: {
-            id: parseInt(userId),
-          },
-        });
-
-        await newNeed.setUser(allUsers[0]);
-        let userWithNeed = await User.findAll({
-          where: {
-            id: parseInt(userId),
-          },
-          include: [{ model: ClientNeed }],
-        });
-        res.status(200).send(newNeed);
-      } else {
-        res.status(400).send("Please login");
-      }
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  },
-
-  updateNeed: async (req, res) => {
-    const {
-      name,
-      description,
-      location,
-      status, //   price,//   duration,//   guarantee_time
-    } = req.body;
-    const id = req.params.id;
-    try {
-      const need = await ClientNeed.findOne({
-        where: { id },
-      });
-
-      if (need) {
-        need.name = name ? name : need.name;
-        need.description = description ? description : need.description;
-        need.location = location ? location : need.location;
-        if (
-          status === "done" ||
-          status === "in progress" ||
-          status === "in offer"
-        ) {
-          need.status = status;
-        } else {
-          need.status = need.status;
-        }
-
-        await need.save();
-
-        res.status(200).send(need);
-      } else {
-        res.status(400).send("Inserta Id de necesidad existente");
-      }
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  },
-
-  deleteNeedById: async (req, res) => {
-    const id = req.params.id;
-    const need = await ClientNeed.findOne({ where: { id } });
-    if (need.id){
-      need.destroy();
-      res.send(
-        "La necesidad especifica ha sido eliminada."
-      );
-    } else {
-      res.status(404).send("Need not found")
-    }
-    
-  },
-
   // ************ PROFESSIONAL OFFERS
   
   //CONDICIONAR QUE SOLO PUEDAN OFERTAR PROFESIONALES
-  newProfessionalOffer: async (req, res) => {
-    const {
-      name,
-      description,
-      price,
-      duration,
-      materials,
-      guarantee_time,
-      ClientNeedId,
-      UserId,
-    } = req.body;
 
-    const user = await User.findOne({ where: { id: UserId } });
 
-    try {
-      if (user) {
-        if (user.professional === false) {
-          res.status(400).send("Only Professionals can make an offer");
-        } else {
-          const newOffert = await ProfessionalOffer.create({
-            name,
-            description,
-            price,
-            duration,
-            materials,
-            guarantee_time,
-            status: "in offer"
-          });
-          let clientNeeds = await ClientNeed.findAll({
-            where: { id: ClientNeedId },
-          });
-          // let offert = await Professional.findAll({
-          //   where: { UserId },
-          // });
-          let setuser = await User.findAll({
-            where: { id: UserId },
-          });
-          await newOffert.setUser(setuser[0])
-          // await newOffert.setProfessional(offert[0]);
-          await newOffert.setClientNeed(clientNeeds[0]);
-          res.status(200).send(newOffert);
-        }
-      } else {
-        res.send("user does not exist");
-      }
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  },
 
-  getAllPorfessionalOffers: async (req, res) => {
-    try {
-      const allOfferts = await ProfessionalOffer.findAll({});
-      res.status(200).send(allOfferts);
-    } catch {
-      res.status(400).send(err.message);
-    }
-  },
-  //MODIFICAR!!!!!!!!
-  getUserReceivedOffers: async (req, res) => {
-    const UserId = req.params.id;
 
-    userNeeds = await ClientNeed.findAll({
-      where: { UserId },
-    });
-
-    if (userNeeds.length > 0) {
-      const needsId = await userNeeds.map((e) => e.id);
-      let receivedOffers = [];
-      for (let i = 0; i < needsId.length; i++) {
-        receivedOffers.push({
-          offer: await ProfessionalOffer.findAll({
-            where: { id: needsId[i] },
-          }),
-          needId: needsId[i],
-        });
-      }
-      res.send(receivedOffers);
-    } else {
-      res.send("Sin Ofertas");
-    }
-  },
-  getNeedReceivedOffers: async (req, res) => {
-    const ClientNeedId = req.params.id;
-    const offers = await ProfessionalOffer.findAll({ where: { ClientNeedId } });
-
-    if (offers.length > 0) {
-      res.send(offers);
-    } else {
-      res.send("No offers found");
-    }
-  },
-  getAllProfessionsName: async (req, res) => {
-    try {
-      let professions = await Profession.findAll({});
-      let names = await professions.map((e) => e.name);
-      res.status(200).send(names);
-    } catch {
-      res.status(404).send(err.message);
-    }
-  },
-  
-  getOffersByUserId: async (req, res) => {
-    const id = req.params.id
-    try{
-      
-      // const professional = await Professional.findOne({where: {UserId: id}})
-      // const ProfessionalId = professional.id
-
-      const offers = await ProfessionalOffer.findAll({ where: { UserId: id }})
-      res.send(offers)
-
-    }catch(error){
-      console.log(error)
-    }
-  },
-
-  deleteOfferById: async (req, res) => {
-    const id = req.params.id;
-    const offer = await ProfessionalOffer.findOne({ where: { id } });
-    if (!offer) return res.send("La oferta ya ha sido eliminada o no existe")
-    offer.destroy();
-    res.send(
-      "La oferta ha sido eliminada."
-    );
-  },
-
-  updateOffer: async (req, res) => {
-    const {
-      name,
-      description,
-      price,
-      duration,
-      materials,
-      guarantee_time,
-      status,
-    } = req.body;
-
-    const id = req.params.id;
-
-    try {
-      await ProfessionalOffer.update(
-        {
-          name,
-          description,
-          price,
-          duration,
-          materials,
-          guarantee_time,
-          status,
-        },
-        { where: { id } }
-      );
-      res.send("updated");
-    } catch (error) {
-      res.send(error.message);
-    }
-  },
 
   // ************ USER
 
@@ -1052,6 +534,17 @@ module.exports = {
       profession,
     } = req.body;
     const id = req.params.id;
+    const user = await User.findOne({ where: {id}})
+    let x = false;
+    if(user.email !== email) {
+      user.verified = false;
+      user.token = crypto.randomBytes(20).toString("hex");
+      user.expiracion = Date.now() + 3600000
+      await user.save()
+      x = true
+      
+    }
+    // console.log(user)
     try {
       let newPass = await bcrypt.hash(password, 10);
       await User.update(
@@ -1102,7 +595,16 @@ module.exports = {
         },
       });
       await prof.setProfessions(allProfessions);
-
+      if(x === true){
+        const usuario =  await User.findOne({ where: {id}});
+        const activateUrl = `http://localhost:3000/activate/${usuario.token}`;
+        await enviarEmail.enviar({
+          usuario,
+          subject: "Activar con nuevo email",
+          activateUrl,
+          archivo: `<h2>Activar cuenta</h2><p>Hola, has modificado tu mail, haz click en el siguiente enlace para reactivar tu cuenta, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${resetUrl} >Resetea tu password</a><p>Si no puedes acceder a este enlace, visita ${resetUrl}</p><div/>`,
+        });
+      }
       res.send("updated");
     } catch (error) {
       res.send(error.message);
@@ -1113,6 +615,22 @@ module.exports = {
 
     res.send("borrado");
   },
+
+  deleteProfessionalActivity: async (req, res) => {
+    const id = req.params.id;
+    if (id) {
+      const specificActivity = await SpecificTechnicalActivity.findOne({ where: { id } });
+      if (specificActivity) {
+        specificActivity.destroy();
+        res.status(200).send("La actividad especifica ha sido eliminada.");
+      } else {
+        res.status(404).send("specific activity not found")
+      }
+    } else {
+      res.status(500).send("Por favor inserta un id.");
+    }
+  },
+
   getProfessionalActivities: async (req, res) => {
     const id = req.params.id;
     try {
@@ -1124,6 +642,7 @@ module.exports = {
           const professionalId = professional.id;
           const activities = await SpecificTechnicalActivity.findAll({
             where: { ProfessionalId: professionalId },
+            include: [{ model: ClientNeed }],
           });
           if (activities.length > 0) {
             res.status(200).send(activities);
