@@ -171,6 +171,41 @@ return (
                 ) : <></>
             }
         </div>
+
+        <h4>Necesidades especificas del Cliente</h4>
+
+        <NavLink to={`/service-history/${globalUserGlobalStorage?.id}`}>
+            <button className="btn btn-outline-info">Ver todas</button>
+        </NavLink>
+        {/*---------------- servicios particulares ofrecidos por el profesional ---------*/}
+
+        <div>
+
+            {
+                globalUserGlobalStorage?.id === professional?.id ?
+                <div className={s.reviews_container}>
+                        {clientNeeds.map(clientNeed => {
+                            return (
+                                <NavLink
+                                to={`/client/need/${clientNeed.id}`}
+                                key={clientNeed.id}
+                                >
+                                    <CardClientNeed
+                                        name={clientNeed.name}
+                                        description={clientNeed.description}
+                                        photo={clientNeed.photo}
+                                    />
+                                </NavLink>
+                            )
+                        })}
+                    </div>
+                    : <></>
+                    
+                    
+                    
+                }
+
+        </div>
         <h4>Servicios Ofrecidos</h4>
 
             {/* si su usuario visita su perfil profesional ==> opcion para agregar servicio */}
@@ -180,48 +215,44 @@ return (
             
                 <NavLink
                 to="/ProfessionalServiceOffer"
-                >
-                    <button className="btn btn-outline-info ml-2">
-                        <span className="">
-                            Agregar Servicio
-                        </span>
-                    </button>
-                </NavLink>
-            
-            </div>
-            : <></>
+                    >
+                        <button className="btn btn-outline-info ml-2">
+                            <span className="">
+                                Agregar Servicio
+                            </span>
+                        </button>
+                    </NavLink>
+
+                </div>
+                : <></>
 
         }
-            <NavLink to={`/service-history/${globalUserGlobalStorage?.id}`}>
-                <button className="btn btn-outline-info">Ver todas</button>
-            </NavLink>
-{/*---------------- servicios particulares ofrecidos por el profesional ---------*/}
 
-        <div className={ s.container_cards }>
+        <div className={s.container_cards}>
 
             <div className="">
-                {   
-                    filteredSpecificActivities && 
-                    filteredSpecificActivities === 'There are not specifical Activities' ?
-                    <>
-                    <h5>No hay servicios registrados..</h5>
-                    <h5>Ofrecé un servicio!</h5>
-                    </>
-                    :
-                    <>
-                        {
-                            filteredSpecificActivities.map( (el) => {
-                                return (
-                                    <CardParticularService
-                                    id={el.id}
-                                    key={el.id}
-                                    name= { el.name }
-                                    description= { el.description }
-                                    guarantee_time= { el.guarantee_time }
-                                    guarantee= { el.guarantee }
-                                    duration= { el.job_time }
-                                    materials= { el.materials }
-                                    photo= { el.photo !== "url_qui" ? el.photo : "" }
+                {
+                    filteredSpecificActivities &&
+                        filteredSpecificActivities === 'There are not specifical Activities' ?
+                        <>
+                            <h5>No hay servicios registrados..</h5>
+                            <h5>Ofrecé un servicio!</h5>
+                        </>
+                        :
+                        <>
+                            {
+                                filteredSpecificActivities.map((el) => {
+                                    return (
+                                        <CardParticularService
+                                            id={el.id}
+                                            key={el.id}
+                                            name={el.name}
+                                            description={el.description}
+                                            guarantee_time={el.guarantee_time}
+                                            guarantee={el.guarantee}
+                                            duration={el.job_time}
+                                            materials={el.materials}
+                                            photo={el.photo !== "url_qui" ? el.photo : "" }
                                     price= { el.price }
                                     type= "specific technical activity"
                                     />
@@ -230,34 +261,6 @@ return (
                         }
                     </>
                 }
-            </div>
-
-            <div>
-
-                {
-                    globalUserGlobalStorage?.id === professional?.id ?
-                    <div className={ s.reviews_container }>
-                        { clientNeeds.map( clientNeed => {
-                            return (
-                                <NavLink 
-                                    to={`/client/need/${clientNeed.id}`}
-                                    key={clientNeed.id}
-                                >
-                                    <CardClientNeed
-                                        name={ clientNeed.name }
-                                        description={ clientNeed.description }
-                                        photo={ clientNeed.photo }
-                                    />
-                                </NavLink>
-                            )
-                        })}
-                    </div>
-                    : <></>
-
-
-
-                }
-
             </div>
 
             <div className={ state.seeAllServices?s.container_cards_second:s.container_cards_second_all }>
