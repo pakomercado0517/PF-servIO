@@ -64,6 +64,17 @@ module.exports = {
 
         // UPDATE STATUS OF PROFESSIONALOFFERS TO HIRED 
 
+        //[offer1,          offer2,       offer3]
+        //    |                |            |
+        //[ClientneedId1,ClientneedId1,ClientneedId1]
+
+        //         const myOff ¡ await ProfessionalOffers.findAll({ where: { clientNeedId } })
+        //          myOff.map(e => {
+        //             if (e.if !== idAceptado) {
+        //                 //filter de myoff
+        //             }
+        //         })
+
         const dataOffer = transaction.data.filter( el => el.type === "offer" )
 
         if (dataOffer[0]) {

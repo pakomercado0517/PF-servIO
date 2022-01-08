@@ -26,7 +26,7 @@ export default function ServiceHistory() {
     // console.log('1 - professionals',professionals)
     // console.log('2 - clientNeedById',clientNeedById)
     // console.log('3 - offersByUserId',offersByUserId)
-    // console.log('4 - specificActivities',specificActivities)
+    console.log('4 - specificActivities',specificActivities)
     // console.log('5 - filteredSpecificActivities',filteredSpecificActivities)
 
     useEffect(()=>{
@@ -160,7 +160,7 @@ export default function ServiceHistory() {
                             {/* DATOS DE TRABAJOS REALIZADOS http://localhost:3001/professsionalOffer/all/id */}
                             {
 
-                                specificActivities && specificActivities ?
+                                specificActivities !== "There are not specifical Activities" ?
                                 specificActivities?.map((el, index) => {
                                     return (
                                         <CardServiceHistory
