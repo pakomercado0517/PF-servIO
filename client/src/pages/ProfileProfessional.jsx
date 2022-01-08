@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getAllUsers, 
         getByUserId, 
         getClientNeedsById, 
-        getSpecificActivitiesById } from '../redux/actions';
+        getSpecificActivitiesById, 
+        showFormClientNeed} from '../redux/actions';
 import CardReview from '../components/CardReview';
 import CardParticularService from '../components/CardParticularService';
 import { ClientSpecificNeed } from '../components/ClientSpecificNeed';
@@ -53,6 +54,10 @@ export default function ProfileProfessional( ){
             ...state,
             seeAllServices: !state.seeAllServices,
         })
+    }
+    function showModalFormCLient(){
+        dispatch(showFormClientNeed("show"));
+        
     }
 
 return (
@@ -232,15 +237,26 @@ return (
         </div>
 {/* // ----------------------servicios solicitados--------------------- */}
         <div  className={s.titulo}> 
-            <h4>Servicios Solicitados</h4>
-        </div>
+            <h4>Servicios Solicitados</h4>            
+                        </div>
+            <button
+                    className="btn btn-outline-info ml-2"
+                    onClick={showModalFormCLient}
+                    style={{cursor:"pointer"}}
+                >
+                    <span>Crear publicacion</span>
+            </button>
 
         <div className={ s.container_cards}>
 
                 {
                     globalUserGlobalStorage?.id === professional?.id ?
                     <div className={ s.reviews_container }>
-                        { clientNeeds.map( clientNeed => {
+                        {
+                        clientNeeds && clientNeeds.length === 0 ?
+                        <h6>No hay servicios solicitados, creá una publicación!</h6>
+                        :
+                        clientNeeds.map( clientNeed => {
                             return (
                                 <NavLink 
                                     to={`/client/need/${clientNeed.id}`}
@@ -253,7 +269,9 @@ return (
                                     />
                                 </NavLink>
                             )
-                        })}
+                        })
+                    
+                        }
                         {/* <div className='col-md-12'>
                             <nav  aria-label="Page navigation example">
                                 <ul className='pagination'>
