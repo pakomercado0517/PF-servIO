@@ -19,7 +19,26 @@ export default function ServiceHistory() {
     const dispatch = useDispatch()
     const { id } = useParams()
     const { professionals, clientNeedById, offersByUserId } = useSelector(state => state)
-    const specificActivities = useSelector((state) => state?.specificActivitiesById) 
+    const specificActivities = useSelector((state) => state?.specificActivitiesById)
+    
+    const [filteredSpecificActivities, setfilteredSpecificActivities] = useState([])
+
+    useEffect(() => {
+        if (specificActivities === "There are not specifical Activities") setfilteredSpecificActivities("There are not specifical Activities")
+        else {
+            specificActivities.map(el=>{
+                if(el.ClientNeeds[0]){
+                    setfilteredSpecificActivities(el.ClientNeeds.map(el2 => {
+                        return {
+                            ...el,
+                            status: el2.status,
+                            ClientNeedId: el2.id,
+                        }
+                    }))
+                }
+            })
+        }
+    }, [specificActivities])
 
     // filtrar las actividades especificas que sean de tipo de tipo general
     // const filteredSpecificActivities = specificActivities.filter(activity => activity.type === 'general')
@@ -161,18 +180,20 @@ export default function ServiceHistory() {
                             {/* DATOS DE TRABAJOS REALIZADOS http://localhost:3001/professsionalOffer/all/id */}
                             {
 
-                                specificActivities !== "There are not specifical Activities" ?
-                                specificActivities?.map((el, index) => {
+                                filteredSpecificActivities !== "There are not specifical Activities" ?
+                                filteredSpecificActivities?.map((el, index) => {
                                     return (
                                         <CardServiceHistoryJobs
                                             key={el.id + index}
-                                            // id={el.id}
+                                            id={el.id}
                                             name={el.name}
                                             description={el.description}
                                             // photo={el.photo}
                                             type={el.type}
                                             UserId={el.UserId}
+                                            status={el.status}
                                             date={el.updatedAt.split("T")[0]}
+                                            ClientNeedId={ el.ClientNeedId }
                                         />
                                     )
                                 })
