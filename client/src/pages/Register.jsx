@@ -176,7 +176,7 @@ export default function Crear(props) {
             }else{
               Swal.fire({
                 title: 'Registro exitoso',
-                text: 'Ahora puedes iniciar sesión',
+                text: 'Revisa tu correo para activar tu cuenta',
                 icon: 'success',
                 confirmButtonText: 'Aceptar'
               });

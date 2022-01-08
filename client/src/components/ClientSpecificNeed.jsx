@@ -16,7 +16,7 @@ export const ClientSpecificNeed = () => {
     const navigate = useNavigate()
 
     const [input, setInput] = useState({
-        userId: user?.id,
+        userId: user.id,
         name: "",
         photo: "https://images.unsplash.com/photo-1600623050499-84929aad17c9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80", // es la url de la imagen por default del detail client need
         // photo: "",

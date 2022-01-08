@@ -129,7 +129,7 @@ export default function CardServiceHistoryJobs(props) {
                       */}
 
 
-                      {/* option3:  ["done"] - En este caso hay que mostar distintos botones 
+                    {/* option3:  ["done"] - En este caso hay que mostar distintos botones 
                         //para modificar el estado de la clientNeed (id de clienNeed: props.ClientNeedId)
                         message on card (not swal!): Enhorabuena! Finalizaste tu trabajo con exito. Revisa en tu cuenta el deposito.
                       */}
