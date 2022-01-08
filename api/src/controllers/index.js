@@ -595,6 +595,22 @@ module.exports = {
 
     res.send("borrado");
   },
+
+  deleteProfessionalActivity: async (req, res) => {
+    const id = req.params.id;
+    if (id) {
+      const specificActivity = await SpecificTechnicalActivity.findOne({ where: { id } });
+      if (specificActivity) {
+        specificActivity.destroy();
+        res.status(200).send("La actividad especifica ha sido eliminada.");
+      } else {
+        res.status(404).send("specific activity not found")
+      }
+    } else {
+      res.status(500).send("Por favor inserta un id.");
+    }
+  },
+
   getProfessionalActivities: async (req, res) => {
     const id = req.params.id;
     try {
@@ -606,6 +622,7 @@ module.exports = {
           const professionalId = professional.id;
           const activities = await SpecificTechnicalActivity.findAll({
             where: { ProfessionalId: professionalId },
+            include: [{ model: ClientNeed }],
           });
           if (activities.length > 0) {
             res.status(200).send(activities);
