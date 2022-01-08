@@ -115,19 +115,19 @@ export default function EditCliente() {
     }, [details.dni, details.email, details.firstName, details.lastName, details.password, details.repeatPassword])
 
     useEffect(() => {
-      if (!buttonSubmit) {
-          document.getElementById("buttonSubmit").disabled = true
-      } else {
-          if(details.professionalCase){
-              if (details.profession[0]) {
-                  document.getElementById("buttonSubmit").disabled = false
-              }else {
-                  document.getElementById("buttonSubmit").disabled = true
-              }
-          } else {
-              document.getElementById("buttonSubmit").disabled = false
-          }
-      }
+    //   if (!buttonSubmit) {
+    //       document.getElementById("buttonSubmit").disabled = true
+    //   } else {
+    //       if(details.professionalCase){
+    //           if (details.profession[0]) {
+    //               document.getElementById("buttonSubmit").disabled = false
+    //           }else {
+    //               document.getElementById("buttonSubmit").disabled = true
+    //           }
+    //       } else {
+    //           document.getElementById("buttonSubmit").disabled = false
+    //       }
+    //   }
   }, [buttonSubmit, details])
 
   useEffect(() => {

@@ -152,25 +152,30 @@ export default function CardOfferToClientNeed(props) {
                 {
                     (user.id !== props.UserId) ?
                         <div className={s.container_buttons}>
-                            <button onClick={ updateOffer } name="offers" type="button" className="btn btn-outline-danger">
+                            <button onClick={updateOffer} name="offers" type="button" className="btn btn-outline-danger">
                                 Rechazar
                             </button>
-                            <button onClick={ addToCart } name="details" className='btn btn-outline-success'>
+                            <button onClick={addToCart} name="details" className='btn btn-outline-success'>
                                 Agregar al carrito
                             </button>
                             {/* <button name="details" className='btn btn-outline-success'>Contratar</button> */}
-                        </div> : (props.status !== "rejected") ?
+                        </div> : (props.status === "rejected") ?
                         <div className={s.container_buttons}>
-                            <button name="offers" type="button" className="btn btn-outline-danger" onClick={deleteOffer}>
-                                Eliminar
-                            </button>
-                        </div> : 
-                        <div className={ s.container_buttons }>
                             <span>
                                 Lo siento! La oferta ha sido rechazada.
                             </span>
                             <button name="offers" type="button" className="btn btn-outline-danger" onClick={deleteOffer}>
                                 Aceptar
+                            </button>
+                        </div> : (props.status === "pending to pay") ?
+                        <div className={s.container_buttons}>
+                            <span>
+                                Wow! Parece que el cliente esta interesado en tu presupuesto! La contratación esta pendiente.
+                            </span>
+                        </div> :
+                        <div className={s.container_buttons}>
+                            <button name="offers" type="button" className="btn btn-outline-danger" onClick={deleteOffer}>
+                                Eliminar
                             </button>
                         </div>
                 }

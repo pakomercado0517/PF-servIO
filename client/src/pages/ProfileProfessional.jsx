@@ -21,16 +21,22 @@ export default function ProfileProfessional( ){
 
     const { id } = useParams()
     const dispatch= useDispatch();
+    const [filteredSpecificActivities, setfilteredSpecificActivities] = useState([])
     const professional = useSelector((state) => state?.user[0])
     const { globalUserGlobalStorage } = useSelector(state => state)
     const specificActivities = useSelector((state) => state?.specificActivitiesById)    
     const allUsers = useSelector( (state) => state?.allUsers)
     const clientNeeds = useSelector(state => state.clientNeedById)
 
-    const filteredSpecificActivities = 
-        specificActivities === 'There are not specifical Activities' ? 
-        'There are not specifical Activities' : 
-        specificActivities.filter(activity => activity.type === 'general')
+    useEffect(() => {
+        if (specificActivities  === "There are not specifical Activities") setfilteredSpecificActivities("There are not specifical Activities")
+        else setfilteredSpecificActivities(specificActivities.filter(activity => activity.type === 'general'))
+    }, [specificActivities])
+
+    // const filteredSpecificActivities = 
+    //     specificActivities === 'There are not specifical Activities' ? 
+    //     'There are not specifical Activities' : 
+    //     specificActivities.filter(activity => activity.type === 'general')
 
     const [state, setstate] = useState({
         login: false,
@@ -203,7 +209,7 @@ return (
                     :
                     <>
                         {
-                            specificActivities.map( (el) => {
+                            filteredSpecificActivities.map( (el) => {
                                 return (
                                     <CardParticularService
                                     id={el.id}
@@ -216,7 +222,7 @@ return (
                                     materials= { el.materials }
                                     photo= { el.photo !== "url_qui" ? el.photo : "" }
                                     price= { el.price }
-                                    type= { el.type }
+                                    type= "specific technical activity"
                                     />
                                     )
                                 })
