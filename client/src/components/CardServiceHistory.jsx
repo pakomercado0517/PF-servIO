@@ -89,7 +89,16 @@ export default function CardServiceHistory(props) {
                 {/* Description, title and status */}
                 <div className={ s.container_datos_description }>
                     <div className={ s.container_datos_description_status}>
-                        <span>{ props.status }</span>
+                        {
+                            props.type ?
+                            <span>Tipo:{ props.type }</span>
+                            :<></>
+                        }
+                        {
+                            props.status ?
+                            <span>Status:{ props.status }</span>
+                            :<></>
+                        }
                     </div>
                     <div className={ s.container_datos_description_title }>
                         <h6> { props.name } </h6>

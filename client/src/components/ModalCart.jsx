@@ -29,6 +29,18 @@ export default function ModalCart(props) {
         dispatch(switchModalCart("notShow"))
     }, [])
 
+    useEffect(() => {
+        // SETEO EL CARRITO
+        const newData = cart.map( el => {
+            return {
+                ...el,
+                location: input,
+                UserId: user.id
+            }
+        })
+        setCart(newData)
+    }, [input])
+
     // MERCADO PAGO FUNCTIONS
 
     const { MercadoPago } = useScript(
@@ -124,16 +136,6 @@ export default function ModalCart(props) {
     }
 
     async function handleSubmit() {
-    
-        // SETEO EL CARRITO
-        const newData = cart.map( el => {
-            return {
-                ...el,
-                location: input,
-                UserId: user.id
-            }
-        })
-        setCart(newData)
 
         try {
             const { data } = await axios.post( REACT_APP_HOST+"/Transactions/", {
@@ -187,6 +189,11 @@ export default function ModalCart(props) {
         dispatch(switchModalCart("notShow"))
     }
 
+    function inputChange(e) {
+        setinput(e.target.value)
+        
+    }
+
     return (
         <div className={ s.container } id='modal-cart'>
             <div className={ s.container_background } onClick={back}></div>
@@ -201,7 +208,7 @@ export default function ModalCart(props) {
                     <div className="mb-3 row">
                         <label htmlFor="inputPassword" className="col-sm-2 col-form-label">Dirección</label>
                         <div className="col-sm-10">
-                            <input value={ input } type="text" className="form-control" id="inputPassword" onChange={ (e) => setinput(e.target.value ) } />
+                            <input value={ input } type="text" className="form-control" id="inputPassword" onChange={ inputChange } />
                         </div>
                     </div>
                 </form>

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import s from './styles/EditUser.module.css';
 import {useGlobalStorage} from '../hooks/useGlobalStorage';
 import { useDispatch, useSelector } from "react-redux";
-import { filterProfessions, putUser } from '../redux/actions';
+import { filterProfessions, putUser, existentUser } from '../redux/actions';
 import Swal from 'sweetalert2';
 import {storage} from '../firebase/firebase'
 import {ref, uploadBytesResumable, getDownloadURL} from '@firebase/storage'
@@ -25,9 +25,9 @@ export default function EditCliente() {
   console.log(errors)
     const [profession, setProfession] = useState([])
     const oficio = useSelector((state) => state.professionsName)
-    const a = useSelector((state) => state)
+    const existent = useSelector((state) => state.z)
     const [buttonSubmit, setbuttonSubmit] = useState(false)
-    console.log(a)
+    console.log(existent)
 
     const navigate = useNavigate()
     const dispatch = useDispatch();
@@ -52,7 +52,9 @@ export default function EditCliente() {
         dispatch(filterProfessions())      
     },[ dispatch ])
     
-    
+    useEffect(() => {
+      dispatch(existentUser(details.email))  
+  }, [dispatch, details.email])
     useEffect(() => {
         let errores = {}
         //validacion nombre
@@ -111,6 +113,7 @@ export default function EditCliente() {
             ...errores
         })
     }, [details.dni, details.email, details.firstName, details.lastName, details.password, details.repeatPassword])
+
     useEffect(() => {
     //   if (!buttonSubmit) {
     //       document.getElementById("buttonSubmit").disabled = true
@@ -166,8 +169,8 @@ export default function EditCliente() {
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
-        
         try{
+        if(existent === true || globalUser.email === details.email){
             let prof= profession.toString()
             let newData= {
                 id: globalUser.id,
@@ -209,10 +212,19 @@ export default function EditCliente() {
 
             });
             navigate('/')
+        }else{
+          Swal.fire({
+            title: 'Email en uso',
+            text: 'Este email esta en uso, favor de modificarlo',
+            icon: 'error',
+            confirmButtonText: 'Aceptar'
+        })
+        
+        }
         }catch(e){
             console.log(e)
-        }
     }
+  }
 
     function handleChange(e){
         setDetails({
@@ -509,7 +521,7 @@ export default function EditCliente() {
                     <p>Recuerda que los campos que no edites no cambiarán, lo unico que no podrás editar es el DNI.</p>  
                 </div>
                 
-                <button type='submit'id='buttonSubmitt' className={s.buttonSubmit} >Cambiar Perfil</button>
+                <button type='submit'id='buttonSubmit' className={s.buttonSubmit} >Cambiar Perfil</button>
             </form>
             </div>
         </div>
