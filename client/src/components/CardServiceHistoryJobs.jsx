@@ -94,10 +94,44 @@ export default function CardServiceHistoryJobs(props) {
                 <div className={ s.container_datos_description }>
                     <div className={ s.container_datos_description_status}>
                         {
-                            props.status ?
-                            <span>Status:{ props.status }</span>
+                            props.status &&
+                            props.status === "pending to pay" ?
+                            <div>
+                            <h5>Un cliente quiere comprar tu servicio!</h5>
+                            <h5>Solo falta que registre el pago en MercadoPago</h5>
+                            <span
+                                className='text-warning text-uppercase text-center'
+                            >
+                                Status:{ props.status }</span>
+                            </div>
                             :<></>
                         }
+                        {
+                            props.status &&
+                            props.status === "in progress" ?
+                            <div>
+                            <h5>Tu servicio está en proceso!</h5>
+                            <span
+                                className='text-warning text-uppercase text-center'
+                                >
+                                Status:{ props.status }</span>
+                            </div>
+                            :<></>
+                        }
+                        {
+                            props.status &&
+                            props.status === "done" ?
+                            <div>
+                            <h5>Tu servicio ha sido finalizado!</h5>
+                            <span
+                                className='text-warning text-uppercase text-center'
+                                >
+                                Status:{ props.status }</span>
+                            </div>
+                            :<></>
+                        }
+
+
                     </div>
                     <div className={ s.container_datos_description_title }>
                         <h6> { props.name } </h6>
