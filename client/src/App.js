@@ -40,7 +40,6 @@ function App() {
         <Route exact path="/clients/:idClient" element={globalUser ==='' ? <Navigate to='/login'/> :<ProfileClient />} />
         <Route exact path="/professional/:id" element={globalUser ==='' ? <Navigate to='/login'/> :<ProfileProfessional />} />
         <Route exact path="/cart/" element={<Cart />} />
-        {/* <Route exact path="/homeprofessional" element={<HomeProfessional />} /> */}
         <Route exact path="/editUser" element={globalUser ==='' ? <Navigate to='/login'/> :<EditUser />} />
         <Route exact path="/service-history/:id" element={globalUser ==='' ? <Navigate to='/login'/> : <ServiceHistory />} />
         <Route

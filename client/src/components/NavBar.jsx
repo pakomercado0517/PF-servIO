@@ -8,6 +8,7 @@ import logo from '../img/ServIO.svg';
 import { BsCart2 } from 'react-icons/bs'
 //Componentes
 import Search from './Search';
+import { ClientSpecificNeed } from './ClientSpecificNeed';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { showFormClientNeed } from '../redux/actions'
@@ -47,6 +48,7 @@ export default function NavBar() {
 
     return (
         <div className={s.navbar}>
+            <ClientSpecificNeed/>
             <div className={s.navbar_logo_serch}>
                 <div className={s.container__logo}>
                     <img src={logo} alt="Logo" />
