@@ -257,8 +257,10 @@ return (
         </div>
 
         {/* // ----------------------reseñas--------------------- */}
-
-        <h4>Reviews</h4>
+        <div className={s.titulo}>
+            <h4>Reviews</h4>
+        </div>
+        
         <div className={ s.container_cards }>
 
             {
