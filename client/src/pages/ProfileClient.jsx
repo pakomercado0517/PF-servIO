@@ -5,7 +5,7 @@ import { BsArrowRightCircle } from 'react-icons/bs'
 import { FaRegEdit } from 'react-icons/fa'
 import { MdAccountCircle } from 'react-icons/md';
 import { GrLocation } from 'react-icons/gr'
-import { getByAccountId, getClientNeedsById } from '../redux/actions';
+import { getByAccountId, getClientNeedsById, showFormClientNeed } from '../redux/actions';
 import CardClientNeed from '../components/CardClientNeed';
 
 // import CardReview from '../components/CardReview';
@@ -28,7 +28,9 @@ export default function ProfileClient(){
         dispatch(getClientNeedsById(idClient))
     },[ dispatch, idClient,  ])
 
-
+    function showModalFormCLient(){
+        dispatch(showFormClientNeed("show"));
+    }
     // useEffect(()=>{
     // },[state, clientNeeds])
 
@@ -94,12 +96,19 @@ export default function ProfileClient(){
                 {/* CARDS DE SOLICITUDES HECHAS */}
 
                 <div className={ s.reviews }>
-                    <h4 className="">Últimas Solicitudes</h4>
 
                     <Link to={`/service-history/${idClient}`}>
-                        <button className="btn btn-outline-info">Ver todas</button>
+                        <button className="btn btn-outline-info">Panel de Servicios</button>
                     </Link>
-                    
+                    {/* <h4 className="">Últimas Solicitudes</h4> */}
+                    <button
+                        className="btn btn-outline-info ml-2"
+                        onClick={showModalFormCLient}
+                        style={{cursor:"pointer"}}
+                    >
+                        <span>Crear publicacion</span>
+                    </button>
+                    <h4 className="text-center">Últimas Solicitudes</h4>
                     {
                         clientNeeds && clientNeeds.length > 0 ?
                         
@@ -120,7 +129,7 @@ export default function ProfileClient(){
                         })}
                     </div>
                     :
-                    <></>
+                    <h6>No hay servicios solicitados, creá una publicación!</h6>
                     }
 
                     <BsArrowRightCircle className={s.reviews_icon} size="50px"/>
