@@ -163,7 +163,7 @@ return (
             }
         </div>
         <NavLink to={`/service-history/${professional?.id}`}>
-            <button className="btn btn-outline-info">Ver Historial de publicaciones</button>
+            <button className="btn btn-outline-info">Panel de Servicios</button>
         </NavLink>
         <div className={s.titulo}>
             <h4>Servicios Ofrecidos</h4>
