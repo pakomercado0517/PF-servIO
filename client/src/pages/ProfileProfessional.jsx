@@ -15,32 +15,17 @@ import { BsArrowLeftCircle } from 'react-icons/bs'
 import { GrLocation } from 'react-icons/gr';
 
 import s from './styles/ProfileProfessional.module.css'
-import { useGlobalStorage } from '../hooks/useGlobalStorage';
 
 
 export default function ProfileProfessional( ){
 
     const { id } = useParams()
     const dispatch= useDispatch();
-
-    const [filteredSpecificActivities, setfilteredSpecificActivities] = useState([])
-
-    const [ globalUserGlobalStorage, ] = useGlobalStorage("globalUser", "")
-
     const professional = useSelector((state) => state?.user[0])
+    const { globalUserGlobalStorage } = useSelector(state => state)
     const specificActivities = useSelector((state) => state?.specificActivitiesById)    
     const allUsers = useSelector( (state) => state?.allUsers)
     const clientNeeds = useSelector(state => state.clientNeedById)
-
-    useEffect(() => {
-        if (specificActivities  === "There are not specifical Activities") setfilteredSpecificActivities("There are not specifical Activities")
-        else setfilteredSpecificActivities(specificActivities.filter(activity => activity.type === 'general'))
-    }, [specificActivities])
-
-    // const filteredSpecificActivities = 
-    //     specificActivities === 'There are not specifical Activities' ? 
-    //     'There are not specifical Activities' : 
-    //     specificActivities.filter(activity => activity.type === 'general')
 
     const [state, setstate] = useState({
         login: false,
@@ -72,6 +57,7 @@ export default function ProfileProfessional( ){
 
 return (
     <div className={ s.container }>
+        <ClientSpecificNeed/>
         <div className={s.container_details}>
             
             <div>
@@ -171,42 +157,10 @@ return (
                 ) : <></>
             }
         </div>
-
-        <h4>Necesidades especificas del Cliente</h4>
-
-        <NavLink to={`/service-history/${globalUserGlobalStorage?.id}`}>
-            <button className="btn btn-outline-info">Ver todas</button>
-        </NavLink>
-        {/*---------------- servicios particulares ofrecidos por el profesional ---------*/}
-
-        <div>
-
-            {
-                globalUserGlobalStorage?.id === professional?.id ?
-                <div className={s.reviews_container}>
-                        {clientNeeds.map(clientNeed => {
-                            return (
-                                <NavLink
-                                to={`/client/need/${clientNeed.id}`}
-                                key={clientNeed.id}
-                                >
-                                    <CardClientNeed
-                                        name={clientNeed.name}
-                                        description={clientNeed.description}
-                                        photo={clientNeed.photo}
-                                    />
-                                </NavLink>
-                            )
-                        })}
-                    </div>
-                    : <></>
-                    
-                    
-                    
-                }
-
+        <div className={s.titulo}>
+            <h4>Servicios Ofrecidos</h4>
         </div>
-        <h4>Servicios Ofrecidos</h4>
+        
 
             {/* si su usuario visita su perfil profesional ==> opcion para agregar servicio */}
         {
@@ -215,46 +169,44 @@ return (
             
                 <NavLink
                 to="/ProfessionalServiceOffer"
-                    >
-                        <button className="btn btn-outline-info ml-2">
-                            <span className="">
-                                Agregar Servicio
-                            </span>
-                        </button>
-                    </NavLink>
-
-                </div>
-                : <></>
+                >
+                    <button className="btn btn-outline-info ml-2">
+                        <span className="">
+                            Agregar Servicio
+                        </span>
+                    </button>
+                </NavLink>
+            
+            </div>
+            : <></>
 
         }
+{/*---------------- servicios particulares ofrecidos por el profesional ---------*/}
 
-        <div className={s.container_cards}>
+        <div className={ s.container_cards }>
 
             <div className="">
-                {
-                    filteredSpecificActivities &&
-                        filteredSpecificActivities === 'There are not specifical Activities' ?
-                        <>
-                            <h5>No hay servicios registrados..</h5>
-                            <h5>Ofrecé un servicio!</h5>
-                        </>
-                        :
-                        <>
-                            {
-                                filteredSpecificActivities.map((el) => {
-                                    return (
-                                        <CardParticularService
-                                            id={el.id}
-                                            key={el.id}
-                                            name={el.name}
-                                            description={el.description}
-                                            guarantee_time={el.guarantee_time}
-                                            guarantee={el.guarantee}
-                                            duration={el.job_time}
-                                            materials={el.materials}
-                                            photo={el.photo !== "url_qui" ? el.photo : "" }
+                {   specificActivities && 
+                    specificActivities === 'There are not specifical Activities' ?
+
+                    <h6>No hay servicios registrados</h6>
+                    :
+                    <>
+                        {
+                            specificActivities.map( (el) => {
+                                return (
+                                    <CardParticularService
+                                    id={el.id}
+                                    key={el.id}
+                                    name= { el.name }
+                                    description= { el.description }
+                                    guarantee_time= { el.guarantee_time }
+                                    guarantee= { el.guarantee }
+                                    duration= { el.job_time }
+                                    materials= { el.materials }
+                                    photo= { el.photo !== "url_qui" ? el.photo : "" }
                                     price= { el.price }
-                                    type= "specific technical activity"
+                                    type="specific technical activity"
                                     />
                                     )
                                 })
@@ -262,6 +214,37 @@ return (
                     </>
                 }
             </div>
+
+            <div>
+
+                {
+                    globalUserGlobalStorage?.id === professional?.id ?
+                    <div className={ s.reviews_container }>
+                        { clientNeeds.map( clientNeed => {
+                            return (
+                                <NavLink 
+                                    to={`/client/need/${clientNeed.id}`}
+                                    key={clientNeed.id}
+                                >
+                                    <CardClientNeed
+                                        name={ clientNeed.name }
+                                        description={ clientNeed.description }
+                                        photo={ clientNeed.photo }
+                                    />
+                                </NavLink>
+                            )
+                        })}
+                    </div>
+                    : <></>
+
+
+
+                }
+
+            </div>
+
+
+
 
             <div className={ state.seeAllServices?s.container_cards_second:s.container_cards_second_all }>
                 <BsArrowRightCircle onClick={ newStateServices } size="50px"/>
