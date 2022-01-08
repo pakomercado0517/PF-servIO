@@ -201,7 +201,9 @@ export default function ServiceHistory() {
                                         />
                                     )
                                 })
-                                :<><h5>No hay trabajos pendientes</h5></>
+                                :<><h5
+                                    className="text-center mt-3"
+                                >No hay trabajos pendientes</h5></>
                             }
                         </div>
 
