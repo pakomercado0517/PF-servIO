@@ -15,15 +15,19 @@ import { BsArrowLeftCircle } from 'react-icons/bs'
 import { GrLocation } from 'react-icons/gr';
 
 import s from './styles/ProfileProfessional.module.css'
+import { useGlobalStorage } from '../hooks/useGlobalStorage';
 
 
 export default function ProfileProfessional( ){
 
     const { id } = useParams()
     const dispatch= useDispatch();
+
     const [filteredSpecificActivities, setfilteredSpecificActivities] = useState([])
+
+    const [ globalUserGlobalStorage, ] = useGlobalStorage("globalUser", "")
+
     const professional = useSelector((state) => state?.user[0])
-    const { globalUserGlobalStorage } = useSelector(state => state)
     const specificActivities = useSelector((state) => state?.specificActivitiesById)    
     const allUsers = useSelector( (state) => state?.allUsers)
     const clientNeeds = useSelector(state => state.clientNeedById)
@@ -68,7 +72,6 @@ export default function ProfileProfessional( ){
 
 return (
     <div className={ s.container }>
-        <ClientSpecificNeed/>
         <div className={s.container_details}>
             
             <div>
@@ -200,8 +203,6 @@ return (
                 {   
                     filteredSpecificActivities && 
                     filteredSpecificActivities === 'There are not specifical Activities' ?
-                    // specificActivities && 
-                    // specificActivities === 'There are not specifical Activities' ?
                     <>
                     <h5>No hay servicios registrados..</h5>
                     <h5>Ofrecé un servicio!</h5>
