@@ -9,6 +9,7 @@ import CardOfferToClientNeed from '../components/CardOfferToClientNeed'
 
 import { getAllProfessionals, getClientNeedsById, getOffersById, getSpecificActivitiesById } from '../redux/actions'
 import { useGlobalStorage } from '../hooks/useGlobalStorage'
+import CardServiceHistoryJobs from '../components/CardServiceHistoryJobs'
 
 export default function ServiceHistory() {
 
@@ -163,7 +164,7 @@ export default function ServiceHistory() {
                                 specificActivities !== "There are not specifical Activities" ?
                                 specificActivities?.map((el, index) => {
                                     return (
-                                        <CardServiceHistory
+                                        <CardServiceHistoryJobs
                                             key={el.id + index}
                                             // id={el.id}
                                             name={el.name}
