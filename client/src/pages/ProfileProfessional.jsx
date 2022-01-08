@@ -228,8 +228,12 @@ return (
 
         </div>
 {/* // ----------------------servicios solicitados--------------------- */}
-        <div>
-                <h4 className={s.titulo}>Servicios Solicitados</h4>
+        <div  className={s.titulo}> 
+            <h4>Servicios Solicitados</h4>
+        </div>
+
+        <div className={ s.container_cards}>
+
                 {
                     globalUserGlobalStorage?.id === professional?.id ?
                     <div className={ s.reviews_container }>
@@ -247,9 +251,20 @@ return (
                                 </NavLink>
                             )
                         })}
-                        <div>
-                            
-                        </div>
+                        {/* <div className='col-md-12'>
+                            <nav  aria-label="Page navigation example">
+                                <ul className='pagination'>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span></a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span></a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div> */}
                     </div>
                     : <></>
 
