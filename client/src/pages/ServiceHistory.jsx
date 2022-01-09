@@ -101,7 +101,9 @@ export default function ServiceHistory() {
             <div>
                 {/* DATOS DE SERVICIOS SOLICITADOS */}
                 <div className="mt-3">
-                    <h3 className="text-center">Servicios Solicitados</h3>
+                    <h3 className="text-center mt-3 border-bottom">
+                        Servicios Solicitados
+                    </h3>
                     <div className="row">
                     
                 {
@@ -127,7 +129,15 @@ export default function ServiceHistory() {
                     </div>
                 </div>
                 {
-                    shows[0] ? <></>:<h3>No se encontraron resultados</h3>
+                    shows[0] ? 
+                    <></>:
+                    <>
+                        <h5
+                            className="text-center mt-2 mb-5"
+                            >
+                            No hay servicios solicitados, Publicá el servicio que necesitas!
+                        </h5>
+                    </>
                 }
             </div>
 
@@ -177,7 +187,7 @@ export default function ServiceHistory() {
                     <div>
                         <h2
                             className="text-center mt-3 border-bottom"
-                        >Trabajos Pendientes!</h2>
+                        >Trabajos Pendientes</h2>
                     </div>
 
                         <div>
