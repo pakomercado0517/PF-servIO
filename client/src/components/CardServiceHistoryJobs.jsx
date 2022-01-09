@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 
 import axios from 'axios'
 import { getClientNeedsById, getSpecificActivitiesById } from '../redux/actions';
+import { useNavigate } from 'react-router-dom';
 
 const { REACT_APP_HOST } = process.env;
 
@@ -18,7 +19,7 @@ const { REACT_APP_HOST } = process.env;
 export default function CardServiceHistoryJobs(props) {
 
     const [ user, ]= useGlobalStorage("globalUser", "")
-
+    const navigate = useNavigate()
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -74,6 +75,12 @@ export default function CardServiceHistoryJobs(props) {
                 timer: 1500
             })
         }
+    }
+
+    function nav(e){
+        console.log(e.target.name)
+        // if(e.target.name === "offers" ) return navigate(`/client/offerToNeed/${id}`)
+        if(e.target.name === "details" ) return navigate(`/client/need/${props.id}`)
     }
 
     return (
@@ -147,10 +154,35 @@ export default function CardServiceHistoryJobs(props) {
                     {/* Mostar distintos botones segun el estado (props.status) */}
 
                     {/* option1:  ["Pending to pay"] - En este caso hay que mostar un mensaje: "Wow, un cliente quiere comprar tu servicio"  */}
+                    
+                    {
+                        props.status &&
+                        props.status === "pending to pay" ?
 
-                    <button name="offers" type="button" className="btn btn-outline-danger"  onClick={deleteNeed}>
-                        Rechazar trabajo
-                    </button>
+                        <>
+                            <button name="details" type="button" className="btn btn-outline-success" onClick={nav}>
+                                Ver detalles
+                            </button>
+
+                            <button name="offers" type="button" className="btn btn-outline-danger"  onClick={deleteNeed}>
+                                Rechazar trabajo
+                            </button>
+                        </>
+                        :<></>
+
+                    }
+
+                    {
+                        props.status &&
+                        props.status === "in progress" ?
+
+                        <>
+                            <button name="details" type="button" className="btn btn-outline-success" onClick={nav}>
+                                Ver detalles
+                            </button>
+                        </>
+                        :<></>
+                    }
 
                     {/* RUTA PARA UPDATE DE CLIENT NEED ---> LOCALHOST3000/clientNeeds/:id */}
 
