@@ -162,9 +162,15 @@ return (
                 ) : <></>
             }
         </div>
+        {
+            globalUserGlobalStorage?.id === professional?.id ?
+
         <NavLink to={`/service-history/${professional?.id}`}>
             <button className="btn btn-outline-info">Panel de Servicios</button>
         </NavLink>
+        : <></>
+        
+        }
         <div className={s.titulo}>
             <h4>Servicios Ofrecidos</h4>
         </div>
@@ -236,17 +242,24 @@ return (
 
         </div>
 {/* // ----------------------servicios solicitados--------------------- */}
+        {/* se muestra solo si el ususario visita su propio perfil */}
+        {
+            globalUserGlobalStorage?.id === professional?.id ?
+        <>
         <div  className={s.titulo}> 
             <h4>Servicios Solicitados</h4>            
-                        </div>
+        </div>
             <button
                     className="btn btn-outline-info ml-2"
                     onClick={showModalFormCLient}
                     style={{cursor:"pointer"}}
-                >
+                    >
                     <span>Crear publicacion</span>
             </button>
-
+        </>
+        : <></>
+        }
+        
         <div className={ s.container_cards}>
 
                 {
