@@ -101,18 +101,18 @@ export default function DetailsClientNeed() {
                   <img 
                     src={ detailsClientNeed?.photo } 
                     alt= 'img' 
-                    className={ s.carousel_img }
+                    className={ s.carousel_img2 }
                   />
-                  <img 
+                  {/* <img 
                     src={ detailsClientNeed?.photo } 
                     alt= 'img' 
                     className={ s.carousel_img2 }
-                  />
-                  <img 
+                  /> */}
+                  {/* <img 
                     src={ detailsClientNeed?.photo } 
                     alt= 'img' 
-                    className={ s.carousel_img3 }
-                  />
+                    className={ s.carousel_img3 } */}
+                  {/* /> */}
               </div>
             </div>
           : 
