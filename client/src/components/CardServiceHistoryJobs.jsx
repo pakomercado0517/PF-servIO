@@ -77,6 +77,28 @@ export default function CardServiceHistoryJobs(props) {
         }
     }
 
+    async function updateNeedStatus(status) {
+        try {
+            const { data } = await axios.put(`${REACT_APP_HOST}/clientNeeds/${props.ClientNeed}`, {
+                status
+            })
+            // Swal.fire({
+            //     icon: 'success',
+            //     title: data,
+            //     showConfirmButton: false,
+            //     timer: 1500
+            // })
+            dispatch(getSpecificActivitiesById(user.id))
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Something wrong',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
+    }
+
     function nav(e){
         console.log(e.target.name)
         // if(e.target.name === "offers" ) return navigate(`/client/offerToNeed/${id}`)
@@ -100,6 +122,7 @@ export default function CardServiceHistoryJobs(props) {
                 {/* Description, title and status */}
                 <div className={ s.container_datos_description }>
                     <div className={ s.container_datos_description_status}>
+                        {/* option1:  ["Pending to pay"] - En este caso hay que mostar un mensaje: "Wow, un cliente quiere comprar tu servicio"  */}
                         {
                             props.status &&
                             props.status === "pending to pay" ?
@@ -113,6 +136,7 @@ export default function CardServiceHistoryJobs(props) {
                             </div>
                             :<></>
                         }
+                        
                         {
                             props.status &&
                             props.status === "in progress" ?
@@ -139,7 +163,6 @@ export default function CardServiceHistoryJobs(props) {
                             :<></>
                         }
 
-
                     </div>
                     <div className={ s.container_datos_description_title }>
                         <h6> { props.name } </h6>
@@ -153,8 +176,6 @@ export default function CardServiceHistoryJobs(props) {
                 {/* Buttons */}
                 <div className={ s.container_datos_buttons }>
                     {/* Mostar distintos botones segun el estado (props.status) */}
-
-                    {/* option1:  ["Pending to pay"] - En este caso hay que mostar un mensaje: "Wow, un cliente quiere comprar tu servicio"  */}
                     
                     {
                         props.status &&
@@ -193,11 +214,18 @@ export default function CardServiceHistoryJobs(props) {
                             <button name="offers" type="button" className="btn btn-outline-danger"  onClick={deleteNeed}>
                                 Cancelar trabajo
                             </button>
+                            <button name="offers" type="button" className="btn btn-outline-success"  onClick={updateNeedStatus}>
+                                Confirmar finalización
+                            </button>
                         </>
                         :<></>
                     }
 
                     {/* RUTA PARA UPDATE DE CLIENT NEED ---> LOCALHOST3000/clientNeeds/:id */}
+                    {/* option3:  ["done"] - En este caso hay que mostar distintos botones 
+                        //para modificar el estado de la clientNeed (id de clienNeed: props.ClientNeedId)
+                        message on card (not swal!): Enhorabuena! Finalizaste tu trabajo con exito. Revisa en tu cuenta el deposito.
+                      */}
 
                     {
                         props.status &&
@@ -213,11 +241,6 @@ export default function CardServiceHistoryJobs(props) {
                         :<></>
 
                     }
-
-                    {/* option3:  ["done"] - En este caso hay que mostar distintos botones 
-                        //para modificar el estado de la clientNeed (id de clienNeed: props.ClientNeedId)
-                        message on card (not swal!): Enhorabuena! Finalizaste tu trabajo con exito. Revisa en tu cuenta el deposito.
-                      */}
 
                 </div>
             </div>
