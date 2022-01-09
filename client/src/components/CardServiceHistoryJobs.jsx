@@ -77,10 +77,10 @@ export default function CardServiceHistoryJobs(props) {
         }
     }
 
-    async function updateNeedStatus(status) {
+    async function updateNeedStatus() {
         try {
             const { data } = await axios.put(`${REACT_APP_HOST}/clientNeeds/${props.ClientNeed}`, {
-                status
+                status: "done",
             })
             // Swal.fire({
             //     icon: 'success',
@@ -141,11 +141,12 @@ export default function CardServiceHistoryJobs(props) {
                             props.status &&
                             props.status === "in progress" ?
                             <div>
-                            <h5>Tu servicio está en proceso!</h5>
-                            <span
-                                className='text-warning text-uppercase text-center'
-                                >
-                                Status:{ props.status }</span>
+                                <h5> El pago fue registrado! </h5>
+                                <h5>Realizá el trabajo y confirmá su finalización clieckeando en "Trabajo Finalizado"</h5>
+                                <span
+                                    className='text-warning text-uppercase text-center'
+                                    >
+                                    Status:{ props.status }</span>
                             </div>
                             :<></>
                         }
@@ -211,11 +212,13 @@ export default function CardServiceHistoryJobs(props) {
                             <button name="details" type="button" className="btn btn-outline-success" onClick={nav}>
                                 Ver detalles
                             </button>
+
+                            <button name="done" type="button" className="btn btn-outline-success"  onClick={updateNeedStatus}>
+                                Confirmar finalización
+                            </button>
+                            
                             <button name="offers" type="button" className="btn btn-outline-danger"  onClick={deleteNeed}>
                                 Cancelar trabajo
-                            </button>
-                            <button name="offers" type="button" className="btn btn-outline-success"  onClick={updateNeedStatus}>
-                                Confirmar finalización
                             </button>
                         </>
                         :<></>
