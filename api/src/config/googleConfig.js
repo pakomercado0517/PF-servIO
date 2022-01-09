@@ -66,7 +66,7 @@ passport.use(
           status: "normal",
         });
         await user.setProfessional(newProfessional);
-        console.log("usuario creado:", user);
+        // console.log("usuario creado:", user);
         cb(null, profile);
       }
     }

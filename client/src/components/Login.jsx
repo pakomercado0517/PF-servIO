@@ -10,6 +10,7 @@ import s from './styles/Login.module.css'
 import { userLogin } from '../redux/actions';
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
 import { useLocalStorage } from '../hooks/useLocalStorage';
+import {getByUserId} from '../redux/actions/index'
 
 export default function Login() {
   const [globalUser,setGlobalUser ] = useGlobalStorage("globalUser", "")
@@ -142,35 +143,51 @@ export default function Login() {
           })
         }
     }
+    
+    console.log('globalUser', globalUser)
+    
+    useEffect( () => {
+      const getData= async ()=> {
+        if(globalUser.length === 0) {
+          setGlobalUser(user[0])
+        }
+      }
+      getData()
+
+      //   if(globalUser && localUser) {
+      //     Swal.fire({
+      //         icon: 'success',
+      //         title: 'Logged in',
+      //         showConfirmButton: false,
+      //         timer: 2500
+      //     })
+      //     navigate('/')
+      // }
+      // return setGlobalUser(null)
+      
+      // x()
+      //   return console.log('user!!!', user)
+    },[user])
 
     const googleLog = async () => {
       try {
-        
-        let result= await axios.get('http://localhost:3001/user/getUser')
-        console.log('resulllt', result)
-        await setGlobalUser(result.data[0].data)
-        await setLocalUser(result.data[0].data)
-    //     if(globalUser && localUser) {
-    //       Swal.fire({
-    //           icon: 'success',
-    //           title: 'Logged in',
-    //           showConfirmButton: false,
-    //           timer: 2500
-    //       })
-    //       navigate('/')
-    //   }
-        
+        const result= await axios.get('http://localhost:3001/user/getGoogleUser')
+        await dispatch(getByUserId(result.data[0].data.id))
       } catch (error) {
-          console.log('errorrrrrr', error)
-
+        console.log(error)
+      }
+    }
+    const githubLog = async () => {
+      try {
+        const result= await axios.get('http://localhost:3001/user/getGithubUser')
+        console.log('result', result.data[0].data.id)
+        await dispatch(getByUserId(result.data[0].data.id))
+      } catch (error) {
+        console.log(error)
       }
     }
     
-    useEffect(() => {
-      
-      // x()
-        // return console.log('user!!!', user)
-    },[localUser, globalUser])
+    console.log('user', user[0])
 
     return (
         <div className={ s.login_master }>
@@ -252,25 +269,25 @@ export default function Login() {
                             <p>¿Olvidaste tu contraseña? <a href="/forget-password">Recuperala!</a></p>
                             <p>O inicia con:</p>
 
-                            <a 
-                            onClick={() => googleLog()}
-                                type="button"
-                                className="btn btn-lg btn-google  text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/google">
-                                <img src="https://img.icons8.com/color/40/000000/google-logo.png" alt="google"/> 
-                            </a>
-                            <a 
-                            onClick={() =>googleLog()}
-                                type="button"
-                                className="btn btn-lg btn-github text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/github">
-                                <img src="https://img.icons8.com/material-rounded/48/000000/github.png" alt='github'/>
-                            </a>
-                            {/* <a 
-                                type="button"
-                                className="btn btn-lg btn-facebook text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/facebook">
-                                <img src="https://img.icons8.com/fluency/48/000000/facebook.png" alt='facebook'/>
-                            </a> */}
+                            
                         </div>
-
+                        <a 
+                            onClick={googleLog}
+                            type="button"
+                            className="btn btn-lg btn-google  text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/google">
+                            <img src="https://img.icons8.com/color/40/000000/google-logo.png" alt="google"/> 
+                        </a>
+                        <a 
+                            onClick={githubLog}
+                            type="button"
+                            className="btn btn-lg btn-github text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/github">
+                            <img src="https://img.icons8.com/material-rounded/48/000000/github.png" alt='github'/>
+                        </a>
+                        {/* <a 
+                            type="button"
+                            className="btn btn-lg btn-facebook text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/facebook">
+                            <img src="https://img.icons8.com/fluency/48/000000/facebook.png" alt='facebook'/>
+                        </a> */}
                     </form>
                 </div>
                 <div className={ s.login_image }></div>

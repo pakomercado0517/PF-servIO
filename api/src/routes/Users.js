@@ -8,7 +8,7 @@ const enviarEmail = require("../handlers/email");
 require("../config/googleConfig");
 
 let googleData = [];
-let cacheData = [];
+let githubData = [];
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
@@ -74,7 +74,7 @@ router.post(
     failureFlash: true,
   }),
   (req, res, next) => {
-    console.log(req.flash('error'))
+    console.log(req.flash("error"));
     res.send({
       message: "Logged",
       cookies: req.session,
@@ -83,7 +83,6 @@ router.post(
     });
   }
 );
-
 
 router.get("/created/:email", async (req, res, next) => {
   const { email } = req.params;
@@ -96,12 +95,11 @@ router.get("/created/:email", async (req, res, next) => {
     } else {
       res.send(false);
     }
-
   }
 });
 
 router.get("/getGoogleUser", async (req, res, next) => {
-  res.json(googleData);
+  await res.json(googleData);
   // if (req.isAuthenticated()) {
   //   const userResult = await User.findOne({
   //     where: { email: req.user._json.email },
@@ -116,8 +114,8 @@ router.get("/getGoogleUser", async (req, res, next) => {
   // }
 });
 
-router.get("/getUser", async (req, res, next) => {
-  res.json(cacheData);
+router.get("/getGithubUser", async (req, res, next) => {
+  res.json(githubData);
 });
 
 router.get("/auth/facebook", passport.authenticate("facebook"));
@@ -143,16 +141,18 @@ router.get(
   "/auth/github/callback",
   passport.authenticate("github"),
   async (req, res, next) => {
-    cacheData.pop();
+    githubData.pop();
     const userResult = await User.findOne({
       where: { user_name: req.user._json.login },
     });
-    cacheData.push({
-      message: "Logged",
-      cookies: req.session,
-      data: userResult,
-    });
-    res.redirect("http://localhost:3000");
+    if (userResult) {
+      await githubData.push({
+        message: "Logged",
+        cookies: req.session,
+        data: userResult,
+      });
+    }
+    res.redirect("http://localhost:3000/login");
   }
   // userFunctions.githubAuth
 );
@@ -168,18 +168,18 @@ router.get(
   "/auth/google/callback",
   passport.authenticate("google"),
   async (req, res) => {
-    cacheData.pop();
+    googleData.pop();
     // console.log("req.user", req.user._json);
     const userResult = await User.findOne({
       where: { email: req.user._json.email },
     });
     if (userResult) {
-      cacheData.push({
+      await googleData.push({
         message: "Logged",
         cookies: req.session,
         data: userResult,
       });
-      res.redirect("http://localhost:3000");
+      res.redirect("http://localhost:3000/login");
       // await res.json({
       //   message: "Logged",
       //   cookies: req.session,
