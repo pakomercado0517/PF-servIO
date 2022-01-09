@@ -129,7 +129,8 @@ export default function CardServiceHistoryJobs(props) {
                             props.status &&
                             props.status === "done" ?
                             <div>
-                            <h5>Tu servicio ha sido finalizado!</h5>
+                            <h5>El cliente confirmó la finalización de tu servicio</h5>
+                            <h5>Revisá en tu cuenta el deposito.</h5>
                             <span
                                 className='text-warning text-uppercase text-center'
                                 >
@@ -204,6 +205,9 @@ export default function CardServiceHistoryJobs(props) {
                         <>
                             <button name="details" type="button" className="btn btn-outline-success" onClick={nav}>
                                 Ver detalles
+                            </button>
+                            <button name="offers" type="button" className="btn btn-outline-danger"  onClick={deleteNeed}>
+                                Borrar Tarjeta
                             </button>
                         </>
                         :<></>
