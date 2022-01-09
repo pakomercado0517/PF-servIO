@@ -82,6 +82,10 @@ export default function CardServiceHistoryJobs(props) {
             const { data } = await axios.put(`${REACT_APP_HOST}/clientNeeds/${props.ClientNeed}`, {
                 status: "done",
             })
+
+            // antes de cambiar el status a "done" tiene q mandar un mail al usuario para que confirme que se hizo el trabajo...
+
+
             // Swal.fire({
             //     icon: 'success',
             //     title: data,
