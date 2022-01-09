@@ -80,7 +80,7 @@ export default function CardServiceHistoryJobs(props) {
     function nav(e){
         console.log(e.target.name)
         // if(e.target.name === "offers" ) return navigate(`/client/offerToNeed/${id}`)
-        if(e.target.name === "details" ) return navigate(`/client/need/${props.id}`)
+        if(e.target.name === "details" ) return navigate(`/client/need/${props.ClientNeedId}`)
     }
 
     return (
@@ -172,19 +172,6 @@ export default function CardServiceHistoryJobs(props) {
 
                     }
 
-                    {
-                        props.status &&
-                        props.status === "in progress" ?
-
-                        <>
-                            <button name="details" type="button" className="btn btn-outline-success" onClick={nav}>
-                                Ver detalles
-                            </button>
-                        </>
-                        :<></>
-                    }
-
-                    {/* RUTA PARA UPDATE DE CLIENT NEED ---> LOCALHOST3000/clientNeeds/:id */}
 
                     {/* option2:  ["in progress"] - En este caso hay que mostar distintos botones 
                     //para modificar el estado de la clientNeed (id de clienNeed: props.ClientNeedId)
@@ -194,6 +181,34 @@ export default function CardServiceHistoryJobs(props) {
                         de la tabla ClientNeed, tiene que mandarle un mail al cliente para que lo confirme (Trabajar con guille)
                       */}
 
+                    {
+                        props.status &&
+                        props.status === "in progress" ?
+
+                        <>
+                            <button name="details" type="button" className="btn btn-outline-success" onClick={nav}>
+                                Ver detalles
+                            </button>
+                            <button name="offers" type="button" className="btn btn-outline-danger"  onClick={deleteNeed}>
+                                Cancelar trabajo
+                            </button>
+                        </>
+                        :<></>
+                    }
+
+                    {/* RUTA PARA UPDATE DE CLIENT NEED ---> LOCALHOST3000/clientNeeds/:id */}
+
+                    {
+                        props.status &&
+                        props.status === "done" ?
+                        <>
+                            <button name="details" type="button" className="btn btn-outline-success" onClick={nav}>
+                                Ver detalles
+                            </button>
+                        </>
+                        :<></>
+
+                    }
 
                     {/* option3:  ["done"] - En este caso hay que mostar distintos botones 
                         //para modificar el estado de la clientNeed (id de clienNeed: props.ClientNeedId)
