@@ -98,25 +98,25 @@ router.get("/created/:email", async (req, res, next) => {
   }
 });
 
-router.get("/getGoogleUser", async (req, res, next) => {
-  await res.json(googleData);
-  // if (req.isAuthenticated()) {
-  //   const userResult = await User.findOne({
-  //     where: { email: req.user._json.email },
-  //   });
-  //   res.send({
-  //     message: "Logged",
-  //     cookies: req.session,
-  //     data: userResult,
-  //   });
-  // } else {
-  //   res.send("Inicia Sesión");
-  // }
-});
+router.post("/getGoogleUser", userFunctions.googleLog);
 
-router.get("/getGithubUser", async (req, res, next) => {
-  res.json(githubData);
-});
+// router.get("/getGoogleUser", async (req, res, next) => {
+//   await res.json(googleData);
+// if (req.isAuthenticated()) {
+//   const userResult = await User.findOne({
+//     where: { email: req.user._json.email },
+//   });
+//   res.send({
+//     message: "Logged",
+//     cookies: req.session,
+//     data: userResult,
+//   });
+// } else {
+//   res.send("Inicia Sesión");
+// }
+// });
+
+router.post("/getGithubUser", userFunctions.githubLog);
 
 router.get("/auth/facebook", passport.authenticate("facebook"));
 

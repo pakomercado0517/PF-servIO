@@ -74,13 +74,13 @@ module.exports = {
       try {
         let hashedPassword = await bcrypt.hash(password, 10);
         let newUser = await User.create({
-          // user_name: userName,
+          user_name: userName,
           first_name: firstName,
           last_name: lastName,
           email,
           phone: phone ? phone : 00000000,
           city,
-          // state,
+          state,
           photo: photo ? photo : "",
           dni,
           // dni_back:dniBack ? dniBack : '',
@@ -94,9 +94,9 @@ module.exports = {
             // certification_name:certification_name ? certification_name: '',
             // certification_img:certification_img ? certification_img : '',
             // status : status ? status : 'normal',
-            certification_name: "",
-            certification_img: "",
-            status: "normal",
+            certification_name,
+            certification_img,
+            status,
           });
           let professions = profession.toLowerCase();
           if (typeof professions === "string") {
@@ -124,7 +124,7 @@ module.exports = {
             } please log in`
           );
       } catch (error) {
-        res.status(400).send(error.message);
+        res.status(400).send(error.response);
       }
     }
   },
@@ -219,7 +219,7 @@ module.exports = {
   },
   getUser: async (req, res) => {
     const { userId } = req.body;
-    console.log(req.session)
+    console.log(req.session);
     if (userId) {
       const user = await User.findAll({
         where: {
@@ -234,7 +234,6 @@ module.exports = {
       res.send("Please join in");
     }
   },
-
 
   newTechnicalActivity: async (req, res) => {
     const {
@@ -258,7 +257,7 @@ module.exports = {
         materials,
         description,
         guarantee,
-        type: type ? type:"general",
+        type: type ? type : "general",
         guarantee_time,
         job_time,
       });
@@ -274,37 +273,29 @@ module.exports = {
     // }
   },
 
-
   // ******** OTHER
-
-
 
   getAllUsers: async (req, res) => {
     try {
-      
       const users = await User.findAll({
-      
-        include: [
-              { model: ClientReview },
-            ],
+        include: [{ model: ClientReview }],
       });
       const rate = users.map((r) => {
-        if(r.ClientReviews !== []){
-          let userRate = 0
-                for(let i = 0 ; i < r.ClientReviews?.length; i++){
-                    userRate +=  parseInt(r.ClientReviews[i].score)
-                }
-                let average = Math.round(userRate / r.ClientReviews?.length * 100) / 100
-                r.rate = average
-                return r;
-        }else{
-          r.rate = 0
+        if (r.ClientReviews !== []) {
+          let userRate = 0;
+          for (let i = 0; i < r.ClientReviews?.length; i++) {
+            userRate += parseInt(r.ClientReviews[i].score);
+          }
+          let average =
+            Math.round((userRate / r.ClientReviews?.length) * 100) / 100;
+          r.rate = average;
+          return r;
+        } else {
+          r.rate = 0;
           return r;
         }
-        
       });
       res.status(200).send(rate);
-      
     } catch (error) {
       res.status(400).send(error.message);
     }
@@ -331,21 +322,20 @@ module.exports = {
         ],
       });
       const rate = professionals.map((r) => {
-        if(r.Professional.ClientReviews !== []){
-          let userRate = 0
-                for(let i = 0 ; i < r.Professional.ClientReviews?.length; i++){
-                    userRate +=  parseInt(r.Professional.ClientReviews[i].score)
-                }
-                let average = userRate / r.Professional.ClientReviews?.length
-                // let userRate2 = {userRate : average}
-                r.rate = average
-                return r;
-        }else{
+        if (r.Professional.ClientReviews !== []) {
+          let userRate = 0;
+          for (let i = 0; i < r.Professional.ClientReviews?.length; i++) {
+            userRate += parseInt(r.Professional.ClientReviews[i].score);
+          }
+          let average = userRate / r.Professional.ClientReviews?.length;
+          // let userRate2 = {userRate : average}
+          r.rate = average;
+          return r;
+        } else {
           // let userRate2 = {userRate : 0}
-          r.rate = 0
+          r.rate = 0;
           return r;
         }
-        
       });
       res.status(200).send(rate);
     } catch (error) {
@@ -374,10 +364,9 @@ module.exports = {
         where: { id: { [Op.eq]: id } },
       });
       if (user[0] && user.professional === true) {
-
         const users = await User.findOne({
-        where: { id },
-        include: [
+          where: { id },
+          include: [
             {
               model: Professional,
               include: [
@@ -387,35 +376,37 @@ module.exports = {
               ],
             },
           ],
-      });
+        });
 
-        if( users.Professional.ClientReviews.length ) {
-          let userRate = 0
-                for(let i = 0 ; i < users.Professional.ClientReviews.length; i++){
-                    userRate +=  parseInt(users.Professional.ClientReviews[i].score)
-                }
-                let average = Math.round(userRate / users.Professional.ClientReviews?.length * 100) / 100
-                users.rate = average
-        }else{
-          users.rate = 0
+        if (users.Professional.ClientReviews.length) {
+          let userRate = 0;
+          for (let i = 0; i < users.Professional.ClientReviews.length; i++) {
+            userRate += parseInt(users.Professional.ClientReviews[i].score);
+          }
+          let average =
+            Math.round(
+              (userRate / users.Professional.ClientReviews?.length) * 100
+            ) / 100;
+          users.rate = average;
+        } else {
+          users.rate = 0;
         }
 
-      await users.save() 
-      res.status(200).send([users]);
-
-      }else if(user[0]){
+        await users.save();
+        res.status(200).send([users]);
+      } else if (user[0]) {
         const users = await User.findOne({
           where: { id },
           include: [
-              {
-                model: Professional,
-                include: [
-                  { model: Profession },
-                  { model: ClientReview },
-                  { model: SpecificTechnicalActivity },
-                ],
-              },
-            ],
+            {
+              model: Professional,
+              include: [
+                { model: Profession },
+                { model: ClientReview },
+                { model: SpecificTechnicalActivity },
+              ],
+            },
+          ],
         });
         res.status(200).send([users]);
       } else {
@@ -464,8 +455,8 @@ module.exports = {
             include: [{ model: User }],
           },
           {
-            model: ClientNeed
-          }
+            model: ClientNeed,
+          },
         ],
       });
       res.status(200).send(activities);
@@ -473,7 +464,7 @@ module.exports = {
       res.status(400).send(error.message);
     }
   },
-  
+
   getByActivityName: async (req, res) => {
     try {
       const activities = await SpecificTechnicalActivity.findAll({
@@ -493,7 +484,6 @@ module.exports = {
 
   // ************ CLIENT NEEDS
 
-
   // getByProfessionName: async (req, res) =>{
   //     const {profession} = req.body
   //     const professionalArr = profession.split(',')
@@ -505,12 +495,8 @@ module.exports = {
   //         })
 
   // ************ PROFESSIONAL OFFERS
-  
+
   //CONDICIONAR QUE SOLO PUEDAN OFERTAR PROFESIONALES
-
-
-
-
 
   // ************ USER
 
@@ -534,15 +520,14 @@ module.exports = {
       profession,
     } = req.body;
     const id = req.params.id;
-    const user = await User.findOne({ where: {id}})
+    const user = await User.findOne({ where: { id } });
     let x = false;
-    if(user.email !== email) {
+    if (user.email !== email) {
       user.verified = false;
       user.token = crypto.randomBytes(20).toString("hex");
-      user.expiracion = Date.now() + 3600000
-      await user.save()
-      x = true
-      
+      user.expiracion = Date.now() + 3600000;
+      await user.save();
+      x = true;
     }
     // console.log(user)
     try {
@@ -557,7 +542,7 @@ module.exports = {
           state,
           photo,
           dni,
-          password:newPass,
+          password: newPass,
           professional,
         },
         { where: { id: id } }
@@ -595,8 +580,8 @@ module.exports = {
         },
       });
       await prof.setProfessions(allProfessions);
-      if(x === true){
-        const usuario =  await User.findOne({ where: {id}});
+      if (x === true) {
+        const usuario = await User.findOne({ where: { id } });
         const activateUrl = `http://localhost:3000/activate/${usuario.token}`;
         await enviarEmail.enviar({
           usuario,
@@ -619,12 +604,14 @@ module.exports = {
   deleteProfessionalActivity: async (req, res) => {
     const id = req.params.id;
     if (id) {
-      const specificActivity = await SpecificTechnicalActivity.findOne({ where: { id } });
+      const specificActivity = await SpecificTechnicalActivity.findOne({
+        where: { id },
+      });
       if (specificActivity) {
         specificActivity.destroy();
         res.status(200).send("La actividad especifica ha sido eliminada.");
       } else {
-        res.status(404).send("specific activity not found")
+        res.status(404).send("specific activity not found");
       }
     } else {
       res.status(500).send("Por favor inserta un id.");
@@ -659,36 +646,36 @@ module.exports = {
       res.status(400).send(error.message);
     }
   },
-  
+
   enviarToken: async (req, res) => {
     const { email } = req.body;
-    if(email) {
-        const usuario = await User.findOne({ where: { email } });
-        console.log(usuario)
+    if (email) {
+      const usuario = await User.findOne({ where: { email } });
+      console.log(usuario);
       if (!usuario) {
-        res.send({ message : "No existe esa cuenta" });
+        res.send({ message: "No existe esa cuenta" });
       } else {
-        if(usuario.token === null){
+        if (usuario.token === null) {
           usuario.token = crypto.randomBytes(20).toString("hex");
           usuario.expiracion = Date.now() + 3600000;
         }
         //guardarlos en la base de datos
         await usuario.save();
-        
+
         //url de reset
         const resetUrl = `http://localhost:3000/forget-password/${usuario.token}`;
         const activeUrl = ` http://localhost:3000/activate/${usuario.token}`;
         //Enviar correo con el token
 
         // console.log(email, type)
-        if(usuario.verified === true){
+        if (usuario.verified === true) {
           await enviarEmail.enviar({
             usuario,
             subject: "Password Reset",
             resetUrl,
             archivo: `<h2>Restablecer Password</h2><p>Hola, has solicitado reestablecer tu password, haz click en el siguiente enlace para reestablecerlo, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${resetUrl} >Resetea tu password</a><p>Si no puedes acceder a este enlace, visita ${resetUrl}</p><div/>`,
           });
-        }else{
+        } else {
           await enviarEmail.enviar({
             usuario,
             subject: "Verify your account",
@@ -696,13 +683,11 @@ module.exports = {
             archivo: `<h2>Activar tu cuenta</h2><p>Hola, has solicitado reestablecer tu password, lamentablemente tu cuenta no se encuentra activada, por favor activala primero, para ello  haz click en el siguiente enlace, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${activeUrl} >Activa tu cuenta</a><p>Si no puedes acceder a este enlace, visita ${activeUrl}</p><div/>`,
           });
         }
-          res.send({message: "Se envio un mensaje a tu correo"});
-        
+        res.send({ message: "Se envio un mensaje a tu correo" });
       }
-    }else{
-      res.send({message: "Envia un email valido"})
+    } else {
+      res.send({ message: "Envia un email valido" });
     }
-    
   },
 
   validarToken: async (req, res) => {
@@ -714,14 +699,13 @@ module.exports = {
 
     if (!usuario) {
       res.send(false);
-    }else{
+    } else {
       res.send(true);
     }
-    
   },
 
   actualizarPassword: async (req, res) => {
-    const {password} = req.body
+    const { password } = req.body;
     const usuario = await User.findOne({
       where: {
         token: req.params.token,
@@ -732,55 +716,55 @@ module.exports = {
     });
 
     if (!usuario) {
-      // req.flash("error", "No valido"),  
+      // req.flash("error", "No valido"),
       res.send("INVALIDO");
-    }else{
-      usuario.password = bcrypt.hashSync(Object.keys((req.body))[0], bcrypt.genSaltSync(10));
+    } else {
+      usuario.password = bcrypt.hashSync(
+        Object.keys(req.body)[0],
+        bcrypt.genSaltSync(10)
+      );
       usuario.token = null;
       usuario.expiracion = null;
-      console.log(Object.keys((req.body))[0])
-    //guardar nuevo password
-    await usuario.save();
-    res.send('Password Restored');
+      console.log(Object.keys(req.body)[0]);
+      //guardar nuevo password
+      await usuario.save();
+      res.send("Password Restored");
     }
-
-    
   },
 
-  solicitarActivar : async (req, res) => {
-    const {email} = req.body
-    if(email) {
+  solicitarActivar: async (req, res) => {
+    const { email } = req.body;
+    if (email) {
       const usuario = await User.findOne({ where: { email } });
       // console.log(usuario)
       if (!usuario) {
-        res.send({ message : "No existe esa cuenta" });
+        res.send({ message: "No existe esa cuenta" });
       } else {
-        if(usuario.token === null){
+        if (usuario.token === null) {
           usuario.token = crypto.randomBytes(20).toString("hex");
           usuario.expiracion = Date.now() + 3600000;
-          await usuario.save()
+          await usuario.save();
         }
-      
-      //url de reset
-        const activeUrl = ` http://localhost:3000/activate/${usuario.token}`;
-      //Enviar correo con el token
 
-      // console.log(email, type)
+        //url de reset
+        const activeUrl = ` http://localhost:3000/activate/${usuario.token}`;
+        //Enviar correo con el token
+
+        // console.log(email, type)
         await enviarEmail.enviar({
           usuario,
           subject: "Verify your account",
           activeUrl,
           archivo: `<h2>Verifica tu cuenta</h2><p>Hola, has solicitado que reenviemos el mail para activar tu cuenta, haz click en el siguiente enlace para activar tu cuenta, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${activeUrl} >Activa tu cuenta</a><p>Si no puedes acceder a este enlace, visita ${activeUrl}</p><div/>`,
         });
-      
-        res.send({message: "Se envio un mensaje a tu correo"});
-      
-    }
-    }else{
-      res.send({message: "Envia un email valido"})
+
+        res.send({ message: "Se envio un mensaje a tu correo" });
+      }
+    } else {
+      res.send({ message: "Envia un email valido" });
     }
   },
-  activarCuenta: async(req, res)  => {
+  activarCuenta: async (req, res) => {
     const usuario = await User.findOne({
       where: {
         token: req.params.token,
@@ -788,14 +772,12 @@ module.exports = {
           [Op.gte]: Date.now(),
         },
       },
-      
     });
     if (!usuario) {
-      // req.flash("error", "No valido"),  
+      // req.flash("error", "No valido"),
       res.send("INVALIDO");
-    }else{
-      usuario.verified = true,
-      usuario.token = null;
+    } else {
+      (usuario.verified = true), (usuario.token = null);
       usuario.expiracion = null;
       await usuario.save();
       res.send("Cuenta Activada");
@@ -903,14 +885,87 @@ module.exports = {
       res.redirect("http://localhost:3000/login");
     }
   },
-  getAllCities : async (req, res) =>{
-    const users = await User.findAll({})
-    let cities = []
-    users.map(e => {
-      if(cities.indexOf(e.city) === -1) cities.push(e.city)
-    })
+  getAllCities: async (req, res) => {
+    const users = await User.findAll({});
+    let cities = [];
+    users.map((e) => {
+      if (cities.indexOf(e.city) === -1) cities.push(e.city);
+    });
 
-    res.send(cities)
-  }
+    res.send(cities);
+  },
+  githubLog: async (req, res, next) => {
+    const {
+      userName,
+      firstName,
+      lastName,
+      email,
+      photo,
+      certification_name,
+      certification_img,
+    } = req.body;
+    try {
+      const findGithubUser = await User.findOne({ where: { email: email } });
+      if (findGithubUser) {
+        res.send(findGithubUser);
+      } else {
+        const user = await User.create({
+          user_name: userName,
+          email,
+          photo,
+          first_name: firstName,
+          last_name: lastName,
+          professional: false,
+          professions: [],
+        });
+
+        let newProfessional = await Professional.create({
+          certification_name,
+          certification_img,
+          status: "normal",
+        });
+        await user.setProfessional(newProfessional);
+        res.send(user);
+      }
+    } catch (error) {
+      res.send(error);
+    }
+  },
+  googleLog: async (req, res, next) => {
+    const {
+      userName,
+      firstName,
+      lastName,
+      email,
+      photo,
+      certification_name,
+      certification_img,
+    } = req.body;
+    try {
+      const findGoogleUser = await User.findOne({ where: { email: email } });
+      if (findGoogleUser) {
+        res.send(findGoogleUser);
+      } else {
+        const user = await User.create({
+          user_name: userName,
+          email,
+          photo,
+          first_name: firstName,
+          last_name: lastName,
+          professional: false,
+          professions: [],
+        });
+
+        let newProfessional = await Professional.create({
+          certification_name,
+          certification_img,
+          status: "normal",
+        });
+        await user.setProfessional(newProfessional);
+        res.send(user);
+      }
+    } catch (error) {
+      res.send(error);
+    }
+  },
 };
-

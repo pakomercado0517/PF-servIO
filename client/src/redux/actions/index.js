@@ -38,38 +38,37 @@ export const CLIENTS_FILTERED = "CLIENTS_FILTERED";
 export const PROFESSIONAL_FILTERED = "PROFESSIONAL_FILTERED";
 export const ORDER_DATA_CLIENT = "ORDER_DATA_CLIENT";
 export const USER_LOGIN = "USER_LOGIN";
-export const PUT_CLIENT_NEEDS = 'PUT_CLIENT_NEEDS';
-export const PUT_USER = 'PUT_USER';
-export const GET_OFFERS_OF_CLIENT_NEED = 'GET_OFFERS_OF_CLIENT_NEED'
-export const GET_OFFERS_BY_USER_ID = 'GET_OFFERS_BY_USER_ID'
-export const OFFER_IN_NEED_BY_ID = 'OFFER_IN_NEED_BY_ID';
-export const CREATE_PREFERENCE = 'CREATE_PREFERENCE';
-export const CREATE_TECNICAL_ACTIVITY = 'CREATE_TECNICAL_ACTIVITY';
-export const EXISTENT_USER = 'EXISTENT_USER'
-export const GOOGLE_LOGIN = 'GOOGLE_LOGIN'
-export const DELETE_LOGIN = 'DELETE_LOGIN'
-export const CITIES = 'CITIES'
-export const SWITCH_MODAL_CART = 'SWITCH_MODAL_CART'
-export const RESET_PASSWORD = 'RESET_PASSWORD'
-export const VALIDAR_TOKEN = 'VALIDAR_TOKEN'
-export const NEW_PASSWORD = 'NEW_PASSWORD'
-export const ACTIVAR = 'ACTIVAR'
+export const PUT_CLIENT_NEEDS = "PUT_CLIENT_NEEDS";
+export const PUT_USER = "PUT_USER";
+export const GET_OFFERS_OF_CLIENT_NEED = "GET_OFFERS_OF_CLIENT_NEED";
+export const GET_OFFERS_BY_USER_ID = "GET_OFFERS_BY_USER_ID";
+export const OFFER_IN_NEED_BY_ID = "OFFER_IN_NEED_BY_ID";
+export const CREATE_PREFERENCE = "CREATE_PREFERENCE";
+export const CREATE_TECNICAL_ACTIVITY = "CREATE_TECNICAL_ACTIVITY";
+export const EXISTENT_USER = "EXISTENT_USER";
+export const GOOGLE_LOGIN = "GOOGLE_LOGIN";
+export const DELETE_LOGIN = "DELETE_LOGIN";
+export const CITIES = "CITIES";
+export const SWITCH_MODAL_CART = "SWITCH_MODAL_CART";
+export const RESET_PASSWORD = "RESET_PASSWORD";
+export const VALIDAR_TOKEN = "VALIDAR_TOKEN";
+export const NEW_PASSWORD = "NEW_PASSWORD";
+export const ACTIVAR = "ACTIVAR";
+export const GITHUB_LOGIN = "GITHUB_LOGIN";
 // trae todos los usuarios - clientes y profesionales
-export function getAllUsers () {
-    
-    return async function (dispatch) {
-        
-        try {
-            const response = await axios.get(`${ constants.localhost }/user/all`)
-            dispatch({
-                type: GET_ALL_USERS,
-                payload: response.data
-            });
-        } catch (error) {
-            console.log(error.message)
-        };
-    };
-};
+export function getAllUsers() {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(`${constants.localhost}/user/all`);
+      dispatch({
+        type: GET_ALL_USERS,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+}
 
 // trae todos los usuarios - clientes y profesionales
 export function getDetailsClientNeed(id) {
@@ -246,7 +245,7 @@ export function newUser(data) {
         payload: response.data,
       });
     } catch (error) {
-      console.log(error.message);
+      console.log(error.response);
     }
   };
 }
@@ -476,8 +475,8 @@ export const filterClients =
       let aux = db.filter((e) => {
         if (rate === undefined || !rate) {
           return e;
-        } else if(rate < e.rate) {
-          return e
+        } else if (rate < e.rate) {
+          return e;
         }
       });
       // //*******************FILTER BY location***************//
@@ -510,13 +509,13 @@ export const filterClients =
         order = aux2;
       }
       // //*******************FILTER BY location***************//
-      let orderByLocation = order.filter(e => {
-        if(!location ){
-          return e
-        }else if(e.city === location){
-            return e
+      let orderByLocation = order.filter((e) => {
+        if (!location) {
+          return e;
+        } else if (e.city === location) {
+          return e;
         }
-      })
+      });
       dispatch({
         type: CLIENTS_FILTERED,
         payload: orderByLocation,
@@ -525,24 +524,25 @@ export const filterClients =
   };
 
 export const orderProfessionals = (name) => async (dispatch) => {
-  let url = name  ?  `${ constants.localhost }/clientNeeds/need?name=${name}`:`${ constants.localhost }/clientNeeds/all`
-  axios.get(url)
-  .then(response => {
-    let order = []
-    const db = response.data  
+  let url = name
+    ? `${constants.localhost}/clientNeeds/need?name=${name}`
+    : `${constants.localhost}/clientNeeds/all`;
+  axios.get(url).then((response) => {
+    let order = [];
+    const db = response.data;
     dispatch({
-      type:PROFESSIONAL_FILTERED,
-      payload: db
-    })
-  })
+      type: PROFESSIONAL_FILTERED,
+      payload: db,
+    });
+  });
 };
 
-export const userLogin = user => async dispatch => {  
-    const result = await axios.post(`${constants.localhost}/user/login`, user);
-    dispatch({
-      type: USER_LOGIN,
-      payload: result,
-    });
+export const userLogin = (user) => async (dispatch) => {
+  const result = await axios.post(`${constants.localhost}/user/login`, user);
+  dispatch({
+    type: USER_LOGIN,
+    payload: result,
+  });
 };
 
 export const searchBar = (name) => {
@@ -556,146 +556,199 @@ export const searchBar = (name) => {
 export function putClientNeeds(data) {
   return async function (dispatch) {
     try {
-      const response = await axios.put(`${constants.localhost}/clientNeeds/${data.userId}`, data);
-      console.log("put-clientneed",response.data)
+      const response = await axios.put(
+        `${constants.localhost}/clientNeeds/${data.userId}`,
+        data
+      );
+      console.log("put-clientneed", response.data);
       dispatch({
         type: PUT_CLIENT_NEEDS,
         payload: response.data,
       });
     } catch (error) {
       console.log(error.message);
-    };
+    }
   };
-}; 
+}
 
 //editar usuario
 export function putUser(data) {
   return async function (dispatch) {
     try {
-      const response = await axios.put(`${constants.localhost}/user/updateUser/${data.id}`, data);
-      console.log("put-user",response.data)
+      const response = await axios.put(
+        `${constants.localhost}/user/updateUser/${data.id}`,
+        data
+      );
+      console.log("put-user", response.data);
       dispatch({
         type: PUT_USER,
         payload: response.data,
       });
     } catch (error) {
       console.log(error.message);
-    };
+    }
   };
-};
+}
 
 // get a las ofertas profesionales de las necesidades de los clientes
 export function getOffersToSpecificClientNeed(id) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(`${constants.localhost}/professsionalOffer/need/${id}`);
+      const response = await axios.get(
+        `${constants.localhost}/professsionalOffer/need/${id}`
+      );
       dispatch({
         type: GET_OFFERS_OF_CLIENT_NEED,
         payload: response.data,
       });
     } catch (error) {
       console.log(error.message);
-    };
+    }
   };
 }
 
-export const offerInNeedById =  id => async dispatch =>{
-  const data = await axios.get(`${ constants.localhost }/professsionalOffer/need/${id}`)
+export const offerInNeedById = (id) => async (dispatch) => {
+  const data = await axios.get(
+    `${constants.localhost}/professsionalOffer/need/${id}`
+  );
   if (data.data === "No offers found") {
-    dispatch ({
+    dispatch({
       type: OFFER_IN_NEED_BY_ID,
       payload: [],
-    });    
-  }else{
-    dispatch ({
+    });
+  } else {
+    dispatch({
       type: OFFER_IN_NEED_BY_ID,
       payload: data.data,
-  }); 
+    });
   }
-}
+};
 
-export const createPreference = (data) => async  dispatch => {
-  const response = await axios.post(`${ constants.localhost }/create_preference`,data)
-  dispatch ({
+export const createPreference = (data) => async (dispatch) => {
+  const response = await axios.post(
+    `${constants.localhost}/create_preference`,
+    data
+  );
+  dispatch({
     type: CREATE_PREFERENCE,
     payload: response,
   });
-}
+};
 
-export const createTecnicalActivity = (data) => async  dispatch => {
-  const response = await axios.post(`${ constants.localhost }/TecnicalsActivities`,data)
-  dispatch ({
+export const createTecnicalActivity = (data) => async (dispatch) => {
+  const response = await axios.post(
+    `${constants.localhost}/TecnicalsActivities`,
+    data
+  );
+  dispatch({
     type: CREATE_TECNICAL_ACTIVITY,
     payload: response,
   });
-}
+};
 
-export const existentUser = email => async  dispatch => {
-  const response = await axios.get(`${ constants.localhost }/user/created/${email}`)
-  dispatch ({
+export const existentUser = (email) => async (dispatch) => {
+  const response = await axios.get(
+    `${constants.localhost}/user/created/${email}`
+  );
+  dispatch({
     type: EXISTENT_USER,
     payload: response.data,
   });
-}
+};
 
+// export const googleLogin = () => async (dispatch) => {
+//   const response = await axios.get(`${constants.localhost}/user/getUser`);
+//   dispatch({
+//     type: GOOGLE_LOGIN,
+//     payload: response.data,
+//   });
+// };
 
-export const googleLogin = () => async  dispatch => {
-  const response = await axios.get(`${constants.localhost}/user/getUser`);
-  dispatch ({
-    type: GOOGLE_LOGIN,
-    payload: response.data,
-  });
-}
-
-export const deleteLogin = () => async  dispatch => {
-  dispatch ({
+export const deleteLogin = () => async (dispatch) => {
+  dispatch({
     type: DELETE_LOGIN,
     payload: [],
   });
-}
+};
 
-export const cities = () => async dispatch => {
+export const cities = () => async (dispatch) => {
   let city = await axios.get(`${constants.localhost}/user/city`);
-  dispatch ({
+  dispatch({
     type: CITIES,
-    payload:city.data
-  })
-}
+    payload: city.data,
+  });
+};
 
-
-export const resetPassword = (email) => async dispatch => {
-  if(email) {
-    let city = await axios.post(`${constants.localhost}/User/reestablecer/`, email);
-  dispatch ({
-    type: RESET_PASSWORD,
-    payload:city
-  })
+export const resetPassword = (email) => async (dispatch) => {
+  if (email) {
+    let city = await axios.post(
+      `${constants.localhost}/User/reestablecer/`,
+      email
+    );
+    dispatch({
+      type: RESET_PASSWORD,
+      payload: city,
+    });
   }
-  
-}
+};
 
-export const validarToken = (token) => async dispatch => {
-
-  let validate = await axios.get(`${constants.localhost}/user/reestablecer/${token}`);
-  dispatch ({
+export const validarToken = (token) => async (dispatch) => {
+  let validate = await axios.get(
+    `${constants.localhost}/user/reestablecer/${token}`
+  );
+  dispatch({
     type: VALIDAR_TOKEN,
-    payload:validate
-  })
-}
+    payload: validate,
+  });
+};
 
-export const newPassword = (password, token) => async dispatch => {
-  let validate = await axios.put(`${constants.localhost}/user/reestablecer/${token}`, password);
-  dispatch ({
+export const newPassword = (password, token) => async (dispatch) => {
+  let validate = await axios.put(
+    `${constants.localhost}/user/reestablecer/${token}`,
+    password
+  );
+  dispatch({
     type: NEW_PASSWORD,
-    payload:validate
-  })
-}
+    payload: validate,
+  });
+};
 
-
-export const activarCuenta = (token) => async dispatch => {
-  let validate = await axios.put(`${constants.localhost}/user/activar/${token}`);
-  dispatch ({
+export const activarCuenta = (token) => async (dispatch) => {
+  let validate = await axios.put(
+    `${constants.localhost}/user/activar/${token}`
+  );
+  dispatch({
     type: ACTIVAR,
-    payload:validate
-  })
-}
+    payload: validate,
+  });
+};
+
+export const githubLogin = (githubUser) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      `${constants.localhost}/user/getGithubUser`,
+      githubUser
+    );
+    dispatch({
+      type: GITHUB_LOGIN,
+      payload: res.data,
+    });
+  } catch (error) {
+    console.log(error.response);
+  }
+};
+
+export const googleLogin = (googleUser) => async (dispatch) => {
+  try {
+    const response = await axios.post(
+      `${constants.localhost}/user/getGoogleUser`,
+      googleUser
+    );
+    dispatch({
+      type: GOOGLE_LOGIN,
+      payload: response.data,
+    });
+  } catch (error) {
+    console.log(error.response);
+  }
+};
