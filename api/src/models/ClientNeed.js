@@ -25,6 +25,8 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         // allowNull: false
       },
+      token: DataTypes.STRING,
+      expiracion: DataTypes.DATE 
       // price: {
       //     type: DataTypes.INTEGER,
       //     // allowNull: false,

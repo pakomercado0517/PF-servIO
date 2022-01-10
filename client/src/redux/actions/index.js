@@ -38,22 +38,24 @@ export const CLIENTS_FILTERED = "CLIENTS_FILTERED";
 export const PROFESSIONAL_FILTERED = "PROFESSIONAL_FILTERED";
 export const ORDER_DATA_CLIENT = "ORDER_DATA_CLIENT";
 export const USER_LOGIN = "USER_LOGIN";
-export const PUT_CLIENT_NEEDS = "PUT_CLIENT_NEEDS";
-export const PUT_USER = "PUT_USER";
-export const GET_OFFERS_OF_CLIENT_NEED = "GET_OFFERS_OF_CLIENT_NEED";
-export const GET_OFFERS_BY_USER_ID = "GET_OFFERS_BY_USER_ID";
-export const OFFER_IN_NEED_BY_ID = "OFFER_IN_NEED_BY_ID";
-export const CREATE_PREFERENCE = "CREATE_PREFERENCE";
-export const CREATE_TECNICAL_ACTIVITY = "CREATE_TECNICAL_ACTIVITY";
-export const EXISTENT_USER = "EXISTENT_USER";
-export const GOOGLE_LOGIN = "GOOGLE_LOGIN";
-export const DELETE_LOGIN = "DELETE_LOGIN";
-export const CITIES = "CITIES";
-export const SWITCH_MODAL_CART = "SWITCH_MODAL_CART";
-export const RESET_PASSWORD = "RESET_PASSWORD";
-export const VALIDAR_TOKEN = "VALIDAR_TOKEN";
-export const NEW_PASSWORD = "NEW_PASSWORD";
-export const ACTIVAR = "ACTIVAR";
+export const PUT_CLIENT_NEEDS = 'PUT_CLIENT_NEEDS';
+export const PUT_USER = 'PUT_USER';
+export const GET_OFFERS_OF_CLIENT_NEED = 'GET_OFFERS_OF_CLIENT_NEED'
+export const GET_OFFERS_BY_USER_ID = 'GET_OFFERS_BY_USER_ID'
+export const OFFER_IN_NEED_BY_ID = 'OFFER_IN_NEED_BY_ID';
+export const CREATE_PREFERENCE = 'CREATE_PREFERENCE';
+export const CREATE_TECNICAL_ACTIVITY = 'CREATE_TECNICAL_ACTIVITY';
+export const EXISTENT_USER = 'EXISTENT_USER'
+export const GOOGLE_LOGIN = 'GOOGLE_LOGIN'
+export const DELETE_LOGIN = 'DELETE_LOGIN'
+export const CITIES = 'CITIES'
+export const SWITCH_MODAL_CART = 'SWITCH_MODAL_CART'
+export const RESET_PASSWORD = 'RESET_PASSWORD'
+export const VALIDAR_TOKEN = 'VALIDAR_TOKEN'
+export const NEW_PASSWORD = 'NEW_PASSWORD'
+export const ACTIVAR = 'ACTIVAR'
+export const VALIDAR_TOKEN_CONFIRM_DONE ='VALIDAR_TOKEN_CONFIRM_DONE'
+export const CONFIRMAR = 'CONFIRMAR'
 export const GITHUB_LOGIN = "GITHUB_LOGIN";
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers() {
@@ -702,26 +704,37 @@ export const validarToken = (token) => async (dispatch) => {
   });
 };
 
-export const newPassword = (password, token) => async (dispatch) => {
-  let validate = await axios.put(
-    `${constants.localhost}/user/reestablecer/${token}`,
-    password
-  );
-  dispatch({
-    type: NEW_PASSWORD,
-    payload: validate,
-  });
-};
+export const validarTokenConfirmDone = (token) => async dispatch => {
+  let validate = await axios.get(`${constants.localhost}/clientNeeds/confirm/${token}`);
+  dispatch ({
+    type: VALIDAR_TOKEN_CONFIRM_DONE,
+    payload:validate
+  })
+}
 
-export const activarCuenta = (token) => async (dispatch) => {
-  let validate = await axios.put(
-    `${constants.localhost}/user/activar/${token}`
-  );
-  dispatch({
+export const newPassword = (password, token) => async dispatch => {
+  let validate = await axios.put(`${constants.localhost}/user/reestablecer/${token}`, password);
+  dispatch ({
+    type: NEW_PASSWORD,
+    payload:validate
+  })
+}
+
+export const activarCuenta = (token) => async dispatch => {
+  let validate = await axios.put(`${constants.localhost}/user/activar/${token}`);
+  dispatch ({
     type: ACTIVAR,
-    payload: validate,
-  });
-};
+    payload:validate
+  })
+}
+
+export const culminarServicio = (token) => async dispatch => {
+  let validate = await axios.put(`${constants.localhost}/clientNeeds/confirm/${token}`);
+  dispatch ({
+    type: CONFIRMAR,
+    payload:validate
+  })
+}
 
 export const githubLogin = (githubUser) => async (dispatch) => {
   try {
@@ -752,3 +765,5 @@ export const googleLogin = (googleUser) => async (dispatch) => {
     console.log(error.response);
   }
 };
+
+

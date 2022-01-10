@@ -9,5 +9,7 @@ router.put('/:id', needFunctions.updateNeed)//
 router.post('/', needFunctions.newSpecificalNeed)//
 router.get('/need/:id', needFunctions.getById )//
 router.delete('/:id', needFunctions.deleteNeedById )
+router.post('/confirm/:token', needFunctions.confirm)//
+router.get('/confirm/:token', needFunctions.validarToken)//
 
 module.exports= router;
