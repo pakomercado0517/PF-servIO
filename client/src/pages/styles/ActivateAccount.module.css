@@ -1,24 +1,30 @@
 @import url('https://fonts.googleapis.com/css?family=Varela+Round');
 
+:root{
+  --color-primario:#5ed4ee;
+  --color-letra: rgba(87, 85, 85, 0.664);
+}
+
 .button {
-  width:50%;
+  /* width:50%; */
   display: inline-block;
-  padding: 15px 25px;
+  padding: 2px 3px;
   font-size: 3rem; 
   cursor: pointer;
   text-align: center;	
   text-decoration: none;
   outline: none;
   color:  white;
-  background-color: #6C63FF;
+  background-color: var(--color-primario);
   border: none;
-  border-radius: 15px;
-  box-shadow: 0 9px #999;
+  border-radius: 2em;
   font-family: 'Varela'; 
-  margin-top: 5%;
+  margin-top: 10px;
+  margin-bottom: 1em;
 }
 .button:hover {
-  background-color: #5ed4ee;
+  /* background-color: #5ed4ee; */
+  background-color: #6C63FF;
   color: #ffffff;
 }
 
@@ -35,30 +41,31 @@
   font-size: 5rem; 
   font-weight: 400; 
   text-align: center; 
-  background: #5ed4ee; 
-  margin: 5% 0 25px; 
-  overflow: hidden; 
+  background: var(--color-primario); 
+  margin: 10px 25px; 
+  /* overflow: hidden;  */
   padding: 20px; 
-  border: 2px solid #5878ca;
+  border: 2px solid var(--color-letra);
 }
 
 .page{
   display:flex;
   flex-direction:column;
   align-items: center;
+  height: 50vh;
 }
 
 .div_principal {
-  width: 100%;
-  height: 50vh;
+  /* width: 100%; */
+  /* height: 50vh; */
   display: flex;
   align-items: center;
   justify-content: space-around;
 }
 
 .slider{
-  width: 100%;
-  height: 60%;
+  /* width: 100%; */
+  /* height: 60%; */
   overflow: hidden;
   border-radius: 10px;
   /* background-color: rgba(31, 157, 230, 0.931); */
@@ -82,32 +89,45 @@
 }
 @keyframes cambio{
   0%{margin-left: 0;}
-  2%{margin-left: -15%;}
-  6%{margin-left: -30%;} 
-  10%{margin-left: -45%;}
-  14%{margin-left: -60%;}
-  18%{margin-left: -75%;}
-  22%{margin-left: -90%;}
-  26%{margin-left: -105%;}
-  30%{margin-right: -120%;}
-  34%{margin-right: -135%;}
-  38%{margin-right: -160%;}
-  42%{margin-right: -165%;}
-  46%{margin-right: -190%;}
-  50%{margin-left: -205%;}
-  52%{margin-left: -190%;} 
-  56%{margin-left: -165%;}
-  60%{margin-left: -150%;}
-  64%{margin-left: -135%;}
-  68%{margin-left: -120%;}
-  72%{margin-left: -105%;}
-  76%{margin-right: -90%;}
-  80%{margin-right: -75%;}
-  84%{margin-right: -60%;}
-  88%{margin-right: -45%;}
-  92%{margin-right: -30%;}
-  96%{margin-right: -20%;} 
-  100%{margin-left: 0%;}
+  10%{margin-left: -15%;}
+  20%{margin-left: -30%;}
+  30%{margin-left: -45%;}
+  40%{margin-left: -75%;}
+  50%{margin-left: -100%;}
+  60%{margin-left: -120%;}
+  70%{margin-left: -135%;}
+  80%{margin-left: -150%;}
+  90%{margin-left: -170%;}
+  100%{margin-left: -200%;} 
+  
   
   
 }
+
+/* 0%{margin-left: 0;}
+2%{margin-left: -15%;}
+6%{margin-left: -30%;} 
+10%{margin-left: -45%;}
+14%{margin-left: -60%;}
+18%{margin-left: -75%;}
+22%{margin-left: -90%;}
+26%{margin-left: -105%;}
+30%{margin-right: -120%;}
+34%{margin-right: -135%;}
+38%{margin-right: -160%;}
+42%{margin-right: -165%;}
+46%{margin-right: -190%;}
+50%{margin-left: -205%;}
+52%{margin-left: -190%;} 
+56%{margin-left: -165%;}
+60%{margin-left: -150%;}
+64%{margin-left: -135%;}
+68%{margin-left: -120%;}
+72%{margin-left: -105%;}
+76%{margin-right: -90%;}
+80%{margin-right: -75%;}
+84%{margin-right: -60%;}
+88%{margin-right: -45%;}
+92%{margin-right: -30%;}
+96%{margin-right: -20%;} 
+100%{margin-left: 0%;} */

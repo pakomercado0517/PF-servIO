@@ -4,6 +4,7 @@ import {useNavigate, useParams } from "react-router-dom";
 import Swal from 'sweetalert2'
 import s from './styles/ForgetPassword.module.css'
 import { validarToken, newPassword } from '../redux/actions';
+import img from '../img/recuperar.svg'
 
 export default function ResetPassword() {
   const navigate = useNavigate()
@@ -53,17 +54,21 @@ export default function ResetPassword() {
 
   // console.log(email)
   return (
-    <div>
-        <div>
+    <div className={s.conteiner}>
+      <div className={s.img}>
+          <img src={img} alt="" />
+        </div>
+        <div className={s.contenido}>
           {a.data === true ?
             <>
-            <div >
+            <div className={s.titulo} >
                 <h2>Reestablece Password</h2>
             </div>
-            <form onSubmit={() => onSubmit()}>
+            <form onSubmit={() => onSubmit()} className={s.from}>
                 <div >
                     <label>Por favor inserta tu Password</label>
                     <input
+                        className="form-control"
                         type='text'
                         // value={email}
                         placeholder='Password Nuevo'
@@ -73,13 +78,14 @@ export default function ResetPassword() {
                 <div >
                     <label>Por favor repite tu Password</label>
                     <input
+                        className="form-control"
                         type='text'
                         // value={email}
                         placeholder='Repite Password Nuevo'
                         onChange={(e) => setPassword({...password, password2: e.target.value})}
                     />
                 </div>
-                <input type='button' value='Recuperar Password' onClick={() => onSubmit()}/>
+                <input type='button'  className={s.btnPass } value='Recuperar Password' onClick={() => onSubmit()}/>
             </form>
             </> 
             : 
