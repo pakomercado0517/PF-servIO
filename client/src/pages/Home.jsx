@@ -68,8 +68,6 @@ export default function Home(){
 
     return (
         <div>
-            <ClientSpecificNeed/>
-
             <div className={s.container__filter}>
                 { login && login.message === "Logged"?  
                 <>

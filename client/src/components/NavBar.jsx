@@ -32,7 +32,6 @@ export default function NavBar() {
 
     function showModalFormCLient(){
         dispatch(showFormClientNeed("show"));
-        
     }
     
     async function logout() {

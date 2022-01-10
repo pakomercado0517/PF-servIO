@@ -28,4 +28,6 @@
     padding: 50px;
     border-radius: 10px;
     box-shadow: 1px 1px 5px black;
+    overflow-y: scroll;
+    max-height: 80vh;
 }

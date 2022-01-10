@@ -36,7 +36,6 @@ export default function ProfileClient(){
 
     return (
         <div className={ s.div_principal }>
-            <ClientSpecificNeed/>
             <div className={ s.div_inicio  }></div>
 
             <div className={ s.div_photo  }>

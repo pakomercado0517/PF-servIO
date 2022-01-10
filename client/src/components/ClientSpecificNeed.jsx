@@ -9,32 +9,37 @@ import axios from 'axios'
 import s from './styles/ClientSpecificNeed.module.css'
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
 
+const { REACT_APP_HOST } = process.env
+
 export const ClientSpecificNeed = () => {
+
     const [user, ] = useGlobalStorage("globalUser", "")
-    const modal = useSelector(state => state.modal)
-    // const user = useSelector(state => state.globalUserGlobalStorage)
+    const { modal, globalUserGlobalStorage} = useSelector(state => state)
     const navigate = useNavigate()
 
     const [input, setInput] = useState({
         userId: user.id,
         name: "",
-        photo: "https://images.unsplash.com/photo-1600623050499-84929aad17c9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80", // es la url de la imagen por default del detail client need
-        // photo: "",
-        // photo: logo, // logo serv-io
+        photo: logo,
         description: "",
     })
+
+    useEffect(() => {
+        if(user === "" || typeof user === null) stateReset()
+    }, [user])
 
     function onChangeForm(e) {
         setInput({
             ...input,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
+            userId: user.id,
         })
     }
-    // console.log('need photo:', input.photo)
+
     const postNeed =  async(e) =>{
+
         e.preventDefault()
-        console.log(input)
-        if(input.name === "" || input.description === ""){
+        if(input.name === "" || input.description === "" || !input.userId){
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -43,7 +48,7 @@ export const ClientSpecificNeed = () => {
         } else {
         try {
             // dispatch(newEspecificalNeed(input))
-            await axios.post('http://localhost:3001/clientNeeds', input)
+            await axios.post(`${REACT_APP_HOST}/clientNeeds`, input)
 
             Swal.fire({
                 icon: 'success',
