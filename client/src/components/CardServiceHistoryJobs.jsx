@@ -22,16 +22,16 @@ export default function CardServiceHistoryJobs(props) {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    useEffect(() => {
-    }, [])
+    // useEffect(() => {
+    // }, [props.status])
 
-    // console.log('status ', props.status)
+    console.log('props', props)
 
 
     async function updateNeed(status) {
         try {
             const { data } = await axios.put(`${REACT_APP_HOST}/clientNeeds/${props.ClientNeed}`, {
-                // status: "in progress"
+                status: "in progress"
             })
             // Swal.fire({
             //     icon: 'success',
@@ -83,7 +83,7 @@ export default function CardServiceHistoryJobs(props) {
     async function updateNeedStatus() {
         try {
             const { data } = await axios.put(`${REACT_APP_HOST}/clientNeeds/${props.ClientNeed}`, {
-                status: "done",
+                // status: "done",
             })
 
             // antes de cambiar el status a "done" tiene q mandar un mail al usuario para que confirme que se hizo el trabajo...
@@ -110,6 +110,11 @@ export default function CardServiceHistoryJobs(props) {
         console.log(e.target.name)
         // if(e.target.name === "offers" ) return navigate(`/client/offerToNeed/${id}`)
         if(e.target.name === "details" ) return navigate(`/client/need/${props.ClientNeedId}`)
+        if(e.target.name === "done" ) return Swal.fire({
+            icon: 'success',
+            title: 'Le enviamos un correo al cliente para que confirme finalizaste el trabajo!',
+            showConfirmButton: true,
+        })
     }
 
     return (
@@ -168,7 +173,7 @@ export default function CardServiceHistoryJobs(props) {
                                 >
                                 Status:{ props.status }</span>
                             </div>
-                            :<></>  
+                            :<></>
                         }
 
                     </div>
@@ -220,7 +225,7 @@ export default function CardServiceHistoryJobs(props) {
                                 Ver detalles
                             </button>
 
-                            <button name="done" type="button" className="btn btn-outline-success"  onClick={updateNeedStatus}>
+                            <button name="done" type="button" className="btn btn-outline-success"  onClick={nav}>
                                 Confirmar finalización
                             </button>
                             
