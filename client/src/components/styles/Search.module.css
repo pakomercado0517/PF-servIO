@@ -15,6 +15,13 @@
     z-index: 1;
 }
 
+.btn_input{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  border: 1px solid #0dcaf0;
+}
+
 .input_btn{
     margin: 0 0.5em;
     border: none;

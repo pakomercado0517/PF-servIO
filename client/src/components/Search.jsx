@@ -57,7 +57,7 @@ const Search = () => {
     },[name])
 
     const reset = () => {
-      // console.log('a')
+      
     }
     useEffect(() => {
       setName('')
@@ -86,8 +86,8 @@ const Search = () => {
                     onChange={e => onChange(e)}
                     className={s.input}
                 />
-                <input type='button' className={s.btn} onSubmit={ reset } value='x'/>
-                <div>
+                <input type='button' id="eliminar" className={s.btn} onSubmit={ reset } value='x'/>
+                <div className={s.btn_input}>
 
                     {
                         name !== '' ?

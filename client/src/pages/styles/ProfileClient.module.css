@@ -6,8 +6,8 @@
 }
 
 .div_inicio{
-    /* background: url('../../img/joel-filipe-k8apfKm-Md4-unsplash.jpg'); */
-    background: linear-gradient(0deg, rgba(76,211,236,1) 0%, rgba(45,171,253,0.9780287114845938) 100%);
+    background: url('../../img/joel-filipe-k8apfKm-Md4-unsplash.jpg');
+    /* background: linear-gradient(0deg, rgba(76,211,236,1) 0%, rgba(45,171,253,0.9780287114845938) 100%); */
     background-size: cover;
     /* background-attachment: fixed; */
     background-position: center;
