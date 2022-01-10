@@ -14,6 +14,7 @@ import CardClientNeed from '../components/CardClientNeed';
 import { BsArrowRightCircle } from 'react-icons/bs'
 import { BsArrowLeftCircle } from 'react-icons/bs'
 import { GrLocation } from 'react-icons/gr';
+import { useGlobalStorage } from '../hooks/useGlobalStorage';
 
 import s from './styles/ProfileProfessional.module.css'
 
@@ -23,7 +24,7 @@ export default function ProfileProfessional( ){
     const { id } = useParams()
     const dispatch= useDispatch();
     const professional = useSelector((state) => state?.user[0])
-    const { globalUserGlobalStorage } = useSelector(state => state)
+    const [globalUserGlobalStorage, ] = useGlobalStorage("globalUser", "")
     const specificActivities = useSelector((state) => state?.specificActivitiesById)    
     const allUsers = useSelector( (state) => state?.allUsers)
     const clientNeeds = useSelector(state => state.clientNeedById)
