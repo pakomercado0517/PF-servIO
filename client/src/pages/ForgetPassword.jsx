@@ -4,6 +4,8 @@ import {useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
 import s from './styles/ForgetPassword.module.css'
 import { resetPassword, existentUser } from '../redux/actions';
+import img from '../img/recuperar.svg'
+
 export default function ForgetPassword() {
   
   // const navigate = useNavigate()
@@ -54,22 +56,26 @@ export default function ForgetPassword() {
 
 
   return (
-    <div>
-        <div >
-            <div >
+    <div className={s.conteiner}>
+        <div className={s.img}>
+          <img src={img} alt="" />
+        </div>
+        <div className={s.contenido}>
+            <div className={s.titulo}>
                 <h2>Recupera tu Password</h2>
             </div>
             <form onSubmit={() => onSubmit()}>
-                <div >
+                <div className={s.from}>
                     <label>Por favor inserta tu correo:</label>
                     <input
+                        className="form-control"
                         type='text'
                         value={email}
                         placeholder='Email'
                         onChange={(e) => handleChange(e)}
                     />
                 </div>
-                <input type='button' value='Recuperar Password' onClick={onSubmit}/>
+                <input type='button' className={s.btnPass } value='Recuperar Password' onClick={onSubmit}/>
             </form>
         </div>
     </div>
