@@ -163,10 +163,8 @@ module.exports = {
 
   confirm : async (req, res) => {
     console.log(req.params.token)
-    console.log (need.status)
-
+    
     const need = await ClientNeed.findOne({
-      
       where: {
         token: req.params.token,
         expiracion: {
@@ -174,6 +172,7 @@ module.exports = {
         },
       },
     });
+    console.log (need.status)
     if (!need) {
       // req.flash("error", "No valido"),  
       res.send("INVALIDO");
@@ -183,6 +182,7 @@ module.exports = {
       need.status = 'done'
     //guardar nuevo password
       await need.save();
+      console.log (need.status)
       res.send({message: 'needConfirmed', need});
     }
 
