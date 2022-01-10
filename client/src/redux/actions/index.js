@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const { REACT_APP_HOST } = procces.env;
+const { REACT_APP_HOST } = process.env;
 
 const constants = {
   localhost: REACT_APP_HOST,
