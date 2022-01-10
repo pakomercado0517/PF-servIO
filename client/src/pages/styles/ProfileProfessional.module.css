@@ -87,10 +87,13 @@ button{
     font-weight:450;
 }
 
-
+button{
+    
+}
 .container_cards {
     display: flex;
     align-items: center;
+    /* height: 500px; */
 }
 
 .container_cards_first {

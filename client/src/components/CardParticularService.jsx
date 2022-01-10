@@ -51,7 +51,7 @@ export default function CardParticularService(props) {
         }
     }
     return (
-        <div className={s.container}>
+        <div className={s.container }>
             
             <Link 
                 // to={`/professional/${id}/SpecificActivity/${props.id + "-" + id}`}

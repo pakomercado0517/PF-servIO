@@ -117,7 +117,7 @@ export default function CardServiceHistory(props) {
                             onClick={ nav } 
                             name="offers" 
                             type="button" 
-                            className="btn btn-outline-warning position-relative"
+                            className="btn btn-primary position-relative"
                         >
                             Ver ofertas
                             
