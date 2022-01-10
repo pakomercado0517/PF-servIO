@@ -23,7 +23,7 @@ import ProfessionalSpecificActivityEdit from './pages/ProfessionalSpecificActivi
 import ForgetPassword from './pages/ForgetPassword';
 import ResetPassword from './pages/ResetPassword';
 import ActivateAccount from './pages/ActivateAccount';
-
+import ServiceDone from './pages/ServiceDone'
 function App() {
   const [globalUser, ] = useGlobalStorage("globalUser", "")
   return (
@@ -34,6 +34,7 @@ function App() {
         <Route exact path="/nosotros" element={<Nosotros />} />
         <Route exact path="/login" element={globalUser !=='' ? <Navigate to='/'/> : <Login />}/>
         <Route exact path="/activate/:token" element={globalUser !=='' ? <Navigate to='/'/> :<ActivateAccount />} />
+        <Route exact path="/confirm/:token" element={globalUser === '' ? <Navigate to='/login'/> :<ServiceDone />} />
         <Route exact path="/forget-password" element={globalUser !=='' ? <Navigate to='/'/> :<ForgetPassword />} />
         <Route exact path="/forget-password/:token" element={globalUser !=='' ? <Navigate to='/'/> :<ResetPassword />} />
         <Route exact path="/register" element={globalUser !=='' ? <Navigate to='/'/> : <Register />} />

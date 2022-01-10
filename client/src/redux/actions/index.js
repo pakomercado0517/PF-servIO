@@ -54,6 +54,8 @@ export const RESET_PASSWORD = 'RESET_PASSWORD'
 export const VALIDAR_TOKEN = 'VALIDAR_TOKEN'
 export const NEW_PASSWORD = 'NEW_PASSWORD'
 export const ACTIVAR = 'ACTIVAR'
+export const VALIDAR_TOKEN_CONFIRM_DONE ='VALIDAR_TOKEN_CONFIRM_DONE'
+export const CONFIRMAR = 'CONFIRMAR'
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers () {
     
@@ -683,6 +685,14 @@ export const validarToken = (token) => async dispatch => {
   })
 }
 
+export const validarTokenConfirmDone = (token) => async dispatch => {
+  let validate = await axios.get(`${constants.localhost}/clientNeeds/confirm/${token}`);
+  dispatch ({
+    type: VALIDAR_TOKEN_CONFIRM_DONE,
+    payload:validate
+  })
+}
+
 export const newPassword = (password, token) => async dispatch => {
   let validate = await axios.put(`${constants.localhost}/user/reestablecer/${token}`, password);
   dispatch ({
@@ -691,7 +701,6 @@ export const newPassword = (password, token) => async dispatch => {
   })
 }
 
-
 export const activarCuenta = (token) => async dispatch => {
   let validate = await axios.put(`${constants.localhost}/user/activar/${token}`);
   dispatch ({
@@ -699,3 +708,13 @@ export const activarCuenta = (token) => async dispatch => {
     payload:validate
   })
 }
+
+export const culminarServicio = (token) => async dispatch => {
+  let validate = await axios.put(`${constants.localhost}/clientNeeds/confirm/${token}`);
+  dispatch ({
+    type: CONFIRMAR,
+    payload:validate
+  })
+}
+
+

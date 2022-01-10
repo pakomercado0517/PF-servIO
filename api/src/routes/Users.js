@@ -54,7 +54,7 @@ router.post(
       archivo: `<h2>Activar Cuenta</h2><p>Hola, acabas de registrarte en Servio, estás a un paso de poder usar tu cuenta,  haz click en el siguiente enlace para activarla, este enlace es temporal, en caso de vencer vuelve a solicitarlo </p><a href=${activateUrl} >Activa tu cuenta</a><p>Si no puedes acceder a este enlace, visita ${activateUrl}</p><div/>`,
     });
 
-    next();
+    // next();
     // (req, res) => {
     //   console.log(3)
     //   res.redirect(`/user/${req.user.id}`);

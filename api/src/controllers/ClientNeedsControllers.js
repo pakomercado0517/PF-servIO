@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const { User, ProfessionalOffer, ClientNeed } = require("../db.js");
+const { Op } = require("sequelize");
 
 module.exports = {
   getAllNeeds: async (req, res) => {
@@ -158,7 +159,43 @@ module.exports = {
     }else{
       res.status(200).send( "Por favor inserta un id.");
     }
-    
-    
+  },
+
+  confirm : async (req, res) => {
+    console.log(req.params.token)
+    const need = await ClientNeed.findOne({
+      
+      where: {
+        token: req.params.token,
+        expiracion: {
+          [Op.gte]: Date.now(),
+        },
+      },
+    });
+    if (!need) {
+      // req.flash("error", "No valido"),  
+      res.send("INVALIDO");
+    }else{
+      need.token = null;
+      need.expiracion = null;
+      need.status = 'done'
+    //guardar nuevo password
+      await need.save();
+      res.send({message: 'needConfirmed', need});
+    }
+
+  },
+  
+  validarToken: async (req, res) => {
+    const need = await ClientNeed.findOne({
+      where: {
+        token: req.params.token,
+      },
+    });
+    if (!need) {
+      res.send(false);
+    }else{
+      res.send(true);
+    }
   },
 };
