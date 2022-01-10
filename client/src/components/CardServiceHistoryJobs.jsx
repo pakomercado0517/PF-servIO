@@ -79,42 +79,49 @@ export default function CardServiceHistoryJobs(props) {
             })
         }
     }
+    // no sirve. pasé la funcion que manda mail a cliente para confirmar finalizacion a la funcion NAV 
+    // async function updateNeedStatus() {
+    //     try {
+    //         const { data } = await axios.put(`${REACT_APP_HOST}/clientNeeds/${props.ClientNeed}`, {
+    //             // status: "done",
+    //         })
 
-    async function updateNeedStatus() {
-        try {
-            const { data } = await axios.put(`${REACT_APP_HOST}/clientNeeds/${props.ClientNeed}`, {
-                // status: "done",
-            })
-
-            // antes de cambiar el status a "done" tiene q mandar un mail al usuario para que confirme que se hizo el trabajo...
+    //         // antes de cambiar el status a "done" tiene q mandar un mail al usuario para que confirme que se hizo el trabajo...
 
 
-            // Swal.fire({
-            //     icon: 'success',
-            //     title: data,
-            //     showConfirmButton: false,
-            //     timer: 1500
-            // })
-            dispatch(getSpecificActivitiesById(user.id))
-        } catch (error) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Something wrong',
-                showConfirmButton: false,
-                timer: 1500
-            })
-        }
-    }
+    //         // Swal.fire({
+    //         //     icon: 'success',
+    //         //     title: data,
+    //         //     showConfirmButton: false,
+    //         //     timer: 1500
+    //         // })
+    //         dispatch(getSpecificActivitiesById(user.id))
+    //     } catch (error) {
+    //         Swal.fire({
+    //             icon: 'error',
+    //             title: 'Something wrong',
+    //             showConfirmButton: false,
+    //             timer: 1500
+    //         })
+    //     }
+    // }
 
-    function nav(e){
-        console.log(e.target.name)
-        // if(e.target.name === "offers" ) return navigate(`/client/offerToNeed/${id}`)
+    // ACA ENVIA EL MAIL AL CLIENTE CUANDO DA OK EL PROFESIONAL EN TRABAJO TERMINADO
+    // CHEQUEAR SI ESTA FUNCIONANDO OK
+    async function nav(e){
+
         if(e.target.name === "details" ) return navigate(`/client/need/${props.ClientNeedId}`)
-        if(e.target.name === "done" ) return Swal.fire({
-            icon: 'success',
-            title: 'Le enviamos un correo al cliente para que confirme finalizaste el trabajo!',
-            showConfirmButton: true,
-        })
+
+        if(e.target.name === "done" ) 
+        // ruta que manda un mail al cliente para confirmar finalización del ser 
+            await axios.put("http://localhost:3001/Transactions/confirm",
+                {id: props.ClientNeedId})
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Le enviamos un correo al cliente para que confirme que finalizaste el trabajo!',
+                showConfirmButton: true,
+            })
     }
 
     return (
@@ -154,7 +161,7 @@ export default function CardServiceHistoryJobs(props) {
                             props.status === "in progress" ?
                             <div>
                                 <h5> El pago fue registrado! </h5>
-                                <h5>Realizá el trabajo y confirmá su finalización clieckeando en "Trabajo Finalizado"</h5>
+                                <h5>Realizá el trabajo y confirmá su finalización clieckeando en "Confirmar finalización"</h5>
                                 <span
                                     className='text-warning text-uppercase text-center'
                                     >

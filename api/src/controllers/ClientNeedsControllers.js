@@ -163,6 +163,8 @@ module.exports = {
 
   confirm : async (req, res) => {
     console.log(req.params.token)
+    console.log (need.status)
+
     const need = await ClientNeed.findOne({
       
       where: {
