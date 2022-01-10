@@ -11,6 +11,8 @@ import { userLogin } from '../redux/actions';
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import {getByUserId} from '../redux/actions/index'
+import GithubLogin from '../components/GithubLogin'
+import GoogleLogin from '../components/GoogleLogin'
 
 export default function Login() {
   const [globalUser,setGlobalUser ] = useGlobalStorage("globalUser", "")
@@ -271,23 +273,8 @@ export default function Login() {
 
                             
                         </div>
-                        <a 
-                            onClick={googleLog}
-                            type="button"
-                            className="btn btn-lg btn-google  text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/google">
-                            <img src="https://img.icons8.com/color/40/000000/google-logo.png" alt="google"/> 
-                        </a>
-                        <a 
-                            onClick={githubLog}
-                            type="button"
-                            className="btn btn-lg btn-github text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/github">
-                            <img src="https://img.icons8.com/material-rounded/48/000000/github.png" alt='github'/>
-                        </a>
-                        {/* <a 
-                            type="button"
-                            className="btn btn-lg btn-facebook text-uppercase btn-outline col-lg-4" href="http://localhost:3001/user/auth/facebook">
-                            <img src="https://img.icons8.com/fluency/48/000000/facebook.png" alt='facebook'/>
-                        </a> */}
+                        <GoogleLogin />
+                        <GithubLogin />
                     </form>
                 </div>
                 <div className={ s.login_image }></div>

@@ -11,12 +11,13 @@ import Search from './Search';
 import { ClientSpecificNeed } from './ClientSpecificNeed';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { showFormClientNeed } from '../redux/actions'
+import { showFormClientNeed, githubLogin, googleLogin } from '../redux/actions'
 // CSS
 import s from './styles/NavBar.module.css'
 // Hooks
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
 import { useLocalStorage } from '../hooks/useLocalStorage';
+import { getAuth, signOut } from 'firebase/auth'
 
 
 export default function NavBar() {
@@ -27,6 +28,7 @@ export default function NavBar() {
     const [ , setSwitcheo] = useGlobalStorage("switcheo", null)
     const stateTotalRedux = useSelector(state => state)
     const [ , setLocalUser] = useLocalStorage("localUser", "");
+    const auth= getAuth()
 
     function showModalFormCLient(){
         dispatch(showFormClientNeed("show"));
@@ -44,6 +46,11 @@ export default function NavBar() {
             setGlobalUser(null)
             setLocalUser(null)
             navigate('/')
+        signOut(auth).then(() => {
+            console.log('done')
+            dispatch(githubLogin(null))
+            dispatch(googleLogin(null))
+        }).catch(error=> console.log(error))
     }
 
     return (

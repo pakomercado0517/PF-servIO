@@ -6,7 +6,7 @@ const session = require("express-session");
 const passport = require("passport");
 const cors = require("cors");
 const Strategy = require("passport-local").Strategy;
-const flash = require('connect-flash');
+const flash = require("connect-flash");
 
 require("./config/passport")(passport);
 require("./config/googleConfig");
