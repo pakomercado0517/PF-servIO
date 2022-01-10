@@ -968,4 +968,41 @@ module.exports = {
       res.send(error);
     }
   },
+  facebookLog: async (req, res, next) => {
+    const {
+      userName,
+      firstName,
+      lastName,
+      email,
+      photo,
+      certification_name,
+      certification_img,
+    } = req.body;
+    try {
+      const findFacebookUser = await User.findOne({ where: { email: email } });
+      if (findFacebookUser) {
+        res.send(findFacebookUser);
+      } else {
+        const user = await User.create({
+          user_name: userName,
+          email,
+          photo,
+          first_name: firstName,
+          last_name: lastName,
+          professional: false,
+          professions: [],
+        });
+
+        let newProfessional = await Professional.create({
+          certification_name,
+          certification_img,
+          status: "normal",
+        });
+        await user.setProfessional(newProfessional);
+        res.send(user);
+      }
+    } catch (error) {
+      res.send(error);
+    }
+  },
 };

@@ -4,11 +4,13 @@ import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { googleLogin } from '../redux/actions/index'
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 function GoogleLogin(props) {
   const dispatch = useDispatch()
   const googleState = useSelector(state => state.googleUser)
   const [globalUser,setGlobalUser ] = useGlobalStorage("globalUser", "")
+  const [localUser, setLocalUser] = useLocalStorage("localUser", "");
   const [googleUser, setGoogleUser] = useState(null)
 
   const handleClick = async (e)=> {
@@ -60,6 +62,7 @@ function GoogleLogin(props) {
       if(googleState.id) {
         dispatch(googleLogin(googleState))
         setGlobalUser(googleState)
+        setLocalUser(googleState)
       }
       }
       setGoogleLog()
