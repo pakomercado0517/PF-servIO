@@ -171,10 +171,10 @@ return (
         : <></>
         
         }
+
         <div className={s.titulo}>
             <h4>Servicios Ofrecidos</h4>
         </div>
-        
 
             {/* si su usuario visita su perfil profesional ==> opcion para agregar servicio */}
         {
@@ -197,19 +197,22 @@ return (
         }
 {/*---------------- servicios particulares ofrecidos por el profesional ---------*/}
 
-        <div className={ s.container_cards }>
 
-            <div className="">
+        <div className={ s.container_cards}>
+
+            <div className={s.container_cards  +"carousel-indicators"}>
                 {   specificActivities && 
                     specificActivities === 'There are not specifical Activities' ?
 
                     <h6>No hay servicios registrados</h6>
                     :
                     <>
+                    
                         {
                             specificActivities.map( (el) => {
                                 return (
-                                    <CardParticularService
+                                    
+                                    <CardParticularService 
                                     id={el.id}
                                     key={el.id}
                                     name= { el.name }
@@ -222,14 +225,17 @@ return (
                                     price= { el.price }
                                     type="specific technical activity"
                                     />
+                                    
                                     )
+                                    
                                 })
                         }
+                        
                     </>
                 }
+                
             </div>
 
-            
 
 
             <div className={ state.seeAllServices?s.container_cards_second:s.container_cards_second_all }>
