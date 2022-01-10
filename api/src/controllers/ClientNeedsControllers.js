@@ -184,5 +184,18 @@ module.exports = {
       res.send({message: 'needConfirmed', need});
     }
 
-  }
+  },
+  
+  validarToken: async (req, res) => {
+    const need = await ClientNeed.findOne({
+      where: {
+        token: req.params.token,
+      },
+    });
+    if (!need) {
+      res.send(false);
+    }else{
+      res.send(true);
+    }
+  },
 };

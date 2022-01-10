@@ -39,7 +39,9 @@ import {
     RESET_PASSWORD,
     VALIDAR_TOKEN,
     NEW_PASSWORD,
-    ACTIVAR
+    ACTIVAR,
+    VALIDAR_TOKEN_CONFIRM_DONE,
+    CONFIRMAR
 } from '../actions'
 
 
@@ -76,6 +78,7 @@ const initialState = {
     modalCart: "",
     resetPassword: [],
     validarToken : false,
+    validarTokenConfirm:false,
 };
 
 function rootReducer(state = initialState, { type, payload }) {
@@ -277,6 +280,16 @@ function rootReducer(state = initialState, { type, payload }) {
             modalCart: payload,
         };
     case ACTIVAR:
+      return {
+        ...state,
+        message: payload,
+      };
+    case VALIDAR_TOKEN_CONFIRM_DONE:
+        return {
+          ...state,
+          validarTokenConfirm: payload,
+        };
+    case CONFIRMAR:
       return {
         ...state,
         message: payload,

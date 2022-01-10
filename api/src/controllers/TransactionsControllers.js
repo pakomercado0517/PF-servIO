@@ -138,7 +138,7 @@ module.exports ={
         need.token = token
         need.expiracion = Date.now() + 3600000
         await need.save()
-        const confirmUrl =`http://localhost:3000/confirmate/${token}`
+        const confirmUrl =`http://localhost:3000/confirm/${token}`
         await enviarEmail.enviar({
           usuario,
           subject: "Confirmar Servicio culminado",
