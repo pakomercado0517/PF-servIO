@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
-const { ProfessionalOffer, ClientNeed, SpecificTechnicalActivity, Transactions } = require("../db.js");
-
+const { ProfessionalOffer, ClientNeed, SpecificTechnicalActivity, Transactions, User } = require("../db.js");
+const enviarEmail = require("../handlers/email");
+const crypto = require("crypto");
 module.exports ={
   getAllTransactions: async (req, res) => {
     const allTransactions = await Transactions.findAll({})
@@ -125,4 +126,30 @@ module.exports ={
       res.status(400).send(error.message);
     }
   },
+
+  confirmDone: async (req, res) =>{
+    const id = req.body.id;
+    const need = await ClientNeed.findOne({ where: {id}})
+    if(need) {
+      const userId = need.UserId;
+      const usuario = await User.findOne({ where: {id:userId}})
+      if(usuario){
+        let token = crypto.randomBytes(20).toString("hex");
+        need.token = token
+        need.expiracion = Date.now() + 3600000
+        await need.save()
+        const confirmUrl =`http://localhost:3000/confirmate/${token}`
+        await enviarEmail.enviar({
+          usuario,
+          subject: "Confirmar Servicio culminado",
+          confirmUrl,
+          archivo: `<h2>Confirmar Servicio culminado</h2><p>Hola, El tecnico encargado de tu necesidad "${need.name}" ha confirmado que ha culminado el servicio,  en caso de que esto sea cierto, confirmalo o rechaza dicha afirmacion  dando click aqui </p><a href=${confirmUrl} >Confirmacion de servicio</a><p>Si no puedes acceder a este enlace, visita ${confirmUrl}</p><div/>`,
+        });    
+      }
+      res.status(200).send('Se ha enviado correo de confiamcion')
+    }else{
+      res.status(200).send('No se ha podido encontrar esa necesidad')
+    }
+
+  }
 }
