@@ -10,7 +10,7 @@ import Swal from 'sweetalert2'
 import { useDispatch } from 'react-redux';
 
 import axios from 'axios'
-import { getClientNeedsById, getSpecificActivitiesById } from '../redux/actions';
+import { getAllNeeds, getSpecificActivitiesById } from '../redux/actions';
 import { useNavigate } from 'react-router-dom';
 
 const { REACT_APP_HOST } = process.env;
@@ -61,7 +61,7 @@ export default function CardServiceHistoryJobs(props) {
                     timer: 1500
                 })
                 dispatch(getSpecificActivitiesById(user.id))
-                dispatch(getClientNeedsById(user.id))
+                dispatch(getAllNeeds())
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -256,9 +256,9 @@ export default function CardServiceHistoryJobs(props) {
                             <button name="details" type="button" className="btn btn-outline-success" onClick={nav}>
                                 Ver detalles
                             </button>
-                            <button name="offers" type="button" className="btn btn-outline-danger"  onClick={deleteNeed}>
+                            {/* <button name="offers" type="button" className="btn btn-outline-danger"  onClick={deleteNeed}>
                                 Borrar Tarjeta
-                            </button>
+                            </button> */}
                         </>
                         :<></>
 

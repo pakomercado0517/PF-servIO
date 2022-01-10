@@ -18,7 +18,7 @@ export default function ServiceHistory() {
     const user = useGlobalStorage("globalUser", "")
     const dispatch = useDispatch()
     const { id } = useParams()
-    const { professionals, clientNeedById, offersByUserId } = useSelector(state => state)
+    const { professionals, clientNeedById, offersByUserId, clientNeeds } = useSelector(state => state)
     const specificActivities = useSelector((state) => state?.specificActivitiesById)
     
     const [filteredSpecificActivities, setfilteredSpecificActivities] = useState([])
@@ -26,20 +26,25 @@ export default function ServiceHistory() {
     useEffect(() => {
         if (specificActivities === "There are not specifical Activities") setfilteredSpecificActivities("There are not specifical Activities")
         else {
+            let array = []
             specificActivities.map(el=>{
                 if(el.ClientNeeds[0]){
-                    setfilteredSpecificActivities(el.ClientNeeds.map(el2 => {
+                    const newArray = el.ClientNeeds.map(el2 => {
                         return {
                             ...el,
                             key: el2.id,
                             status: el2.status,
                             ClientNeedId: el2.id,
                         }
-                    }))
+                    })
+                    array = [...array, ...newArray]
                 }
             })
+            console.log("ARRAY", array)
+            if(!array[0]) return setfilteredSpecificActivities("There are not specifical Activities")
+            setfilteredSpecificActivities(array)
         }
-    }, [specificActivities])
+    }, [specificActivities, clientNeeds])
 
 
     console.log('filteredSpecificActivities', filteredSpecificActivities)
@@ -194,8 +199,11 @@ export default function ServiceHistory() {
                             {/* DATOS DE TRABAJOS REALIZADOS http://localhost:3001/professsionalOffer/all/id */}
                             {
 
-                                filteredSpecificActivities !== "There are not specifical Activities" ?
-                                filteredSpecificActivities?.map((el, index) => {
+                                filteredSpecificActivities === "There are not specifical Activities" ?
+                                <><h5
+                                    className="text-center mt-3"
+                                >No hay trabajos pendientes</h5></>
+                                : filteredSpecificActivities?.map((el, index) => {
                                     return (
                                         <CardServiceHistoryJobs
                                             key={el.id + index}
@@ -211,9 +219,6 @@ export default function ServiceHistory() {
                                         />
                                     )
                                 })
-                                :<><h5
-                                    className="text-center mt-3"
-                                >No hay trabajos pendientes</h5></>
                             }
                         </div>
 
