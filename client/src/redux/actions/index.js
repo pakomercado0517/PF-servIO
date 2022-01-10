@@ -706,13 +706,7 @@ export const validarToken = (token) => async (dispatch) => {
   });
 };
 
-export const validarTokenConfirmDone = (token) => async dispatch => {
-  let validate = await axios.get(`${constants.localhost}/clientNeeds/confirm/${token}`);
-  dispatch ({
-    type: VALIDAR_TOKEN_CONFIRM_DONE,
-    payload:validate
-  })
-}
+
 
 export const newPassword = (password, token) => async dispatch => {
   let validate = await axios.put(`${constants.localhost}/user/reestablecer/${token}`, password);
@@ -726,6 +720,14 @@ export const activarCuenta = (token) => async dispatch => {
   let validate = await axios.put(`${constants.localhost}/user/activar/${token}`);
   dispatch ({
     type: ACTIVAR,
+    payload:validate
+  })
+}
+
+export const validarTokenConfirmDone = (token) => async dispatch => {
+  let validate = await axios.get(`${constants.localhost}/clientNeeds/confirm/${token}`);
+  dispatch ({
+    type: VALIDAR_TOKEN_CONFIRM_DONE,
     payload:validate
   })
 }

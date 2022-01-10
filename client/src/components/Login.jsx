@@ -80,9 +80,9 @@ export default function Login() {
         e.preventDefault()
         try {
             const validate = await axios.post('http://localhost:3001/user/login', input)
-            console.log(validate)
+            console.log(localUser)
             if(validate) {
-              if(validate.data.data) {
+              if(validate.data.data.verified === true) {
                 await setGlobalUser(validate.data.data)
                 await setLocalUser(validate.data.data)
 
@@ -97,13 +97,12 @@ export default function Login() {
                         showConfirmButton: false,
                         timer: 2500
                     })
-                    navigate('/')
+                    // navigate('/')
               }else{
                 let a = async() =>{
-                  console.log(validate.data.data.email)
+                  // console.log(validate.data.data.email)
                   await axios.post('http://localhost:3001/user/reenviar', {email: validate.data.data.email})
                 }
-
                 Swal.fire({
                   title: 'CUENTA INACTIVA',
                   subTitle:'Activa tu cuenta antes de iniciar sesion',
