@@ -117,6 +117,7 @@ router.post("/getGoogleUser", userFunctions.googleLog);
 // });
 
 router.post("/getGithubUser", userFunctions.githubLog);
+router.post("/getFacebookUser", userFunctions.facebookLog);
 
 router.get("/auth/facebook", passport.authenticate("facebook"));
 

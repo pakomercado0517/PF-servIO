@@ -148,13 +148,13 @@ export default function Login() {
     
     console.log('globalUser', globalUser)
     
-    useEffect( () => {
-      const getData= async ()=> {
-        if(globalUser.length === 0) {
-          setGlobalUser(user[0])
-        }
-      }
-      getData()
+    // useEffect( () => {
+    //   const getData= async ()=> {
+    //     if(globalUser.length === 0) {
+    //       setGlobalUser(user[0])
+    //     }
+    //   }
+    //   getData()
 
       //   if(globalUser && localUser) {
       //     Swal.fire({
@@ -169,7 +169,7 @@ export default function Login() {
       
       // x()
       //   return console.log('user!!!', user)
-    },[user])
+    // },[user])
 
     const googleLog = async () => {
       try {
@@ -189,8 +189,6 @@ export default function Login() {
       }
     }
     
-    console.log('user', user[0])
-
     return (
         <div className={ s.login_master }>
           {/* {

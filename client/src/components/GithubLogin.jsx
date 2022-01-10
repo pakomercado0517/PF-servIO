@@ -4,11 +4,13 @@ import { signInWithPopup, GithubAuthProvider } from 'firebase/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { githubLogin } from '../redux/actions/index'
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 function GithubLogin(props) {
   const dispatch = useDispatch()
   const githubState = useSelector(state => state.githubUser)
   const [globalUser,setGlobalUser ] = useGlobalStorage("globalUser", "")
+  const [localUser, setLocalUser] = useLocalStorage("localUser", "");
   const [githubUser, setGithubUser] = useState(null)
 
   const handleClick = async (e)=> {
@@ -59,6 +61,7 @@ function GithubLogin(props) {
       if(githubState.id) {
         dispatch(githubLogin(githubState))
         setGlobalUser(githubState)
+        setLocalUser(githubState)
       }
       }
       setGithubLog()
