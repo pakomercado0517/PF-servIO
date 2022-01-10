@@ -50,7 +50,7 @@ const { transMap } = require("./src/DbExample/transactions");
 // console.log('user', user)
 
 conn.sync({ force: true }).then(() => {
-  server.listen(3001, async () => {
+  server.listen( process.env.PORT || 3001, async () => {
     try {
       await initialFunction();
       (await Professional.bulkCreate(professionalMap))

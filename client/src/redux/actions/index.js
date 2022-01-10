@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const { REACT_APP_HOST } = procces.env;
+
 const constants = {
-  localhost: "http://localhost:3001",
+  localhost: REACT_APP_HOST,
 };
 
 export const GET_ALL_USERS = "GET_ALL_USERS";
