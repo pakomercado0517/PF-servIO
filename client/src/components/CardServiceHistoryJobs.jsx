@@ -25,10 +25,13 @@ export default function CardServiceHistoryJobs(props) {
     useEffect(() => {
     }, [])
 
+    // console.log('status ', props.status)
+
+
     async function updateNeed(status) {
         try {
             const { data } = await axios.put(`${REACT_APP_HOST}/clientNeeds/${props.ClientNeed}`, {
-                status
+                // status: "in progress"
             })
             // Swal.fire({
             //     icon: 'success',
@@ -165,7 +168,7 @@ export default function CardServiceHistoryJobs(props) {
                                 >
                                 Status:{ props.status }</span>
                             </div>
-                            :<></>
+                            :<></>  
                         }
 
                     </div>

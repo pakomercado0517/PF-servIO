@@ -18,7 +18,10 @@ var mp;
 
 export default function ModalCart(props) {
 
-    const [input, setinput] = useState("")
+    const [input, setInput] = useState({
+        location: "",
+        email: props.email,
+    })
     const [cart, setCart] = useGlobalStorage("cart", "")
     const [user, ] = useGlobalStorage("globalUser", "")
 
@@ -34,7 +37,7 @@ export default function ModalCart(props) {
         const newData = cart.map( el => {
             return {
                 ...el,
-                location: input,
+                location: input.location,
                 UserId: user.id
             }
         })
@@ -190,7 +193,10 @@ export default function ModalCart(props) {
     }
 
     function inputChange(e) {
-        setinput(e.target.value)
+        setInput({
+            ...input,
+            [e.target.name]: e.target.value
+        })
         
     }
 
@@ -200,15 +206,38 @@ export default function ModalCart(props) {
             <div className={ s.container_form }>
                 <form>
                     <div className="mb-3 row">
-                        <label htmlFor="staticEmail" className="col-sm-2 col-form-label">Email</label>
+                        <label 
+                            htmlFor="staticEmail" 
+                            className="col-sm-2 col-form-label"
+                        >
+                            Email
+                        </label>
                         <div className="col-sm-10">
-                            <input type="text" readOnly className="form-control-plaintext" id="staticEmail" defaultValue={ props.email } />
+                            <input 
+                                type="text"
+                                name='email'
+                                value={ input.email}
+                                className="form-control" 
+                                defaultValue={ props.email }
+                                onChange={ inputChange }
+                            />
                         </div>
                     </div>
+
                     <div className="mb-3 row">
-                        <label htmlFor="inputPassword" className="col-sm-2 col-form-label">Dirección</label>
+                        <label 
+                            className="col-sm-2 col-form-label"
+                        >
+                            Dirección
+                        </label>
                         <div className="col-sm-10">
-                            <input value={ input } type="text" className="form-control" id="inputPassword" onChange={ inputChange } />
+                            <input 
+                                type="text"
+                                name='location'
+                                value={ input.location } 
+                                className="form-control" 
+                                onChange={ inputChange } 
+                            />
                         </div>
                     </div>
                 </form>
