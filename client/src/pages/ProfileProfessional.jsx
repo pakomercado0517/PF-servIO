@@ -63,7 +63,6 @@ export default function ProfileProfessional( ){
 
 return (
     <div className={ s.container }>
-        <ClientSpecificNeed/>
         <div className={s.container_details}>
             
             <div>
