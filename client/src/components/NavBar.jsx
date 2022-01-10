@@ -24,7 +24,7 @@ export default function NavBar() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [login, setGlobalUser] = useGlobalStorage("globalUser", "")
-    const [cart] = useGlobalStorage("cart", "")
+    const [cart, setCart] = useGlobalStorage("cart", "")
     const [ , setSwitcheo] = useGlobalStorage("switcheo", null)
     const stateTotalRedux = useSelector(state => state)
     const [ , setLocalUser] = useLocalStorage("localUser", "");
@@ -42,9 +42,10 @@ export default function NavBar() {
         })      
             // console.log('logout responseee', response)
             
-            localStorage.clear()            
+            window.localStorage.clear()
             setGlobalUser(null)
             setLocalUser(null)
+            setCart([])
             navigate('/')
         signOut(auth).then(() => {
             console.log('done')
