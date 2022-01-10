@@ -16,7 +16,7 @@ export default function Cart() {
     
     const dispatch = useDispatch()
     
-    const [cart, ] = useGlobalStorage("cart", "")
+    const [cart, ] = useGlobalStorage("cart", [])
     const [user, ] = useGlobalStorage("globalUser", "")
     const [total, settotal] = useState(0)
 
