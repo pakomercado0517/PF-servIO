@@ -4,13 +4,22 @@ import s from './styles/CardPendingTransaction.module.css'
 
 import axios from 'axios';
 
+import Swal from 'sweetalert2';
+
 import useScript from '../hooks/useScript';
+import { useDispatch } from 'react-redux';
+import { getAllTransactionsByUserId } from '../redux/actions';
+import { useGlobalStorage } from '../hooks/useGlobalStorage';
 
 const { REACT_APP_ACCESS_PUBLIC, REACT_APP_HOST } = process.env
 
 var mp;
 
 export default function CardPendingTransaction(props) {
+
+    const dispatch = useDispatch()
+
+    const [user, ] = useGlobalStorage("globalUser", "")
 
     // MERCADO PAGO FUNCTIONS
 
@@ -42,7 +51,7 @@ export default function CardPendingTransaction(props) {
     }
 
     
-    async function axiosMP(idTransaction){
+    async function axiosMP(){
         let request;
         if(props.data[0]){
             request = props.data.map(el =>{
@@ -67,7 +76,7 @@ export default function CardPendingTransaction(props) {
                 pending: `${REACT_APP_HOST}/create_preference/pending`
             },
             statement_descriptor: "ServIO",
-            external_reference: ""+ idTransaction,
+            external_reference: ""+ props.id,
         })
         .then(function(response) {
             return response.data;
@@ -80,6 +89,42 @@ export default function CardPendingTransaction(props) {
             alert("Unexpected error");
             document.getElementById("cho-container-service-history").disabled = true
         });
+    }
+
+    async function deletePendingTransaction() {
+        try {
+            const { data } = await axios.delete(`${REACT_APP_HOST}/Transactions/${props.id}`)
+            if (data === "La transaccion ha sido eliminada."){
+                Swal.fire({
+                    icon: 'success',
+                    title: 'La oferta ha sido eliminada con exito!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            } else if (data === "La transaccion ya ha sido eliminada o no existe") {
+                Swal.fire({
+                    icon: 'error',
+                    title: data,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Algo salió mal!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+            dispatch(getAllTransactionsByUserId(user.id))
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Algo salió mal!',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
     }
 
 
@@ -100,6 +145,7 @@ export default function CardPendingTransaction(props) {
                 </div>
                 <div className={ s.container_description_buttons }>
                     <button id='checkout_button_service_history' className='btn btn-outline-success' onClick={ axiosMP }>Pagar</button>
+                    <button id='checkout_button_service_history' className='btn btn-outline-danger' onClick={ deletePendingTransaction }>Eliminar</button>
                     <div id='cho-container-service-history'></div>
                 </div>
             </div>
