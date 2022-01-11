@@ -63,7 +63,7 @@ export default function TestimoniosHome() {
                     Hizo un trabajo muy bueno. Fue puntual. Me asesoró. Lo recomiendo.
                     </p>
                     <div>
-                        <p>-</p>
+                        <p>--</p>
                         <span>
                         <img src={ profesional2?.photo} className={s.imgFeedProf}/>
                         <span>{ profesional2?.first_name + ' ' + profesional2?.last_name}</span>
