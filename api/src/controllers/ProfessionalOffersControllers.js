@@ -128,4 +128,16 @@ module.exports = {
     }
   },
 
+  getOffersByNeedId: async (req, res) => {
+    const id = req.params.id;
+    try {
+      const offers = await ProfessionalOffer.findAll(
+        { where: { ClientNeedId: id } }
+      );
+      res.send(offers);
+    } catch (error) {
+      res.send(error.message);
+    }
+  },
+
 }

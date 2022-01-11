@@ -6,6 +6,7 @@ const offerFunctions = require('../controllers/ProfessionalOffersControllers.js'
 router.get('/all/:id', offerFunctions.getOffersByUserId)
 router.get('/all', offerFunctions.getAllPorfessionalOffers)//
 router.get('/:id', offerFunctions.getUserReceivedOffers)//
+router.get('/all/byNeed/:id', offerFunctions.getOffersByNeedId)//
 router.get('/need/:id', offerFunctions.getNeedReceivedOffers)//
 // POST METHODS
 router.post('/', offerFunctions.newProfessionalOffer)//

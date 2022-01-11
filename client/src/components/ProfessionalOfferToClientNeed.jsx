@@ -12,7 +12,6 @@ export const ProfessionalOfferToClientNeed = (props) => {
     const navigate = useNavigate()
     const { detailsClientNeed } = useSelector((state) => state)
     const [professional, ] = useGlobalStorage("globalUser", "")
-    // console.log(detailsClientNeed)
 
     const { idClientNeed } = useParams();
     const dispatch = useDispatch()
@@ -32,13 +31,6 @@ export const ProfessionalOfferToClientNeed = (props) => {
         UserId: professional.id,
     })
 
-    // function onChangeForm(e) {
-    //     setform({
-    //         ...form,
-    //         [e.target.name]: e.target.value
-    //     })
-    // };
-
     function onChangeForm(e) {
         setform({
             ...form,
@@ -49,11 +41,11 @@ export const ProfessionalOfferToClientNeed = (props) => {
 
     const postNeed =  (e) =>{
         e.preventDefault()
-        if (form.description === "" || form.price === "" || form.duration === "" || form.guarantee_time === "" || form.materials === "") {
+        if (!form.UserId || form.description === "" || form.price === "" || form.duration === "" || form.guarantee_time === "" || form.materials === "") {
             Swal.fire({
                 icon: 'warning',
                 title: 'Oops...',
-                text: 'Por favor, rellená todos los campos',
+                text: 'Por favor, inicia sesión y/o rellená todos los campos',
             })
         } else {
             
