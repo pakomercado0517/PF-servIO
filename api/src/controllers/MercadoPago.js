@@ -124,25 +124,27 @@ module.exports = {
 
                 console.log("OFFERS: ", offers)
     
-                // await Promise.all(offers.map(el => {
-                //     const offersByNeedId = el.map(individualOffers => {
-                //         if (individualOffers.status === "in offer" || !(individualOffers.status)) {
-                //             individualOffers.status = "rejected"
-                //         }
-                //         return individualOffers
-                //     })
-                //     return ProfessionalOffer.bulkCreate(offersByNeedId, { updateOnDuplicate: ["status"] })
-                // }))
-
-                offers.map(el => {
-                    return el.map(async (individualOffers) => {
-                        console.log(individualOffers.status)
+                await Promise.all(offers.map(el => {
+                    const offersByNeedId = el.map(individualOffers => {
                         if (individualOffers.status === "in offer" || !(individualOffers.status)) {
-                            individualOffers.status = "rejected"
-                            return await individualOffers.save()
+                            return {
+                                id: individualOffers.id,
+                                status: "rejected"
+                            }
                         }
                     })
-                })
+                    return ProfessionalOffer.bulkCreate(offersByNeedId, { updateOnDuplicate: ["status"] })
+                }))
+
+                // offers.map(el => {
+                //     return el.map(async (individualOffers) => {
+                //         console.log(individualOffers.status)
+                //         if (individualOffers.status === "in offer" || !(individualOffers.status)) {
+                //             individualOffers.status = "rejected"
+                //             return await individualOffers.save()
+                //         }
+                //     })
+                // })
                 
             } catch (error) {
                 res.status(400).send('Errors on "CHANGE STATUS TO REJECTED TO REST OF OFFERS THAT NOT MATCH WITH HIRED OFFERS" ', error.message);
