@@ -85,15 +85,23 @@ export default function CardPendingTransaction(props) {
 
     return (
         <div className={ s.container }>
-            <div className={ s.container_img }>
-                <img src="https://image.shutterstock.com/image-illustration/3d-man-dollar-symbol-260nw-100691149.jpg" alt="" />
+            <div className={s.container_date}>
+                <p>fecha de creacion de compra: {props.date}</p>
+                <span>
+                    Estado: { props.status }
+                </span>
             </div>
-            <div className={ s.container_description }>
-                Pague el servicio que tiene pendiente!
-            </div>
-            <div className={ s.buttons }>
-                <button id='checkout_button_service_history' onClick={ axiosMP }>Pagar</button>
-                <div id='cho-container-service-history'></div>
+            <div className={ s.container_description}>
+                <div className={ s.container_description_img }>
+                    <img className={s.container_description_img_img} src="https://image.shutterstock.com/image-illustration/3d-man-dollar-symbol-260nw-100691149.jpg" alt="" />
+                </div>
+                <div className={ s.container_description_description }>
+                    Pague el servicio que tiene pendiente!
+                </div>
+                <div className={ s.container_description_buttons }>
+                    <button id='checkout_button_service_history' className='btn btn-outline-success' onClick={ axiosMP }>Pagar</button>
+                    <div id='cho-container-service-history'></div>
+                </div>
             </div>
         </div>
     )
