@@ -18,6 +18,7 @@ import s from './styles/NavBar.module.css'
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { getAuth, signOut } from 'firebase/auth'
+const {REACT_APP_HOST } = process.env
 
 
 export default function NavBar() {
@@ -36,7 +37,7 @@ export default function NavBar() {
     
     async function logout() {
         setSwitcheo("professional")
-        await fetch('http://localhost:3001/user/logout',{
+        await fetch(`${REACT_APP_HOST}/user/logout`,{
             method: 'POST'
         })      
             // console.log('logout responseee', response)

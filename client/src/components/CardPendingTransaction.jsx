@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import useScript from '../hooks/useScript';
 
-const { REACT_APP_ACCESS_PUBLIC } = process.env
+const { REACT_APP_ACCESS_PUBLIC, REACT_APP_HOST } = process.env
 
 var mp;
 
@@ -59,12 +59,12 @@ export default function CardPendingTransaction(props) {
                 quantity: 0,
             }]
         }
-        await axios.post("http://localhost:3001/create_preference", {
+        await axios.post(`${REACT_APP_HOST}/create_preference`, {
             items: request,
             back_urls: {
-                success: "http://localhost:3001/create_preference/succes",
-                failure: "http://localhost:3001/create_preference/failure",
-                pending: "http://localhost:3001/create_preference/pending"
+                success: `${REACT_APP_HOST}/create_preference/succes`,
+                failure: `${REACT_APP_HOST}/create_preference/failure`,
+                pending: `${REACT_APP_HOST}/create_preference/pending`
             },
             statement_descriptor: "ServIO",
             external_reference: ""+ idTransaction,
