@@ -114,7 +114,7 @@ export default function CardServiceHistoryJobs(props) {
 
         if(e.target.name === "done" ) 
         // ruta que manda un mail al cliente para confirmar finalización del ser 
-            await axios.put("http://localhost:3001/Transactions/confirm",
+            await axios.put(`${REACT_APP_HOST}/Transactions/confirm`,
                 {id: props.ClientNeedId})
 
             Swal.fire({

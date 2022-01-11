@@ -781,11 +781,11 @@ export const githubLogin = (githubUser) => async (dispatch) => {
   }
 };
 
-export const googleLogin = (googleUser) => async (dispatch) => {
+export const googleLogin = (googleUsers) => async (dispatch) => {
   try {
     const response = await axios.post(
       `${constants.localhost}/user/getGoogleUser`,
-      googleUser
+      googleUsers
     );
     dispatch({
       type: GOOGLE_LOGIN,

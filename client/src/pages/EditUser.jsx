@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import {storage} from '../firebase/firebase'
 import {ref, uploadBytesResumable, getDownloadURL} from '@firebase/storage'
 import { useNavigate } from "react-router-dom";
+import MapView from '../components/MapView';
 
 
 export default function EditCliente() {
@@ -44,6 +45,7 @@ export default function EditCliente() {
         repeatPassword:'',
         phone:globalUser.phone,
         dni:globalUser.dni,
+        city:globalUser.city,
     })
 
     console.log('profesional: ',details)
@@ -183,6 +185,7 @@ export default function EditCliente() {
                 professional:details.professional,
                 profession:prof,
                 photo: details.photo,
+                city: details.city,
                 
             }
 
@@ -199,6 +202,7 @@ export default function EditCliente() {
                 profession:prof,
                 photo: details.photo,
                 phone: details.phone,
+                city: details.city,
               
             };
 
@@ -511,8 +515,10 @@ export default function EditCliente() {
                             ) : (<></>)
                         }
                         </div>
+                        <div className={s.mapUbication}>
+                            <MapView details={details} onChange={handleChange} />
+                        </div>
                         
-                    
                 </div>
 
                 }
