@@ -43,6 +43,7 @@ import {
   VALIDAR_TOKEN_CONFIRM_DONE,
   CONFIRMAR,
   GITHUB_LOGIN,
+  GET_ALL_TRANSACTIONS_BY_USER_ID,
 } from "../actions";
 
 const initialState = {
@@ -79,6 +80,7 @@ const initialState = {
   validarTokenConfirm: false,
   githubUser: [],
   googleUser: [],
+  allTransactionsByUser: [],
 };
 
 function rootReducer(state = initialState, { type, payload }) {
@@ -305,6 +307,11 @@ function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         message: payload,
+      };
+    case GET_ALL_TRANSACTIONS_BY_USER_ID:
+      return {
+        ...state,
+        allTransactionsByUser: payload,
       };
     default:
       return state;
