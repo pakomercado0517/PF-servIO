@@ -1,4 +1,4 @@
-:root{
+:root {
   --color-text: rgba(121, 119, 117, 0.938);
   --color-primario: #5ed4ee;
 }
@@ -115,7 +115,7 @@
 }
 
 .container_img {
-  background-image: url('../../img/Rectangle\ 3-min1.jpg');
+  background-image: url("../../img/Rectangle\ 3-min1.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   display: grid;
@@ -195,17 +195,16 @@
 }
 .red_container_edilt_form_pofesional {
   padding-top: 1.625rem;
-    padding-bottom: 0.625rem;
-    padding: 1rem 0.75rem;
-    height: calc(3.5rem + 2px);
-    line-height: 1.25;
-  border-color:red;
+  padding-bottom: 0.625rem;
+  padding: 1rem 0.75rem;
+  height: calc(3.5rem + 2px);
+  line-height: 1.25;
+  border-color: red;
 }
-.container_edilt_form_input label{
-  opacity: .65;
-  transform: scale(.85) translateY(-0.5rem) translateX(0.15rem);
+.container_edilt_form_input label {
+  opacity: 0.65;
+  transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
 }
-
 
 .img_profile {
   width: 100px;
@@ -213,10 +212,19 @@
   border-radius: 100%;
 }
 
-.error{
-  color:var(--color-text);
+.error {
+  color: var(--color-text);
 }
 
-.textoFinal{
+.textoFinal {
   color: var(--color-text);
+}
+
+.mapUbication {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  left: 130px;
+  margin-bottom: 50px;
 }

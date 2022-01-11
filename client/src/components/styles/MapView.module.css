@@ -1,3 +1,8 @@
+:root {
+  --color-text: rgba(121, 119, 117, 0.938);
+  --color-primario: #5ed4ee;
+}
+
 .container_map {
   display: flex;
   justify-content: space-around;
