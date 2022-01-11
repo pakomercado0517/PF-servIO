@@ -44,7 +44,7 @@ export default function CardPendingTransaction(props) {
                 id: preferenceId
             },
             render: {
-                container: '#cho-container-service-history', // Class name where the payment button will be displayed
+                container: `#cho-container-service-history${props.id}`, // Class name where the payment button will be displayed
                 label: 'Finalizar Compra', // Change the payment button text (optional)
             }
         });
@@ -83,11 +83,11 @@ export default function CardPendingTransaction(props) {
         })
         .then(function(preference) {
             createCheckoutButton(preference.id);
-            document.getElementById("checkout_button_service_history").style.display = "none";
+            document.getElementById(`checkout_button_service_history${props.id}`).style.display = "none";
             })
             .catch(function() {
             alert("Unexpected error");
-            document.getElementById("cho-container-service-history").disabled = true
+            document.getElementById(`#cho-container-service-history${props.id}`).disabled = true
         });
     }
 
@@ -144,9 +144,9 @@ export default function CardPendingTransaction(props) {
                     Pague el servicio que tiene pendiente!
                 </div>
                 <div className={ s.container_description_buttons }>
-                    <button id='checkout_button_service_history' className='btn btn-outline-success' onClick={ axiosMP }>Pagar</button>
-                    <button id='checkout_button_service_history' className='btn btn-outline-danger' onClick={ deletePendingTransaction }>Eliminar</button>
-                    <div id='cho-container-service-history'></div>
+                    <button id={`checkout_button_service_history${props.id}`} className='btn btn-outline-success' onClick={ axiosMP }>Pagar</button>
+                    <div id={`cho-container-service-history${props.id}`}></div>
+                    <button className='btn btn-outline-danger' onClick={ deletePendingTransaction }>Eliminar</button>
                 </div>
             </div>
         </div>
