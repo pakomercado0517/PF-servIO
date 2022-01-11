@@ -13,6 +13,8 @@ import { useLocalStorage } from '../hooks/useLocalStorage';
 import {getByUserId} from '../redux/actions/index'
 import GithubLogin from '../components/GithubLogin'
 import GoogleLogin from '../components/GoogleLogin'
+const {REACT_APP_HOST } = process.env
+
 
 export default function Login() {
   const [globalUser,setGlobalUser ] = useGlobalStorage("globalUser", "")
@@ -79,7 +81,7 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const validate = await axios.post('http://localhost:3001/user/login', input)
+            const validate = await axios.post(`${REACT_APP_HOST}/user/login`, input)
             console.log(localUser)
             if(validate) {
               if(validate.data.data.verified === true) {
@@ -101,7 +103,7 @@ export default function Login() {
               }else{
                 let a = async() =>{
                   // console.log(validate.data.data.email)
-                  await axios.post('http://localhost:3001/user/reenviar', {email: validate.data.data.email})
+                  await axios.post(`${REACT_APP_HOST}/user/reenviar`, {email: validate.data.data.email})
                 }
                 Swal.fire({
                   title: 'CUENTA INACTIVA',
@@ -172,7 +174,7 @@ export default function Login() {
 
     const googleLog = async () => {
       try {
-        const result= await axios.get('http://localhost:3001/user/getGoogleUser')
+        const result= await axios.get(`${REACT_APP_HOST}/user/getGoogleUser`)
         await dispatch(getByUserId(result.data[0].data.id))
       } catch (error) {
         console.log(error)
@@ -180,7 +182,7 @@ export default function Login() {
     }
     const githubLog = async () => {
       try {
-        const result= await axios.get('http://localhost:3001/user/getGithubUser')
+        const result= await axios.get(`${REACT_APP_HOST}/user/getGithubUser`)
         console.log('result', result.data[0].data.id)
         await dispatch(getByUserId(result.data[0].data.id))
       } catch (error) {

@@ -32,6 +32,13 @@ export const ProfessionalOfferToClientNeed = (props) => {
         UserId: professional.id,
     })
 
+    // function onChangeForm(e) {
+    //     setform({
+    //         ...form,
+    //         [e.target.name]: e.target.value
+    //     })
+    // };
+
     function onChangeForm(e) {
         setform({
             ...form,
