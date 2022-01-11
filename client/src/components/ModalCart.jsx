@@ -105,6 +105,7 @@ export default function ModalCart(props) {
             return response.data;
         })
         .then(function(preference) {
+            setCart([])
             createCheckoutButton(preference.id);
             document.getElementById("checkout_button").style.display = "none";
             })
@@ -134,7 +135,7 @@ export default function ModalCart(props) {
 
                 await axiosMP( data.id )
 
-                dispatch(switchModalCart("notShow"))
+                // dispatch(switchModalCart("notShow"))
 
             } else {
                 Swal.fire({
@@ -220,11 +221,11 @@ export default function ModalCart(props) {
                 </form>
                 <div className={ s.container_buttons }>
                     <button onClick={ back } className={ "btn btn-secondary"}>Volver</button>
-                    <button onClick={ handleSubmit } className={ "btn btn-success" }>Confirmar</button>
+                    <button id='checkout_button' onClick={ handleSubmit } className={ "btn btn-success" }>Confirmar</button>
+                    <div id='cho-container'></div>
                 </div>
-                {/* <div id='cho-container'></div> */}
             </div>
-            {/* <div className='container_payment'></div> */}
+            <div className='container_payment'></div>
         </div>
     )
 }
