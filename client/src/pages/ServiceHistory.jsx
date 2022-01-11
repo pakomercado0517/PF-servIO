@@ -19,6 +19,7 @@ import { useGlobalStorage } from '../hooks/useGlobalStorage'
 export default function ServiceHistory() {
 
     const [shows, setShows] = useState([])
+    const [transactions, setTransactions] = useState([])
 
     const [user,] = useGlobalStorage("globalUser", "")
     const dispatch = useDispatch()
@@ -64,6 +65,10 @@ export default function ServiceHistory() {
     useEffect(()=>{
         setShows(clientNeedById)
     },[ clientNeedById ])
+
+    // useEffect(()=>{
+    //     setShows(allTransactionsByUser.filter(el => el.status === "pending to pay"))
+    // },[ allTransactionsByUser ])
 
     useEffect(()=>{
         console.log("SHOWS: ",shows)
