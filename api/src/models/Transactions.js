@@ -15,6 +15,9 @@ module.exports = (sequelize) => {
         status: {
             type: DataTypes.ENUM,
             values: ["pending to pay", "approved", "rejected", "pending to approve"],
+        },
+        mptoken: {
+            type: DataTypes.STRING,
         }
     }, {});
 }
