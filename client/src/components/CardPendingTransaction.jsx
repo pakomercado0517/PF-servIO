@@ -10,8 +10,6 @@ export default function CardPendingTransaction(props) {
 
     // MERCADO PAGO FUNCTIONS
 
-    // MERCADO PAGO FUNCTIONS
-
     const { MercadoPago } = useScript(
         "https://sdk.mercadopago.com/js/v2",
         "MercadoPago"
@@ -42,8 +40,8 @@ export default function CardPendingTransaction(props) {
     
     async function axiosMP(idTransaction){
         let request;
-        if(cart[0]){
-            request = cart.map(el =>{
+        if(props.data[0]){
+            request = props.data.map(el =>{
                 return {
                     title: el.name,
                     unit_price: el.price,
@@ -91,6 +89,7 @@ export default function CardPendingTransaction(props) {
             </div>
             <div className={ s.buttons }>
                 <button id='checkout_button_service_history' onClick={ axiosMP }>Pagar</button>
+                <div id='cho-container-service-history'></div>
             </div>
         </div>
     )

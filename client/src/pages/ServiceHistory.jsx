@@ -225,7 +225,7 @@ export default function ServiceHistory() {
                 </> : <></>
             }
 
-            
+            <div className='container_payment'></div>
         </div>
     )
 }
