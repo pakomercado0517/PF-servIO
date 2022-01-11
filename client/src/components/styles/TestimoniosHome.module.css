@@ -20,11 +20,34 @@
   
   .cardsFeed{
     display: flex;
+    /* width: 90%; */
+    /* background-color: rgba(252, 242, 242, 0.918); */
+  }
+  .card{
+    /* margin: 10px; */
+    /* width: 30%; */
+    /* height: 300px; */
+    background-color: rgba(240, 240, 240, 0.918);
+    border-radius: 15px;
+    margin: 15px;
+    /* width: 40%; */
+    /* border-style: dotted; */
+    /* border-radius: 10px; */
+    /* display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center; */
   }
   
   .imgFeed{
     height: 120px;
     width: 120px;
+    object-fit: cover;
+    border-radius: 100%;
+  }
+  .imgFeedProf{
+    height: 50px;
+    width: 50px;
     object-fit: cover;
     border-radius: 100%;
   }

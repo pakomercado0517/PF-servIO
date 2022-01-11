@@ -1,46 +1,76 @@
 import React from 'react'
+import img from '../img/ivana-cajina-_7LbC5J-jw4-unsplash.jpg'
+import img2 from '../img/user_profile_photo.jpg'
+import { useSelector } from 'react-redux'
+import { StarRating } from './StarRating'
 
 import s from './styles/TestimoniosHome.module.css'
 
-import img from '../img/ivana-cajina-_7LbC5J-jw4-unsplash.jpg'
-
 
 export default function TestimoniosHome() {
+
+    const profesional1 = useSelector(state => state.clientsFilter[7])
+    const profesional2 = useSelector(state => state.clientsFilter[5])
+
+    console.log('prof',profesional1)
+    console.log('prof2',profesional2)
+
     return (
 
         <div className={s.feedback}>
             <span className={s.titleFeed}>Lo que dicen nuestros usuarios</span>
             <p className={s.subtitleFeed}>
-                feedback de clientes y profesinales que respaldan nuestro servicio
-                y garantisamos una buena experiencia, en conjunto con intuitividad 
+                Feedback de clientes y profesionales que respaldan nuestro servicio.
+                Garantizamos una buena experiencia, en conjunto con intuitividad 
                 de la intefaz 
             </p>
             <div className={s.cardsFeed}>
-                <div>
+                <div className={s.card}>
                     <div>
                         <img src={img} alt="" className={s.imgFeed}/>
                         <div>
-                            <span>Marcos Ford</span>
-                            <span>Cliente</span>
-                            <span>Rating</span>
+                            <span>Marcos</span>
+                            <h6>Cliente</h6>
                         </div>
+                        <StarRating stars={4} />
                     </div>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt illo, ducimus magnam natus eum assumenda aliquam sint, dolores quos, placeat quae sit nihil minima molestiae excepturi maiores alias voluptatibus nesciunt. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta placeat fugit veritatis, perferendis velit quasi deserunt, repellat laborum odio, impedit non cum molestiae. Impedit maxime a repellendus, eos nesciunt aliquam!
+                    "Superó mis espectativas , excelente trabajo y calidad humana"
                     </p>
+                    <div>
+                        <p>--</p>
+                        <span>
+                        <img src={ profesional1?.photo} className={s.imgFeedProf}/>
+                        <span>{ profesional1?.first_name + ' ' + profesional1?.last_name}</span>
+                        </span>
+                        <h6>{ profesional1?.Professional.Professions[0].name }</h6>
+
+                    </div>
                 </div>
-                <div>
+
+                <hr/>
+
+                <div className={s.card}>
                     <div>
-                        <img src={img} alt="" className={s.imgFeed}/>
+                        <img src={img2} alt="" className={s.imgFeed}/>
                         <div>
-                            <span>Marcos Ford</span>
-                            <span>Cliente</span>
-                            <span>Rating</span>
+                            <span>Norma</span>
+                            <h6>Cliente</h6>
                         </div>
+                            <StarRating stars={5} />
                     </div>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt illo, ducimus magnam natus eum assumenda aliquam sint, dolores quos, placeat quae sit nihil minima molestiae excepturi maiores alias voluptatibus nesciunt. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta placeat fugit veritatis, perferendis velit quasi deserunt, repellat laborum odio, impedit non cum molestiae. Impedit maxime a repellendus, eos nesciunt aliquam!
+                    Hizo un trabajo muy bueno. Fue puntual. Me asesoró. Lo recomiendo.
                     </p>
+                    <div>
+                        <p>-</p>
+                        <span>
+                        <img src={ profesional2?.photo} className={s.imgFeedProf}/>
+                        <span>{ profesional2?.first_name + ' ' + profesional2?.last_name}</span>
+                        </span>
+                        <h6>{ profesional2?.Professional.Professions[0].name }</h6>
+
+                    </div>
                 </div>
             </div>
         </div>
