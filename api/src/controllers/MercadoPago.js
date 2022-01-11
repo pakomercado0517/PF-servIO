@@ -36,6 +36,8 @@ module.exports = {
     },
     succesTransaction: async (req, res) => {
 
+        let clientNeedIds = [];
+
         // Find transaction that match with id
 
         const id = req.query.external_reference;
@@ -88,22 +90,64 @@ module.exports = {
             } catch (error) {
                 res.status(400).send('Errors on "UPDATE STATUS OF PROFESSIONALOFFERS TO HIRED" ', error.message);
             }
-
-
         }
 
-        // CHANGE STATUS TO REST OF OFFERS THAT NOT MATCH WITH HIRED OFFERS
+        // CHANGE STATUS TO REJECTED TO REST OF OFFERS THAT NOT MATCH WITH HIRED OFFERS
 
         //[offer1,          offer2,       offer3]
         //    |                |            |
         //[ClientneedId1,ClientneedId1,ClientneedId1]
 
-        //         const myOff ¡ await ProfessionalOffers.findAll({ where: { clientNeedId } })
+        //         const myOff = await ProfessionalOffers.findAll({ where: { clientNeedId } })
         //          myOff.map(e => {
-        //             if (e.if !== idAceptado) {
+        //             if (e.id !== idAceptado) {
         //                 //filter de myoff
         //             }
         //         })
+
+        if (dataOffer[0]) {
+            try {
+
+                clientNeedIds = dataOffer.map( el => {
+                    return el.ClientNeedId
+                })
+
+                console.log("CLIENT NEED IDS: ", clientNeedIds)
+    
+                const offers = await Promise.all(clientNeedIds.map(el => {
+                    return ProfessionalOffer.findAll({
+                        where: {
+                            ClientNeedId: el
+                        }
+                    })
+                }))
+
+                console.log("OFFERS: ", offers)
+    
+                // await Promise.all(offers.map(el => {
+                //     const offersByNeedId = el.map(individualOffers => {
+                //         if (individualOffers.status === "in offer" || !(individualOffers.status)) {
+                //             individualOffers.status = "rejected"
+                //         }
+                //         return individualOffers
+                //     })
+                //     return ProfessionalOffer.bulkCreate(offersByNeedId, { updateOnDuplicate: ["status"] })
+                // }))
+
+                offers.map(el => {
+                    return el.map(async (individualOffers) => {
+                        console.log(individualOffers.status)
+                        if (individualOffers.status === "in offer" || !(individualOffers.status)) {
+                            individualOffers.status = "rejected"
+                            return await individualOffers.save()
+                        }
+                    })
+                })
+                
+            } catch (error) {
+                res.status(400).send('Errors on "CHANGE STATUS TO REJECTED TO REST OF OFFERS THAT NOT MATCH WITH HIRED OFFERS" ', error.message);
+            }
+        }
 
 
         // SEND EMAIL TO USER TO INFORM ABOUT SUCCES APPROVED TRANSACTION

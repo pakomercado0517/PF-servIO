@@ -12,7 +12,7 @@ module.exports = (sequelize) => {
       },
       status: {
         type: DataTypes.ENUM,
-        values: ["in offer", "pending to pay", "hired"]
+        values: ["in offer", "rejected", "pending to pay", "hired"]
         // allowNull: false,
       },
       price: {
