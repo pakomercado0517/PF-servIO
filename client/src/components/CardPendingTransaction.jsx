@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import s from './styles/CardPendingTransaction.module.css'
 
 import axios from 'axios';
 
 import useScript from '../hooks/useScript';
+
+const { REACT_APP_ACCESS_PUBLIC } = process.env
+
+var mp;
 
 export default function CardPendingTransaction(props) {
 

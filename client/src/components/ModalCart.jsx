@@ -118,7 +118,8 @@ export default function ModalCart(props) {
 
         try {
             const { data } = await axios.post( REACT_APP_HOST+"/Transactions/", {
-                data: cart
+                data: cart,
+                UserId: user.id
             })
 
             console.log("DATA TRANSACTIONS: ---> ",data)

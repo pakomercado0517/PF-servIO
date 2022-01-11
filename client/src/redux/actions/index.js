@@ -344,7 +344,7 @@ export function getAllTransactionsByUserId(id) {
   return async function (dispatch) {
     try {
       const { data } = await axios.get(
-        `${constants.localhost}/Transaction/all/${id}`
+        `${constants.localhost}/Transactions/all/${id}`
       );
       dispatch({
         type: GET_ALL_TRANSACTIONS_BY_USER_ID,

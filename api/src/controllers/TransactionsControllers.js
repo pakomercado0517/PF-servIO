@@ -19,11 +19,11 @@ module.exports ={
 
     try {
       const allTransactions = await Transactions.findAll({
+        include: [{
+          model: ClientNeed
+        }],
         where: {
           UserId: id
-        },
-        include: {
-          model: ClientNeed
         }
       })
       if (typeof allTransactions === "array" && !allTransactions.length) return res.send("No hay transacciones para este usuario")
@@ -35,7 +35,8 @@ module.exports ={
 
   newTransaction: async (req, res) => {
     const {
-      data
+      data,
+      UserId
     } = req.body
 
     let response = [];
@@ -142,6 +143,7 @@ module.exports ={
       const { dataValues } = await Transactions.create({
         data: response,
         status: "pending to pay",
+        UserId,
       })
       res.send({
         ...dataValues,
