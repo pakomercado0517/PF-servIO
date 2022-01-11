@@ -35,17 +35,18 @@ export const ProfessionalOfferToClientNeed = (props) => {
     function onChangeForm(e) {
         setform({
             ...form,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
+            UserId: professional.id,
         })
     };
 
     const postNeed =  (e) =>{
         e.preventDefault()
-        if (form.description === "" || form.price === "" || form.duration === "" || form.guarantee_time === "" || form.materials === "") {
+        if (!form.UserId || form.description === "" || form.price === "" || form.duration === "" || form.guarantee_time === "" || form.materials === "") {
             Swal.fire({
                 icon: 'warning',
                 title: 'Oops...',
-                text: 'Por favor, rellená todos los campos',
+                text: 'Por favor, inicia sesión y/o rellená todos los campos',
             })
         } else {
             
