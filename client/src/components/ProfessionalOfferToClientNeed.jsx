@@ -12,7 +12,6 @@ export const ProfessionalOfferToClientNeed = (props) => {
     const navigate = useNavigate()
     const { detailsClientNeed } = useSelector((state) => state)
     const [professional, ] = useGlobalStorage("globalUser", "")
-    // console.log(detailsClientNeed)
 
     const { idClientNeed } = useParams();
     const dispatch = useDispatch()
@@ -31,13 +30,6 @@ export const ProfessionalOfferToClientNeed = (props) => {
         ClientNeedId: actualId,
         UserId: professional.id,
     })
-
-    // function onChangeForm(e) {
-    //     setform({
-    //         ...form,
-    //         [e.target.name]: e.target.value
-    //     })
-    // };
 
     function onChangeForm(e) {
         setform({

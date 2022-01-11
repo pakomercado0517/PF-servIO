@@ -57,12 +57,42 @@ module.exports = {
             try {
                 await ClientNeed.bulkCreate(updateStatus, { updateOnDuplicate: ["status"] })
             } catch (error) {
-                res.status(400).send(error.message);
+                res.status(400).send('Errors on "UPDATE EVERY STATE OF CLIENT NEED ID ONLY" ',error.message);
             }
 
         }
 
+        // UPDATE STATUS OF TRANSACTION
+
+        try {
+            transaction.status = "approved";
+            await transaction.save();
+        } catch (error) {
+            res.status(400).send('Errors on "UPDATE STATUS TRANSACTION" ', error.message);
+        }
+
         // UPDATE STATUS OF PROFESSIONALOFFERS TO HIRED 
+
+        const dataOffer = transaction.data.filter( el => el.type === "offer" );
+
+        if (dataOffer[0]) {
+
+            try {
+                const updateOffer = dataOffer.map((el, index) => {
+                    return {
+                        status: "hired",
+                        id: el.ProfessionalOfferId,
+                    }
+                })
+                await ProfessionalOffer.bulkCreate(updateOffer, { updateOnDuplicate: ["status"] })
+            } catch (error) {
+                res.status(400).send('Errors on "UPDATE STATUS OF PROFESSIONALOFFERS TO HIRED" ', error.message);
+            }
+
+
+        }
+
+        // CHANGE STATUS TO REST OF OFFERS THAT NOT MATCH WITH HIRED OFFERS
 
         //[offer1,          offer2,       offer3]
         //    |                |            |
@@ -74,22 +104,6 @@ module.exports = {
         //                 //filter de myoff
         //             }
         //         })
-
-        const dataOffer = transaction.data.filter( el => el.type === "offer" )
-
-        if (dataOffer[0]) {
-
-            const updateOffer = dataOffer.map((el, index) => {
-                return {
-                    status: "hired",
-                    id: el.ProfessionalOfferId,
-                }
-            })
-            await ProfessionalOffer.bulkCreate(updateOffer, { updateOnDuplicate: ["status"] })
-
-        }
-
-        // CHANGE STATUS TO REST OF OFFERS THAT NOT MATCH WITH HIRED OFFERS
 
 
         // SEND EMAIL TO USER TO INFORM ABOUT SUCCES APPROVED TRANSACTION
