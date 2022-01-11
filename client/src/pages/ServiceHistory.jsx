@@ -6,19 +6,25 @@ import s from './styles/ServiceHistory.module.css'
 
 import CardServiceHistory from '../components/CardServiceHistory.jsx'
 import CardOfferToClientNeed from '../components/CardOfferToClientNeed'
-
-import { getAllProfessionals, getClientNeedsById, getOffersById, getSpecificActivitiesById } from '../redux/actions'
-import { useGlobalStorage } from '../hooks/useGlobalStorage'
 import CardServiceHistoryJobs from '../components/CardServiceHistoryJobs'
+import CardPendingTransaction from '../components/CardPendingTransaction'
+
+import { getAllProfessionals, 
+    getClientNeedsById, 
+    getOffersById, 
+    getSpecificActivitiesById,
+    getAllTransactionsByUserId } from '../redux/actions'
+import { useGlobalStorage } from '../hooks/useGlobalStorage'
 
 export default function ServiceHistory() {
 
     const [shows, setShows] = useState([])
+    const [transactions, setTransactions] = useState([])
 
-    const user = useGlobalStorage("globalUser", "")
+    const [user,] = useGlobalStorage("globalUser", "")
     const dispatch = useDispatch()
     const { id } = useParams()
-    const { professionals, clientNeedById, offersByUserId, clientNeeds } = useSelector(state => state)
+    const { professionals, clientNeedById, offersByUserId, clientNeeds, allTransactionsByUser } = useSelector(state => state)
     const specificActivities = useSelector((state) => state?.specificActivitiesById)
     
     const [filteredSpecificActivities, setfilteredSpecificActivities] = useState([])
@@ -46,28 +52,23 @@ export default function ServiceHistory() {
         }
     }, [specificActivities, clientNeeds])
 
-
-    console.log('filteredSpecificActivities', filteredSpecificActivities)
-    console.log('specificActivities',specificActivities)
-    // filtrar las actividades especificas que sean de tipo de tipo general
-    // const filteredSpecificActivities = specificActivities.filter(activity => activity.type === 'general')
-    
-    // console.log('1 - professionals',professionals)
-    // console.log('2 - clientNeedById',clientNeedById)
-    // console.log('3 - offersByUserId',offersByUserId)
-    console.log('4 - specificActivities',specificActivities)
-    // console.log('5 - filteredSpecificActivities',filteredSpecificActivities)
-
     useEffect(()=>{
         dispatch(getClientNeedsById(id))
         dispatch(getAllProfessionals())
         dispatch(getOffersById(id))
         dispatch(getSpecificActivitiesById(id))
+        dispatch(getAllTransactionsByUserId(user.id))
     },[ dispatch, id ])
+
+    console.log("Transactionss: ",allTransactionsByUser)
 
     useEffect(()=>{
         setShows(clientNeedById)
     },[ clientNeedById ])
+
+    // useEffect(()=>{
+    //     setShows(allTransactionsByUser.filter(el => el.status === "pending to pay"))
+    // },[ allTransactionsByUser ])
 
     useEffect(()=>{
         console.log("SHOWS: ",shows)
@@ -224,8 +225,50 @@ export default function ServiceHistory() {
 
                 </> : <></>
             }
+            <div>
+                {/* DATOS DE TRANSACCIONES NO COMPLETADAS */}
+                <div className="mt-3">
+                    <h3 className="text-center mt-3 border-bottom">
+                        Contrataciones pendientes de pago
+                    </h3>
+                    <div className="row">
+                    
+                {
+                    allTransactionsByUser && allTransactionsByUser ?
+                    allTransactionsByUser?.map((el,index) => {
+                        return (
+                            <CardPendingTransaction
+                            key={ el.id + index }
+                            id= { el.id }
+                            name={ el.name }
+                            description={ el.description }
+                            status={ el.status }
+                            location={ el.location }
+                            data={ el.data }
+                            UserId={ el.UserId }
+                            date={ el.updatedAt.split("T")[0] }
+                            />
 
-            
+                        )
+                    })
+                    :<><h4>No hay</h4></>
+                }
+                    </div>
+                </div>
+                {
+                    allTransactionsByUser[0] ? 
+                    <></>:
+                    <>
+                        <h5
+                            className="text-center mt-2 mb-5"
+                            >
+                            No hay transacciones pendientes
+                        </h5>
+                    </>
+                }
+            </div>
+
+            <div className='container_payment'></div>
         </div>
     )
 }

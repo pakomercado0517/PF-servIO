@@ -59,6 +59,7 @@ export const ACTIVAR = 'ACTIVAR'
 export const VALIDAR_TOKEN_CONFIRM_DONE ='VALIDAR_TOKEN_CONFIRM_DONE'
 export const CONFIRMAR = 'CONFIRMAR'
 export const GITHUB_LOGIN = "GITHUB_LOGIN";
+export const GET_ALL_TRANSACTIONS_BY_USER_ID = "GET_ALL_TRANSACTIONS_BY_USER_ID";
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers() {
   return async function (dispatch) {
@@ -331,6 +332,23 @@ export function filterProfessions() {
       dispatch({
         type: FILTER_PROFESSIONS,
         payload: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+// Todas las transacciones hechas por el usuario
+export function getAllTransactionsByUserId(id) {
+  return async function (dispatch) {
+    try {
+      const { data } = await axios.get(
+        `${constants.localhost}/Transactions/all/${id}`
+      );
+      dispatch({
+        type: GET_ALL_TRANSACTIONS_BY_USER_ID,
+        payload: data,
       });
     } catch (error) {
       console.log(error);

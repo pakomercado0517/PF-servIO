@@ -93,24 +93,6 @@ export default function ModalCart(props) {
         }
         await axios.post("http://localhost:3001/create_preference", {
             items: request,
-            // payer: {
-            //     name: user.first_name,
-            //     surname: user.last_name,
-            //     email: user.email,
-            //     phone: {
-            //         area_code: "54",
-            //         number: user.phone
-            //     },
-            //     identification: {
-            //         type: "DNI",
-            //         number: "12345678"
-            //     },
-            //     address: {
-            //         street_name: cart[0].location,
-            //         street_number: 123,
-            //         zip_code: "5700"
-            //     }
-            // },
             back_urls: {
                 success: "http://localhost:3001/create_preference/succes",
                 failure: "http://localhost:3001/create_preference/failure",
@@ -125,12 +107,6 @@ export default function ModalCart(props) {
         .then(function(preference) {
             createCheckoutButton(preference.id);
             document.getElementById("checkout_button").style.display = "none";
-            // document.getElementsByClassName("shopping-cart").fadeOut(500);
-            // $(".shopping-cart").fadeOut(500);
-            // setTimeout(() => {
-                //     // document.getElementsByClassName("container_payment").show(500).fadeIn();
-                //     // $(".container_payment").show(500).fadeIn();
-                // }, 500);
             })
             .catch(function() {
             alert("Unexpected error");
@@ -142,7 +118,8 @@ export default function ModalCart(props) {
 
         try {
             const { data } = await axios.post( REACT_APP_HOST+"/Transactions/", {
-                data: cart
+                data: cart,
+                UserId: user.id
             })
 
             console.log("DATA TRANSACTIONS: ---> ",data)
