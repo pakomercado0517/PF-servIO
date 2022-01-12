@@ -69,12 +69,11 @@ module.exports = {
       ClientNeedId,
       UserId,
     } = req.body;
-
-    const user = await User.findOne({ where: { id: UserId } });
-
+  
+    const professional = await User.findOne({ where: { id: UserId } });
     try {
-      if (user) {
-        if (user.professional === false) {
+      if (professional) {
+        if (professional.professional === false) {
           res.status(400).send("Only Professionals can make an offer");
         } else {
           const newOffert = await ProfessionalOffer.create({
@@ -86,20 +85,21 @@ module.exports = {
             guarantee_time,
             status: "in offer"
           });
-          let clientNeeds = await ClientNeed.findAll({
+  
+          let clientNeed = await ClientNeed.findOne({
             where: { id: ClientNeedId },
           });
-          let setuser = await User.findOne({
-            where: { id: UserId },
-          });
-          await newOffert.setUser(setuser)
-          await newOffert.setClientNeed(clientNeeds[0]);
+  
+          await newOffert.setUser(professional)
+          await newOffert.setClientNeed(clientNeed);
           res.status(200).send(newOffert);
         }
       } else {
+        console.log('USUARIO NO EXISTE')
         res.send("user does not exist");
       }
     } catch (error) {
+      console.log(error)
       res.status(400).send(error.message);
     }
   },

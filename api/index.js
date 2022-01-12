@@ -49,7 +49,7 @@ const { tecsMap } = require("./src/DbExample/specificTechniques");
 const { transMap } = require("./src/DbExample/transactions");
 // console.log('user', user)
 
-conn.sync({ force: true }).then(() => {
+conn.sync({ force: false }).then(() => {
   server.listen( process.env.PORT || 3001, async () => {
     try {
       await initialFunction();
