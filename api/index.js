@@ -52,6 +52,8 @@ const { transMap } = require("./src/DbExample/transactions");
 conn.sync({ force: false }).then(() => {
   server.listen( process.env.PORT || 3001, async () => {
     try {
+      const users = await User.findAll({})
+      if(users?.length < 100){
       await initialFunction();
       (await Professional.bulkCreate(professionalMap))
         ? console.log("|---Professional---| Created")
@@ -75,6 +77,7 @@ conn.sync({ force: false }).then(() => {
         ? console.log("|---Client Review---| Created")
         : console.log("Client Review not created");
       await userProfessionMap();
+    }
     } catch (err) {
       // console.log(err);
     }
