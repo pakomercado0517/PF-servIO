@@ -28,6 +28,12 @@ export default function ProfileProfessional( ){
     const specificActivities = useSelector((state) => state?.specificActivitiesById)    
     const allUsers = useSelector( (state) => state?.allUsers)
     const clientNeeds = useSelector(state => state.clientNeedById)
+    const [showSpecificActivities, setshowSpecificActivities] = useState(initialState)
+
+    useEffect(() => {
+        if (specificActivities === "There are not specifical Activities") return setshowSpecificActivities("There are not specifical Activities")
+        else return setshowSpecificActivities(specificActivities.filter(el => el.type === "general")) 
+    }, [specificActivities])
 
     const [state, setstate] = useState({
         login: false,
@@ -201,15 +207,15 @@ return (
         <div className={ s.container_cards}>
 
             <div className={s.container_cards  +"carousel-indicators"}>
-                {   specificActivities && 
-                    specificActivities === 'There are not specifical Activities' ?
+                {   showSpecificActivities && 
+                    showSpecificActivities === 'There are not specifical Activities' ?
 
                     <h6>No hay servicios registrados</h6>
                     :
                     <>
                     
                         {
-                            specificActivities.map( (el) => {
+                            showSpecificActivities.map( (el) => {
                                 return (
                                     
                                     <CardParticularService 
