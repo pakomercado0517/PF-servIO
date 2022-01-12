@@ -150,7 +150,7 @@ export default function ServiceHistory() {
             {/* CONDICIONAL QUE VALIDA SI ES O NO UN PROFESIONAL */}
 
             {
-                user[0]?.professional ? 
+                user?.professional ? 
                 <>
                     <div>
                         <h2
