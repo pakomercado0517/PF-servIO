@@ -172,6 +172,7 @@ export default function Home(){
                             name={ user.name }
                             description={ user.description }
                             date={ user.date }
+                            photo= { user.photo }
                             userId={ user.userId }
                             location={ user.location }
                             />
