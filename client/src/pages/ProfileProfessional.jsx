@@ -28,7 +28,7 @@ export default function ProfileProfessional( ){
     const specificActivities = useSelector((state) => state?.specificActivitiesById)    
     const allUsers = useSelector( (state) => state?.allUsers)
     const clientNeeds = useSelector(state => state.clientNeedById)
-    const [showSpecificActivities, setshowSpecificActivities] = useState(initialState)
+    const [showSpecificActivities, setshowSpecificActivities] = useState([])
 
     useEffect(() => {
         if (specificActivities === "There are not specifical Activities") return setshowSpecificActivities("There are not specifical Activities")
