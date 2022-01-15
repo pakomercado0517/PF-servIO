@@ -65,7 +65,7 @@ export default function Home(){
 
     },[dispatch, input.order, switcheo2])
 
-
+    console.log('login', login)
     return (
         <div>
             <div className={s.container__filter}>
@@ -122,7 +122,7 @@ export default function Home(){
             >
             <div className='col-auto bg-info-center mx-auto'>
                 <button 
-                    className="border-1 mx-2 btn btn-primary dropdown-toggle bg-info" 
+                    className="border-1 mx-2 btn btn-outline-secondary dropdown-toggle" 
                     id="dropdownMenuButton1" 
                     data-bs-toggle="dropdown" 
                     type="button" 
@@ -130,6 +130,14 @@ export default function Home(){
                 >
                     <CgOptions/>Ordenado
                 </button>
+                
+                {/* <div className={s.box}>
+                    <select>
+                        <option>Default</option>
+                        <option>A - Z</option>
+                        <option>Z - A</option>
+                    </select>
+                </div> */}
                 
                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
                     <li><span className="dropdown-item" id='' onClick={handleOrder}>Default</span></li>
@@ -184,7 +192,7 @@ export default function Home(){
             }
 
             {/* DIV MUESTRA LOS TESTIMONIOS (FEEBACK DE LOS USUARIOS) */}
-            { !(login && (login.message === "Logged")) ? <TestimoniosHome></TestimoniosHome>:<></>}
+            { (login && (login.message === "Logged")) ? <TestimoniosHome></TestimoniosHome>:<></>}
             
             <Footer/>
         </div>    

@@ -7,9 +7,9 @@ import github from '../img/github.svg'
 
 export default function footer() {
     return (
-        <div>
+        <div className={s.footer_container}>
             <div className={s.titulo}>
-                <img src={img} alt='img'></img>
+                <img src={img} alt='img-logo' className={s.logo_footer}></img>
             </div>
             <div className={s.sutTitulo}>
                 <p>CONTACTANOS EN LINKEDIN</p>
@@ -73,7 +73,7 @@ export default function footer() {
                 
             </div>
             <div className={s.fin}>
-                <p >Copyright of ServIO 2022</p>
+                <p >©Copyright of ServIO 2022</p>
             </div>
             
         </div>

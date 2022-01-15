@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { searchBar } from '../redux/actions'
 // import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
+import 'animate.css';
 
 
 const Search = () => {
@@ -18,6 +19,8 @@ const Search = () => {
     const[end, setEnd]= useState(false)
     const[autoNeeds, setAutoNeeds]= useState([])
     const[autoProfessionals, setautoProfessionals]= useState([])
+    const [classes, setClasses] = useState('animate__bounceInDown')
+    const [showSearchBar, setShowSearchBar] = useState(false)
     // const[name, setName]= useState('')
     // console.log(name)
 
@@ -52,16 +55,18 @@ const Search = () => {
     // console.log(autocomplete)
     // console.log(autocompleteNeeds())
     // console.log(autocompleteProfessionals())
+    
     useEffect(() => {
       dispatch(searchBar(name))
     },[name])
 
-    const reset = () => {
-      
+    const reset = (e) => {
+      e.preventDefault()
+      setName('')
     }
     useEffect(() => {
       setName('')
-    },[switcheo2, reset()])
+    },[switcheo2])
 
     useEffect(() => {
       if(end === false) {
@@ -75,18 +80,20 @@ const Search = () => {
       setEnd(false)
     }
 
-    // console.log(end)
+    // console.log('autoProfessionals', autoProfessionals)
     return (
         <div className={s.search}>
             <div>
-                <input
+              <img src="https://img.icons8.com/material-outlined/24/000000/search--v1.png" className={`${s.search_logo}`}/>
+              <input
                     type="text"
                     placeholder={switcheo2 === 'professional' ? "    Busca un tecnico": '    Busca trabajo'}
                     value={name}
                     onChange={e => onChange(e)}
-                    className={s.input}
+                    className={`${s.input}`}
                 />
-                <input type='button' id="eliminar" className={s.btn} onSubmit={ reset } value='x'/>
+                { name.length > 0 ? <input type='button' id="eliminar" className={s.btn} onClick={ reset } value='X'/> : ''}
+                {/* { name.length > 0 ? <p className={s.btn} onClick={reset}>x</p> : ''} */}
                 <div className={s.btn_input}>
 
                     {

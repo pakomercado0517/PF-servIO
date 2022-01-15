@@ -15,21 +15,21 @@ export default function Landing() {
     return (
         <div className={ styles.div_principal }>
             <div className={ styles.div_principal__first }>
-                <span className={styles.landing__title}>servIO</span>
-                <p className={styles.landing__subtitle}>Busca servicios profesionales desde la plataforma con seguridad y eficacia desde la comodidad de tu hogar... Crea tu necesidad!!
+                <h1 className={`${styles.landing__title} text-center`}>Serv.IO</h1>
+                <p className={`${styles.landing__subtitle} text-justify`}>Busca servicios profesionales desde la plataforma con seguridad y eficacia desde la comodidad de tu hogar... Crea tu necesidad!!
                 </p>
                 { !(login && !login.proffesional) ? <div className={ styles.div_principal__first__buttons }>
                     <NavLink to="/login" style={{textDecoration: 'none'}}>
-                        <button className={ styles.div_principal__first__buttons__button }>Iniciar sesion</button>
+                        <button className={ `${styles.button} ${styles.type3}` }>Iniciar sesion</button>
                     </NavLink>
                     <NavLink to='/register' style={{textDecoration: 'none'}}>
-                        <button className={ styles.div_principal__first__buttons__button }>Registrarse</button>
+                        <button className={ `${styles.button} ${styles.type3}` }>Registrarse</button>
                     </NavLink>
 
                 </div>:<></>}
                 
             </div>
-            <div className={ styles.div_principal__second }>
+            {/* <div className={ styles.div_principal__second }>
                 <div class={styles.slider}>
                     <ul>
                         <li>
@@ -43,7 +43,7 @@ export default function Landing() {
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

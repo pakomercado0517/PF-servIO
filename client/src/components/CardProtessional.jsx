@@ -1,12 +1,12 @@
-import s from './styles/CardProfessional.module.css'
+import './styles/CardProfessional.css'
 import {MdBusinessCenter, MdLocationOn, MdLoyalty} from 'react-icons/md'
 import {NavLink} from 'react-router-dom'
 
 const CardProfessional = (props) => {
     return ( 
-        <div className={s.professionalCard} key={ props.idTech + props.subtitleTech}>
+        <div className='professionalCard' key={ props.idTech + props.subtitleTech}>
             
-            <NavLink 
+            {/* <NavLink 
                 to={`/professional/${props.idTech}`} 
                 style={{textDecoration: 'none', color: 'black'}}
             >
@@ -43,9 +43,34 @@ const CardProfessional = (props) => {
                     <span> <MdLoyalty/> {props.calificationTech ? props.calificationTech +'/5' : '0/5' }</span>
                 </div>
                 
+            </div> */}
+
+            <div className="col-md-4">
+                <div className='profile-card-4 text-center'><NavLink to={`/professional/${props.idTech}`} ><img src={props.avatarTech} className="img img-responsive"/></NavLink>
+                    <div className="profile-content">
+                        <div className="profile-name card-name">{props.titleTech}
+                        </div>
+                        <div className="profile-description">
+                            <MdBusinessCenter className="card-profession"/> 
+                            {props.workTech?.map((e, index)=> {
+                            return (
+                                <span className='card-profession' key={e + index}>
+                                {` ${ e.name} `}
+                                </span>
+                            )
+                            })}
+                        </div>
+                        <div className="row">
+                            <div className="col-xs-4">
+                                <div className="profile-overview">
+                                    <p>RATING</p>
+                                    <h4>{`${props.calificationTech ? props.calificationTech +'/5' : '0/5'}`}</h4></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        
     );
 }
  
