@@ -13,3 +13,10 @@
 .hide {
   display: none;
 }
+
+.professionals-btn {
+  margin-top: 3px;
+  /* color: #007ea7 !important;
+  border: 1px solid #007ea7 !important;
+  background-color: #fff !important; */
+}

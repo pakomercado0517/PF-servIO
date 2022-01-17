@@ -5,15 +5,20 @@
   border: 2px solid green;
 }
 
-
-.img_titulo{
+.img_titulo {
   display: flex;
   align-items: center;
   flex-direction: column;
 }
 
-img{
+img {
   margin: 5px;
 }
 
+.upload_done {
+  color: #007ea7;
+}
 
+.pick_file {
+  background-color: #007ea7;
+}

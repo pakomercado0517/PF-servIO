@@ -24,7 +24,7 @@ export default function Home(){
     const switcheo = useSelector(state => state.switch)
     const [switcheo2] = useGlobalStorage("switcheo", null)
     const [login] = useLocalStorage("user", null)
-    let [postsPerPage,] = useState(16);
+    let [postsPerPage,] = useState(8);
     let [currentPage, setCurrentPage] = useState(1);
     let indexOfLastPost = currentPage * postsPerPage;
     let indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -161,7 +161,11 @@ export default function Home(){
                             locationTech={professional.state + ', ' + professional.city}
                             //* PENDIENTE DATA DEL CALIFICATION
                             calificationTech={professional.rate}/>
-                    )) : <h1>No hay mas resultados</h1>
+                    )) : (
+                        <div className={s.waiting_container}>
+                            <img className={s.waiting_card} src='https://i.pinimg.com/originals/3f/3d/3a/3f3d3ae5efc0673fc33ef8dd145c049a.gif'/>
+                        </div>
+                    )
                 }
 
                   {/* CARDS DE SOLICITUDES DE CLIENTES */}
@@ -186,7 +190,7 @@ export default function Home(){
                             />
                         </NavLink>
                         
-                    )): <h1>No hay mas resultados</h1>
+                    )): <img src='https://i.pinimg.com/originals/3f/3d/3a/3f3d3ae5efc0673fc33ef8dd145c049a.gif'/>
                 }
                 </div>
             }

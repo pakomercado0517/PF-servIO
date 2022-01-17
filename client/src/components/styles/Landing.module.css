@@ -26,7 +26,7 @@
   font-size: 90px;
   font-family: "Poppins", sans-serif;
   font-weight: bold;
-  color: gray;
+  color: #007ea7;
 }
 
 .landing__subtitle {
@@ -120,7 +120,7 @@
 }
 
 .button.type3 {
-  color: gray;
+  color: #007ea7;
 }
 
 .button.type3.type3::after,
@@ -139,23 +139,23 @@
   right: 0;
   border-top-color: transparent;
   border-left-color: transparent;
-  border-bottom-color: gray;
-  border-right-color: gray;
+  border-bottom-color: #007ea7;
+  border-right-color: #007ea7;
 }
 .button.type3.type3::before {
   top: 0;
   left: 0;
   border-bottom-color: transparent;
   border-right-color: transparent;
-  border-top-color: gray;
-  border-left-color: gray;
+  border-top-color: #007ea7;
+  border-left-color: #007ea7;
 }
 .button.type3.type3:hover:after,
 .button.type3.type3:hover:before {
-  border-bottom-color: gray;
-  border-right-color: gray;
-  border-top-color: gray;
-  border-left-color: gray;
+  border-bottom-color: #007ea7;
+  border-right-color: #007ea7;
+  border-top-color: #007ea7;
+  border-left-color: #007ea7;
   width: 100%;
   height: 100%;
 }

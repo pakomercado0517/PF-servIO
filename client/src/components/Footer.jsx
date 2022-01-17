@@ -1,9 +1,9 @@
 import React from 'react';
 import s from './styles/Footer.module.css';
-import img from '../img/ServOIOFooter.svg';
+import img from '../img/Serv.io_footer.png';
 import {Link, NavLink} from 'react-router-dom';
 import linkedin from '../img/linkedin.svg';
-import github from '../img/github.svg'
+import github from '../img/icons8-github-white.svg';
 
 export default function footer() {
     return (
@@ -12,7 +12,7 @@ export default function footer() {
                 <img src={img} alt='img-logo' className={s.logo_footer}></img>
             </div>
             <div className={s.sutTitulo}>
-                <p>CONTACTANOS EN LINKEDIN</p>
+                <p>CONTACTANOS EN NUESTRAS REDES SOCIALES</p>
             </div>
             <div className={s.contacto}>
                 <div className={s.contacto_integrante}>

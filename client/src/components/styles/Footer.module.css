@@ -1,17 +1,17 @@
 .footer_container {
   position: relative;
   top: 50px;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: #007ea7;
 }
 
 .logo_footer {
-  width: 200px;
-  height: 160px;
+  width: 300px;
+  height: 300px;
 }
 
 .titulo {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 .sutTitulo {
@@ -23,14 +23,15 @@
   font-weight: bold;
   font-size: 18px;
   line-height: 40px;
-  color: #828282;
+  color: rgba(255, 255, 255, 0.6);
   display: flex;
   justify-content: space-around;
 }
 
 .contacto {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding: 15px;
   margin-top: 3rem;
 }
 
@@ -42,7 +43,7 @@
 
 .contacto_integrante a {
   text-decoration: none;
-  color: #828282;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .fin {
@@ -51,7 +52,7 @@
 }
 
 .fin p {
-  color: #828282;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .contacto_integrante_img {
@@ -63,5 +64,5 @@
 }
 
 .contacto_integrante p {
-  color: #828282;
+  color: rgba(255, 255, 255, 0.6);
 }

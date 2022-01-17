@@ -54,7 +54,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
               />
               
               <label 
-                className="btn btn-outline-secondary" 
+                className="btn btn-outline-secondary professionals-btn" 
                 htmlFor="btnradio2"
               >
                 Profesionales
@@ -71,7 +71,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
               />
               {/* validar estado */}
               <label 
-                className={login.professional ? "btn btn-outline-secondary" : 'hide' }
+                className={login.professional ? "btn btn-outline-secondary professionals-btn" : 'hide' }
                 htmlFor="btnradio1"
               >
                 Usuarios
@@ -85,7 +85,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
             <li className="page-item" key={number}>
               <a
                 onClick={() => paginate(number)}
-                className="btn btn-outline-secondary"
+                className="btn btn-outline-secondary professionals-btn"
               >
                 {number}
               </a>

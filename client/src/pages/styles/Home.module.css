@@ -91,7 +91,7 @@
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
   margin-top: 5%;
-  /* height: 150vh; */
+  height: 100vh;
   margin-bottom: 8%;
   row-gap: 3%;
   justify-items: center;
@@ -172,4 +172,24 @@
 
 .box select option {
   padding: 30px;
+}
+
+.waiting_container {
+  width: 1000px;
+  height: 600px;
+  background-color: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  border-radius: 30px;
+  top: 100px;
+  left: 200px;
+  z-index: 60;
+}
+
+.waiting_card {
+  width: 500px;
+  height: 500px;
+  position: relative;
+  top: 45px;
+  left: 250px;
+  border-radius: 30px;
 }

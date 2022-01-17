@@ -5,7 +5,8 @@ import { NavLink , useNavigate } from 'react-router-dom';
 import { CgOptions } from 'react-icons/cg';
 import { MdAccountCircle } from 'react-icons/md';
 import logo from '../img/ServIO.svg';
-import { BsCart2 } from 'react-icons/bs'
+// import { BsCart2 } from 'react-icons/bs'
+import { MdAddShoppingCart } from 'react-icons/md'
 //Componentes
 import Search from './Search';
 import { ClientSpecificNeed } from './ClientSpecificNeed';
@@ -61,7 +62,7 @@ export default function NavBar() {
                 <div className={s.container__logo}>
                     <img src={logo} alt="Logo" />
                 </div>
-                <Search />
+                
             </div>
 
             <div className={s.container__elements}>
@@ -81,14 +82,18 @@ export default function NavBar() {
                     </div>
                     {/* CARRITO */}
 
-                    <NavLink className={ s.container__elements_cart } to='/Cart'>
+                    <NavLink className={ login === '' ? s.hide : s.container__elements_cart } to='/Cart'>
                         <div className={s.container__elements_cart_logoCart }>
-                            <BsCart2 size="30px"></BsCart2>
+                            <MdAddShoppingCart size="26px"></MdAddShoppingCart>
                         </div>
                         <div className={s.container__elements_cart_notification }>
                             <span>{cart.length}</span>
                         </div>
                     </NavLink>
+
+                    <div className={s.container_search} >
+                        <Search />
+                    </div>
 
                 </div>
             </div>
@@ -127,7 +132,7 @@ export default function NavBar() {
 
                                     <div className='dropdown'>
                                         <button
-                                            className="btn btn-secondary dropdown-toggle"
+                                            className="btn btn-secondary mr-1 dropdown-toggle"
                                             id="dropdownMenuButton1"
                                             data-bs-toggle="dropdown"
                                             type="button"
