@@ -1,17 +1,22 @@
-.pagination{
-    height: 40px;
-    display: flex;
-    justify-content: flex-end;
-    padding-right: 20px;
-    padding-left: 15px;
-    
+.pagination {
+  height: 40px;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 20px;
+  padding-left: 15px;
 }
 
-.page-link{
-    cursor: pointer;
+.page-link {
+  text-decoration: none;
 }
 
-.hide{
+.hide {
   display: none;
 }
 
+.professionals-btn {
+  margin-top: 3px;
+  /* color: #007ea7 !important;
+  border: 1px solid #007ea7 !important;
+  background-color: #fff !important; */
+}

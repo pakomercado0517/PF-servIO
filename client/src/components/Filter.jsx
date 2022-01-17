@@ -56,7 +56,7 @@ export  function Filter(){
         <starRating/>
         {/* <img src={starFilled}/> */}
             <select 
-                className= {switcheo2 === 'professional' ? "border-1 mx-2 btn btn-primary bg-info" :s.hide}
+                className= {switcheo2 === 'professional' ? "border-1 mx-2 btn btn-outline-secondary" :s.hide}
                 onChange={changeProfession} 
                 id='profession'
                 key='profession'
@@ -64,6 +64,7 @@ export  function Filter(){
               <option value=''>Filtrar por Profesion</option>
               {oficio?.map(e =>
                 <option
+                  className='dropdown-item'
                   key={e}
                   type= "button"
                   value={e}
@@ -76,7 +77,7 @@ export  function Filter(){
               )}
             </select>
             <select 
-                className= {switcheo2 === 'professional' ? "border-1 mx-2 btn btn-primary bg-info" : s.hide}
+                className= {switcheo2 === 'professional' ? "border-1 mx-2 btn btn-outline-secondary " : s.hide}
                 onChange={changeCity} 
                 id='cities'
                 key='cities'
@@ -96,7 +97,7 @@ export  function Filter(){
               )}
             </select>
             <select 
-              className= {switcheo2 === 'professional' ? "border-1 mx-2 btn btn-primary bg-info" :s.hide}
+              className= {switcheo2 === 'professional' ? "border-1 mx-2 btn btn-outline-secondary " :s.hide}
               onChange={changeRate} 
               id='professionSwitch'
               key='professionSwitch'
@@ -109,7 +110,7 @@ export  function Filter(){
 
             </select>
             <input
-              className={switcheo2 === 'professional' ? "border-1 mx-2 btn btn-primary bg-info" :s.hide}
+              className={switcheo2 === 'professional' ? "border-1 mx-2 btn btn-outline-secondary " :s.hide}
               key="offersSwitch"
               type='button' 
               value='Solo tecnicos con ofertas'

@@ -116,7 +116,7 @@ export const ProfessionalOfferToClientNeed = (props) => {
 
                     <div className="d-flex flex-row-reverse bd-highlight">
                         <button 
-                        className="text-center btn btn-warning" 
+                        className={`text-center btn btn-dark ${s.goBack_button}`} 
                         onClick={()=>{window.history.back()}}
                         >
                             Volver
@@ -226,10 +226,10 @@ export const ProfessionalOfferToClientNeed = (props) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row justify-content-center">
                         <button 
                             type="submit"
-                            className={` "btn btn-primary btn-lg btn-block" s.container_filterButton mt-3 mb-3`}
+                            className={` "btn btn-dark btn-lg btn-block" ${s.container_filterButton} mt-3`}
                         >
                             Enviar Oferta
                         </button>

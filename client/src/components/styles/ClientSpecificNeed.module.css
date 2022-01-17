@@ -1,33 +1,41 @@
 .container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    position: fixed;
-    top: -100vh;
-    transition: all .8s;
-    z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: -100vh;
+  transition: all 0.8s;
+  z-index: 50;
 }
 
-.container_background{
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
+.container_background {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
 }
 
 .container_background:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .container_form {
-    position: relative;
-    z-index: 100;
-    background-color: white;
-    padding: 50px;
-    border-radius: 10px;
-    box-shadow: 1px 1px 5px black;
-    overflow-y: scroll;
-    max-height: 80vh;
+  position: relative;
+  z-index: 100;
+  background-color: white;
+  padding: 50px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 5px black;
+  overflow-y: scroll;
+  max-height: 80vh;
+}
+
+.submit_btn {
+  background-color: #007ea7 !important;
+}
+
+.title {
+  color: #878787;
 }

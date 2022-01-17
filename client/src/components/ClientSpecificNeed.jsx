@@ -105,7 +105,7 @@ export const ClientSpecificNeed = () => {
                         <div className="row">
                             <div className={"col-12" && s.container_filter}>
                                 <h1
-                                className="text-center"
+                                className={`text-center ${s.title}`}
                                 >Solicitá tu servicio</h1>
                                 <div className="form-group mb-3">
                                 <label
@@ -162,7 +162,7 @@ export const ClientSpecificNeed = () => {
                             </div>
                         <button
                             type="submit"
-                            className="btn btn-primary btn-lg mt-3"
+                            className={`btn btn-primary btn-lg mt-3 ${s.submit_btn}`}
                             >
                             Enviar Solicitud
                         </button>

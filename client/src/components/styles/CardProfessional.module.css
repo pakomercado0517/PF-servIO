@@ -1,41 +1,119 @@
-.professionalCard{
-    background-color: white;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    width: 90%;
-    height: 95%;
-    border-radius: 10px;
-    padding: 20px;
+.professionalCard {
+  background-color: white;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  width: 90%;
+  height: 95%;
+  border-radius: 10px;
+  padding: 20px;
 }
 
-.professionalCard:hover{
-    box-shadow: 5px 5px 20px #5ed4ee;
-    transform: translateY(-3%);
+.professionalCard:hover {
+  box-shadow: 5px 5px 20px #5ed4ee;
+  transform: translateY(-3%);
 }
 
-.avatar{
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    width: 100%;
-    margin-bottom: 5%;
-    color: gray;
-    
+.avatar {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 5%;
+  color: gray;
 }
 
-.avatar_img{
-    border-radius: 100%;
-    width: 20%;
-    height: 20%;
-    align-self: center;
+.avatar_img {
+  border-radius: 100%;
+  width: 20%;
+  height: 20%;
+  align-self: center;
 }
 
-.subtitleTech{
-    display: flex;
-    align-items: center;
-    color: gray;
+.subtitleTech {
+  display: flex;
+  align-items: center;
+  color: gray;
 }
 
-.subtitleTech_1{
-    display: flex;
-    flex-direction: column;
+.subtitleTech_1 {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-card-4 {
+  max-width: 300px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+  margin: 10px auto;
+  cursor: pointer;
+}
+
+.profile-card-4 img {
+  transition: all 0.25s linear;
+}
+
+.profile-card-4 .profile-content {
+  position: relative;
+  padding: 15px;
+  background-color: #fff;
+}
+
+.profile-card-4 .profile-name {
+  font-weight: bold;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: -70px;
+  color: #fff;
+  font-size: 17px;
+}
+
+.profile-card-4 .profile-name p {
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+}
+
+.profile-card-4 .profile-description {
+  color: #777;
+  font-size: 12px;
+  padding: 10px;
+}
+
+.profile-card-4 .profile-overview {
+  padding: 15px 0px;
+}
+
+.profile-card-4 .profile-overview p {
+  font-size: 10px;
+  font-weight: 600;
+  color: #777;
+}
+
+.profile-card-4 .profile-overview h4 {
+  color: #273751;
+  font-weight: bold;
+}
+
+.profile-card-4 .profile-content::before {
+  content: "";
+  position: absolute;
+  height: 20px;
+  top: -10px;
+  left: 0px;
+  right: 0px;
+  background-color: #fff;
+  z-index: 0;
+  transform: skewY(3deg);
+}
+
+.profile-card-4:hover img {
+  transform: rotate(5deg) scale(1.1, 1.1);
+  filter: brightness(110%);
+}
+
+.card-name {
+  height: 100px;
 }

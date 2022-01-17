@@ -36,7 +36,7 @@ function UploadImage({details}) {
       <div className={s.img_titulo}>
         <p >Elegir archivo:</p>
         <input  
-            className='btn btn-primary'
+            className={`btn btn-primary ${s.pick_file}`}
             type="file"  
             // accept=".png" 
             name="photo"
@@ -44,7 +44,7 @@ function UploadImage({details}) {
             onChange={uploadImage}
         /> 
       </div>
-      <span className={progress === 100 ? 'text-success' : 'text-info'} >Uploaded {progress} % </span>
+      <span className={progress === 100 ? 'text-success' : s.upload_done} >Uploaded {progress} % </span>
       {
         progress === 100
         ? <img src={details.photo} className={s.showImage}/>
