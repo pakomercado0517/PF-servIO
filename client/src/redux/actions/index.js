@@ -61,6 +61,7 @@ export const CONFIRMAR = "CONFIRMAR";
 export const GITHUB_LOGIN = "GITHUB_LOGIN";
 export const GET_ALL_TRANSACTIONS_BY_USER_ID =
   "GET_ALL_TRANSACTIONS_BY_USER_ID";
+export const FACEBOOK_LOGIN = "FACEBOOK_LOGIN";
 // trae todos los usuarios - clientes y profesionales
 export function getAllUsers() {
   return async function (dispatch) {
@@ -790,6 +791,21 @@ export const googleLogin = (googleUsers) => async (dispatch) => {
     dispatch({
       type: GOOGLE_LOGIN,
       payload: response.data,
+    });
+  } catch (error) {
+    console.log(error.response);
+  }
+};
+
+export const facebookLogin = (facebookUser) => async (dispatch) => {
+  try {
+    const fResponse = await axios.post(
+      `${constants.localhost}/user/getFacebookUser`,
+      facebookUser
+    );
+    dispatch({
+      type: FACEBOOK_LOGIN,
+      payload: fResponse.data,
     });
   } catch (error) {
     console.log(error.response);

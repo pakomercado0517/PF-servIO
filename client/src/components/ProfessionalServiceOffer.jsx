@@ -12,12 +12,12 @@ export const ProfessionalServiceOffer = () => {
     const modal = useSelector(state => state.modalProfessionalsOffer)
     const user = useSelector(state => state.globalUserGlobalStorage)
     const a = useSelector(state => state)
-    console.log(a)
+    console.log('userrrrrrrr', user.photo)
 
     const [form, setForm] = useState({
         name: "", //ok en db
         description: "", // ok en db
-        photo: "photo", //ok en db
+        photo: user.photo, //ok en db
         materials: "", // boolean ok en db
         price: "", // ok en db
         guarantee: "",  // ok en db
@@ -39,7 +39,7 @@ export const ProfessionalServiceOffer = () => {
         setForm({
             name: "",
             description: "",
-            photo: "foyo",
+            photo: user.photo,
             materials: "",
             price: "",
             guarantee: "",

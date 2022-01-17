@@ -20,10 +20,9 @@ export default function CardCart(props) {
         setCart(item)
     }
 
-    function deleteItem(){
-        let item = cart.filter(el => {
-            return el.name !== props.name
-        })
+    function deleteItem(e){
+        e.preventDefault()
+        let item = cart.filter(el => el.name !== props.name)
         setCart(item)
     }
 
@@ -31,7 +30,7 @@ export default function CardCart(props) {
     return (
         <div className={ s.container }>
             <div className={ s.container_img }>
-                <img src={ props.photo ? props.photo : "" } alt="" />
+                <img src={ props.photo.length > 0 ? props.photo : "" } className={`${s._img}`} alt="" />
                 <span>{props.name}</span>
             </div>
             <div className={s.container_details}>
@@ -44,8 +43,8 @@ export default function CardCart(props) {
                     <span>${props.price}</span>
                     <span>cant: {props.count}</span>
                     <div className="btn-group" role="group" aria-label="Basic example">
-                        <button name="add" type="button" className="btn btn-outline-success" onClick={changeCount}>add</button>
-                        <button name="less" type="button" className="btn btn-outline-danger" onClick={changeCount}>less</button>
+                        <button name="add" type="button" className={`btn btn-outline-light ${s.add_button}`} onClick={changeCount}>add</button>
+                        <button name="less" type="button" className={`btn btn-outline-light ${s.erase_button}`} onClick={changeCount}>less</button>
                     </div>
             </div>
             <button onClick={ deleteItem } className={ s.container_buttonRemove + " btn-close" } aria-label="Close"></button>

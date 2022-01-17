@@ -85,7 +85,7 @@ console.log('mapCiti', details.city)
   return (
     <div className={`${s.container_map} row`}>
       <div className={`col-lg-6 ${s.geoButton}`}>
-        <p className='btn btn-info text-white' onClick={searchCity}>Mostrar ubicación actual</p>
+        <p className={`btn btn-light text-white ${s.geolocation_button}`} onClick={searchCity}>Mostrar ubicación actual</p>
       </div>
       <div className="col-lg-6">
         <label for="formsearch" className={s.searchText}>Busca tu ciudad:</label>
