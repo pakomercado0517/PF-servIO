@@ -44,6 +44,7 @@ import {
   CONFIRMAR,
   GITHUB_LOGIN,
   GET_ALL_TRANSACTIONS_BY_USER_ID,
+  FACEBOOK_LOGIN,
 } from "../actions";
 
 const initialState = {
@@ -81,6 +82,7 @@ const initialState = {
   githubUser: [],
   googleUser: [],
   allTransactionsByUser: [],
+  facebookUser: [],
 };
 
 function rootReducer(state = initialState, { type, payload }) {
@@ -312,6 +314,11 @@ function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         allTransactionsByUser: payload,
+      };
+    case FACEBOOK_LOGIN:
+      return {
+        ...state,
+        facebookUser: payload,
       };
     default:
       return state;

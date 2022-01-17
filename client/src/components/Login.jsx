@@ -11,8 +11,9 @@ import { userLogin } from '../redux/actions';
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import {getByUserId} from '../redux/actions/index'
-import GithubLogin from '../components/GithubLogin'
-import GoogleLogin from '../components/GoogleLogin'
+import GithubLogin from './GithubLogin'
+import GoogleLogin from './GoogleLogin'
+import FacebookLogin from './FacebookLogin'
 const {REACT_APP_HOST } = process.env
 
 
@@ -259,21 +260,24 @@ export default function Login() {
                         <div className="row mb-1">
                             <button 
                                 type="submit" 
-                                className = "btn btn-primary mx-auto block mb-4"
+                                className = {`btn btn-dark mx-auto block mb-4 ${s.submit_button}`}
                             >
                                 Iniciar sesión
                             </button>
                         </div>
 
                         <div className="text-center row mb-1">
-                            <p>¿Aún no te registrado? <a href="/register">Registrate!</a></p>
-                            <p>¿Olvidaste tu contraseña? <a href="/forget-password">Recuperala!</a></p>
+                            <p>¿Aún no te registrado? <a className={`${s.links}`} href="/register">Registrate!</a></p>
+                            <p>¿Olvidaste tu contraseña? <a className={`${s.links}`} href="/forget-password">Recuperala!</a></p>
                             <p>O inicia con:</p>
 
                             
                         </div>
-                        <GoogleLogin />
-                        <GithubLogin />
+                        <div className={`${s.loginProviders_buttons}`}>
+                          <GoogleLogin />
+                          <GithubLogin />
+                          {/* <FacebookLogin /> */}
+                        </div>
                     </form>
                 </div>
                 <div className={ s.login_image }></div>

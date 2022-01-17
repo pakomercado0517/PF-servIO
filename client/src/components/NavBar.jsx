@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 // Router-dom
 import { NavLink , useNavigate } from 'react-router-dom';
 // Imagenes e iconos
@@ -19,6 +19,7 @@ import s from './styles/NavBar.module.css'
 import { useGlobalStorage } from '../hooks/useGlobalStorage';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { getAuth, signOut } from 'firebase/auth'
+import Cart from './Cart';
 const {REACT_APP_HOST } = process.env
 
 
@@ -31,11 +32,12 @@ export default function NavBar() {
     const stateTotalRedux = useSelector(state => state)
     const [ , setLocalUser] = useLocalStorage("localUser", "");
     const auth= getAuth()
+    const [modal, setModal] = useState(false)
 
     function showModalFormCLient(){
         dispatch(showFormClientNeed("show"));
     }
-    
+    console.log('modal', modal)
     async function logout() {
         setSwitcheo("professional")
         await fetch(`${REACT_APP_HOST}/user/logout`,{
@@ -53,6 +55,11 @@ export default function NavBar() {
             dispatch(githubLogin(null))
             dispatch(googleLogin(null))
         }).catch(error=> console.log(error))
+    }
+
+    const openModal = (e)=> {
+        e.preventDefault();
+        setModal(!modal);
     }
 
     return (
@@ -82,14 +89,25 @@ export default function NavBar() {
                     </div>
                     {/* CARRITO */}
 
-                    <NavLink className={ login === '' ? s.hide : s.container__elements_cart } to='/Cart'>
+                    <div className={ login === '' ? s.hide : s.container__elements_cart } onClick={openModal}>
                         <div className={s.container__elements_cart_logoCart }>
                             <MdAddShoppingCart size="26px"></MdAddShoppingCart>
                         </div>
                         <div className={s.container__elements_cart_notification }>
                             <span>{cart.length}</span>
                         </div>
-                    </NavLink>
+                        {
+                            modal ? <Cart modal={modal}/> : <></>
+                        }
+                    </div>
+                    {/* <NavLink className={ login === '' ? s.hide : s.container__elements_cart } to='/Cart'>
+                        <div className={s.container__elements_cart_logoCart }>
+                            <MdAddShoppingCart size="26px"></MdAddShoppingCart>
+                        </div>
+                        <div className={s.container__elements_cart_notification }>
+                            <span>{cart.length}</span>
+                        </div>
+                    </NavLink> */}
 
                     <div className={s.container_search} >
                         <Search />

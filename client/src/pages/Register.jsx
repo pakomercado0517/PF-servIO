@@ -230,8 +230,8 @@ export default function Crear(props) {
     return (
         <div className={ s.container} >
             <div className={ s.container_img }>
-                <p>
-                    Sé parte de nuestra plataforma, registrate ya y disfruta!
+                <p className={`${s.container_img_title}`}>
+                    Sé parte de nuestra plataforma. Registrate ya y disfruta!
                 </p>
             </div>
             <div className={ s.container_registro }>
@@ -403,13 +403,16 @@ export default function Crear(props) {
                         </div>
                         
                     </div>
-                    <div className={s.container_edilt_form_input_img} >
-                            <label htmlFor="imageFile">Selecciona alguna imágen:</label><br/>
-                            <UploadImage details={details} onChange={handleChange} />
-                    </div>
-                    
-                    <div className={s.mapView}>
-                        <MapView  details={details} onChange={handleChange}/>
+                    <div className={`row`}>
+                        <div className={`${s.container_edilt_form_input_img} col-md-6`} >
+                                <label htmlFor="imageFile">Selecciona alguna imágen:</label><br/>
+                                <UploadImage details={details} onChange={handleChange} />
+                        </div>
+                        
+                        <div className={`${s.mapView} col-md-6`}>
+                            <label className={`${s.map_title}`}>Indicanos tu ubicación.</label>
+                            <MapView  details={details} onChange={handleChange}/>
+                        </div>
                     </div>
                     <div className={ s.container_registro_form_button }>
                         <button id='buttonSubmit' type='submit' className={ s.buttonSubmit}>Registrarse</button>

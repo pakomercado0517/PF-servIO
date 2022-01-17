@@ -12,17 +12,20 @@ import { switchModalCart } from '../redux/actions'
 
 
 
-export default function Cart() {
+export default function Cart({modal}) {
     
     const dispatch = useDispatch()
     
     const [cart, ] = useGlobalStorage("cart", [])
     const [user, ] = useGlobalStorage("globalUser", "")
     const [total, settotal] = useState(0)
+    const [modalIsOpen, setModalIsOpen] = useState(modal)
 
     function showForm(){
         dispatch(switchModalCart("show"))
     }
+
+    
     useEffect(() => {
         if (cart[0]){
             const aux = cart.map(el => el.count * el.price)
@@ -30,10 +33,16 @@ export default function Cart() {
         }
     }, [cart])
 
+    const handleModal= (e)=> {
+        e.preventDefault()
+        setModalIsOpen(!modalIsOpen)
+    }
+    console.log('modal', modal)
     return (
         <>
             <ModalCart email={user.email} />
             <div className={s.container}>
+                <div className={`${s.close_button}`} onClick={handleModal} ><span>X</span></div>
                 <div className={s.container_list}>
                     <div className={s.container_list_cards}>
                         {

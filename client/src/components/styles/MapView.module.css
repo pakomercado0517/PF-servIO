@@ -20,3 +20,7 @@
   margin-right: 15px;
   color: rgba(121, 119, 117, 0.938);
 }
+
+.geolocation_button {
+  background-color: #007ea7 !important;
+}
